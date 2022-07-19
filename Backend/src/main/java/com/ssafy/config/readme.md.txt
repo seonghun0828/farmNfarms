@@ -1,0 +1,1 @@
+jpa, security, swagger, webMvc
