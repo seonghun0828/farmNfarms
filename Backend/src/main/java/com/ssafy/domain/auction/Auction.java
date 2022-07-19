@@ -18,7 +18,7 @@ public class Auction {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private long id;
 
-    @ManyToOne
+    @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "CONFERENCE_ID")
     private Conference conference;
 

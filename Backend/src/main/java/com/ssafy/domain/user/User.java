@@ -39,7 +39,7 @@ public class User {
     @Column(nullable = false)
     private LocalDateTime data_create;
 
-    @OneToMany(mappedBy = "user")
+    @OneToMany(mappedBy = "user", fetch = FetchType.LAZY)
     List<Rating> ratings = new ArrayList<>();
 
 }
