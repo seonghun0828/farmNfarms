@@ -2,6 +2,7 @@
 package com.ssafy.domain.rating;
 
 import com.ssafy.domain.user.User;
+import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 
@@ -32,5 +33,13 @@ public class Rating {
 
     @Column
     private String review;
+
+    @Builder
+    public Rating(User user, User reviewer, int score, String review) {
+        this.user = user;
+        this.reviewer = reviewer;
+        this.score = score;
+        this.review = review;
+    }
 }
 

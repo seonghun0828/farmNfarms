@@ -13,11 +13,16 @@ public class Verification {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
+    @Column(name="phone")
     private String phoneNumber;
     @Enumerated(EnumType.STRING)
+    @Column
     private VerificationStateType state;
+
+    @Column
     private String confirmNumber;
 
+    @Builder
     public Verification(String phoneNumber, String confirmNumber) {
         this.phoneNumber = phoneNumber;
         this.confirmNumber = confirmNumber;
