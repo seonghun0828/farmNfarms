@@ -1,6 +1,7 @@
 package com.ssafy.api.controller;
 
 import com.ssafy.api.request.UserLoginPostReq;
+import com.ssafy.api.response.ReAccessPostRes;
 import com.ssafy.api.response.UserLoginPostRes;
 import com.ssafy.api.service.UserService;
 import com.ssafy.common.model.response.BaseResponseBody;
@@ -11,10 +12,7 @@ import lombok.AllArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.crypto.password.PasswordEncoder;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 /**
  * 인증 관련 API 요청 처리를 위한 컨트롤러 정의
@@ -57,26 +55,19 @@ public class AuthController {
         return ResponseEntity.status(401).body(UserLoginPostRes.of(401, "Invalid Password", null, null));
     }
 
-    @PostMapping("/authtest")
-    public ResponseEntity<UserLoginPostRes> authtest(@RequestBody @ApiParam(value="로그인 정보", required = true) UserLoginPostReq loginInfo) {
-        String phone = loginInfo.getPhone();
-        String password = loginInfo.getPassword();
-
-        User user = userService.getUserByPhone(phone);
-
-        // 로그인 요청한 아이디가 DB에 존재하지 않으면 사용자없음 에러
-        if(user==null) {
-            return ResponseEntity.status(404).body(UserLoginPostRes.of(404, "Not Exist", null, null));
-        }
-
-        // 로그인 요청시 입력한 패스와드와 DB의 패스워드가 같은지 확인
-        if(passwordEncoder.matches(password, user.getPassword())) {
-            // 같으면 로그인 성공
-            return ResponseEntity.ok(UserLoginPostRes.of(200, "Success", JwtTokenUtil.getAccessToken(phone), JwtTokenUtil.getRefreshToken(phone)));
-        }
-
-        // 패스워드가 일치하지 않으면 로그인 실패 응답
-        return ResponseEntity.status(401).body(UserLoginPostRes.of(401, "Invalid Password", null, null));
+    @PostMapping("/reaccess")
+    @ApiOperation(value = "엑세스 토큰 재발급", notes = "리프레시 토큰을 이용하여 엑서스 토큰을 재발급한다")
+    @ApiResponses({
+            @ApiResponse(code = 200, message = "성공", response = UserLoginPostRes.class),
+            @ApiResponse(code = 401, message = "인증 실패", response = BaseResponseBody.class),
+            @ApiResponse(code = 404, message = "리프레시 토큰 없음", response = BaseResponseBody.class),
+            @ApiResponse(code = 500, message = "서버 오류", response = BaseResponseBody.class)
+    })
+    public ResponseEntity<ReAccessPostRes> reaccess(@RequestBody @ApiParam(value="리프레쉬 토큰", required = true) String refreshToken) {
+        // if(refreshToken이 DB에 존재하는지 조회)
+        // 존재한다면 엑서스 토큰 재발급하여 리턴
+        // 존재하지 않는다면 404에러
+        return ResponseEntity.status(404).body(ReAccessPostRes.of(404, "Not exist", null));
     }
 
 }

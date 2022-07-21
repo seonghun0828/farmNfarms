@@ -35,7 +35,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
                 .and()
                 .addFilter(new JwtAuthenticationFilter(authenticationManager(), userService))
                 .authorizeRequests() // URL 설정 빌더 패턴 시작
-                .antMatchers("/api/v1/auth/authtest").authenticated() // 인증이 필요한 URL 설정
+                .antMatchers("/api/v1/auth/reaccess").authenticated() // 인증이 필요한 URL 설정
                 .anyRequest().permitAll()
                 .and().cors()
                 .and().headers().addHeaderWriter(new XFrameOptionsHeaderWriter(XFrameOptionsHeaderWriter.XFrameOptionsMode.SAMEORIGIN));// H2-Console 사용할 수 있도록 설정
