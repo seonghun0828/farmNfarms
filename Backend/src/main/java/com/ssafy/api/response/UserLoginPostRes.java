@@ -13,14 +13,17 @@ import lombok.Setter;
 @Setter
 @ApiModel("UserLoginPostResponse")
 public class UserLoginPostRes extends BaseResponseBody {
-    @ApiModelProperty(name="JWT 인증 토큰", example = "ekdif123SDKVIdf1231...")
+    @ApiModelProperty(name="JWT access 인증 토큰", example = "ekdif123SDKVIdf1231...")
     String accessToken;
+    @ApiModelProperty(name="JWT refresh 인증 토큰", example = "ekdif123SDKVIdf1231...")
+    String refreshToken;
 
-    public static UserLoginPostRes of(Integer statusCode, String message, String accessToken) {
+    public static UserLoginPostRes of(Integer statusCode, String message, String accessToken, String refreshToken) {
         UserLoginPostRes res = new UserLoginPostRes();
         res.setStatusCode(statusCode);
         res.setMessage(message);
         res.setAccessToken(accessToken);
+        res.setRefreshToken(refreshToken);
         return res;
     }
 }

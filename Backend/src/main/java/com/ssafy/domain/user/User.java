@@ -5,6 +5,7 @@ import com.ssafy.domain.rating.Rating;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
+import lombok.ToString;
 
 import javax.persistence.*;
 import java.time.LocalDateTime;
@@ -14,6 +15,7 @@ import java.util.List;
 @Getter
 @Setter
 @NoArgsConstructor
+@ToString
 @Entity
 public class User {
 
@@ -37,7 +39,7 @@ public class User {
     @Column(nullable = false)
     private int grade;
     @Column(nullable = false)
-    private String aboutMe;
+    private String about_me;
     @Column(nullable = false)
     private LocalDateTime data_create;
 

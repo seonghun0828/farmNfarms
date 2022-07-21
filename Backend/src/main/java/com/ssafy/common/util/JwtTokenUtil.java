@@ -17,16 +17,18 @@ import java.util.Date;
 @Component
 public class JwtTokenUtil {
     private static String secretKey;
-    private static Integer expirationTime;
+    private static Integer accessExpirationTime;
+    private static Integer refreshExpirationTime;
 
     public static final String TOKEN_PRIFIX = "Bearer";
     public static final String HEADER_STRING = "Authorization";
     public static final String ISSUER = "ssafy.com";
 
     @Autowired
-    public JwtTokenUtil(@Value("${jwt.secret}") String secretKey, @Value("${jwt.expiration}") Integer expirationTime) {
+    public JwtTokenUtil(@Value("${jwt.secret}") String secretKey, @Value("${jwt.access-expiration}") Integer accessExpirationTime, @Value("${jwt.refresh-expiration}") Integer refreshExpirationTime) {
         this.secretKey = secretKey;
-        this.expirationTime = expirationTime;
+        this.accessExpirationTime = accessExpirationTime;
+        this.refreshExpirationTime = refreshExpirationTime;
     }
 
     public static JWTVerifier getVerifier() {
@@ -41,9 +43,9 @@ public class JwtTokenUtil {
         return new Date(now.getTime() + expirationTime);
     }
 
-    // JWT 토큰 발급 (기 설정된 만료시간으로)
-    public static String getToken(String phone) {
-        Date expires = JwtTokenUtil.getTokenExpiration(expirationTime);
+    // JWT Access 토큰 발급 (만료시간을 파라미터로 설정)
+    public static String getAccessToken(String phone) {
+        Date expires = JwtTokenUtil.getTokenExpiration(accessExpirationTime);
         return JWT.create()
                 .withSubject(phone)
                 .withExpiresAt(expires)
@@ -52,11 +54,12 @@ public class JwtTokenUtil {
                 .sign(Algorithm.HMAC512(secretKey.getBytes()));
     }
 
-    // JWT 토큰 발급 (만료시간을 파라미터로 설정)
-    public static String getToken(Instant expires, String phone) {
+    // JWT Refresh 토큰 발급 (기 설정된 만료시간으로)
+    public static String getRefreshToken(String phone) {
+        Date expires = JwtTokenUtil.getTokenExpiration(refreshExpirationTime);
         return JWT.create()
                 .withSubject(phone)
-                .withExpiresAt(Date.from(expires))
+                .withExpiresAt(expires)
                 .withIssuer(ISSUER)
                 .withIssuedAt(Date.from(LocalDateTime.now().atZone(ZoneId.systemDefault()).toInstant()))
                 .sign(Algorithm.HMAC512(secretKey.getBytes()));

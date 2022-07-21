@@ -41,14 +41,42 @@ public class AuthController {
         String password = loginInfo.getPassword();
 
         User user = userService.getUserByPhone(phone);
+
+        // 로그인 요청한 아이디가 DB에 존재하지 않으면 사용자없음 에러
+        if(user==null) {
+            return ResponseEntity.status(404).body(UserLoginPostRes.of(404, "Not Exist", null, null));
+        }
+
         // 로그인 요청시 입력한 패스와드와 DB의 패스워드가 같은지 확인
         if(passwordEncoder.matches(password, user.getPassword())) {
             // 같으면 로그인 성공
-            return ResponseEntity.ok(UserLoginPostRes.of(200, "Success", JwtTokenUtil.getToken(phone)));
+            return ResponseEntity.ok(UserLoginPostRes.of(200, "Success", JwtTokenUtil.getAccessToken(phone), JwtTokenUtil.getRefreshToken(phone)));
         }
 
         // 패스워드가 일치하지 않으면 로그인 실패 응답
-        return ResponseEntity.status(401).body(UserLoginPostRes.of(401, "Invalid Password", null));
+        return ResponseEntity.status(401).body(UserLoginPostRes.of(401, "Invalid Password", null, null));
+    }
+
+    @PostMapping("/authtest")
+    public ResponseEntity<UserLoginPostRes> authtest(@RequestBody @ApiParam(value="로그인 정보", required = true) UserLoginPostReq loginInfo) {
+        String phone = loginInfo.getPhone();
+        String password = loginInfo.getPassword();
+
+        User user = userService.getUserByPhone(phone);
+
+        // 로그인 요청한 아이디가 DB에 존재하지 않으면 사용자없음 에러
+        if(user==null) {
+            return ResponseEntity.status(404).body(UserLoginPostRes.of(404, "Not Exist", null, null));
+        }
+
+        // 로그인 요청시 입력한 패스와드와 DB의 패스워드가 같은지 확인
+        if(passwordEncoder.matches(password, user.getPassword())) {
+            // 같으면 로그인 성공
+            return ResponseEntity.ok(UserLoginPostRes.of(200, "Success", JwtTokenUtil.getAccessToken(phone), JwtTokenUtil.getRefreshToken(phone)));
+        }
+
+        // 패스워드가 일치하지 않으면 로그인 실패 응답
+        return ResponseEntity.status(401).body(UserLoginPostRes.of(401, "Invalid Password", null, null));
     }
 
 }

@@ -12,7 +12,7 @@ import lombok.Setter;
 @Setter
 @ApiModel("UserLoginPostRequest")
 public class UserLoginPostReq {
-    @ApiModelProperty(name="핸드폰 번호", example = "01012345678")
+    @ApiModelProperty(name="핸드폰 번호", example = "010-0000-0000")
     String phone;
     @ApiModelProperty(name="유저 Password", example = "your_password")
     String password;
