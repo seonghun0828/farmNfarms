@@ -25,24 +25,40 @@ repositories {
 
 
 dependencies {
-    /*testImplementation("org.springframework.security:spring-security-test")
+    /*
     implementation('org.springframework.session:spring-session-jdbc')
     implementation('org.springframework.boot:spring-boot-starter-oauth2-client')*/
 
+    // Spring Security 의존
     implementation('org.springframework.boot:spring-boot-starter-web')
+    implementation("org.springframework.boot:spring-boot-starter-security")
+    testImplementation("org.springframework.security:spring-security-test")
 
+    // JWT 의존
+    implementation("com.auth0:java-jwt:3.10.3")
+
+    // 외부 컬렉션 API 의존 (common.util.ResponseBodyWriteUtil.java 에서 사용)
+    implementation("com.google.guava:guava:29.0-jre")
+    annotationProcessor("com.google.guava:guava:29.0-jre")
+
+    // JPA 의존
     implementation('org.springframework.boot:spring-boot-starter-data-jpa')
     implementation('com.h2database:h2')
 
+    // JUnit 의존
     testImplementation 'org.assertj:assertj-core:3.6.1'
     testImplementation 'org.junit.jupiter:junit-jupiter-api:5.7.0'
     testRuntimeOnly 'org.junit.jupiter:junit-jupiter-engine:5.7.0'
     testImplementation 'org.mockito:mockito-junit-jupiter:4.6.1'
     testImplementation 'org.mockito:mockito-inline:4.6.1'
 
-
+    // 롬복 의존
     compileOnly('org.projectlombok:lombok')
     annotationProcessor('org.projectlombok:lombok')
+
+    // 스웨거 의존
+    implementation("io.springfox:springfox-swagger2:2.9.2")
+    implementation("io.springfox:springfox-swagger-ui:2.9.2")
 
     testImplementation('org.springframework.boot:spring-boot-starter-test')
 }
