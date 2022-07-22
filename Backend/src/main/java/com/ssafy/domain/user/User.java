@@ -28,7 +28,7 @@ public class User {
     @Column(nullable = false)
     private String phone;
     @Column(nullable = false)
-    private boolean phoneAuth;
+    private boolean phone_auth;
     @Column(nullable = false)
     private String password;
     @Column(nullable = false)
@@ -49,26 +49,26 @@ public class User {
 
     @Builder
     public User(String phone,
-                boolean phoneAuth,
+                boolean phone_auth,
                 String password,
                 String name,
                 String address,
                 String account,
                 int grade,
-                String aboutMe) {
+                String about_me) {
 
         this.phone = phone;
-        this.phoneAuth = phoneAuth;
+        this.phone_auth = phone_auth;
         this.password = password;
         this.name = name;
         this.address = address;
         this.account = account;
         this.grade = grade;
-        this.aboutMe = aboutMe;
+        this.about_me = about_me;
     }
 
     public User update(boolean phoneAuth){
-        this.phoneAuth = phoneAuth;
+        this.phone_auth = phoneAuth;
         return this;
     }
 
