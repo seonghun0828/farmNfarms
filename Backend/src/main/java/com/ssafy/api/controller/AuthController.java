@@ -9,7 +9,6 @@ import com.ssafy.common.util.JwtTokenUtil;
 import com.ssafy.domain.user.User;
 import io.swagger.annotations.*;
 import lombok.AllArgsConstructor;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.web.bind.annotation.*;
