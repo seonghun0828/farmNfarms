@@ -1,5 +1,6 @@
 package com.ssafy.api.service;
 
+import com.ssafy.api.request.UserLoginPostReq;
 import com.ssafy.api.request.UserRegisterPostReq;
 import com.ssafy.domain.user.User;
 import com.ssafy.domain.user.UserRepository;
@@ -19,6 +20,10 @@ public class UserServiceImpl implements UserService {
 
     @Override
     public User createUser(UserRegisterPostReq userRegisterInfo) {
+        if (userRepository.findByPhone(userRegisterInfo.getPhone()) == null) {
+
+        }
+
         User user = new User();
         user.setPhone(userRegisterInfo.getPhone());
         user.setPhone_auth(false);
@@ -36,5 +41,14 @@ public class UserServiceImpl implements UserService {
     public User getUserByPhone(String phone) {
         User user = userRepository.findByPhone(phone);
         return user;
+    }
+
+    @Override
+    public boolean deleteUser(UserLoginPostReq deleteInfo) {
+        if(passwordEncoder.matches(deleteInfo.getPassword(), userRepository.findByPhone(deleteInfo.getPhone()).getPassword())){
+            userRepository.deleteByPhone(deleteInfo.getPhone());
+            return true;
+        }
+        return false;
     }
 }
