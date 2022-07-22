@@ -2,6 +2,7 @@
 package com.ssafy.domain.conference;
 
 import com.ssafy.domain.user.User;
+import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 
@@ -28,9 +29,18 @@ public class Conference {
     private String thumbnailUrl;
 
     @Column
-    private String descrption;
+    private String description;
 
     @Column
     private String address;
+
+    @Builder
+    public Conference(User user, String title, String thumbnailUrl, String description, String address) {
+        this.user = user;
+        this.title = title;
+        this.thumbnailUrl = thumbnailUrl;
+        this.description = description;
+        this.address = address;
+    }
 }
 

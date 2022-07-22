@@ -2,6 +2,7 @@ package com.ssafy.domain.user;
 
 //import com.ssafy.domain.rating.Rating;
 import com.ssafy.domain.rating.Rating;
+import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
@@ -27,7 +28,7 @@ public class User {
     @Column(nullable = false)
     private String phone;
     @Column(nullable = false)
-    private boolean phone_auth;
+    private boolean phoneAuth;
     @Column(nullable = false)
     private String password;
     @Column(nullable = false)
@@ -45,5 +46,30 @@ public class User {
 
     @OneToMany(mappedBy = "user", fetch = FetchType.LAZY)
     List<Rating> ratings = new ArrayList<>();
+
+    @Builder
+    public User(String phone,
+                boolean phoneAuth,
+                String password,
+                String name,
+                String address,
+                String account,
+                int grade,
+                String aboutMe) {
+
+        this.phone = phone;
+        this.phoneAuth = phoneAuth;
+        this.password = password;
+        this.name = name;
+        this.address = address;
+        this.account = account;
+        this.grade = grade;
+        this.aboutMe = aboutMe;
+    }
+
+    public User update(boolean phoneAuth){
+        this.phoneAuth = phoneAuth;
+        return this;
+    }
 
 }

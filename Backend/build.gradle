@@ -39,6 +39,10 @@ dependencies {
     implementation("com.google.guava:guava:29.0-jre")
     annotationProcessor("com.google.guava:guava:29.0-jre")
 
+    // openvidu 의존
+    implementation('io.openvidu:openvidu-java-client:2.21.1')
+    implementation group: 'com.googlecode.json-simple', name: 'json-simple', version: '1.1.1'
+    
     // JPA 의존
     implementation('org.springframework.boot:spring-boot-starter-data-jpa')
     implementation('com.h2database:h2')

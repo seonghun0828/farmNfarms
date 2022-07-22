@@ -3,6 +3,7 @@ package com.ssafy.domain.auction;
 
 import com.ssafy.domain.conference.Conference;
 import com.ssafy.domain.user.User;
+import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 
@@ -39,5 +40,26 @@ public class Auction {
     @Column(nullable = false)
     private boolean isActive;
 
+    @Builder
+    public Auction(Conference conference,
+                   String productId,
+                   int productGrade,
+                   int quantity,
+                   long startingPrice,
+                   long bidIncrement,
+                   long hammerPrice,
+                   long hammerUserId,
+                   boolean isActive) {
+
+        this.conference = conference;
+        this.productId = productId;
+        this.productGrade = productGrade;
+        this.quantity = quantity;
+        this.startingPrice = startingPrice;
+        this.bidIncrement = bidIncrement;
+        this.hammerPrice = hammerPrice;
+        this.hammerUserId = hammerUserId;
+        this.isActive = isActive;
+    }
 }
 

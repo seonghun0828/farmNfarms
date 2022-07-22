@@ -2,6 +2,7 @@
 package com.ssafy.domain.trade;
 
 import com.ssafy.domain.user.User;
+import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 
@@ -38,5 +39,30 @@ public class Trade {
     @Column(nullable = false)
     private long hammerPrice;
 
+    @Column(nullable = false)
+    private boolean isDeposit;
+
+    @Column(nullable = false)
+    private boolean isReceived;
+
+    @Builder
+    public Trade(User seller,
+                 User hammer,
+                 String productId,
+                 int productGrade,
+                 int quantity,
+                 long hammerPrice,
+                 boolean isDeposit,
+                 boolean isReceived) {
+
+        this.seller = seller;
+        this.hammer = hammer;
+        this.productId = productId;
+        this.productGrade = productGrade;
+        this.quantity = quantity;
+        this.hammerPrice = hammerPrice;
+        this.isDeposit = isDeposit;
+        this.isReceived = isReceived;
+    }
 }
 
