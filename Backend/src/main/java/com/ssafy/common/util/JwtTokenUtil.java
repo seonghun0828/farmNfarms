@@ -20,7 +20,7 @@ public class JwtTokenUtil {
     private static Integer accessExpirationTime;
     private static Integer refreshExpirationTime;
 
-    public static final String TOKEN_PRIFIX = "Bearer";
+    public static final String TOKEN_PRIFIX = "Bearer ";
     public static final String HEADER_STRING = "Authorization";
     public static final String ISSUER = "ssafy.com";
 
