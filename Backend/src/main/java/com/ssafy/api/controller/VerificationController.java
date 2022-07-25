@@ -52,8 +52,5 @@ public class VerificationController {
 
         jsonMap.put("isSuccess",0);
         return ResponseEntity.ok(jsonMap);
-
-
-
     }
 }

@@ -1,3 +1,4 @@
+/*
 package com.ssafy.api.controller;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
@@ -64,4 +65,4 @@ public class VerificationControllerTest {
     private <T> String toJson(T data) throws JsonProcessingException {
         return objectMapper.writeValueAsString(data);
     }
-}
+}*/

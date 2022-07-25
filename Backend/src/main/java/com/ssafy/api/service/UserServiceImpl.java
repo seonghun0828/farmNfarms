@@ -56,6 +56,7 @@ public class UserServiceImpl implements UserService {
     }
 
 
+    @Override
     public UserInfoGetRes getUserInfo(String phone) {
 
         User user = userRepository.findByPhone(phone);
@@ -69,6 +70,7 @@ public class UserServiceImpl implements UserService {
 //                .build();
     }
 
+    @Override
     public boolean updateUserInfo(UserInfoChangePutReq data, String phone) {
 
         try {

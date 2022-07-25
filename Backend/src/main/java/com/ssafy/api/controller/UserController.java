@@ -67,19 +67,21 @@ public class UserController {
         return ResponseEntity.status(404).body(BaseResponseBody.of(404, "Not Exist"));
     }
 
-//    @GetMapping("/${phone}")
-//    public ResponseEntity<UserInfoGetRes> getUserInfo(@PathVariable String phone) {
-//        UserInfoGetRes userInfoGetRes = userService.getUserInfo(phone);
-//
-//        return ResponseEntity.ok(userInfoGetRes);
-//    }
+    @GetMapping("/{phone}")
+    @ApiOperation(value="회원 정보 조회", notes = "휴대폰번호로 회원 정보를 조회한다.")
+    public ResponseEntity<UserInfoGetRes> getUserInfo(@PathVariable String phone) {
+        UserInfoGetRes userInfoGetRes = userService.getUserInfo(phone);
 
-//    @PutMapping("/${phone}")
-//    public ResponseEntity<Map<String, Boolean>> updateUserInfo(@RequestBody UserInfoChangePutReq request,
-//                                                               @PathVariable String phone) {
-//        boolean response = userService.updateUserInfo(request, phone);
-//        Map<String, Boolean> jsonMap = new HashMap<>();
-//        jsonMap.put("isSuccess", response);
-//        return ResponseEntity.ok(jsonMap);
-//    }
+        return ResponseEntity.ok(userInfoGetRes);
+    }
+
+    @PutMapping("/{phone}")
+    @ApiOperation(value="회원 정보 수정", notes = "회원의 정보를 받아서 수정한다.")
+    public ResponseEntity<Map<String, Boolean>> updateUserInfo(@RequestBody UserInfoChangePutReq request,
+                                                               @PathVariable String phone) {
+        boolean response = userService.updateUserInfo(request, phone);
+        Map<String, Boolean> jsonMap = new HashMap<>();
+        jsonMap.put("isSuccess", response);
+        return ResponseEntity.ok(jsonMap);
+    }
 }
