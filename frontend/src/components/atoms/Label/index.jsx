@@ -9,22 +9,11 @@ const colorStyle = css`
     }}
 `
 const fontSize = css`
-    ${({size}) =>
-        size === 'S' && 
+    ${({theme, size}) =>
         css`
-            font-size: 1rem;
+            font-size: ${theme.fontSizes[size]}
         `
     }
-    ${({ size }) =>
-        size === 'M' &&
-        css`
-        font-size: 1.5rem;
-    `}
-    ${({ size }) =>
-        size === 'L' &&
-        css`
-        font-size: 2rem;
-    `}
 `
 const StyledLabel = styled.label`
     font-size: 30px;
