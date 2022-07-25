@@ -1,10 +1,8 @@
 package com.ssafy.api.controller;
 
-<<<<<<< Updated upstream
 import com.ssafy.api.request.UserLoginPostReq;
-=======
 import com.ssafy.api.request.UserInfoChangePutReq;
->>>>>>> Stashed changes
+import com.ssafy.api.request.UserInfoChangePutReq;
 import com.ssafy.api.request.UserRegisterPostReq;
 import com.ssafy.api.response.UserInfoChangePutRes;
 import com.ssafy.api.response.UserInfoGetRes;
@@ -14,16 +12,13 @@ import com.ssafy.domain.user.User;
 import io.swagger.annotations.*;
 import lombok.AllArgsConstructor;
 import org.springframework.http.ResponseEntity;
-<<<<<<< Updated upstream
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.web.bind.annotation.*;
-=======
 import org.springframework.web.bind.annotation.*;
 
 import javax.xml.ws.Response;
 import java.util.HashMap;
 import java.util.Map;
->>>>>>> Stashed changes
 
 /**
  * 유저 관련 API 요청 처리를 위한 컨트롤러
@@ -50,7 +45,7 @@ public class UserController {
 
         return ResponseEntity.status(200).body(BaseResponseBody.of(200, "Success"));
     }
-    
+
     @DeleteMapping()
     @ApiOperation(value = "회원 탈퇴", notes = "아이디와 패스워드를 확인하고 회원 탈퇴한다")
     @ApiResponses({

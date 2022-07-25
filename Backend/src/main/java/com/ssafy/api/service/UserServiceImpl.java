@@ -1,10 +1,8 @@
 package com.ssafy.api.service;
 
-<<<<<<< Updated upstream
 import com.ssafy.api.request.UserLoginPostReq;
-=======
 import com.ssafy.api.request.UserInfoChangePutReq;
->>>>>>> Stashed changes
+import com.ssafy.api.request.UserInfoChangePutReq;
 import com.ssafy.api.request.UserRegisterPostReq;
 import com.ssafy.api.response.UserInfoChangePutRes;
 import com.ssafy.api.response.UserInfoGetRes;
@@ -49,14 +47,15 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
-<<<<<<< Updated upstream
     public boolean deleteUser(UserLoginPostReq deleteInfo) {
         if(passwordEncoder.matches(deleteInfo.getPassword(), userRepository.findByPhone(deleteInfo.getPhone()).getPassword())){
             userRepository.deleteByPhone(deleteInfo.getPhone());
             return true;
         }
         return false;
-=======
+    }
+
+
     public UserInfoGetRes getUserInfo(String phone) {
 
         User user = userRepository.findByPhone(phone);
@@ -86,6 +85,5 @@ public class UserServiceImpl implements UserService {
             return false;
         }
 
->>>>>>> Stashed changes
     }
 }
