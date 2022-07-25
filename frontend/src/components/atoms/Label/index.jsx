@@ -1,13 +1,13 @@
 import React from "react";
 import styled, {css} from "styled-components";
 
-// const colorStyle = css`
-//     ${({theme, color}) => {
-//         return css`
-//             color: ${theme.palette[color]};
-//         `
-//     }}
-// `
+const colorStyle = css`
+    ${({theme, color}) => {
+        return css`
+            color: #${theme.colors[color]};
+        `
+    }}
+`
 const fontSize = css`
     ${({size}) =>
         size === 'S' && 
@@ -28,7 +28,7 @@ const fontSize = css`
 `
 const StyledLabel = styled.label`
     font-size: 30px;
-
+    ${colorStyle}
     ${fontSize}
 `
 const Label = ({children, htmlFor, ...rest}) => {
