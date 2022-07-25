@@ -1,10 +1,12 @@
 package com.ssafy.api.service;
 
-import com.ssafy.api.request.SessionGetTokenReq;
+import com.ssafy.api.request.SessionReq;
+import com.ssafy.domain.conference.ConferenceRepository;
+import com.ssafy.domain.user.UserRepository;
 import io.openvidu.java.client.*;
 import org.json.simple.JSONObject;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
-import org.springframework.http.HttpEntity;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
@@ -15,7 +17,8 @@ import java.util.concurrent.ConcurrentHashMap;
 @Service
 public class SessionService {
 
-
+    @Autowired
+    private ConferenceRepository conferenceRepository;
     private OpenVidu openVidu;
     private Map<String, Session> mapSessions = new ConcurrentHashMap<>();
     private Map<String, Map<String, OpenViduRole>> mapSessionNamesTokens = new ConcurrentHashMap<>();
@@ -30,7 +33,11 @@ public class SessionService {
         this.openVidu = new OpenVidu(OPENVIDU_URL, SECRET);
     }
 
-    public ResponseEntity<JSONObject> getToken(String phoneNumber, SessionGetTokenReq sessionInfo){
+    public ResponseEntity<JSONObject> createRoom(String phoneNumber, SessionReq sessionInfo){
+
+    }
+
+    public ResponseEntity<JSONObject> getToken(String phoneNumber, SessionReq sessionInfo){
         String sessionName = String.valueOf(sessionInfo.getSessionId());
         ConnectionProperties connectionProperties = new ConnectionProperties.Builder().type(ConnectionType.WEBRTC).data(phoneNumber).role(OpenViduRole.PUBLISHER).build();
         JSONObject responseJson = new JSONObject();
