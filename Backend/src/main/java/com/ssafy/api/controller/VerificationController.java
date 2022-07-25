@@ -37,7 +37,5 @@ public class VerificationController {
         Map<String, Boolean> jsonMap = new HashMap<>();
         jsonMap.put("isSuccess", isConfirmed);
         return ResponseEntity.ok(jsonMap);
-
-
     }
 }
