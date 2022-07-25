@@ -7,7 +7,7 @@ const Login = () => {
     <h1>Login Page
     </h1>
         <Label htmlFor="one" color='green3' size="xxl" >sdfafweagaeghef</Label>
-        <Checkbox size='L' id="one" name='check' value="aha" />
+        <Checkbox id="one" name='check' value="aha"  size='xxxl' />
 
     </>
 }
