@@ -1,15 +1,29 @@
 package com.ssafy.api.controller;
 
+<<<<<<< Updated upstream
 import com.ssafy.api.request.UserLoginPostReq;
+=======
+import com.ssafy.api.request.UserInfoChangePutReq;
+>>>>>>> Stashed changes
 import com.ssafy.api.request.UserRegisterPostReq;
+import com.ssafy.api.response.UserInfoChangePutRes;
+import com.ssafy.api.response.UserInfoGetRes;
 import com.ssafy.api.service.UserService;
 import com.ssafy.common.model.response.BaseResponseBody;
 import com.ssafy.domain.user.User;
 import io.swagger.annotations.*;
 import lombok.AllArgsConstructor;
 import org.springframework.http.ResponseEntity;
+<<<<<<< Updated upstream
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.web.bind.annotation.*;
+=======
+import org.springframework.web.bind.annotation.*;
+
+import javax.xml.ws.Response;
+import java.util.HashMap;
+import java.util.Map;
+>>>>>>> Stashed changes
 
 /**
  * 유저 관련 API 요청 처리를 위한 컨트롤러
@@ -19,6 +33,7 @@ import org.springframework.web.bind.annotation.*;
 @RestController
 @RequestMapping("/api/v1/user")
 public class UserController {
+
     UserService userService;
     PasswordEncoder passwordEncoder;
     
@@ -57,5 +72,20 @@ public class UserController {
         // 사용자 없음
         return ResponseEntity.status(404).body(BaseResponseBody.of(404, "Not Exist"));
     }
-    
+
+//    @GetMapping("/${phone}")
+//    public ResponseEntity<UserInfoGetRes> getUserInfo(@PathVariable String phone) {
+//        UserInfoGetRes userInfoGetRes = userService.getUserInfo(phone);
+//
+//        return ResponseEntity.ok(userInfoGetRes);
+//    }
+
+//    @PutMapping("/${phone}")
+//    public ResponseEntity<Map<String, Boolean>> updateUserInfo(@RequestBody UserInfoChangePutReq request,
+//                                                               @PathVariable String phone) {
+//        boolean response = userService.updateUserInfo(request, phone);
+//        Map<String, Boolean> jsonMap = new HashMap<>();
+//        jsonMap.put("isSuccess", response);
+//        return ResponseEntity.ok(jsonMap);
+//    }
 }
