@@ -47,6 +47,20 @@ public class VerificationControllerTest {
                 .andExpect(status().isOk());
     }
 
+    public void duplicationFailTest() throws Exception {
+
+        CreateVerificationDto createVerificationDto = new CreateVerificationDto();
+        createVerificationDto.setPhoneNumber("01050279681");
+
+        mockMvc.perform(
+                        post("/apis/verifications")
+                                .contentType(MediaType.APPLICATION_JSON)
+                                .content(toJson(createVerificationDto))
+                )
+                .andDo(print())
+                .andExpect(status().isOk());
+    }
+
     private <T> String toJson(T data) throws JsonProcessingException {
         return objectMapper.writeValueAsString(data);
     }

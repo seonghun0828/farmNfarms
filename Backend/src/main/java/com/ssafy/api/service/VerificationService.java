@@ -2,13 +2,16 @@ package com.ssafy.api.service;
 
 import com.ssafy.domain.verification.Verification;
 import com.ssafy.domain.verification.VerificationRepository;
+import com.ssafy.domain.verification.VerificationStateType;
 import com.ssafy.util.RandomNumberGenerator;
 import com.ssafy.util.SmsSender;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.util.List;
 import java.util.Optional;
+import java.util.stream.Collectors;
 
 @Service
 @Transactional
@@ -43,6 +46,22 @@ public class VerificationService {
         return verification.verify(providedNumber);
     }
 
+    public boolean isDuplicated(Long id){
+        String phoneNumber = repository.findById(id).get().getPhoneNumber();
+
+        List<Verification> list = repository.findAllByPhoneNumber(phoneNumber).stream()
+                .filter(a -> a.getState() == VerificationStateType.CONFIRMED)
+                .collect(Collectors.toList());
+
+        System.out.println(list.size());
+
+        //등록인증 하려는 폰 번호로 DB에 이미 Confirmed state인 레코드가 있는지 체크 -> 있다면 중복!
+        if(list.size()> 0){
+            return true;
+           }
+
+        return false;
+    }
 
 
 }

@@ -30,13 +30,29 @@ public class VerificationController {
     }
 
     @PostMapping("verifications/{id}")
-    public ResponseEntity<Map<String, Boolean>> confirmVerification(@PathVariable Long id, @RequestBody ConfirmVerificationDto confirmVerificationDto) {
+    public ResponseEntity<Map<String, Integer>> confirmVerification(@PathVariable Long id, @RequestBody ConfirmVerificationDto confirmVerificationDto) {
 
+        boolean isDuplicated = verificationService.isDuplicated(id);
         boolean isConfirmed = verificationService.verifyBy(id, confirmVerificationDto.getConfirmNumber());
+        Map<String, Integer> jsonMap = new HashMap<>();
 
-        Map<String, Boolean> jsonMap = new HashMap<>();
-        jsonMap.put("isSuccess", isConfirmed);
+
+        // 0이면 success, 0보다 크면 fail
+        // 1 이면 중복 fail
+        // 2 이면 인증코드 fail
+
+        if(isDuplicated) {
+            jsonMap.put("isSuccess", 1);
+            return ResponseEntity.ok(jsonMap);
+        }
+        else if(!isConfirmed){
+            jsonMap.put("isSuccess",2);
+            return ResponseEntity.ok(jsonMap);
+        }
+
+        jsonMap.put("isSuccess",0);
         return ResponseEntity.ok(jsonMap);
+
 
 
     }
