@@ -2,6 +2,7 @@ import { BrowserRouter, Routes, Route } from "react-router-dom"
 import Home from './components/pages/Home'
 import Login from './components/pages/Login'
 import Join from './components/pages/Join'
+
 function App() {
   return (
     <div className="App">
