@@ -6,8 +6,8 @@ const Login = () => {
     return <>
     <h1>Login Page
     </h1>
-        <Label htmlFor="one" color='green3' size="S" >sdfafweagaeghef</Label>
-        <Checkbox size='L' id="one" name='check' value="aha" />
+        <Label htmlFor="one" color='green3' size="xxl" >sdfafweagaeghef</Label>
+        <Checkbox id="one" name='check' value="aha"  size='xxxl' />
 
     </>
 }
