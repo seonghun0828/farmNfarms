@@ -17,7 +17,7 @@ import java.util.Date;
 public class JwtTokenUtil {
     private static String secretKey;
     private static Integer accessExpirationTime;
-    private static Integer refreshExpirationTime;
+    public static Integer refreshExpirationTime;
 
     public static final String TOKEN_PRIFIX = "Bearer ";
     public static final String HEADER_STRING = "Authorization";
