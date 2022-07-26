@@ -9,9 +9,15 @@ import com.ssafy.common.util.JwtTokenUtil;
 import com.ssafy.domain.user.User;
 import io.swagger.annotations.*;
 import lombok.AllArgsConstructor;
+import org.apache.http.HttpHeaders;
+import org.apache.http.HttpResponse;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.web.bind.annotation.*;
+
+import javax.servlet.http.Cookie;
+import javax.servlet.http.HttpServletResponse;
 
 /**
  * 인증 관련 API 요청 처리를 위한 컨트롤러 정의
@@ -33,7 +39,7 @@ public class AuthController {
             @ApiResponse(code = 404, message = "사용자 없음", response = BaseResponseBody.class),
             @ApiResponse(code = 500, message = "서버 오류", response = BaseResponseBody.class)
     })
-    public ResponseEntity<UserLoginPostRes> login(@RequestBody @ApiParam(value="로그인 정보", required = true) UserLoginPostReq loginInfo) {
+    public ResponseEntity<UserLoginPostRes> login(@RequestBody @ApiParam(value="로그인 정보", required = true) UserLoginPostReq loginInfo, HttpServletResponse response) {
         String phone = loginInfo.getPhone();
         String password = loginInfo.getPassword();
 
@@ -41,17 +47,24 @@ public class AuthController {
 
         // 로그인 요청한 아이디가 DB에 존재하지 않으면 사용자없음 에러
         if(user==null) {
-            return ResponseEntity.status(404).body(UserLoginPostRes.of(404, "Not Exist", null, null));
+            return ResponseEntity.status(404).body(UserLoginPostRes.of(404, "Not Exist", null));
         }
 
         // 로그인 요청시 입력한 패스와드와 DB의 패스워드가 같은지 확인
         if(passwordEncoder.matches(password, user.getPassword())) {
             // 같으면 로그인 성공
-            return ResponseEntity.ok(UserLoginPostRes.of(200, "Success", JwtTokenUtil.getAccessToken(phone), JwtTokenUtil.getRefreshToken(phone)));
+            Cookie cookie=new Cookie("refreshToken", JwtTokenUtil.getRefreshToken(phone)); // refresh 담긴 쿠키 생성
+            cookie.setMaxAge(JwtTokenUtil.refreshExpirationTime); // 쿠키의 유효시간을 refresh 유효시간만큼 설정
+            cookie.setSecure(true); // 클라이언트가 HTTPS가 아닌 통신에서는 해당 쿠키를 전송하지 않도록 하는 설정
+            cookie.setHttpOnly(true); // 브라우저에서 쿠키에 접근할 수 없도록 하는 설정
+            cookie.setPath("/");
+            
+            response.addCookie(cookie);
+            return ResponseEntity.ok(UserLoginPostRes.of(200, "Success", JwtTokenUtil.getAccessToken(phone)));
         }
 
         // 패스워드가 일치하지 않으면 로그인 실패 응답
-        return ResponseEntity.status(401).body(UserLoginPostRes.of(401, "Invalid Password", null, null));
+        return ResponseEntity.status(401).body(UserLoginPostRes.of(401, "Invalid Password", null));
     }
 
     @PostMapping("/reaccess")

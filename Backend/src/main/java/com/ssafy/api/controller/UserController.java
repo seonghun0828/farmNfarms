@@ -1,7 +1,11 @@
 package com.ssafy.api.controller;
 
 import com.ssafy.api.request.UserLoginPostReq;
+import com.ssafy.api.request.UserInfoChangePutReq;
+import com.ssafy.api.request.UserInfoChangePutReq;
 import com.ssafy.api.request.UserRegisterPostReq;
+import com.ssafy.api.response.UserInfoChangePutRes;
+import com.ssafy.api.response.UserInfoGetRes;
 import com.ssafy.api.service.UserService;
 import com.ssafy.common.model.response.BaseResponseBody;
 import com.ssafy.domain.user.User;
@@ -10,6 +14,10 @@ import lombok.AllArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.bind.annotation.*;
+
+import java.util.HashMap;
+import java.util.Map;
 
 /**
  * 유저 관련 API 요청 처리를 위한 컨트롤러
@@ -19,6 +27,7 @@ import org.springframework.web.bind.annotation.*;
 @RestController
 @RequestMapping("/api/v1/user")
 public class UserController {
+
     UserService userService;
     PasswordEncoder passwordEncoder;
     
@@ -35,7 +44,7 @@ public class UserController {
 
         return ResponseEntity.status(200).body(BaseResponseBody.of(200, "Success"));
     }
-    
+
     @DeleteMapping()
     @ApiOperation(value = "회원 탈퇴", notes = "아이디와 패스워드를 확인하고 회원 탈퇴한다")
     @ApiResponses({
@@ -57,5 +66,22 @@ public class UserController {
         // 사용자 없음
         return ResponseEntity.status(404).body(BaseResponseBody.of(404, "Not Exist"));
     }
-    
+
+    @GetMapping("/{phone}")
+    @ApiOperation(value="회원 정보 조회", notes = "휴대폰번호로 회원 정보를 조회한다.")
+    public ResponseEntity<UserInfoGetRes> getUserInfo(@PathVariable String phone) {
+        UserInfoGetRes userInfoGetRes = userService.getUserInfo(phone);
+
+        return ResponseEntity.ok(userInfoGetRes);
+    }
+
+    @PutMapping("/{phone}")
+    @ApiOperation(value="회원 정보 수정", notes = "회원의 정보를 받아서 수정한다.")
+    public ResponseEntity<Map<String, Boolean>> updateUserInfo(@RequestBody UserInfoChangePutReq request,
+                                                               @PathVariable String phone) {
+        boolean response = userService.updateUserInfo(request, phone);
+        Map<String, Boolean> jsonMap = new HashMap<>();
+        jsonMap.put("isSuccess", response);
+        return ResponseEntity.ok(jsonMap);
+    }
 }

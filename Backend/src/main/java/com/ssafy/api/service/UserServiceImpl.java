@@ -1,10 +1,13 @@
 package com.ssafy.api.service;
 
 import com.ssafy.api.request.UserLoginPostReq;
+import com.ssafy.api.request.UserInfoChangePutReq;
+import com.ssafy.api.request.UserInfoChangePutReq;
 import com.ssafy.api.request.UserRegisterPostReq;
+import com.ssafy.api.response.UserInfoChangePutRes;
+import com.ssafy.api.response.UserInfoGetRes;
 import com.ssafy.domain.user.User;
 import com.ssafy.domain.user.UserRepository;
-import lombok.AllArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
@@ -50,5 +53,39 @@ public class UserServiceImpl implements UserService {
             return true;
         }
         return false;
+    }
+
+
+    @Override
+    public UserInfoGetRes getUserInfo(String phone) {
+
+        User user = userRepository.findByPhone(phone);
+
+        return new UserInfoGetRes(user.getPhone(), user.getAccount(), user.getAddress());
+
+//        return UserInfoGetRes.builder()
+//                .phone(user.getPhone())
+//                .account(user.getAccount())
+//                .address(user.getAddress())
+//                .build();
+    }
+
+    @Override
+    public boolean updateUserInfo(UserInfoChangePutReq data, String phone) {
+
+        try {
+            if (data.getAccount() == null || data.getAddress() == null) {
+                throw new IllegalArgumentException();
+            }
+            User user = userRepository.findByPhone(phone);
+
+            user.setAccount(data.getAccount());
+            user.setAddress(data.getAddress());
+            userRepository.save(user);
+            return true;
+        } catch (Exception e) {
+            return false;
+        }
+
     }
 }
