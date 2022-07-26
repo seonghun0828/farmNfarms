@@ -21,7 +21,8 @@ const colorStyle = css`
 `
 const ButtonSize = css`
   ${({theme, size}) => {
-    if (size === 'big') {
+    if (size === 'lg') {
+      // ui 적용해보면서 이상하면 사이즈 건드리기 지금은 잘 몰겠음
       return css `
         padding-left: 40vw;
         padding-right: 40vw;
@@ -30,7 +31,7 @@ const ButtonSize = css`
         font-size: ${theme.fontSizes['titleSize']}
       `
     }
-    if (size === 'middle') {
+    if (size === 'md') {
       return css `
         padding-left: 20vw;
         padding-right: 20vw;
@@ -39,7 +40,7 @@ const ButtonSize = css`
         font-size: ${theme.fontSizes['xxxl']}
       `
     }
-    if (size === 'small') {
+    if (size === 'sm') {
       return css `
         padding-left: 5vw;
         padding-right: 5vw;
