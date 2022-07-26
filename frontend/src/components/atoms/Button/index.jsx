@@ -62,7 +62,7 @@ const StyledButton = styled.div`
   ${ButtonSize}
 `
 
-function Button ({children, ...rest}) {
+const Button = ({children, ...rest}) => {
   return (
     <StyledButton 
         {...rest}
