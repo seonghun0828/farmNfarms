@@ -1,5 +1,5 @@
 
-package com.ssafy.domain.auction.userAuctionRoom;
+package com.ssafy.domain.userAuctionRoom;
 
 import org.springframework.data.jpa.repository.JpaRepository;
 

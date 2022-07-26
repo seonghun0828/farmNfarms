@@ -2,6 +2,7 @@ package com.ssafy.api.request;
 
 
 import com.fasterxml.jackson.annotation.JsonInclude;
+import com.ssafy.api.dto.ProductAuctionDto;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
@@ -16,15 +17,9 @@ import java.util.List;
 
 public class SessionReq {
 
-    static class AuctionDetailInfo{
-        private String name;
-        private String val1;
-        private String val2;
-        private String val3;
-        private String val4;
-    }
+    private String auctionRoomTitle;
+    private String roomDescription;
+    private String auctionRoomThumbnail;
 
-
-    private int sessionId;
-    private List<AuctionDetailInfo> auctionInfoList = new ArrayList<>();
+    private List<ProductAuctionDto> auctionInfoList = new ArrayList<>();
 }

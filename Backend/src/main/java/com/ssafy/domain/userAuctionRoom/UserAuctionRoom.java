@@ -1,4 +1,4 @@
-package com.ssafy.domain.auction.userAuctionRoom;
+package com.ssafy.domain.userAuctionRoom;
 
 import com.ssafy.domain.auctionRoom.AuctionRoom;
 import com.ssafy.domain.user.User;

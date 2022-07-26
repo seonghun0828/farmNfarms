@@ -1,5 +1,5 @@
 
-package com.ssafy.domain.rating;
+package com.ssafy.domain.XXXrating;
 
 import com.ssafy.domain.user.User;
 import lombok.Builder;
