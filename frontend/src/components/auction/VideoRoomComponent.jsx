@@ -1,6 +1,8 @@
 import axios from 'axios';
 import { OpenVidu } from 'openvidu-browser';
 import React, { Component } from 'react';
+import ChattingForm from '../chat/ChattingForm';
+import ChattingList from '../chat/ChattingList';
 import UserVideoComponent from './UserVideoComponent';
 
 const OPENVIDU_SERVER_URL = 'https://' + window.location.hostname + ':4443';
@@ -17,15 +19,17 @@ class VideoRoomComponent extends Component {
       mainStreamManager: undefined, // 페이지의 메인 비디오 화면(퍼블리셔 또는 참가자의 화면 중 하나)
       publisher: undefined, // 자기 자신의 캠
       subscribers: [], // 다른 유저의 스트림 정보를 저장할 배열
+      chatDisplay: 'none', // 채팅 display
+      messageList: [], // 메세지 정보를 담을 배열
     };
 
     this.joinSession = this.joinSession.bind(this);
     this.leaveSession = this.leaveSession.bind(this);
-    this.switchCamera = this.switchCamera.bind(this);
     this.handleChangeSessionId = this.handleChangeSessionId.bind(this);
     this.handleChangeUserName = this.handleChangeUserName.bind(this);
     this.handleMainVideoStream = this.handleMainVideoStream.bind(this);
     this.onbeforeunload = this.onbeforeunload.bind(this);
+    this.toggleChat = this.toggleChat.bind(this);
   }
 
   componentDidMount() {
@@ -54,6 +58,7 @@ class VideoRoomComponent extends Component {
     });
   }
 
+  // 메인 비디오 스트림
   handleMainVideoStream(stream) {
     if (this.state.mainStreamManager !== stream) {
       this.setState({
@@ -78,7 +83,6 @@ class VideoRoomComponent extends Component {
   joinSession() {
     // --- 1) 오픈비두 오브젝트 생성 ---
     this.OV = new OpenVidu();
-
     // --- 2) 세션을 시작 ---
     this.setState(
       {
@@ -86,7 +90,6 @@ class VideoRoomComponent extends Component {
       },
       () => {
         var mySession = this.state.session;
-
         // --- 3) 세션에서 발생하는 이벤트에 대한 동작을 구체화
         // 새로운 스트림이 매번 생성될 때마다
         mySession.on('streamCreated', (event) => {
@@ -116,8 +119,14 @@ class VideoRoomComponent extends Component {
           console.warn(exception);
         });
 
-        // --- 4) 유효한 토큰으로 세션에 접속하기 ---
+        // 채팅 신호 수신하여 메세지 리스트 업데이트
+        mySession.on("signal:chat", (event) => {
+          const tmp = this.state.messageList.slice();
+          tmp.push(event.data);
+          this.setState({messageList: tmp})
+        });
 
+        // --- 4) 유효한 토큰으로 세션에 접속하기 ---
         // 'getToken' method is simulating what your server-side should do.
         // 'token' parameter should be retrieved and returned by your own backend
         this.getToken().then((token) => {
@@ -133,7 +142,6 @@ class VideoRoomComponent extends Component {
               var videoDevices = devices.filter(device => device.kind === 'videoinput');
 
               // --- 5) Get your own camera stream ---(퍼블리셔)
-
               // Init a publisher passing undefined as targetElement (we don't want OpenVidu to insert a video
               // element: we will manage it on our own) and with the desired properties
               let publisher = this.OV.initPublisher(undefined, {
@@ -148,7 +156,6 @@ class VideoRoomComponent extends Component {
               });
 
               // --- 6) 자신의 화면을 송출 ---
-
               mySession.publish(publisher);
 
               // Set the main video in the page to display our webcam and store our Publisher
@@ -168,7 +175,6 @@ class VideoRoomComponent extends Component {
 
   // 세선 떠나기
   leaveSession() {
-
     // --- 7) disconnect함수를 호출하여 세션을 떠남
     const mySession = this.state.session;
 
@@ -184,44 +190,42 @@ class VideoRoomComponent extends Component {
       mySessionId: 'SessionA',
       myUserName: 'Participant' + Math.floor(Math.random() * 100),
       mainStreamManager: undefined,
-      publisher: undefined
+      publisher: undefined,
+      messageList: []
     });
   }
 
-  // 카메라 스위칭(안 쓸 예정)
-  async switchCamera() {
-    try {
-      const devices = await this.OV.getDevices()
-      var videoDevices = devices.filter(device => device.kind === 'videoinput');
+  // 채팅창 열기
+  toggleChat(property) {
+    let display = property;
 
-      if (videoDevices && videoDevices.length > 1) {
-
-        var newVideoDevice = videoDevices.filter(device => device.deviceId !== this.state.currentVideoDevice.deviceId)
-
-        if (newVideoDevice.length > 0) {
-          // Creating a new publisher with specific videoSource
-          // In mobile devices the default and first camera is the front one
-          var newPublisher = this.OV.initPublisher(undefined, {
-            videoSource: newVideoDevice[0].deviceId,
-            publishAudio: true,
-            publishVideo: true,
-            mirror: true
-          });
-
-          //newPublisher.once("accessAllowed", () => {
-          await this.state.session.unpublish(this.state.mainStreamManager)
-
-          await this.state.session.publish(newPublisher)
-          this.setState({
-            currentVideoDevice: newVideoDevice,
-            mainStreamManager: newPublisher,
-            publisher: newPublisher,
-          });
-        }
-      }
-    } catch (e) {
-      console.error(e);
+    if (display === undefined) {
+      display = this.state.chatDisplay === 'none' ? 'block' : 'none';
     }
+    if (display === 'block') {
+      this.setState({ chatDisplay: display, messageReceived: false });
+    } else {
+      console.log('chat', display);
+      this.setState({ chatDisplay: display });
+    }
+  }
+
+  // 메세지 보내기
+  sendMsg(msg, currentSession) {
+    // Sender of the message (after 'session.connect')
+    // this.state.session으로는 자식이 인식할 수 없으므로 currentSession을 자식에게 props로 넘겨주고 다시 받음
+    currentSession
+      .signal({
+        data: msg, // Any string (optional)
+        to: [], // Array of Connection objects (optional. Broadcast to everyone if empty)
+        type: "chat", // The type of message (optional)
+      })
+      .then(() => {
+        console.log("Message successfully sent");
+      })
+      .catch((error) => {
+        console.error(error);
+      });
   }
 
   render() {
@@ -285,28 +289,23 @@ class VideoRoomComponent extends Component {
             {this.state.mainStreamManager !== undefined ? (
               <div id="main-video" className="col-md-6">
                 <UserVideoComponent streamManager={this.state.mainStreamManager} />
-                <input
-                  className="btn btn-large btn-success"
-                  type="button"
-                  id="buttonSwitchCamera"
-                  onClick={this.switchCamera}
-                  value="Switch Camera"
-                />
               </div>
             ) : null}
-            <div id="video-container" className="col-md-6">
-              {/* {this.state.publisher !== undefined ? (
+            <ChattingList messageList={this.state.messageList}></ChattingList>
+            <ChattingForm myUserName={this.state.myUserName} onMessage={this.sendMsg} currentSession={this.state.session}></ChattingForm>
+            {/* <div id="video-container" className="col-md-6">
+              {this.state.publisher !== undefined ? (
                 <div className="stream-container col-md-6 col-xs-6" onClick={() => this.handleMainVideoStream(this.state.publisher)}>
                   <UserVideoComponent
                     streamManager={this.state.publisher} />
                 </div>
-              ) : null} */}
-              {/* {this.state.subscribers.map((sub, i) => (
+              ) : null}
+              {this.state.subscribers.map((sub, i) => (
                 <div key={i} className="stream-container col-md-6 col-xs-6" onClick={() => this.handleMainVideoStream(sub)}>
                   <UserVideoComponent streamManager={sub} />
                 </div>
-              ))} */}
-            </div>
+              ))}
+            </div> */}
           </div>
         ) : null}
       </div>
