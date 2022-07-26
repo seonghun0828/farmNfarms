@@ -5,6 +5,7 @@ import com.ssafy.api.dto.CreateVerificationDto;
 import com.ssafy.api.service.VerificationService;
 import io.swagger.annotations.*;
 import lombok.RequiredArgsConstructor;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
@@ -17,7 +18,8 @@ import java.util.Map;
 @Api(value = "휴대폰 인증 API", tags = {"Verification"})
 public class VerificationController {
 
-    private final VerificationService verificationService;
+    @Autowired
+    private VerificationService verificationService;
 
     @PostMapping("/verifications")
     @ApiOperation(value = "인증 객체 생성", notes = "입력된 휴대전화을 통해 인증 번호를 발송한다.")
