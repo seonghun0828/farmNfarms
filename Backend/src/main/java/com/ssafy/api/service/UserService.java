@@ -9,4 +9,6 @@ public interface UserService {
     User getUserByPhone(String phone);
 
     boolean deleteUser(UserLoginPostReq deleteInfo);
+
+    boolean isDuplicated();
 }
