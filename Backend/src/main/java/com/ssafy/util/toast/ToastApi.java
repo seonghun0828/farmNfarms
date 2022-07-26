@@ -13,6 +13,8 @@ import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpMethod;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Component;
+import org.springframework.web.client.HttpClientErrorException;
+import org.springframework.web.client.HttpServerErrorException;
 import org.springframework.web.client.RestTemplate;
 
 import javax.annotation.PostConstruct;
@@ -22,25 +24,23 @@ import javax.annotation.PostConstruct;
 @Slf4j
 public class ToastApi {
 
-    @Value("${TOAST.APPKEY}")
+    @Value("${TOAST-APP-KEY}")
     private String APP_KEY;
 
-//    @Value("${TOAST.URL}")
-
-    @Value("${TOAST.SECRETKEY}")
+    @Value("${TOAST-SECRET-KEY}")
     private String SECRET_KEY;
 
     private final RestTemplate rest;
 
-    public ResponseEntity<String> sendSms(SmsSendRequest request) {
+    public void sendSms(SmsSendRequest request) {
 
-        String URL = "https://api-sms.cloud.toast.com/sms/v3.0/appKeys/" + APP_KEY + "/sender/sms";
+        String url = "https://api-sms.cloud.toast.com/sms/v3.0/appKeys/" + APP_KEY + "/sender/sms";
 
         HttpHeaders httpHeaders = new HttpHeaders();
         httpHeaders.set("X-Secret-Key", SECRET_KEY);
         log.info("{}, {}", APP_KEY, SECRET_KEY);
         HttpEntity<SmsSendRequest> httpEntity = new HttpEntity<>(request, httpHeaders);
-        return rest.exchange(URL, HttpMethod.POST, httpEntity, String.class);
+        rest.exchange(url, HttpMethod.POST, httpEntity, String.class);
     }
 
 }

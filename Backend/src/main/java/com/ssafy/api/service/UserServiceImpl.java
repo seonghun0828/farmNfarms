@@ -49,7 +49,7 @@ public class UserServiceImpl implements UserService {
     @Override
     public boolean deleteUser(UserLoginPostReq deleteInfo) {
         if(passwordEncoder.matches(deleteInfo.getPassword(), userRepository.findByPhone(deleteInfo.getPhone()).getPassword())){
-            // userRepository.deleteByPhone(deleteInfo.getPhone());
+            userRepository.deleteByPhone(deleteInfo.getPhone());
             return true;
         }
         return false;
