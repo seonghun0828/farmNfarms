@@ -4,17 +4,11 @@ import Login from './components/pages/Login'
 import Join from './components/pages/Join'
 import { ThemeProvider } from "styled-components"
 import theme from './common/theme'
-import Button from './components/atoms/Button'
 
 function App() {
   return (
     <div className="App">
       <ThemeProvider theme={theme}>
-        <Button 
-          size='small'
-        >
-          하이
-        </Button>
         <BrowserRouter>
           <Routes>
             <Route path="/" element={<Home />} />
