@@ -15,7 +15,7 @@ const colorStyle = css`
 const fontSize = css`
     ${({theme, fontSize}) => {
         if (!fontSize) {
-          fontSize = 'base'
+          fontSize = 'md'
         }
         return css`
             font-size: ${theme.fontSizes[fontSize]};
