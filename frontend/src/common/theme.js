@@ -1,8 +1,8 @@
 const calcRem = size => `${size / 16}rem`;
 
 const fontSizes = {
-    small: calcRem(14),
-    base: calcRem(16),
+    sm: calcRem(14),
+    md: calcRem(16),
     lg: calcRem(18),
     xl: calcRem(20),
     xxl: calcRem(22),
@@ -11,8 +11,8 @@ const fontSizes = {
   };
   
   const paddings = {
-    small: calcRem(8),
-    base: calcRem(10),
+    sm: calcRem(8),
+    md: calcRem(10),
     lg: calcRem(12),
     xl: calcRem(14),
     xxl: calcRem(16),
@@ -20,8 +20,8 @@ const fontSizes = {
   };
   
   const margins = {
-    small: calcRem(8),
-    base: calcRem(10),
+    sm: calcRem(8),
+    md: calcRem(10),
     lg: calcRem(12),
     xl: calcRem(14),
     xxl: calcRem(16),
@@ -29,14 +29,14 @@ const fontSizes = {
   };
   
   const interval = {
-    base: calcRem(50),
+    md: calcRem(50),
     lg: calcRem(100),
     xl: calcRem(150),
     xxl: calcRem(200),
   };
   
   const verticalInterval = {
-    base: `${calcRem(10)} 0 ${calcRem(10)} 0`,
+    md: `${calcRem(10)} 0 ${calcRem(10)} 0`,
   };
   
   const deviceSizes = {
