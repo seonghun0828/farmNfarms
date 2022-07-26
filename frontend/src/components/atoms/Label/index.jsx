@@ -16,7 +16,6 @@ const fontSize = css`
     }
 `
 const StyledLabel = styled.label`
-    font-size: 30px;
     ${colorStyle}
     ${fontSize}
 `
