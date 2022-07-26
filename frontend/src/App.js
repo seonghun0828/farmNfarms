@@ -10,7 +10,11 @@ function App() {
   return (
     <div className="App">
       <ThemeProvider theme={theme}>
-        <Button textColor='green1' fillColor='pink1'>하이</Button>
+        <Button 
+          size='small'
+        >
+          하이
+        </Button>
         <BrowserRouter>
           <Routes>
             <Route path="/" element={<Home />} />
