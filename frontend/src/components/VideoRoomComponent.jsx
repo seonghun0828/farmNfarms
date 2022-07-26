@@ -14,7 +14,7 @@ class VideoRoomComponent extends Component {
       mySessionId: 'SessionA',
       myUserName: 'Participant' + Math.floor(Math.random() * 100),
       session: undefined,
-      mainStreamManager: undefined, // Main video of the page, will be 'publisher' or one of the 'subscribers',
+      mainStreamManager: undefined, // 페이지의 메인 비디오 화면(퍼블리셔 또는 참가자의 화면 중 하나)
       publisher: undefined, // 자기 자신의 캠
       subscribers: [], // 다른 유저의 스트림 정보를 저장할 배열
     };
@@ -62,6 +62,7 @@ class VideoRoomComponent extends Component {
     }
   }
 
+  // 참가자를 배열에서 제거함 
   deleteSubscriber(streamManager) {
     let subscribers = this.state.subscribers;
     let index = subscribers.indexOf(streamManager, 0);
@@ -73,11 +74,12 @@ class VideoRoomComponent extends Component {
     }
   }
 
+  // 세션에 참여하기
   joinSession() {
-    // --- 1) Get an OpenVidu object ---
+    // --- 1) 오픈비두 오브젝트 생성 ---
     this.OV = new OpenVidu();
 
-    // --- 2) Init a session ---
+    // --- 2) 세션을 시작 ---
     this.setState(
       {
         session: this.OV.initSession(),
@@ -85,27 +87,27 @@ class VideoRoomComponent extends Component {
       () => {
         var mySession = this.state.session;
 
-        // --- 3) Specify the actions when events take place in the session ---
-
-        // On every new Stream received...
+        // --- 3) 세션에서 발생하는 이벤트에 대한 동작을 구체화
+        // 새로운 스트림이 매번 생성될 때마다
         mySession.on('streamCreated', (event) => {
+          // 스트림 객체를 참가자에게 넘겨줌. 두번째 인자가 undefined이므로 HTML video를 스스로 생성하지 않음
           // Subscribe to the Stream to receive it. Second parameter is undefined
           // so OpenVidu doesn't create an HTML video by its own
           var subscriber = mySession.subscribe(event.stream, 'undefined');
           var subscribers = this.state.subscribers;
           console.log(subscriber)
-          subscribers.push(subscriber);
+          subscribers.push(subscriber); // 배열에 스트림 객체를 추가
 
-          // Update the state with the new subscribers
+          // 참가자 배열을 최신화
           this.setState({
             subscribers: subscribers,
           });
         });
 
-        // On every Stream destroyed...
+        // 스트림을 종료할 때마다
         mySession.on('streamDestroyed', (event) => {
 
-          // Remove the stream from 'subscribers' array
+          // 참가자 배열에서 스트림 객체를 제거함
           this.deleteSubscriber(event.stream.streamManager);
         });
 
@@ -114,7 +116,7 @@ class VideoRoomComponent extends Component {
           console.warn(exception);
         });
 
-        // --- 4) Connect to the session with a valid user token ---
+        // --- 4) 유효한 토큰으로 세션에 접속하기 ---
 
         // 'getToken' method is simulating what your server-side should do.
         // 'token' parameter should be retrieved and returned by your own backend
@@ -145,7 +147,7 @@ class VideoRoomComponent extends Component {
                 mirror: true, // Whether to mirror your local video or not
               });
 
-              // --- 6) Publish your stream ---
+              // --- 6) 자신의 화면을 송출 ---
 
               mySession.publish(publisher);
 
@@ -164,17 +166,17 @@ class VideoRoomComponent extends Component {
     );
   }
 
+  // 세선 떠나기
   leaveSession() {
 
-    // --- 7) Leave the session by calling 'disconnect' method over the Session object ---
-
+    // --- 7) disconnect함수를 호출하여 세션을 떠남
     const mySession = this.state.session;
 
     if (mySession) {
       mySession.disconnect();
     }
 
-    // Empty all properties...
+    // 모든 속성을 초기화함
     this.OV = null;
     this.setState({
       session: undefined,
@@ -186,6 +188,7 @@ class VideoRoomComponent extends Component {
     });
   }
 
+  // 카메라 스위칭(안 쓸 예정)
   async switchCamera() {
     try {
       const devices = await this.OV.getDevices()
