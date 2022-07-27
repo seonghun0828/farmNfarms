@@ -33,14 +33,14 @@ const InputButton = ({
         {label}
       </Label>
       <Layout>
-        <StyledInput 
+        <StyledInput style={{width: '70%'}}
           status={status} 
           type={type} 
           placeholder={placeholder} 
           {...rest}
         >
         </StyledInput>
-        <Button 
+        <Button  style={{width: '30%'}}
           fontSize={btnFontSize} 
           mode={mode} 
           width={btnWidth} 
