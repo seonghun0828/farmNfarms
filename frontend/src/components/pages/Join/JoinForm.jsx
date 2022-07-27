@@ -1,6 +1,6 @@
 import React from 'react';
 import styled, {css} from "styled-components";
-import InputButton from '../InputButton';
+import InputButton from '../../molecules/InputButton';
 import Input from '../../atoms/Input';
 import Button from '../../atoms/Button';
 
