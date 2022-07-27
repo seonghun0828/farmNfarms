@@ -7,8 +7,15 @@ import JoinForm from "./JoinForm";
 import Image from '../../atoms/Image';
 import { Postcode } from "./DaumPostCodePopup";
 import SearchBar from "../../molecules/SearchBar";
+import Select from "../../atoms/Select";
 
 const Join = () => {
+	const OPTIONS = [
+		{ value: "apple", name: "사과" },
+		{ value: "banana", name: "바나나" },
+		{ value: "orange", name: "오렌지" },
+	];
+
 	return (
 		<div>
 			<h1>Join Page</h1>
@@ -25,6 +32,7 @@ const Join = () => {
 			<Button mode="graytext">하이</Button>
 			<Postcode></Postcode>
 			<SearchBar/>
+			<Select options={OPTIONS}/>
 		</div>
 	);
 }
