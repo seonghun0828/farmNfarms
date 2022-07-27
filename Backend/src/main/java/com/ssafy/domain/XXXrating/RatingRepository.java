@@ -1,5 +1,5 @@
 
-package com.ssafy.domain.rating;
+package com.ssafy.domain.XXXrating;
 
 import org.springframework.data.jpa.repository.JpaRepository;
 

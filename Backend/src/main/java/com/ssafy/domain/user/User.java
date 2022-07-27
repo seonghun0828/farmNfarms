@@ -1,7 +1,7 @@
 package com.ssafy.domain.user;
 
 //import com.ssafy.domain.rating.Rating;
-import com.ssafy.domain.rating.Rating;
+import com.ssafy.domain.userAuctionRoom.UserAuctionRoom;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -45,7 +45,7 @@ public class User {
     private LocalDateTime data_create;
 
     @OneToMany(mappedBy = "user", fetch = FetchType.LAZY)
-    List<Rating> ratings = new ArrayList<>();
+    List<UserAuctionRoom> userAuctionRooms = new ArrayList<>();
 
     @Builder
     public User(String phone,

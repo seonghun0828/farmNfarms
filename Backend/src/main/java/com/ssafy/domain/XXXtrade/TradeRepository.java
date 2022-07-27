@@ -1,5 +1,5 @@
 
-package com.ssafy.domain.trade;
+package com.ssafy.domain.XXXtrade;
 
 import org.springframework.data.jpa.repository.JpaRepository;
 
