@@ -1,13 +1,13 @@
 import logo from './logo.svg';
 import './App.css';
 import VideoRoomComponent from './components/auction/VideoRoomComponent';
-import Chatting from './components/chat/Chatting';
+// import AuctionTimer from './components/auctiontimer/AuctionTimer';
 
 function App() {
   return (
     <div className="App">
       <VideoRoomComponent></VideoRoomComponent>
-      {/* <Chatting></Chatting> */}
+      {/* <AuctionTimer></AuctionTimer> */}
     </div>
   );
 }

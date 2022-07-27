@@ -4,6 +4,7 @@ import React, { Component } from 'react';
 import ChattingForm from '../chat/ChattingForm';
 import ChattingList from '../chat/ChattingList';
 import UserVideoComponent from './UserVideoComponent';
+import AuctionTimer from '../auctiontimer/AuctionTimer'
 
 const OPENVIDU_SERVER_URL = 'https://' + window.location.hostname + ':4443';
 const OPENVIDU_SERVER_SECRET = 'MY_SECRET';
@@ -275,6 +276,7 @@ class VideoRoomComponent extends Component {
         {this.state.session !== undefined ? (
           <div id="session">
             <div id="session-header">
+              <AuctionTimer></AuctionTimer>
               <h1 id="session-title">{mySessionId}</h1>
               <input
                 className="btn btn-large btn-danger"
