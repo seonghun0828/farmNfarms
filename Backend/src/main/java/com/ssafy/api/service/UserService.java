@@ -9,7 +9,7 @@ import com.ssafy.api.response.UserInfoGetRes;
 import com.ssafy.domain.user.User;
 
 public interface UserService {
-    User createUser(UserRegisterPostReq userRegisterInfo);
+    boolean createUser(UserRegisterPostReq userRegisterInfo);
     User getUserByPhone(String phone);
 
     boolean deleteUser(UserLoginPostReq deleteInfo);

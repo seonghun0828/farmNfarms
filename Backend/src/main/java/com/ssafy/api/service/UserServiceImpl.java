@@ -22,9 +22,9 @@ public class UserServiceImpl implements UserService {
     private PasswordEncoder passwordEncoder;
 
     @Override
-    public User createUser(UserRegisterPostReq userRegisterInfo) {
-        if (userRepository.findByPhone(userRegisterInfo.getPhone()) == null) {
-
+    public boolean createUser(UserRegisterPostReq userRegisterInfo) {
+        if (userRepository.findByPhone(userRegisterInfo.getPhone()) != null) {
+            return false;
         }
 
         User user = new User();
@@ -37,7 +37,8 @@ public class UserServiceImpl implements UserService {
         user.setAbout_me("자기소개를 입력해주세요");
         user.setGrade(0);
         user.setData_create(LocalDateTime.now());
-        return userRepository.save(user);
+        userRepository.save(user);
+        return true;
     }
 
     @Override
