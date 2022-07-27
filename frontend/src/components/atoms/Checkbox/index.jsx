@@ -18,7 +18,6 @@ const StyledCheckbox = styled.input`
 `
 
 const Checkbox = ({...rest}) => {
-    console.log(rest);
     return <StyledCheckbox type='checkbox' {...rest}/>
 }
 
