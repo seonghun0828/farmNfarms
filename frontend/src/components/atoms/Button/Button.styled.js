@@ -5,34 +5,50 @@ const textColor = {
   primary: theme.colors.white,
   secondary: theme.colors.green3,
   highlight: theme.colors.black,
+  graytext: theme.colors.gray2,
+  whitetext: theme.colors.white,
 };
 
 const bgColor = {
   primary: theme.colors.green3,
   secondary: theme.colors.gray1,
-  highlight: theme.colors.green1
+  highlight: theme.colors.green1,
+  graytext: 'transparent',
+  whitetext: 'transparent'
 };
 
 const borderColor = {
   primary: theme.colors.green3,
   secondary: theme.colors.green3,
-  highlight: theme.colors.green1
+  highlight: theme.colors.green1,
+  graytext: 'transparent',
+  whitetext: 'transparent'
 };
 
-export const StyledButton = styled.button`
-  display: flex;
-  justify-content: center;
-  align-items: center;
+export const StyledTextButton = styled.div`
+  display: inline-block;
 
+  color: ${({mode}) => textColor[mode]};
+
+  font-weight: ${theme.fontWeights.bold};
+  font-size: ${({fontSize}) => theme.fontSizes[fontSize]};
+  text-align: center;
+  text-decoration: none;
+
+  user-select: none;
+  cursor: pointer;
+`;
+
+export const StyledButton = styled.button`
   width: ${({width}) => width};
   height: 3rem;
   padding: 0 1rem;
 
   border-radius: 5px;
-  border: 2px solid #${({mode}) => borderColor[mode]};
-  background-color: #${({mode}) => bgColor[mode]};
+  border: 2px solid ${({mode}) => borderColor[mode]};
+  background-color: ${({mode}) => bgColor[mode]};
 
-  color: #${({mode}) => textColor[mode]};
+  color: ${({mode}) => textColor[mode]};
 
   font-weight: ${theme.fontWeights.bold};
   font-size: ${({fontSize}) => theme.fontSizes[fontSize]};
