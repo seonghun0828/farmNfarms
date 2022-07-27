@@ -1,9 +1,11 @@
 package com.ssafy.domain.product;
 
 import com.ssafy.domain.grade.Grade;
+import lombok.NoArgsConstructor;
 
 import javax.persistence.*;
 
+@NoArgsConstructor
 @Entity
 public class Product {
 
