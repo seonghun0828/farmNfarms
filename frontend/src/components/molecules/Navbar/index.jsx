@@ -24,12 +24,13 @@ const Buttons = styled.div`
     width: 10rem;
     justify-content: space-between;
 `
-const Navbar = ({text, size, id, ...rest}) => {
+const Navbar = ({url, isLogin, imgSize, fontSize, mode, ...rest}) => {
+    const text = isLogin ? '로그아웃' : '로그인';
     return <StyledNavbar {...rest}>
-        <Image src={logo} alt='logo' size='sm' />
+        <Image src={url} alt='logo' size={imgSize} />
         <Buttons>
-            <Button fontSize='md' mode='whitetext'>로그아웃</Button>
-            <Button fontSize='md' mode='whitetext'>마이페이지</Button>
+            <Button fontSize={fontSize} mode={mode} {...rest}>{text}</Button>
+            <Button fontSize={fontSize} mode={mode} {...rest}>마이페이지</Button>
         </Buttons>
     </StyledNavbar>
 }
