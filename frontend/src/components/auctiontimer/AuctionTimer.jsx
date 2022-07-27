@@ -10,7 +10,6 @@ const AuctionTimer = () => {
     if (seconds === 0) {
       setSeconds(30)
     }
-
   }
 
   useEffect(() => {

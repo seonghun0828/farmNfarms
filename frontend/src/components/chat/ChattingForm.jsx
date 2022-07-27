@@ -8,7 +8,9 @@ const ChattingForm = (props) => {
   // 메세지를 보내는 함수
   const sendMessage = (event) => {
     event.preventDefault()
-    props.onMessage(`${props.myUserName}: ` + message.trim(), props.currentSession) // 공백을 제거하여 전달
+    if (message.trim() !== "") {
+      props.onMessage(`${props.myUserName}: ` + message.trim(), props.currentSession) // 공백을 제거하여 전달
+    }
     setMessage('')
   }
 
