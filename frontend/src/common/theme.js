@@ -10,6 +10,12 @@ const fontSizes = {
   titleSize: calcRem(50),
 };
 
+const fontWeights = {
+  normal: "400",
+  bold: "700",
+  heavy: "900",
+};
+
 const contentSizes = {
   sm: calcRem(60),
   md: calcRem(75),
@@ -102,6 +108,7 @@ const flex = {
 
 const theme = {
   fontSizes,
+  fontWeights,
   contentSizes,
   colors,
   deviceSizes,

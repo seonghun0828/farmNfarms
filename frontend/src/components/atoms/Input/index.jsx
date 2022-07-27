@@ -1,53 +1,33 @@
 import React from 'react';
-import { styled } from '@mui/material/styles';
-import { TextField } from '@mui/material';
+import { FlexBox, Label, StyledInput, HelpText } from './Input.styled';
 
-const CssTextField = styled(TextField)({
-  '& label.Mui-focused': {
-    color: '#0F9749',
-  },
-  '& .MuiOutlinedInput-root': {
-    '&.Mui-focused fieldset': {
-      borderColor: '#0F9749',
-    },
-  }
-});
+const STATUS = {
+  DEFAULT: "default",
+  READONLY: "readOnly",
+  ERROR: "error",
+};
 
-const Input = ({  
-  label, 
-  type, 
-  isReadOnly=false,
-  error=false,
-  size,
-  ...rest
-}) => {
-  if (error) {
-    return (
-    <div>
-      <TextField
-        label={label}
-        type={type}
-        InputProps={{readOnly: isReadOnly}}
-        {...rest}
-        error
-        size={size}
-        fullWidth
-      />
-    </div>);
-  }
+const Input = ({children, status, label, helpMsg, type, placeholder, ...rest}) => {
   return (
-  <div>
-    <CssTextField
-      label={label}
-      type={type}
-      InputProps={{readOnly: isReadOnly}}
-      {...rest}
-      error
-      size={size}
-      fullWidth
-    />
-  </div>
+    <FlexBox>
+      <Label status={status} {...rest}>
+        {label}
+      </Label>
+      <StyledInput 
+        status={status} 
+        type={type}
+        placeholder={placeholder} 
+        {...rest}
+      />
+      <HelpText status={status} {...rest}>
+        {helpMsg}
+      </HelpText>
+    </FlexBox>
   );
+}
+
+Input.defaultProps = {
+  status: STATUS.DEFAULT
 };
 
 export default Input;

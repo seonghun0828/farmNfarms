@@ -26,22 +26,24 @@ const fontWeight = css`
   }}
 `
 
-const StyledText = styled.div`
+const StyledTxtButton = styled.div`
   display: inline-block;
+  user-select: none;
+  cursor: pointer;
   ${colorStyle}
   ${fontSize}
   ${fontWeight}
 `
 
-const Text = ({children, color, size, ...rest}) => {
+const TxtButton = ({children, color, size, ...rest}) => {
   return (
-    <StyledText
+    <StyledTxtButton
       color={color}
       fontSize={size}
       {...rest}
     >
       {children}
-    </StyledText>
+    </StyledTxtButton>
   );
 }
 
@@ -51,4 +53,4 @@ Text.defaultProps = {
   weight: theme.fontWeights.normal,
 };
 
-export default Text;
+export default TxtButton;
