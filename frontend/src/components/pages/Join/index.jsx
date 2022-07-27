@@ -7,6 +7,7 @@ import JoinForm from "./JoinForm";
 import Image from '../../atoms/Image';
 import { Postcode } from "./DaumPostCodePopup";
 import SearchBar from "../../molecules/SearchBar";
+import ViewerNum from "../../molecules/ViewerNum";
 
 const Join = () => {
 	return (
@@ -25,6 +26,7 @@ const Join = () => {
 			<Button mode="graytext">하이</Button>
 			<Postcode></Postcode>
 			<SearchBar/>
+			<ViewerNum size="xxl">8</ViewerNum>
 		</div>
 	);
 }
