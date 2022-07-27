@@ -4,7 +4,7 @@ import Input from "../../atoms/Input";
 import Button from "../../atoms/Button"
 import Text from "../../atoms/Text"
 import TxtButton from "../../atoms/TxtButton";
-import JoinForm from "../../molecules/JoinForm";
+import JoinForm from "./JoinForm";
 import Image from '../../atoms/Image';
 
 const Join = () => {
@@ -17,6 +17,7 @@ const Join = () => {
 			<br/>
 			<Text color="green3" weight="bold" size="xxxl">회원가입</Text>
 			<JoinForm></JoinForm>
+			<Button mode="graytext">하이</Button>
 		</div>
 	);
 }
