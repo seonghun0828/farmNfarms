@@ -13,7 +13,7 @@ const fontSizes = {
 const fontWeights = {
   normal: "400",
   bold: "700",
-  heavy: "900",
+  heavy: "900", // 현재 heavy 사용이 안됨
 };
 
 const contentSizes = {

@@ -5,7 +5,7 @@ import theme from '../../../common/theme'
 const colorStyle = css`
   ${({theme, color}) => {
     return css`
-      color: #${theme.colors[color]};
+      color: ${theme.colors[color]};
     `
   }}
 `
