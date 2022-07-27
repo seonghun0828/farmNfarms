@@ -33,11 +33,12 @@ const StyledText = styled.div`
   ${fontWeight}
 `
 
-const Text = ({children, color, size, ...rest}) => {
+const Text = ({children, color, size, weight, ...rest}) => {
   return (
     <StyledText
       color={color}
       fontSize={size}
+      weight={weight}
       {...rest}
     >
       {children}
