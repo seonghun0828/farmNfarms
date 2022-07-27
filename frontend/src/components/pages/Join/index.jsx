@@ -6,6 +6,7 @@ import Text from "../../atoms/Text"
 import JoinForm from "./JoinForm";
 import Image from '../../atoms/Image';
 import { Postcode } from "./DaumPostCodePopup";
+import SearchBar from "../../molecules/SearchBar";
 
 const Join = () => {
 	return (
@@ -23,6 +24,7 @@ const Join = () => {
 			<JoinForm></JoinForm>
 			<Button mode="graytext">하이</Button>
 			<Postcode></Postcode>
+			<SearchBar/>
 		</div>
 	);
 }
