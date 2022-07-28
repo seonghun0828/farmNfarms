@@ -10,11 +10,6 @@ import SearchBar from "../../molecules/SearchBar";
 import Select from "../../atoms/Select";
 
 const Join = () => {
-	const OPTIONS = [
-		{ value: "apple", name: "사과" },
-		{ value: "banana", name: "바나나" },
-		{ value: "orange", name: "오렌지" },
-	];
 
 	return (
 		<div>
@@ -32,7 +27,6 @@ const Join = () => {
 			<Button mode="graytext">하이</Button>
 			<Postcode></Postcode>
 			<SearchBar/>
-			<Select options={OPTIONS}/>
 		</div>
 	);
 }
