@@ -6,6 +6,8 @@ import logo from '../../../assets/temp_logo.png'
 import styled, { css } from "styled-components";
 import Text from "../../atoms/Text";
 import Input from '../../atoms/Input'
+import { useNavigate } from "react-router-dom";
+import move from '../../../common/move'
 
 const flexColumn = css`
     ${({theme}) => 
@@ -59,6 +61,8 @@ const Login = () => {
     const {phoneStatus, passwordStatus} = status;
     const {phoneAlert, passwordAlert} = alert;
 
+    const navigate = useNavigate();
+
     const onChange = (e) => {
         const {name, checked} = e.target;
         // 체크박스면 value에 boolean값, 아니면 String값
@@ -83,6 +87,7 @@ const Login = () => {
 
         return 3;
     }
+
     const onClick = () => {
         const result = validate();
 
@@ -129,7 +134,7 @@ const Login = () => {
     }
     return <StyledLogin>
         <LeftAlign>
-            <Button fontSize='lg' mode='graytext'>뒤로 가기</Button>
+            <Button fontSize='lg' mode='graytext' onClick={() => move(navigate, -1)}>뒤로 가기</Button>
         </LeftAlign>
         <Image src={logo} alt='logo' size='xxxl' />
         <LeftAlign>
@@ -145,7 +150,7 @@ const Login = () => {
         <Button width='20rem' mode='primary' onClick={onClick}>로그인</Button>
         <AskJoin>
             <Text fontSize='sm'>계정이 아직 없으신가요? &nbsp;</Text>
-            <Button fontSize='md' mode='graytext'>회원가입하기</Button>
+            <Button fontSize='md' mode='graytext' onClick={() => move(navigate, '/join')}>회원가입하기</Button>
         </AskJoin>
     </StyledLogin>
 }
