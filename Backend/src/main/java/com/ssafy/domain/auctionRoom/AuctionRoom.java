@@ -1,5 +1,6 @@
 package com.ssafy.domain.auctionRoom;
 
+import com.ssafy.domain.auctionDetail.AuctionDetail;
 import com.ssafy.domain.userAuctionRoom.UserAuctionRoom;
 import com.ssafy.domain.user.User;
 import lombok.Getter;
@@ -31,6 +32,9 @@ public class AuctionRoom {
 
     @OneToMany(mappedBy = "auctionRoom")
     List<UserAuctionRoom> userAuctionRooms = new ArrayList<>();
+
+    @OneToMany(mappedBy = "auctionRoom")
+    List<AuctionDetail> auctionDetails = new ArrayList<>();
 
 
     public AuctionRoom(User user, String auctionRoomTitle, String auctionRoomDescription, String auctionRoomThumbnail) {

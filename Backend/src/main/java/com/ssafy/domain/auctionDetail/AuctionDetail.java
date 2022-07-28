@@ -1,7 +1,6 @@
-package com.ssafy.domain.productAuction;
+package com.ssafy.domain.auctionDetail;
 
 import com.ssafy.domain.auctionRoom.AuctionRoom;
-import com.ssafy.domain.grade.Grade;
 import com.ssafy.domain.product.Product;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -13,7 +12,7 @@ import javax.persistence.*;
 @Getter
 @Setter
 @NoArgsConstructor
-public class ProductAuction {
+public class AuctionDetail {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)

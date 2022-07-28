@@ -2,15 +2,13 @@ package com.ssafy.api.service;
 
 import com.ssafy.api.dto.ProductAuctionDto;
 import com.ssafy.api.request.SessionReq;
+import com.ssafy.domain.auctionDetail.AuctionDetailRepository;
 import com.ssafy.domain.auctionRoom.AuctionRoom;
 import com.ssafy.domain.auctionRoom.AuctionRoomRepository;
-import com.ssafy.domain.conference.Conference;
-import com.ssafy.domain.conference.ConferenceRepository;
 import com.ssafy.domain.grade.GradeRepository;
 import com.ssafy.domain.product.Product;
 import com.ssafy.domain.product.ProductRepository;
-import com.ssafy.domain.productAuction.ProductAuction;
-import com.ssafy.domain.productAuction.ProductAuctionRepository;
+import com.ssafy.domain.auctionDetail.AuctionDetail;
 import com.ssafy.domain.user.User;
 import com.ssafy.domain.user.UserRepository;
 import io.openvidu.java.client.*;
@@ -19,12 +17,11 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.security.core.parameters.P;
 import org.springframework.stereotype.Service;
 
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-import java.util.Optional;
 import java.util.concurrent.ConcurrentHashMap;
 
 @Service
@@ -35,7 +32,7 @@ public class SessionService {
     @Autowired
     private UserRepository userRepository;
     @Autowired
-    private ProductAuctionRepository productAuctionRepository;
+    private AuctionDetailRepository auctionDetailRepository;
     @Autowired
     private GradeRepository gradeRepository;
 
@@ -71,7 +68,7 @@ public class SessionService {
 
         //연결된 productAuction 저장장
        for(int i = 0 ; i < auctionInfoList.size(); i++){
-            ProductAuction productAuction = new ProductAuction();
+            AuctionDetail productAuction = new AuctionDetail();
 
             Product product = productRepository.findByIdAndGrade(auctionInfoList.get(i).getProductId(), auctionInfoList.get(i).getGradeId());
 
@@ -84,10 +81,13 @@ public class SessionService {
             productAuction.setQuantity(auctionInfoList.get(i).getQuantity());
             productAuction.setInitPrice(auctionInfoList.get(i).getInitPrice());
 
-            productAuctionRepository.save(new ProductAuction());
+            auctionDetailRepository.save(productAuction);
         }
 
-        return this.getToken(phoneNumber, sessionInfo);
+
+        JSONObject responseJson = new JSONObject();
+        responseJson.put(0,"success");
+        return new ResponseEntity<>(responseJson,HttpStatus.OK);
     }
 
     public ResponseEntity<JSONObject> getToken(String phoneNumber, SessionReq sessionInfo){
@@ -141,5 +141,20 @@ public class SessionService {
     }
 
 
+    // 방 제목 검색
+    // 품목 검색
+    // 통합 검색
+    // 농부 이름 검색
+    public List<AuctionRoom> search(HashMap<String, String> params) {
 
+        if(params.get("mode").equals("1")){
+            return auctionRoomRepository.findAllByAuctionRoomTitle(params.get("key"));
+        }else if(params.get("mode").equals("2")){
+           /* return auctionDetailRepository.findALlByProduct(params.get("key"));*/
+        }else if(params.get("mode").equals("3")){
+            /*return auctionDetailRepository.findAllByTitle(params.get("key"));*/
+        }
+
+        throw new IllegalArgumentException();
+    }
 }
