@@ -90,20 +90,24 @@ const Login = () => {
         case 1:
             setStatus(status => ({
                 ...status,
-                phoneStatus: 'error'
+                phoneStatus: 'error',
+                passwordStatus: 'default'
             }));
             setAlert(alert => ({
                 ...alert,
-                phoneAlert: '휴대전화 번호를 올바르게 입력해주세요'
+                phoneAlert: '휴대전화 번호를 올바르게 입력해주세요',
+                passwordAlert: ''
             }));
             break;
         case 2:
             setStatus(status => ({
                 ...status,
+                phoneStatus: 'default',
                 passwordStatus: 'error'
             }));
             setAlert(alert => ({
                 ...alert,
+                phoneAlert: '',
                 passwordAlert: '비밀번호를 4자 이상 입력해주세요'
             }));
             break;
