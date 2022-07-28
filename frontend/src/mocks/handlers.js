@@ -1,8 +1,8 @@
 // src/mocks/handlers.js
-import mockTest from './handlers/mock-test'
-import login from './handlers/login'
+// import mockTest from './handlers/mock-test'
+import auth_login_post from './handlers/auth_login_post'
 
 export const handlers = [
-  login,
-  mockTest,
+  auth_login_post,
+  // mockTest,
 ]
