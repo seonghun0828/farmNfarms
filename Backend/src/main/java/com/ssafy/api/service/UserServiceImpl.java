@@ -49,7 +49,7 @@ public class UserServiceImpl implements UserService {
 
     @Override
     public boolean deleteUser(UserLoginPostReq deleteInfo) {
-        if(passwordEncoder.matches(deleteInfo.getPassword(), userRepository.findByPhone(deleteInfo.getPhone()).getPassword())){
+        if (passwordEncoder.matches(deleteInfo.getPassword(), userRepository.findByPhone(deleteInfo.getPhone()).getPassword())) {
             userRepository.deleteByPhone(deleteInfo.getPhone());
             return true;
         }
@@ -71,22 +71,33 @@ public class UserServiceImpl implements UserService {
 //                .build();
     }
 
+    //
     @Override
-    public boolean updateUserInfo(UserInfoChangePutReq data, String phone) {
-
+    public boolean updateUserInfo(UserInfoChangePutReq request, String phone) {
         try {
-            if (data.getAccount() == null || data.getAddress() == null) {
-                throw new IllegalArgumentException();
-            }
             User user = userRepository.findByPhone(phone);
+            if (request.getPassword() != null && passwordEncoder.matches(request.getPassword(), user.getPassword())) {
+                if (request.getNewPassword() != null && request.getNewPasswordAgain() != null) {
+                    user.setPassword(passwordEncoder.encode(request.getNewPassword()));
 
-            user.setAccount(data.getAccount());
-            user.setAddress(data.getAddress());
-            userRepository.save(user);
-            return true;
+                } else {
+                    user.setPassword(user.getPassword());
+                }
+                user.setAccount(request.getAccount());
+                user.setAddress(request.getAddress());
+
+                userRepository.save(user);
+
+//                System.out.println(request.getNewPassword());
+//                System.out.println(request.getNewPasswordAgain());
+//                System.out.println(request.getNewPasswordAgain() == request.getNewPassword());
+//                System.out.println(passwordEncoder.matches(request.getNewPasswordAgain(), request.getNewPassword()));
+                return true;
+
+            } else throw new IllegalArgumentException();
         } catch (Exception e) {
+            e.printStackTrace();
             return false;
         }
-
     }
 }

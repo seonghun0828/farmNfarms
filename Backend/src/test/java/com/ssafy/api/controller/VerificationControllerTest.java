@@ -39,7 +39,7 @@ public class VerificationControllerTest {
         createVerificationDto.setPhoneNumber("01050279681");
 
         mockMvc.perform(
-                post("/apis/verifications")
+                post("/api/v1/verifications")
                         .contentType(MediaType.APPLICATION_JSON)
                         .content(toJson(createVerificationDto))
                 )

@@ -83,6 +83,7 @@ public class UserController {
     public ResponseEntity<Map<String, Boolean>> updateUserInfo(@RequestBody UserInfoChangePutReq request,
                                                                @PathVariable String phone) {
         boolean response = userService.updateUserInfo(request, phone);
+
         Map<String, Boolean> jsonMap = new HashMap<>();
         jsonMap.put("isSuccess", response);
         return ResponseEntity.ok(jsonMap);

@@ -13,7 +13,7 @@ import java.util.HashMap;
 import java.util.Map;
 
 @RestController
-@RequestMapping("/apis")
+@RequestMapping("/api/v1/verifications")
 @RequiredArgsConstructor
 @Api(value = "휴대폰 인증 API", tags = {"Verification"})
 public class VerificationController {
@@ -21,7 +21,7 @@ public class VerificationController {
     @Autowired
     private VerificationService verificationService;
 
-    @PostMapping("/verifications")
+    @PostMapping()
     @ApiOperation(value = "인증 객체 생성", notes = "입력된 휴대전화을 통해 인증 번호를 발송한다.")
 
     @ApiResponses({
@@ -32,7 +32,7 @@ public class VerificationController {
         return ResponseEntity.ok(verificationId);
     }
 
-    @PostMapping("verifications/{id}")
+    @PostMapping("/{id}")
     @ApiOperation(value = "인증 번호 입력", notes = "발송된 인증 번호를 입력하여 휴대폰 인증 과정을 진행한다.")
     @ApiResponses({
             @ApiResponse(code = 200, message = "성공"),
