@@ -75,6 +75,12 @@ const Login = () => {
         if (trimmedPassword.length < 4)
             return 2;
 
+        setInputs(inputs => ({
+            ...inputs,
+            phone: trimmedPhone,
+            password: trimmedPassword
+        }));
+
         return 3;
     }
 
@@ -117,7 +123,7 @@ const Login = () => {
                 phoneAlert: '',
                 passwordAlert: ''
             }));
-
+            
             // 여기에서 로그인 api 호출
             const isLogin = await login(phone, password, setLoginFail);
             if (isLogin) {
