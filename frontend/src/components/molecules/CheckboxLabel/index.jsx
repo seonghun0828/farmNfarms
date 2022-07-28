@@ -14,7 +14,7 @@ const StyledCheckboxLabel = styled.div`
 `
 const CheckboxLabel = ({text, size, id, ...rest}) => {
     return <StyledCheckboxLabel {...rest}>
-        <Checkbox size={size} id={id} />
+        <Checkbox size={size} id={id} {...rest} />
         <Label size={size} htmlFor={id}>{text}</Label>
     </StyledCheckboxLabel>
 }
