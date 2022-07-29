@@ -7,9 +7,10 @@ import JoinForm from "./JoinForm";
 import Image from '../../atoms/Image';
 import { Postcode } from "./DaumPostCodePopup";
 import SearchBar from "../../molecules/SearchBar";
-import ViewerNum from "../../molecules/ViewerNum";
+import Select from "../../atoms/Select";
 
 const Join = () => {
+
 	return (
 		<div>
 			<h1>Join Page</h1>
