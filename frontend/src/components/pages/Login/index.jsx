@@ -1,28 +1,17 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 import Image from "../../atoms/Image";
 import CheckboxLabel from "../../molecules/CheckboxLabel";
 import Button from '../../atoms/Button'
 import logo from '../../../assets/temp_logo.png'
-import styled, { css } from "styled-components";
+import styled from "styled-components";
 import Text from "../../atoms/Text";
 import Input from '../../atoms/Input'
+import { useNavigate } from "react-router-dom";
+import move from '../../../common/move'
+import login from "./login";
 
-const flexColumn = css`
-    ${({theme}) => 
-        css`
-            ${theme.flex.columnCenter}
-        `
-    }
-`
-const flexRow = css`
-    ${({theme}) => 
-        css`
-            ${theme.flex.rowCenter}
-        `
-    }
-`
 const StyledLogin = styled.div`
-    ${flexColumn}
+    ${({theme}) => theme.flex.columnCenter};
     justify-content: space-around;
     height:80vh;
 `
@@ -32,7 +21,7 @@ const LoginInput = styled.div`
 `
 
 const AskJoin = styled.div`
-    ${flexRow}
+    ${({theme}) => theme.flex.rowCenter};
 `
 
 const LeftAlign = styled.div`
@@ -40,27 +29,140 @@ const LeftAlign = styled.div`
     justify-content: flex-start;
     width: 20rem;
 `
+const LoginButtonArea = styled.div`
+    ${({theme}) => theme.flex.columnCenter};
+`;
 
 const Login = () => {
+    const [inputs, setInputs] = useState({
+        phone: '',
+        password: '',
+        isSaved: false
+    });
+    const [status, setStatus] = useState({
+        phoneStatus: 'default',
+        passwordStatus: 'default'
+    });
+    const [alert, setAlert] = useState({
+        phoneAlert: '',
+        passwordAlert: ''
+    })
+    const [loginFail, setLoginFail] = useState(false);
+
+    const {phone, password, isSaved} = inputs;
+    const {phoneStatus, passwordStatus} = status;
+    const {phoneAlert, passwordAlert} = alert;
+
+    const navigate = useNavigate();
+
+    const onChange = (e) => {
+        const { checked } = e.target;
+        setInputs(inputs => ({
+            ...inputs,
+            isSaved: checked
+        }));
+    }
+    const validate = () => {
+        const regex = /^[0-9]+$/g;
+        // 전화번호 공백, - 제거 / 비밀번호 공백 제거
+        const trimmedPhone = phone.replaceAll(' ', '').replaceAll('-', '');
+        const trimmedPassword = password.replaceAll(' ', '').replaceAll('-', '');
+        // 전화번호 숫자로만 이뤄져있는지 / 11글자인지 / 010으로 시작하는지 점검
+        if (!regex.test(trimmedPhone) || trimmedPhone.length !== 11 || trimmedPhone.substring(0, 3) !== '010') 
+            return 1;
+        
+        // 비밀번호 4자 이상인지 체크
+        if (trimmedPassword.length < 4)
+            return 2;
+
+        return 3;
+    }
+
+    const onClick = async () => {
+        const result = validate();
+
+        switch (result) {
+        case 1:
+            setStatus(status => ({
+                ...status,
+                phoneStatus: 'error',
+                passwordStatus: 'default'
+            }));
+            setAlert(alert => ({
+                ...alert,
+                phoneAlert: '휴대전화 번호를 올바르게 입력해주세요',
+                passwordAlert: ''
+            }));
+            break;
+        case 2:
+            setStatus(status => ({
+                ...status,
+                phoneStatus: 'default',
+                passwordStatus: 'error'
+            }));
+            setAlert(alert => ({
+                ...alert,
+                phoneAlert: '',
+                passwordAlert: '비밀번호를 4자 이상 입력해주세요'
+            }));
+            break;
+        case 3:
+            setStatus(status => ({
+                ...status,
+                phoneStatus: 'default',
+                passwordStatus: 'default'
+            }));
+            setAlert(alert => ({
+                ...alert,
+                phoneAlert: '',
+                passwordAlert: ''
+            }));
+
+            // 여기에서 로그인 api 호출
+            const isLogin = await login(phone, password, setLoginFail);
+            if (isLogin) {
+                if (isSaved)
+                    localStorage.setItem('phone', phone);
+                navigate('/');
+            }
+            break;
+        default:
+        }
+    }
+    useEffect(() => {
+        if (localStorage.getItem('phone') !== null) {
+            setInputs(inputs => ({
+                ...inputs,
+                phone: localStorage.getItem('phone'),
+                isSaved: true
+            }));
+        }
+    }, []);
+
     return <StyledLogin>
         <LeftAlign>
-            <Button fontSize='lg' mode='graytext'>뒤로 가기</Button>
+            <Button fontSize='lg' mode='graytext' onClick={() => move(navigate, -1)}>뒤로 가기</Button>
         </LeftAlign>
         <Image src={logo} alt='logo' size='xxxl' />
         <LeftAlign>
             <Text color='green5' weight='bold' fontSize='xxxl'>로그인</Text>
         </LeftAlign>
         <LoginInput>
-            <Input label="휴대전화 번호" />
-            <Input label="비밀번호" />
+            <Input status={phoneStatus} helpMsg={phoneAlert} label="휴대전화 번호" name='phone' value={phone} setValue={setInputs} />
+            <Input status={passwordStatus} helpMsg={passwordAlert} type='password' label="비밀번호" name='password' value={password} setValue={setInputs} />
+            <LeftAlign>
+                <CheckboxLabel text="휴대전화 번호 저장" size='lg' id="phone-save" name='isSaved' checked={isSaved} onChange={onChange} />
+            </LeftAlign>
         </LoginInput>
-        <LeftAlign>
-            <CheckboxLabel text="휴대전화 번호 저장" size='lg' id="phone-save" />
-        </LeftAlign>
-        <Button width='20rem' mode='primary'>로그인</Button>
+        <LoginButtonArea>
+            {
+                loginFail ? <Text color='red' fontSize='md'>아이디, 비밀번호를 다시 입력해주세요.</Text> : null
+            }
+            <Button width='20rem' mode='primary' onClick={onClick}>로그인</Button>
+        </LoginButtonArea>
         <AskJoin>
             <Text fontSize='sm'>계정이 아직 없으신가요? &nbsp;</Text>
-            <Button fontSize='md' mode='graytext'>회원가입하기</Button>
+            <Button fontSize='md' mode='graytext' onClick={() => move(navigate, '/join')}>회원가입하기</Button>
         </AskJoin>
     </StyledLogin>
 }

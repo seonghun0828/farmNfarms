@@ -27,6 +27,7 @@ const Join = () => {
 			<Button mode="graytext">하이</Button>
 			<Postcode></Postcode>
 			<SearchBar/>
+			<ViewerNum size="xxl">8</ViewerNum>
 		</div>
 	);
 }

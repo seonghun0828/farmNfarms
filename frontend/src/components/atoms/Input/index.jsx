@@ -7,7 +7,14 @@ const STATUS = {
   ERROR: "error",
 };
 
-const Input = ({children, status, label, helpMsg, type, placeholder, ...rest}) => {
+const Input = ({children, status, label, helpMsg, type, placeholder, name, setValue, ...rest}) => {
+  const handleChange = (e) => {
+    setValue &&
+    setValue(inputs => ({
+      ...inputs,
+      [name]: e.target.value,
+    }));
+  }
   return (
     <FlexBox>
       <Label status={status} {...rest}>
@@ -17,6 +24,7 @@ const Input = ({children, status, label, helpMsg, type, placeholder, ...rest}) =
         status={status} 
         type={type}
         placeholder={placeholder} 
+        onChange={handleChange}
         {...rest}
       />
       <HelpText status={status} {...rest}>
