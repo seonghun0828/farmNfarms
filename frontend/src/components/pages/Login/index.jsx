@@ -31,6 +31,7 @@ const LeftAlign = styled.div`
 `
 const LoginButtonArea = styled.div`
     ${({theme}) => theme.flex.columnCenter};
+    gap: 1rem;
 `;
 
 const Login = () => {
@@ -74,6 +75,12 @@ const Login = () => {
         // 비밀번호 4자 이상인지 체크
         if (trimmedPassword.length < 4)
             return 2;
+
+        setInputs(inputs => ({
+            ...inputs,
+            phone: trimmedPhone,
+            password: trimmedPassword
+        }));
 
         return 3;
     }

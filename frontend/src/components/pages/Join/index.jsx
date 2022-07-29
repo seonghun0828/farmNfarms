@@ -3,9 +3,6 @@ import Button from "../../atoms/Button"
 import Text from "../../atoms/Text"
 import JoinForm from "./JoinForm";
 import Image from '../../atoms/Image';
-import { Postcode } from "./DaumPostCodePopup";
-import SearchBar from "../../molecules/SearchBar";
-import Select from "../../atoms/Select";
 
 const Join = () => {
 
@@ -23,7 +20,6 @@ const Join = () => {
 			<Text color="green3" weight="bold" size="xxxl">회원가입</Text>
 			<JoinForm></JoinForm>
 			<Button mode="graytext">하이</Button>
-			<ViewerNum>8</ViewerNum>
 
 		</div>
 	);
