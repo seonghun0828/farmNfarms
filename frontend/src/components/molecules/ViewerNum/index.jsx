@@ -13,20 +13,14 @@ const iconSize = {
   sm: 'middle', // 미들이 제일 작다 이상함..
 }
 
-const red = css`
-  color: red;
-`
-
 const FlexBox = styled.div`
-  display: inline-flex;
-  justify-content: center;
-  align-items: center;
+  ${theme.flex.rowCenter};
 `;
 
 const ViewerNum = ({children, color, size, weight, ...rest}) => {
   return (
     <FlexBox>
-      <PersonIcon style={{red}} fontSize={iconSize[size]}/>
+      <PersonIcon style={{color: theme.colors.red}} fontSize={iconSize[size]}/>
       <Text 
         color={color} 
         size={size}
