@@ -1,5 +1,5 @@
 import React from 'react';
-import styled, { css } from "styled-components";
+import styled from "styled-components";
 import { FlexBox, Label, StyledInput, HelpText } from "../../atoms/Input/Input.styled";
 import Button from "../../atoms/Button"
 
@@ -15,6 +15,8 @@ const Layout = styled.div`
   gap: 0.2rem;
 `;
 
+let isReadOnly = false;
+
 const InputButton = ({ 
   status, 
   label, 
@@ -24,9 +26,27 @@ const InputButton = ({
   btnMsg,
   btnFontSize,
   mode,
+  name,
+  setValue,
   btnWidth,
+  btnClick,
   ...rest 
 }) => {
+
+  const handleChange = (e) => {
+    setValue &&
+    setValue(inputs => ({
+      ...inputs,
+      [name]: e.target.value,
+    }));
+  }
+
+  if (status === "readOnly") {
+    isReadOnly = true;
+  } else {
+    isReadOnly = false;
+  } // 이렇게 하는게 맞나?? ??.??
+
   return (
     <FlexBox>
       <Label status={status} {...rest}>
@@ -36,14 +56,17 @@ const InputButton = ({
         <StyledInput style={{width: '70%'}}
           status={status} 
           type={type} 
-          placeholder={placeholder} 
+          placeholder={placeholder}
+          onChange={handleChange}
+          readOnly={isReadOnly} 
           {...rest}
         >
         </StyledInput>
         <Button  style={{width: '30%'}}
           fontSize={btnFontSize} 
           mode={mode} 
-          width={btnWidth} 
+          width={btnWidth}
+          onClick={btnClick}
           {...rest}
         >
           {btnMsg}

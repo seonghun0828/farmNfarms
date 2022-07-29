@@ -78,6 +78,7 @@ const colors = {
   brown2: '#6A4126',
   gray1: '#F3F5F7',
   gray2: '#ADA7A8',
+  gray3: '#E7E7E7',
   black : '#232724',
   white: '#FFFFFF',
   background: 'linear-gradient(35deg, #CBCC2C 25%, #508E47 90%)'
