@@ -3,9 +3,12 @@ import Button from "../../atoms/Button"
 import Text from "../../atoms/Text"
 import JoinForm from "./JoinForm";
 import Image from '../../atoms/Image';
-import ViewerNum from "../../molecules/ViewerNum";
+import { Postcode } from "./DaumPostCodePopup";
+import SearchBar from "../../molecules/SearchBar";
+import Select from "../../atoms/Select";
 
 const Join = () => {
+
 	return (
 		<div>
 			<h1>Join Page</h1>
