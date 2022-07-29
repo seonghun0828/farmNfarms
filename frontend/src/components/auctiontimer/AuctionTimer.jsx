@@ -1,14 +1,23 @@
 import { Timer } from "@mui/icons-material";
 import { Button } from "@mui/material";
-import React, { useEffect, useState } from "react";
+import React, { useEffect } from "react";
 
-const AuctionTimer = () => {
-  const [seconds, setSeconds] = useState(0)
+const AuctionTimer = ({ seconds, setSeconds, currentSession }) => {
 
   const startTimer = () => {
     // 시간이 다 됐을 때만 버튼이 작동 가능
     if (seconds === 0) {
-      setSeconds(30)
+      currentSession
+        .signal({
+          data: 30,
+          type: "timer",
+        })
+        .then(() => {
+          console.log("timer ON!");
+        })
+        .catch((error) => {
+          console.error(error);
+        });
     }
   }
 

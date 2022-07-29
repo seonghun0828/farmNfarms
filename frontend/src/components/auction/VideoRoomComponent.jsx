@@ -5,18 +5,24 @@ import ChattingForm from '../chat/ChattingForm';
 import ChattingList from '../chat/ChattingList';
 import UserVideoComponent from './UserVideoComponent';
 import AuctionTimer from '../auctiontimer/AuctionTimer'
+import { event } from 'jquery';
 
 const OPENVIDU_SERVER_URL = 'https://' + window.location.hostname + ':4443';
 const OPENVIDU_SERVER_SECRET = 'MY_SECRET';
 
-const VideoRoomComponent = () => {
+const VideoRoomComponent = (props) => {
   const [mySessionId, setMySessionId] = useState('SessionA')
   const [myUserName, setMyUserName] = useState('Participant' + Math.floor(Math.random() * 100))
   const [session, setSession] = useState(undefined)
   const [mainStreamManager, setMainStreamManager] = useState(undefined) // 페이지의 메인 비디오 화면(퍼블리셔 또는 참가자의 화면 중 하나)
   const [publisher, setPublisher] = useState(undefined) // 자기 자신의 캠
   const [subscribers, setSubscribers] = useState([]) // 다른 유저의 스트림 정보를 저장할 배열
-  const [messageList, setMessageList] = useState([]) // 메세지 정보를 담을 배열)
+  const [messageList, setMessageList] = useState([]) // 메세지 정보를 담을 배열
+  const [totalUsers, setTotalUsers] = useState(0) // 총 유저
+  const [toggleStart, setToggleStart] = useState(false) // 스타트 버튼 토글
+  const [seconds, setSeconds] = useState(0) // 타이머 시작 시간
+  const [displayBidding, setDisplayBidding] = useState(false) // 비딩칸 display on/off
+  const [price, setPrice] = useState(props.data.starting_price)
   
   let OV = undefined;
   /**
@@ -30,10 +36,12 @@ const VideoRoomComponent = () => {
  *   2) Create a Connection in OpenVidu Server (POST /openvidu/api/sessions/<SESSION_ID>/connection)
  *   3) The Connection.token must be consumed in Session.connect() method
  */
+  // 토큰 받아오기(KMS로 직접 쏨)
   const getToken = useCallback(() => {
     return createSession(mySessionId).then((sessionId) => createToken(sessionId));
   }, [mySessionId])
 
+  // 세션 생성(KMS로 직접 쏨)
   const createSession = (sessionId) => {
     return new Promise((resolve, reject) => {
       let data = JSON.stringify({ customSessionId: sessionId });
@@ -75,9 +83,10 @@ const VideoRoomComponent = () => {
     });
   }
 
+  // 토큰 생성(KMS로 직접 쏨)
   const createToken = (sessionId) => {
     return new Promise((resolve, reject) => {
-      var data = {};
+      var data = {}; // 여기에 인자를 뭐를 넣냐에 따라 오픈비두 서버에 요청하는 데이터가 달라짐
       axios
         .post(OPENVIDU_SERVER_URL + "/openvidu/api/sessions/" + sessionId + "/connection", data, {
           headers: {
@@ -97,8 +106,8 @@ const VideoRoomComponent = () => {
   const joinSession = () => {
     // --- 1) 오픈비두 오브젝트 생성 ---
     OV = new OpenVidu();
-    // --- 2) 세션을 시작 ---
 
+    // --- 2) 세션을 시작 ---
     let mySession = OV.initSession()
     setSession(mySession)
     // 스트림이 생길 때마다
@@ -120,15 +129,37 @@ const VideoRoomComponent = () => {
       console.warn(exception);
     });
 
+    // 유저가 접속할 때마다 인원수를 += 1
+    mySession.on('connectionCreated', (({stream}) => {
+      setTotalUsers((prevTotalUsers) => {
+        return prevTotalUsers + 1
+      })
+    }))
+
+    // 유저가 접속을 끊을 때마다 -= 1 (왜 안 돼 ~~)
+    mySession.on('connectionDestroyed', (({ stream }) => {
+      setTotalUsers((prevTotalUsers) => {
+        return prevTotalUsers - 1
+      })
+    }))
+
     // 채팅 신호 수신하여 메세지 리스트 업데이트
     mySession.on("signal:chat", (event) => {
-      // const tmp = messageList.slice();
-      // tmp.push(event.data);
       setMessageList((prevMessageList) => {
         return [...prevMessageList, event.data]
       })
     });
 
+    // "auction"이라는 쏜 시그널을 받음(경매 시작)
+    mySession.on("signal:auction", (event) => {
+      setToggleStart(event.data)
+      setDisplayBidding(!displayBidding)
+    });
+
+    mySession.on("signal:timer", (event) => {
+      setSeconds(event.data)
+    });
+    
     // --- 4) 유효한 토큰으로 세션에 접속하기 ---
     // 'getToken' method is simulating what your server-side should do.
     // 'token' parameter should be retrieved and returned by your own backend
@@ -156,8 +187,8 @@ const VideoRoomComponent = () => {
           // --- 6) 자신의 화면을 송출 ---
           mySession.publish(publisher);
           // Set the main video in the page to display our webcam and store our Publisher
-          setPublisher(publisher)
-          setMainStreamManager(publisher)
+          setPublisher(publisher) // 퍼블리셔(스트림 객체)를 담음
+          setMainStreamManager(publisher) // 퍼블리셔(스트림 객체)를 담음
         })
         .catch((error) => {
           console.log('There was an error connecting to the session:', error.code, error.message);
@@ -165,14 +196,14 @@ const VideoRoomComponent = () => {
     });
   }
 
-  // 세선 떠나기
+  // 세선 떠나기(이거 나중에 useCallback을 없앤 다음 테스트 해봐야할 듯)
   const leaveSession = useCallback(() => {
     // --- 7) disconnect함수를 호출하여 세션을 떠남
     const mySession = session;
     if (mySession) {
       mySession.disconnect();
     }
-    // 모든 속성을 초기화함
+    // 속성을 초기화함(필요한 속성은 초기화하면 안 됨)
     OV = null;
     setSession(undefined)
     setSubscribers([])
@@ -181,6 +212,9 @@ const VideoRoomComponent = () => {
     setMainStreamManager(undefined)
     setPublisher(undefined)
     setMessageList([])
+    setTotalUsers((prevTotalUsers) => {
+      return prevTotalUsers - 1
+    })
   }, [])
 
   useEffect(() => {
@@ -203,7 +237,7 @@ const VideoRoomComponent = () => {
     setMyUserName(event.target.value)
   }
 
-  // 메인 비디오 스트림
+  // 메인 비디오 스트림(일단은 안 씀)
   const handleMainVideoStream = (stream) => {
     if (mainStreamManager !== stream) {
       setMainStreamManager(stream)
@@ -220,9 +254,6 @@ const VideoRoomComponent = () => {
     }
   }, [subscribers])
 
-  // useEffect(() => {
-  // }, [session, OV, deleteSubscriber, getToken, myUserName])
-
   // // 채팅창 열기
   // toggleChat(property) {
   //   let display = property;
@@ -237,9 +268,8 @@ const VideoRoomComponent = () => {
   //   }
   // }
 
-  // 메세지 보내기
+  // 메세지 보내기(Sender of the message (after 'session.connect'))
   const sendMsg = (msg, currentSession) => {
-    // Sender of the message (after 'session.connect')
     // this.state.session으로는 자식이 인식할 수 없으므로 currentSession을 자식에게 props로 넘겨주고 다시 받음
     currentSession
       .signal({
@@ -253,6 +283,33 @@ const VideoRoomComponent = () => {
       .catch((error) => {
         console.error(error);
       });
+  }
+
+  // 경매 시작(스타트 버튼을 누르면 경매 타이머가 나오게함)
+  const startAuction = () => {
+    const mySession = session
+    mySession.signal({
+      data: true,
+      type:"auction",
+    }).then(() => {
+      console.log("Auction Start!")
+    }).catch((error) => {
+      console.error(error)
+    })
+  }
+
+  // 경매 가격 입찰
+  const biddingHandler = (event) => {
+    // 가격을 전달받아야함
+    event.preventDefault()
+    console.log(price)
+  }
+
+  // 가격 변동 핸들러
+  const priceChangeHandler = (event) => {
+    setPrice((prevPrice) => {
+      return event.target.value
+    })
   }
 
   return (
@@ -298,7 +355,9 @@ const VideoRoomComponent = () => {
       {session !== undefined ? (
         <div id="session">
           <div id="session-header">
-            <AuctionTimer></AuctionTimer>
+            {totalUsers}
+            {!toggleStart && <button onClick={startAuction}>경매 시작</button>}
+            {toggleStart && <AuctionTimer seconds={seconds} setSeconds={setSeconds} currentSession={session}></AuctionTimer>}
             <h1 id="session-title">{mySessionId}</h1>
             <input
               className="btn btn-large btn-danger"
@@ -315,21 +374,12 @@ const VideoRoomComponent = () => {
               <UserVideoComponent streamManager={mainStreamManager} />
             </div>
           ) : null}
+          {displayBidding && <form onSubmit={biddingHandler}>
+              <input type="number" value={price} onChange={priceChangeHandler} step={props.data.bid_increment} min={props.data.starting_price} />
+              <button>입찰</button>
+            </form>}
           <ChattingList messageList={messageList}></ChattingList>
           <ChattingForm myUserName={myUserName} onMessage={sendMsg} currentSession={session}></ChattingForm>
-          {/* <div id="video-container" className="col-md-6">
-            {this.state.publisher !== undefined ? (
-              <div className="stream-container col-md-6 col-xs-6" onClick={() => this.handleMainVideoStream(this.state.publisher)}>
-                <UserVideoComponent
-                  streamManager={this.state.publisher} />
-              </div>
-            ) : null}
-            {this.state.subscribers.map((sub, i) => (
-              <div key={i} className="stream-container col-md-6 col-xs-6" onClick={() => this.handleMainVideoStream(sub)}>
-                <UserVideoComponent streamManager={sub} />
-              </div>
-            ))}
-          </div> */}
         </div>
       ) : null}
     </div>
