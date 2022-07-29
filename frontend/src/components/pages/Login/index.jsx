@@ -31,6 +31,7 @@ const LeftAlign = styled.div`
 `
 const LoginButtonArea = styled.div`
     ${({theme}) => theme.flex.columnCenter};
+    gap: 1rem;
 `;
 
 const Login = () => {
@@ -123,7 +124,7 @@ const Login = () => {
                 phoneAlert: '',
                 passwordAlert: ''
             }));
-            
+
             // 여기에서 로그인 api 호출
             const isLogin = await login(phone, password, setLoginFail);
             if (isLogin) {
