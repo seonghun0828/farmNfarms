@@ -1,7 +1,8 @@
 import React from 'react';
 import styled, {css} from 'styled-components';
 import PersonIcon from '@mui/icons-material/Person';
-import Text from '../../atoms/Text'
+import Text from '../../atoms/Text';
+import theme from '../../../common/theme';
 
 const iconSize = {
   xxxl: 'large',
@@ -13,11 +14,7 @@ const iconSize = {
 }
 
 const red = css`
-  ${({theme}) => {
-    return css`
-      color: ${theme.colors.red};
-    `
-  }}
+  color: red;
 `
 
 const FlexBox = styled.div`
@@ -29,7 +26,7 @@ const FlexBox = styled.div`
 const ViewerNum = ({children, color, size, weight, ...rest}) => {
   return (
     <FlexBox>
-      <PersonIcon style={{color: red}} fontSize={iconSize[size]}/>
+      <PersonIcon style={{red}} fontSize={iconSize[size]}/>
       <Text 
         color={color} 
         size={size}

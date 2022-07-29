@@ -7,6 +7,8 @@ const STATUS = {
   ERROR: "error",
 };
 
+let isReadOnly = false;
+
 const Input = ({children, status, label, helpMsg, type, placeholder, name, setValue, ...rest}) => {
   const handleChange = (e) => {
     setValue &&
@@ -15,6 +17,13 @@ const Input = ({children, status, label, helpMsg, type, placeholder, name, setVa
       [name]: e.target.value,
     }));
   }
+
+  if (status === "readOnly") {
+    isReadOnly = true;
+  } else {
+    isReadOnly = false;
+  } // 이렇게 하는게 맞나?? ??.??
+
   return (
     <FlexBox>
       <Label status={status} {...rest}>
@@ -25,6 +34,7 @@ const Input = ({children, status, label, helpMsg, type, placeholder, name, setVa
         type={type}
         placeholder={placeholder} 
         onChange={handleChange}
+        readOnly={isReadOnly}
         {...rest}
       />
       <HelpText status={status} {...rest}>
