@@ -49,7 +49,6 @@ const SearchBar = ({...rest}) => {
     <InputBox {...rest}>
       <SearchIcon 
         style={{cursor: 'pointer'}}
-        onClick={()=>console.log('dd')} 
         {...rest}
       />
       <InputText placeholder="검색어를 입력하세요" {...rest}/>

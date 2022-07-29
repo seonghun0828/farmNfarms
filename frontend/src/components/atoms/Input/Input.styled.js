@@ -1,20 +1,19 @@
-import styled from "styled-components";
-import theme from '../../../common/theme'
+import styled, {css} from "styled-components";
+import theme from '../../../common/theme';
 
 const bgColor = {
   default: theme.colors.white,
-  readOnly: theme.colors.gray2,
+  readOnly: theme.colors.gray3,
 };
 
 const borderColor = {
   default: theme.colors.gray2,
-  readOnly: theme.colors.black,
+  readOnly: theme.colors.gray2,
   error: theme.colors.red,
 };
 
 const textColor = {
   default: theme.colors.black,
-  readOnly: theme.colors.gray1,
 }
 
 const labelColor = {
@@ -25,6 +24,14 @@ const helpTextColor = {
   default: theme.colors.gray2,
   error: theme.colors.red
 };
+
+const focus = css`
+  :focus-within {
+    outline: none;
+    border: 2px solid ${theme.colors.green3};
+    background-color: ${theme.colors.white};
+  }
+`
 
 export const FlexBox = styled.div`
   display: flex;
@@ -46,13 +53,11 @@ export const StyledInput = styled.input`
   font-weight: ${theme.fontWeights.normal};
   color: ${({status}) => textColor[status]};
 
-  transition: all 0.2s;
-
-  :focus-within {
-    outline: none;
-    border: 2px solid ${theme.colors.green3};
-    background-color: ${theme.colors.white};
-  }
+  ${({status}) => {
+    if (status !== 'readOnly') {
+      return focus
+    }
+  }}
 
   ::placeholder {
     color: ${theme.colors.gray2};
