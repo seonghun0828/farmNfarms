@@ -15,7 +15,7 @@ const StyledNavbar = styled.div`
     ${flexRow}
     width: 100%;
     background: ${({theme}) => css`${theme.colors['background']}`};
-    padding: 0 1rem;
+    padding: 0.5rem 1rem;
     justify-content: space-between;
 `
 
