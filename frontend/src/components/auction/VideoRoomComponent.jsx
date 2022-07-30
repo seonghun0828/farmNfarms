@@ -5,7 +5,6 @@ import ChattingForm from '../chat/ChattingForm';
 import ChattingList from '../chat/ChattingList';
 import UserVideoComponent from './UserVideoComponent';
 import AuctionTimer from '../auctiontimer/AuctionTimer'
-import { event } from 'jquery';
 
 const OPENVIDU_SERVER_URL = 'https://' + window.location.hostname + ':4443';
 const OPENVIDU_SERVER_SECRET = 'MY_SECRET';
@@ -22,7 +21,9 @@ const VideoRoomComponent = (props) => {
   const [toggleStart, setToggleStart] = useState(false) // 스타트 버튼 토글
   const [seconds, setSeconds] = useState(0) // 타이머 시작 시간
   const [displayBidding, setDisplayBidding] = useState(false) // 비딩칸 display on/off
-  const [price, setPrice] = useState(props.data.starting_price)
+  const [price, setPrice] = useState(props.data.starting_price) // 나의 입찰(bidding) 가격
+  const [highestPrice, setHighestPrice] = useState(0) // 최고 입찰 가격
+  const [bestBidder, setBestBidder] = useState(undefined) // 최고 입찰자
   
   let OV = undefined;
   /**
@@ -150,15 +151,28 @@ const VideoRoomComponent = (props) => {
       })
     });
 
-    // "auction"이라는 쏜 시그널을 받음(경매 시작)
+    // "auction"이라는 시그널을 받음(경매 시작)
     mySession.on("signal:auction", (event) => {
       setToggleStart(event.data)
       setDisplayBidding(!displayBidding)
     });
 
+    // "timer"라는 시그널을 받아서 시간을 30초로 셋팅함
     mySession.on("signal:timer", (event) => {
       setSeconds(event.data)
     });
+
+    // "bidding"이라는 시그널을 받아서 최고 입찰가를 갱신함
+    mySession.on("signal:bidding", (event) => {
+      const tmp = event.data.split(" : ")
+      const username = tmp[0]
+      const newPrice = parseInt(tmp[1])
+      const currentHigh = parseInt(tmp[2]) // 세션 안에서 highPrice가 계속 0이어서 이렇게 처리했음
+      if (newPrice > currentHigh) { 
+        setHighestPrice(newPrice)
+        setBestBidder(username)
+      }
+    })
     
     // --- 4) 유효한 토큰으로 세션에 접속하기 ---
     // 'getToken' method is simulating what your server-side should do.
@@ -184,9 +198,8 @@ const VideoRoomComponent = (props) => {
             mirror: true, // Whether to mirror your local video or not
           });
 
-          // --- 6) 자신의 화면을 송출 ---
+          // --- 6) 자신의 화면을 송출 ---Set the main video in the page to display our webcam and store our Publisher
           mySession.publish(publisher);
-          // Set the main video in the page to display our webcam and store our Publisher
           setPublisher(publisher) // 퍼블리셔(스트림 객체)를 담음
           setMainStreamManager(publisher) // 퍼블리셔(스트림 객체)를 담음
         })
@@ -196,7 +209,7 @@ const VideoRoomComponent = (props) => {
     });
   }
 
-  // 세선 떠나기(이거 나중에 useCallback을 없앤 다음 테스트 해봐야할 듯)
+  // 세선 떠나기
   const leaveSession = useCallback(() => {
     // --- 7) disconnect함수를 호출하여 세션을 떠남
     const mySession = session;
@@ -273,7 +286,7 @@ const VideoRoomComponent = (props) => {
     // this.state.session으로는 자식이 인식할 수 없으므로 currentSession을 자식에게 props로 넘겨주고 다시 받음
     currentSession
       .signal({
-        data: msg, // Any string (optional)
+        data: msg, // .signal의 data는 문자열만 넘겨야한다
         to: [], // Array of Connection objects (optional. Broadcast to everyone if empty)
         type: "chat", // The type of message (optional)
       })
@@ -302,14 +315,22 @@ const VideoRoomComponent = (props) => {
   const biddingHandler = (event) => {
     // 가격을 전달받아야함
     event.preventDefault()
-    console.log(price)
+    if (seconds > 0) {
+      const mySession = session
+      mySession.signal({
+        data: `${myUserName} : ${price} : ${highestPrice}`,
+        type: "bidding",
+      }).then(() => {
+        console.log("bid successfully")
+      }).catch((error) => {
+        console.error(error)
+      })
+    } 
   }
 
   // 가격 변동 핸들러
   const priceChangeHandler = (event) => {
-    setPrice((prevPrice) => {
-      return event.target.value
-    })
+    setPrice(parseInt(event.target.value))
   }
 
   return (
@@ -374,8 +395,12 @@ const VideoRoomComponent = (props) => {
               <UserVideoComponent streamManager={mainStreamManager} />
             </div>
           ) : null}
+          <div>
+            <p>현재 최고 입찰자: {bestBidder}</p>
+            <p>현재 최고 입찰 가걱: {highestPrice}</p>
+          </div>
           {displayBidding && <form onSubmit={biddingHandler}>
-              <input type="number" value={price} onChange={priceChangeHandler} step={props.data.bid_increment} min={props.data.starting_price} />
+              <input type="number" value={price} onChange={priceChangeHandler} step={props.data.bid_increment} min={price} />
               <button>입찰</button>
             </form>}
           <ChattingList messageList={messageList}></ChattingList>
