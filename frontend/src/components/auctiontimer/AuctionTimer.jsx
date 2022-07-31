@@ -2,7 +2,7 @@ import { Timer } from "@mui/icons-material";
 import { Button } from "@mui/material";
 import React, { useEffect } from "react";
 
-const AuctionTimer = ({ seconds, setSeconds, currentSession }) => {
+const AuctionTimer = ({ seconds, setSeconds, currentSession, sessionCount, setItemIndex, setToggleStart, maxIndex }) => {
 
   const startTimer = () => {
     // 시간이 다 됐을 때만 버튼이 작동 가능
@@ -30,6 +30,18 @@ const AuctionTimer = ({ seconds, setSeconds, currentSession }) => {
       }
       if (seconds === 0) {
         clearInterval(countDown)
+        if (sessionCount === 2) {
+          setItemIndex((prevIndex) => {
+            // props가 가진 items의 길이를 넘었을 때에 대한 예외처리필요
+            if (prevIndex + 1 == maxIndex) {
+              return prevIndex
+            }
+            return prevIndex + 1
+          })
+          setToggleStart((prevState) => {
+            return !prevState
+          })
+        }
       }
     }, 1000)
     return () => clearInterval(countDown)

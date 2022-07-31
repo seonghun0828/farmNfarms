@@ -5,6 +5,7 @@ import ChattingForm from '../chat/ChattingForm';
 import ChattingList from '../chat/ChattingList';
 import UserVideoComponent from './UserVideoComponent';
 import AuctionTimer from '../auctiontimer/AuctionTimer'
+import PersonIcon from '@mui/icons-material/Person';
 
 const OPENVIDU_SERVER_URL = 'https://' + window.location.hostname + ':4443';
 const OPENVIDU_SERVER_SECRET = 'MY_SECRET';
@@ -17,26 +18,19 @@ const VideoRoomComponent = (props) => {
   const [publisher, setPublisher] = useState(undefined) // 자기 자신의 캠
   const [subscribers, setSubscribers] = useState([]) // 다른 유저의 스트림 정보를 저장할 배열
   const [messageList, setMessageList] = useState([]) // 메세지 정보를 담을 배열
-  const [totalUsers, setTotalUsers] = useState(0) // 총 유저
+  const [totalUsers, setTotalUsers] = useState(0) // 총 유저수
   const [toggleStart, setToggleStart] = useState(false) // 스타트 버튼 토글
   const [seconds, setSeconds] = useState(0) // 타이머 시작 시간
   const [displayBidding, setDisplayBidding] = useState(false) // 비딩칸 display on/off
-  const [price, setPrice] = useState(props.data.starting_price) // 나의 입찰(bidding) 가격
+  const [price, setPrice] = useState(props.items[0].starting_price) // 나의 입찰(bidding) 가격
   const [highestPrice, setHighestPrice] = useState(0) // 최고 입찰 가격
   const [bestBidder, setBestBidder] = useState(undefined) // 최고 입찰자
-  
+  const [auctionCount, setAuctionCount] = useState(0) // 경매 회수(props의 길이와 같아지면 경매방 종료)
+  const [sessionCount, setSessionCount] = useState(0) // 현재 경매의 세션 횟수(초깃값은 0, max는 2까지)
+  const [itemIndex, setItemIndex] = useState(0) // 인덱스
+
   let OV = undefined;
-  /**
- * --------------------------
- * SERVER-SIDE RESPONSIBILITY
- * --------------------------
- * These methods retrieve the mandatory user token from OpenVidu Server.
- * This behavior MUST BE IN YOUR SERVER-SIDE IN PRODUCTION (by using
- * the API REST, openvidu-java-client or openvidu-node-client):
- *   1) Initialize a Session in OpenVidu Server	(POST /openvidu/api/sessions)
- *   2) Create a Connection in OpenVidu Server (POST /openvidu/api/sessions/<SESSION_ID>/connection)
- *   3) The Connection.token must be consumed in Session.connect() method
- */
+
   // 토큰 받아오기(KMS로 직접 쏨)
   const getToken = useCallback(() => {
     return createSession(mySessionId).then((sessionId) => createToken(sessionId));
@@ -160,6 +154,9 @@ const VideoRoomComponent = (props) => {
     // "timer"라는 시그널을 받아서 시간을 30초로 셋팅함
     mySession.on("signal:timer", (event) => {
       setSeconds(event.data)
+      setSessionCount((prevCount) => {
+        return prevCount + 1
+      })
     });
 
     // "bidding"이라는 시그널을 받아서 최고 입찰가를 갱신함
@@ -175,18 +172,12 @@ const VideoRoomComponent = (props) => {
     })
     
     // --- 4) 유효한 토큰으로 세션에 접속하기 ---
-    // 'getToken' method is simulating what your server-side should do.
-    // 'token' parameter should be retrieved and returned by your own backend
     getToken().then((token) => {
-      // First param is the token got from OpenVidu Server. Second param can be retrieved by every user on event
-      // 'streamCreated' (property Stream.connection.data), and will be appended to DOM as the user's nickname
       mySession.connect(token, { clientData: myUserName },)
         .then(async () => {
           let devices = await OV.getDevices();
           let videoDevices = devices.filter(device => device.kind === 'videoinput');
           // --- 5) Get your own camera stream ---(퍼블리셔)
-          // Init a publisher passing undefined as targetElement (we don't want OpenVidu to insert a video
-          // element: we will manage it on our own) and with the desired properties
           let publisher = OV.initPublisher(undefined, {
             audioSource: undefined, // The source of audio. If undefined default microphone
             videoSource: videoDevices[0].deviceId, // The source of video. If undefined default webcam
@@ -301,6 +292,9 @@ const VideoRoomComponent = (props) => {
   // 경매 시작(스타트 버튼을 누르면 경매 타이머가 나오게함)
   const startAuction = () => {
     const mySession = session
+    // 현재 경매 세션의 출발 가격을 초기화함
+    setPrice(props.items[itemIndex].starting_price)
+    setSessionCount(0) // 현재 경매 세션의 카운트를 0으로 초기화함
     mySession.signal({
       data: true,
       type:"auction",
@@ -376,16 +370,32 @@ const VideoRoomComponent = (props) => {
       {session !== undefined ? (
         <div id="session">
           <div id="session-header">
-            {totalUsers}
-            {!toggleStart && <button onClick={startAuction}>경매 시작</button>}
-            {toggleStart && <AuctionTimer seconds={seconds} setSeconds={setSeconds} currentSession={session}></AuctionTimer>}
+            <PersonIcon></PersonIcon>{totalUsers}
+            {!toggleStart && <button onClick={startAuction}>경매 세션 시작</button>}
+            <div>
+              {sessionCount}회차 경매
+            </div>
+            <div>
+              <p>{props.items[itemIndex].title}</p>
+              <p>{props.items[itemIndex].starting_price}원</p>
+              <p>{props.items[itemIndex].quantity}kg</p>
+            </div>
+            {toggleStart && <AuctionTimer 
+            seconds={seconds}
+            setSeconds={setSeconds} 
+            currentSession={session}
+            sessionCount={sessionCount}
+            setItemIndex={setItemIndex}
+            setToggleStart={setToggleStart}
+            maxIndex={props.items.length}
+            ></AuctionTimer>}
             <h1 id="session-title">{mySessionId}</h1>
             <input
               className="btn btn-large btn-danger"
               type="button"
               id="buttonLeaveSession"
               onClick={leaveSession}
-              value="Leave session"
+              value="경매방 나가기"
             />
           </div>
 
@@ -400,7 +410,7 @@ const VideoRoomComponent = (props) => {
             <p>현재 최고 입찰 가걱: {highestPrice}</p>
           </div>
           {displayBidding && <form onSubmit={biddingHandler}>
-              <input type="number" value={price} onChange={priceChangeHandler} step={props.data.bid_increment} min={price} />
+              <input type="number" value={price} onChange={priceChangeHandler} step={props.items[0].bid_increment} min={price} />
               <button>입찰</button>
             </form>}
           <ChattingList messageList={messageList}></ChattingList>
