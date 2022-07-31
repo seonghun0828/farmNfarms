@@ -11,6 +11,7 @@ const StyledRoomCard = styled.div`
   border-radius: 0.6rem;
   background-image: url(${({url}) => url});
   background-size: cover;
+  flex-shrink: 0;
 `
 const CardHeader = styled.div`
   ${({theme}) => theme.flex.rowCenter}

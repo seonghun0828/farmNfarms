@@ -5,7 +5,7 @@ import logo from '../../../assets/temp_logo.png';
 import Slide from './slide'
 
 const Container = styled.div`
-  width: 100%;
+  width: 60%;
   overflow: hidden; // 선을 넘어간 이미지들은 보이지 않도록 처리합니다.
 `;
 const Button = styled.button`
