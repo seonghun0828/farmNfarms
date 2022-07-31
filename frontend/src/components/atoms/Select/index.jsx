@@ -17,9 +17,19 @@ const StyledSelect = styled.select`
   }
 `;
 
-const Select = ({options}) => {
+const Select = ({options, setValue, name}) => {
+
+  const handleChange = (e) => {
+    setValue && 
+    setValue(inputs => ({
+      ...inputs,
+      [name]: e.target.value,
+    }));
+  }
+
   return (
-    <StyledSelect>
+    <StyledSelect onChange={handleChange}>
+      <option value='' defaultValue>-- 은행 선택 --</option>
       {options.map((option) => (
       <option
         key={option.value}
