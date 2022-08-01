@@ -410,7 +410,7 @@ const VideoRoomComponent = (props) => {
             <p>현재 최고 입찰 가걱: {highestPrice}</p>
           </div>
           {displayBidding && <form onSubmit={biddingHandler}>
-              <input type="number" value={price} onChange={priceChangeHandler} step={props.items[0].bid_increment} min={price} />
+              <input type="number" value={price} onChange={priceChangeHandler} step={props.items[itemIndex].bid_increment} min={price} />
               <button>입찰</button>
             </form>}
           <ChattingList messageList={messageList}></ChattingList>
