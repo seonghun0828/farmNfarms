@@ -36,6 +36,7 @@ const Carousel = () => {
 
   const nextSlide = () => {
     if (currentSlide >= TOTAL_SLIDES) { 
+      setCurrentSlide(0);
     } else {
       setCurrentSlide(currentSlide + 1);
     }
@@ -43,6 +44,7 @@ const Carousel = () => {
 
   const prevSlide = () => {
     if (currentSlide === 0) {
+      setCurrentSlide(TOTAL_SLIDES);
     } else {
       setCurrentSlide(currentSlide - 1);
     }
