@@ -16,10 +16,10 @@ const SearchArea = styled.div`
   width: 90%;
 `;
 const RoomCardArea = styled.div`
-  height: 20rem;
+  height: 25rem;
 `;
 const MarketPriceArea = styled.div`
-  height: 20rem;
+  height: 10rem;
 `;
 const MoreInfo = styled.div`
   display: flex;
@@ -54,6 +54,8 @@ const Home = () => {
           headerSize="xxs"
           viewerSize="sm"
           title="배추아저씨"
+          description='고랭지 배추 팔아유~아주 맛나유'
+          tags={['존맛', '배추', '고랭지', '평창']}
           num="13"
           thumnail="https://img.seoul.co.kr//img/upload/2020/07/22/SSI_20200722215818.jpg"
         />
