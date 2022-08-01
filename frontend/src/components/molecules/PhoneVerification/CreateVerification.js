@@ -1,11 +1,12 @@
 import axios from 'axios';
+import apiPath from '../../../common/apiPath';
 import { alertError } from '../../../common/alertError';
 
-const getVerificationNum = async (phoneNumber) => {
+const CreateVerification = async (phoneNumber) => {
   try {
     const { data  } = await axios({
       method: 'post',
-      url: 'https://i7b203.p.ssafy.io:8080/apis/verifications',
+      url: apiPath.verification.create(),
       data: {
         phoneNumber,
       }
@@ -19,4 +20,4 @@ const getVerificationNum = async (phoneNumber) => {
   }
 }
 
-export default getVerificationNum;
+export default CreateVerification;

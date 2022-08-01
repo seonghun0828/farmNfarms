@@ -1,12 +1,13 @@
 import axios from 'axios';
+import apiPath from '../../../common/apiPath';
 import { alertError } from '../../../common/alertError';
 
-const getVerificationNum = async (confirmNumber, id, setErrorType) => {
+const sendVerificationNum = async (confirmNumber, id, setErrorType) => {
   try {
     console.log(confirmNumber);
     const { data: { isSuccess } } = await axios({
       method: 'post',
-      url: `https://i7b203.p.ssafy.io:8080/apis/verifications/${id}`,
+      url: apiPath.verification.send(id),
       data: {
         confirmNumber
       }
@@ -17,16 +18,17 @@ const getVerificationNum = async (confirmNumber, id, setErrorType) => {
       return true;
     } else if (isSuccess === 401) {
       setErrorType(1); // 중복 아이디
-      window.alert('중복 아이디를 여기서 체크해야하나?');
-      return true;
+      window.alert('중복된 아이디 입니다.'); // 나중에 setErrorType으로 error 띄워주기
+      return false;
     }
     else {
       setErrorType(2); // 나머지 오류
       return false;
     }
   } catch (e) {
+    alertError();
     return false;
   }
 }
 
-export default getVerificationNum;
+export default sendVerificationNum;

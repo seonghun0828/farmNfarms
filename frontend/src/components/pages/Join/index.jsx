@@ -198,10 +198,8 @@ const Join = () => {
 					name="password2" 
 					setValue={setPasswords}
 				/>
-				<rowFlex>
 					<Select options={BANK_OPTIONS} name="bank" setValue={setInputs}></Select>
 					<Input label="계좌번호" placeholder="계좌번호" name="account" setValue={setInputs}/>
-				</rowFlex>
 				<PostCode setPostCode={getPostCode}/>
 			</FormGapLayout>
 

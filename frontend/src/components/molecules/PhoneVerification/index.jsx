@@ -1,9 +1,7 @@
 import React, { useEffect, useState } from 'react';
-import styled, {css} from "styled-components";
 import InputButton from '../../molecules/InputButton';
-import theme from '../../../common/theme';
-import getVerificationNum from './getVerificationNum';
 import sendVerificationNum from './sendVerificationNum';
+import CreateVerification from './CreateVerification';
 
 const PhoneVerification = ({ setIsVerificated, setPhone }) => {
 
@@ -76,7 +74,7 @@ const PhoneVerification = ({ setIsVerificated, setPhone }) => {
           phoneAlert: '',
           validationNumAlert: ''
         }));
-        setVerificationId(await getVerificationNum(phone));
+        setVerificationId(await CreateVerification(phone));
         break;
       default:
     }
