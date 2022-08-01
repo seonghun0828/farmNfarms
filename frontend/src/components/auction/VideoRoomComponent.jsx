@@ -6,6 +6,9 @@ import ChattingList from '../chat/ChattingList';
 import UserVideoComponent from './UserVideoComponent';
 import AuctionTimer from '../auctiontimer/AuctionTimer'
 import PersonIcon from '@mui/icons-material/Person';
+import PlayCircleFilledIcon from '@mui/icons-material/PlayCircleFilled';
+import ExitToAppIcon from '@mui/icons-material/ExitToApp';
+import { Button } from '@mui/material';
 
 const OPENVIDU_SERVER_URL = 'https://' + window.location.hostname + ':4443';
 const OPENVIDU_SERVER_SECRET = 'MY_SECRET';
@@ -127,7 +130,8 @@ const VideoRoomComponent = (props) => {
     // 유저가 접속할 때마다 인원수를 += 1
     mySession.on('connectionCreated', (({stream}) => {
       setTotalUsers((prevTotalUsers) => {
-        return prevTotalUsers + 1
+        prevTotalUsers = prevTotalUsers + 1
+        return prevTotalUsers
       })
     }))
 
@@ -188,7 +192,6 @@ const VideoRoomComponent = (props) => {
             insertMode: 'APPEND', // How the video is inserted in the target element 'video-container'
             mirror: true, // Whether to mirror your local video or not
           });
-
           // --- 6) 자신의 화면을 송출 ---Set the main video in the page to display our webcam and store our Publisher
           mySession.publish(publisher);
           setPublisher(publisher) // 퍼블리셔(스트림 객체)를 담음
@@ -331,11 +334,8 @@ const VideoRoomComponent = (props) => {
     <div className="container">
       {session === undefined ? (
         <div id="join">
-          <div id="img-div">
-            <img src="resources/images/openvidu_grey_bg_transp_cropped.png" alt="OpenVidu logo" />
-          </div>
           <div id="join-dialog" className="jumbotron vertical-center">
-            <h1> Join a video session </h1>
+            <h1> 경매방 입장하기 </h1>
             <form className="form-group" onSubmit={joinSession}>
               <p>
                 <label>Participant: </label>
@@ -370,33 +370,31 @@ const VideoRoomComponent = (props) => {
       {session !== undefined ? (
         <div id="session">
           <div id="session-header">
-            <PersonIcon></PersonIcon>{totalUsers}
-            {!toggleStart && <button onClick={startAuction}>경매 세션 시작</button>}
+            <PersonIcon style={{color:'red'}}></PersonIcon>{totalUsers}
+            {!toggleStart && <Button variant="contained" onClick={startAuction}><PlayCircleFilledIcon/>경매 세션 시작</Button>}
             <div>
-              {sessionCount}회차 경매
+              
             </div>
-            <div>
+            {/* <div>
               <p>{props.items[itemIndex].title}</p>
               <p>{props.items[itemIndex].starting_price}원</p>
               <p>{props.items[itemIndex].quantity}kg</p>
-            </div>
-            {toggleStart && <AuctionTimer 
-            seconds={seconds}
-            setSeconds={setSeconds} 
-            currentSession={session}
-            sessionCount={sessionCount}
-            setItemIndex={setItemIndex}
-            setToggleStart={setToggleStart}
-            maxIndex={props.items.length}
-            ></AuctionTimer>}
-            <h1 id="session-title">{mySessionId}</h1>
-            <input
-              className="btn btn-large btn-danger"
-              type="button"
-              id="buttonLeaveSession"
-              onClick={leaveSession}
-              value="경매방 나가기"
-            />
+            </div> */}
+            {toggleStart && <div>
+              {sessionCount}회차 경매
+              <AuctionTimer
+                seconds={seconds}
+                setSeconds={setSeconds} 
+                currentSession={session}
+                sessionCount={sessionCount}
+                setItemIndex={setItemIndex}
+                setToggleStart={setToggleStart}
+                maxIndex={props.items.length}
+              /></div>}
+            <Button onClick={leaveSession} variant="outlined">
+              경매방 나가기
+              <ExitToAppIcon/>
+            </Button>
           </div>
 
           {/* 퍼블리셔의 화면 */}
