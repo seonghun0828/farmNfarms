@@ -1,40 +1,43 @@
 package com.ssafy.api.controller;
 
 
-import com.ssafy.api.request.SessionReq;
+import com.ssafy.api.request.CreateAuctionRoomReq;
+import com.ssafy.api.response.CreateAuctionRoomRes;
+import com.ssafy.api.service.CreateAuctionRoomService;
 import com.ssafy.api.service.SessionService;
 import com.ssafy.domain.auctionRoom.AuctionRoom;
 import io.swagger.annotations.Api;
-import io.swagger.annotations.ApiImplicitParam;
-import io.swagger.annotations.ApiImplicitParams;
 import io.swagger.annotations.ApiOperation;
-import org.json.simple.JSONObject;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
 
 @RestController
 @RequestMapping("/api")
 @Api(value = "경매방 API",  tags = {"Room"})
+@Slf4j
 public class SessionController {
 
     @Autowired
     private SessionService sessionService;
 
-    @PostMapping("/create-room/{phoneNumber}")
-    @ApiOperation(value = "방 생성", notes = "방 생성 정보를 받아 저장하고, kms를 통해 token을 전달한다.")
-    @ApiImplicitParams(
-            @ApiImplicitParam(name="sessionInfo", value = "경매방 생성 정보")
-    )
-    public ResponseEntity<JSONObject> createRoom(
-            @PathVariable String phoneNumber,
-            @RequestBody SessionReq sessionInfo){
+    @Autowired
+    private CreateAuctionRoomService createAuctionRoomService;
 
-        return sessionService.createRoom(phoneNumber, sessionInfo);
+    @PostMapping("/create-room/{phoneNumber}")
+    @ApiOperation(value = "방 생성", notes = "방 생성 정보를 받아 저장하고, kms 를 통해 token을 전달한다.")
+    public ResponseEntity<?> createRoom(
+            @PathVariable String phoneNumber,
+            @RequestBody CreateAuctionRoomReq createAuctionRoomReq){
+
+        boolean isCreated = createAuctionRoomService.createBy(phoneNumber, createAuctionRoomReq);
+        CreateAuctionRoomRes res = new CreateAuctionRoomRes();
+        res.setSuccess(isCreated);
+        return ResponseEntity.ok(res);
     }
 
     @GetMapping("/search")
