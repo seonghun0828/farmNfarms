@@ -5,7 +5,7 @@ import com.ssafy.api.request.CreateAuctionRoomReq;
 import com.ssafy.api.response.CreateAuctionRoomRes;
 import com.ssafy.api.service.CreateAuctionRoomService;
 import com.ssafy.api.service.SessionService;
-import com.ssafy.domain.auctionRoom.AuctionRoom;
+import com.ssafy.api.dto.AuctionRoomDto;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import lombok.extern.slf4j.Slf4j;
@@ -41,7 +41,7 @@ public class SessionController {
     }
 
     @GetMapping("/search")
-    public ResponseEntity<List<AuctionRoom>> retrieveRoom(
+    public ResponseEntity<List<AuctionRoomDto>> retrieveRoom(
             @RequestParam() String mode,
             @RequestParam() String key
     ){

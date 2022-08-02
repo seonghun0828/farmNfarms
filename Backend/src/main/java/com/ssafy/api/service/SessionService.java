@@ -1,15 +1,9 @@
 package com.ssafy.api.service;
 
-import com.ssafy.api.dto.AuctionDetailReq;
 import com.ssafy.api.request.CreateAuctionRoomReq;
-import com.ssafy.api.response.CreateAuctionRoomRes;
-import com.ssafy.domain.auctionDetail.AuctionDetail;
 import com.ssafy.domain.auctionDetail.AuctionDetailRepository;
-import com.ssafy.domain.auctionRoom.AuctionRoom;
+import com.ssafy.api.dto.AuctionRoomDto;
 import com.ssafy.domain.auctionRoom.AuctionRoomRepository;
-import com.ssafy.domain.grade.GradeRepository;
-import com.ssafy.domain.product.ProductRepository;
-import com.ssafy.domain.user.User;
 import com.ssafy.domain.user.UserRepository;
 import io.openvidu.java.client.*;
 import org.json.simple.JSONObject;
@@ -19,6 +13,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -147,14 +142,21 @@ public class SessionService {
     // 품목 검색
     // 통합 검색
     // 농부 이름 검색
-    public List<AuctionRoom> search(HashMap<String, String> params) {
+    public List<AuctionRoomDto> search(HashMap<String, String> params) {
 
         if(params.get("mode").equals("1")){
             return auctionRoomRepository.findAllByAuctionRoomTitle(params.get("key"));
         }else if(params.get("mode").equals("2")){
-          /*  return auctionDetailRepository.findAllByProduct(params.get("key"));*/
+            return auctionDetailRepository.findAllByProduct(params.get("key"));
         }else if(params.get("mode").equals("3")){
-            /*return auctionDetailRepository.findAllByTitle(params.get("key"));*/
+
+            List<AuctionRoomDto> titleList = auctionRoomRepository.findAllByAuctionRoomTitle(params.get("key"));
+            List<AuctionRoomDto> productList = auctionDetailRepository.findAllByProduct(params.get("key"));
+            List<AuctionRoomDto> joined = new ArrayList<>();
+
+            joined.addAll(titleList);
+            joined.addAll(productList);
+            return joined;
         }
 
         throw new IllegalArgumentException();

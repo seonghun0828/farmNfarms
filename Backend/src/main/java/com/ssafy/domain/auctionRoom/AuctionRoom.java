@@ -28,12 +28,12 @@ public class AuctionRoom {
     private String auctionRoomThumbnail;
 
     @Column
-    private Long owner_id;
+    private Long ownerId;
 
-    public AuctionRoom(String auctionRoomTitle, String auctionRoomDescription, String auctionRoomThumbnail, Long owner_id) {
+    public AuctionRoom(String auctionRoomTitle, String auctionRoomDescription, String auctionRoomThumbnail, Long ownerId) {
         this.auctionRoomTitle = auctionRoomTitle;
         this.auctionRoomDescription = auctionRoomDescription;
         this.auctionRoomThumbnail = auctionRoomThumbnail;
-        this.owner_id = owner_id;
+        this.ownerId = ownerId;
     }
 }

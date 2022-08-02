@@ -1,8 +1,7 @@
 package com.ssafy.api.service;
 
-import com.ssafy.api.dto.AuctionDetailReq;
+import com.ssafy.api.request.AuctionDetailReq;
 import com.ssafy.api.request.CreateAuctionRoomReq;
-import com.ssafy.api.response.CreateAuctionRoomRes;
 import com.ssafy.domain.auctionDetail.AuctionDetail;
 import com.ssafy.domain.auctionDetail.AuctionDetailRepository;
 import com.ssafy.domain.auctionRoom.AuctionRoom;
@@ -40,7 +39,7 @@ public class CreateAuctionRoomService {
 
     private AuctionRoom createAuctionRoom(CreateAuctionRoomReq request, Long foundUserId) {
         AuctionRoom auctionRoom = AuctionRoom.builder()
-                .owner_id(foundUserId)
+                .ownerId(foundUserId)
                 .auctionRoomTitle(request.getTitle())
                 .auctionRoomDescription(request.getDescription())
                 .auctionRoomThumbnail(request.getThumbnail())

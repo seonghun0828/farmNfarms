@@ -1,7 +1,6 @@
 package com.ssafy.api.request;
 
 
-import com.ssafy.api.dto.AuctionDetailReq;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 
