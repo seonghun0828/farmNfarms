@@ -1,7 +1,6 @@
 import React, { useState, useEffect, useRef } from "react";
 import styled from "styled-components";
 import RoomCard from "../RoomCard";
-import logo from '../../../assets/temp_logo.png';
 
 
 // 아오~~~ css 모르겟다 진짜
@@ -11,6 +10,8 @@ const Container = styled.div`
   overflow: hidden;
   flex-shrink: 1;
 `;
+
+// 버튼 스타일링 고치기!!
 const Button = styled.button`
   all: unset;
   padding: 10px;
@@ -27,20 +28,16 @@ const SliderContainer = styled.div`
   display: flex;
 `;
 
-const rowFlex = styled.div`
-  width: 100%;
-`;
-
 const SlidePadding = styled.div`
   padding-right: 1rem;
 `
 
 
-const Carousel = (roominfos) => {
+const Carousel = ({roominfos}) => {
   const [currentSlide, setCurrentSlide] = useState(0);
   const slideRef = useRef(null);
 
-  const TOTAL_SLIDES = 2; // 왜 roominfos.length 안되지
+  const TOTAL_SLIDES = roominfos.length-1;
   console.log(TOTAL_SLIDES)
 
   const nextSlide = () => {
@@ -65,18 +62,13 @@ useEffect(() => {
 }, [currentSlide]);
 
 return (
-  <rowFlex>
+  <>
     <Container>
       <SliderContainer ref={slideRef}>
-        {roominfos.roominfos.map((roominfo, index) => (
+        {roominfos.map((roominfo, index) => (
           <SlidePadding>
           <RoomCard 
-            profileImg={roominfo.profileImg} 
-            headerSize={roominfo.headerSize} 
-            viewerSize={roominfo.viewerSize} 
-            title={roominfo.title} 
-            num={roominfo.num} 
-            thumnail={roominfo.thumnail}
+            {...roominfo}
             key={index}
             />
           </SlidePadding>
@@ -85,7 +77,7 @@ return (
     </Container>
     <Button onClick={prevSlide}>왼</Button>
     <Button onClick={nextSlide}>오</Button>
-  </rowFlex>
+  </>
   );
 }
 
