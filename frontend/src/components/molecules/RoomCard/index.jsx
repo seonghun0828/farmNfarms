@@ -4,6 +4,9 @@ import Text from '../../atoms/Text'
 import Image from '../../atoms/Image'
 import ViewerNum from '../ViewerNum';
 
+const CardArea = styled.div`
+  width: 8rem;
+`
 const StyledRoomCard = styled.div`
   ${({theme}) => theme.flex.columnCenter}
   width: 8rem;
@@ -31,18 +34,49 @@ const CardFooter = styled.div`
   justify-content: flex-end;
   height: 2rem;
 `
-const RoomCard = ({ profileImg, thumnail, headerSize, title, num, ...rest}) => {
+const Tags = styled.div`
+  display: flex;
+  justify-content: flex-start;
+  width: 100%;
+  gap: 0.5rem;
+  overflow-x: hidden;
+`
+const Tag = styled.div`
+  ${({theme}) => theme.flex.rowCenter}
+  width: 100%;
+  height: 1rem;
+  background-color: ${({theme}) => theme.colors.green3};
+  border-radius: 0.5rem;
+  font-weight: bold;
+`
+const RoomCard = ({ profileImg, thumnail, headerSize, title, description, tags, num, ...rest}) => {
+  if (description.length > 14)
+    description = description.substring(0, 14) + '...';
   return (
-    <StyledRoomCard url={thumnail}>
-      <CardHeader>
-        <Image src={profileImg} alt='profileImage' size={headerSize} />
-        <Text color='white' fontSize={headerSize}>{title}</Text>
-      </CardHeader>
-      <CardBody />
-      <CardFooter>
-        <ViewerNum color='white' {...rest}>{num}</ViewerNum>
-      </CardFooter>
-    </StyledRoomCard>
+    <CardArea>
+      <StyledRoomCard url={thumnail}>
+        <CardHeader>
+          <Image src={profileImg} alt='profileImage' size={headerSize} />
+          <Text color='white' fontSize={headerSize}>{title}</Text>
+        </CardHeader>
+        <CardBody />
+        <CardFooter>
+          <ViewerNum color='white' {...rest}>{num}</ViewerNum>
+        </CardFooter>
+      </StyledRoomCard>
+      <Text color='black' fontSize={headerSize}>{description}</Text>
+      <Tags>
+        {tags.map((tag, idx) => {
+          if (idx < 3)
+            return (
+              <Tag>
+                <Text color='black' fontSize={headerSize} key={tag + idx}>{tag}</Text>
+              </Tag>
+            )
+        }
+        )}
+      </Tags>
+    </CardArea>
   );
 }
 
