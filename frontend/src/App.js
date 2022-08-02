@@ -5,6 +5,7 @@ import Join from './components/pages/Join'
 import VideoRoomComponent from './components/auction/VideoRoomComponent'
 import { ThemeProvider } from "styled-components"
 import theme from './common/theme'
+import CreateAuctionRoom from "./components/pages/CreateAuctionRoom"
 
 function App() {
   return (
@@ -16,6 +17,7 @@ function App() {
             <Route path="/login" element={<Login />} />
             <Route path="/join" element={<Join />} />
             <Route path="/room" element={<VideoRoomComponent/>}/>
+            <Route path="/create" element={<CreateAuctionRoom />} />
           </Routes>
         </BrowserRouter>
       </ThemeProvider>
