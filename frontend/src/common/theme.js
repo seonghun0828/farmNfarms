@@ -19,14 +19,14 @@ const fontWeights = {
 };
 
 const contentSizes = {
-  xxs: calcRem(20),
-  xs: calcRem(40),
-  sm: calcRem(60),
-  md: calcRem(75),
-  lg: calcRem(90),
-  xl: calcRem(105),
-  xxl: calcRem(120),
-  xxxl: calcRem(135),
+  xxs: calcRem(50),
+  xs: calcRem(75),
+  sm: calcRem(100),
+  md: calcRem(130),
+  lg: calcRem(160),
+  xl: calcRem(190),
+  xxl: calcRem(230),
+  xxxl: calcRem(280),
 }
 
 const paddings = {
