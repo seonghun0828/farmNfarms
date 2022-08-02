@@ -45,7 +45,8 @@ const Input = ({children, status, label, helpMsg, type, placeholder, name, setVa
 }
 
 Input.defaultProps = {
-  status: STATUS.DEFAULT
+  status: STATUS.DEFAULT,
+  height: 3
 };
 
 export default Input;
