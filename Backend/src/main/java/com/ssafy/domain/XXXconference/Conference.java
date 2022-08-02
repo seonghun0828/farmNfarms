@@ -1,5 +1,5 @@
 
-package com.ssafy.domain.conference;
+package com.ssafy.domain.XXXconference;
 
 import com.ssafy.domain.user.User;
 import lombok.Builder;

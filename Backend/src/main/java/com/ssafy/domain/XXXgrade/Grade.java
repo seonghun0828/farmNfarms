@@ -1,4 +1,4 @@
-package com.ssafy.domain.grade;
+package com.ssafy.domain.XXXgrade;
 
 
 import javax.persistence.*;

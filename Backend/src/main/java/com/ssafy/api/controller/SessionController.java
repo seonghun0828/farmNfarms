@@ -18,7 +18,7 @@ import java.util.List;
 import java.util.Map;
 
 @RestController
-@RequestMapping("/apis")
+@RequestMapping("/api")
 @Api(value = "경매방 API",  tags = {"Room"})
 public class SessionController {
 

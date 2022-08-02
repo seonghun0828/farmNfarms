@@ -1,7 +1,7 @@
 
 package com.ssafy.domain.XXXauction;
 
-import com.ssafy.domain.conference.Conference;
+import com.ssafy.domain.XXXconference.Conference;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;

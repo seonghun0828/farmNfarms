@@ -1,5 +1,5 @@
 
-package com.ssafy.domain.conference;
+package com.ssafy.domain.XXXconference;
 
 import org.springframework.data.jpa.repository.JpaRepository;
 

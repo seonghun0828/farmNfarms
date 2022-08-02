@@ -5,9 +5,7 @@ import com.ssafy.api.request.SessionReq;
 import com.ssafy.domain.auctionDetail.AuctionDetailRepository;
 import com.ssafy.domain.auctionRoom.AuctionRoom;
 import com.ssafy.domain.auctionRoom.AuctionRoomRepository;
-import com.ssafy.domain.grade.GradeRepository;
-import com.ssafy.domain.product.Product;
-import com.ssafy.domain.product.ProductRepository;
+import com.ssafy.domain.XXXgrade.GradeRepository;
 import com.ssafy.domain.auctionDetail.AuctionDetail;
 import com.ssafy.domain.user.User;
 import com.ssafy.domain.user.UserRepository;
@@ -35,9 +33,6 @@ public class SessionService {
     private AuctionDetailRepository auctionDetailRepository;
     @Autowired
     private GradeRepository gradeRepository;
-
-    @Autowired
-    private ProductRepository productRepository;
 
     private OpenVidu openVidu;
     private Map<String, Session> mapSessions = new ConcurrentHashMap<>();
@@ -151,7 +146,7 @@ public class SessionService {
         if(params.get("mode").equals("1")){
             return auctionRoomRepository.findAllByAuctionRoomTitle(params.get("key"));
         }else if(params.get("mode").equals("2")){
-          /*  return auctionDetailRepository.findAllByProduct(params.get("key"));*/
+            return auctionDetailRepository.findAllByProduct(params.get("key"));
         }else if(params.get("mode").equals("3")){
             /*return auctionDetailRepository.findAllByTitle(params.get("key"));*/
         }
