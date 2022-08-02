@@ -3,14 +3,18 @@ import styled from "styled-components";
 import RoomCard from "../RoomCard";
 import logo from '../../../assets/temp_logo.png';
 
+
+// 아오~~~ css 모르겟다 진짜
+
 const Container = styled.div`
   width: 100%;
-  overflow: hidden; // 선을 넘어간 이미지들은 보이지 않도록 처리합니다.
+  overflow: hidden;
+  flex-shrink: 1;
 `;
 const Button = styled.button`
   all: unset;
+  padding: 10px;
   border: 1px solid coral;
-  padding: 0.5em 2em;
   color: coral;
   border-radius: 10px;
   &:hover {
@@ -20,19 +24,24 @@ const Button = styled.button`
   }
 `;
 const SliderContainer = styled.div`
-  width: 100%;
   display: flex;
+`;
+
+const rowFlex = styled.div`
+  width: 100%;
 `;
 
 const SlidePadding = styled.div`
   padding-right: 1rem;
 `
 
-const TOTAL_SLIDES = 4;
 
-const Carousel = () => {
+const Carousel = (roominfos) => {
   const [currentSlide, setCurrentSlide] = useState(0);
   const slideRef = useRef(null);
+
+  const TOTAL_SLIDES = 2; // 왜 roominfos.length 안되지
+  console.log(TOTAL_SLIDES)
 
   const nextSlide = () => {
     if (currentSlide >= TOTAL_SLIDES) { 
@@ -56,28 +65,27 @@ useEffect(() => {
 }, [currentSlide]);
 
 return (
-  <Container>
-    {currentSlide}
-    <SliderContainer ref={slideRef}>
-      <SlidePadding>
-        <RoomCard profileImg={logo} headerSize='xxs' viewerSize='sm' title='배추아저씨' num='13' thumnail='https://img.seoul.co.kr//img/upload/2020/07/22/SSI_20200722215818.jpg'/>
-      </SlidePadding>
-      <SlidePadding>
-        <RoomCard profileImg={logo} headerSize='xxs' viewerSize='sm' title='배추아저씨' num='13' thumnail='https://img.seoul.co.kr//img/upload/2020/07/22/SSI_20200722215818.jpg'/>
-      </SlidePadding>
-      <SlidePadding>
-        <RoomCard profileImg={logo} headerSize='xxs' viewerSize='sm' title='배추아저씨' num='13' thumnail='https://img.seoul.co.kr//img/upload/2020/07/22/SSI_20200722215818.jpg'/>
-      </SlidePadding>
-      <SlidePadding>
-        <RoomCard profileImg={logo} headerSize='xxs' viewerSize='sm' title='배추아저씨' num='13' thumnail='https://img.seoul.co.kr//img/upload/2020/07/22/SSI_20200722215818.jpg'/>
-      </SlidePadding>
-      <SlidePadding>
-        <RoomCard profileImg={logo} headerSize='xxs' viewerSize='sm' title='배추아저씨' num='13' thumnail='https://img.seoul.co.kr//img/upload/2020/07/22/SSI_20200722215818.jpg'/>
-      </SlidePadding>
-    </SliderContainer>
-    <Button onClick={prevSlide}>Previous Slide</Button>
-    <Button onClick={nextSlide}>Next Slide</Button>
-  </Container>
+  <rowFlex>
+    <Container>
+      <SliderContainer ref={slideRef}>
+        {roominfos.roominfos.map((roominfo, index) => (
+          <SlidePadding>
+          <RoomCard 
+            profileImg={roominfo.profileImg} 
+            headerSize={roominfo.headerSize} 
+            viewerSize={roominfo.viewerSize} 
+            title={roominfo.title} 
+            num={roominfo.num} 
+            thumnail={roominfo.thumnail}
+            key={index}
+            />
+          </SlidePadding>
+        ))}
+      </SliderContainer>
+    </Container>
+    <Button onClick={prevSlide}>왼</Button>
+    <Button onClick={nextSlide}>오</Button>
+  </rowFlex>
   );
 }
 
