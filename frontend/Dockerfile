@@ -1,7 +1,7 @@
 ## Dockerfile(client)
 
 FROM nginx
-WORKDIR /home/ubuntu/client
+WORKDIR /home/ubuntu/S07P12B203/frontend
 RUN mkdir ./build
 ADD ./build ./build
 RUN rm /etc/nginx/conf.d/default.conf
