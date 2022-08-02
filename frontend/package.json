@@ -12,11 +12,8 @@
     "@testing-library/react": "^13.3.0",
     "@testing-library/user-event": "^13.5.0",
     "axios": "^0.27.2",
-<<<<<<< HEAD
     "jquery": "^3.6.0",
     "openvidu-browser": "^2.22.0",
-=======
->>>>>>> 29fdffad71c618a1b13b59ec1537b4e04b4c92fb
     "react": "^18.2.0",
     "react-daum-postcode": "^3.1.1",
     "react-dom": "^18.2.0",
