@@ -6,6 +6,7 @@ import Navbar from '../../molecules/Navbar';
 import SearchBar from '../../molecules/SearchBar';
 import Text from '../../atoms/Text';
 import Button from '../../atoms/Button';
+import RoomDetailModal from '../../molecules/RoomDetailModal';
 import Carousel from '../../molecules/Carousel';
 
 const StyledHome = styled.div``;
@@ -69,6 +70,7 @@ const EXAMPLE_ROOM_INFOS = [
 const Home = () => {
   return (
     <StyledHome>
+      <RoomDetailModal></RoomDetailModal>
       <Navbar url={logo} isLogin imgSize="xs" fontSize="sm" mode="graytext" />
       <FlexSearchArea>
         <SearchArea>
