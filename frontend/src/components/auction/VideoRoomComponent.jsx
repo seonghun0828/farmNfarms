@@ -9,6 +9,9 @@ import PersonIcon from '@mui/icons-material/Person';
 import PlayCircleFilledIcon from '@mui/icons-material/PlayCircleFilled';
 import ExitToAppIcon from '@mui/icons-material/ExitToApp';
 import { Button } from '@mui/material';
+import logo from "../../assets/로고.svg";
+import './VideoRoomComponent.modue.css'
+
 
 const OPENVIDU_SERVER_URL = 'https://' + window.location.hostname + ':4443';
 const OPENVIDU_SERVER_SECRET = 'MY_SECRET';
@@ -187,7 +190,7 @@ const VideoRoomComponent = (props) => {
             videoSource: videoDevices[0].deviceId, // The source of video. If undefined default webcam
             publishAudio: true, // Whether you want to start publishing with your audio unmuted or not
             publishVideo: true, // Whether you want to start publishing with your video enabled or not
-            resolution: '640x480', // The resolution of your video
+            resolution: '390x844', // The resolution of your video
             frameRate: 30, // The frame rate of your video
             insertMode: 'APPEND', // How the video is inserted in the target element 'video-container'
             mirror: true, // Whether to mirror your local video or not
@@ -219,6 +222,7 @@ const VideoRoomComponent = (props) => {
     setMainStreamManager(undefined)
     setPublisher(undefined)
     setMessageList([])
+    setToggleStart(false)
     setTotalUsers((prevTotalUsers) => {
       return prevTotalUsers - 1
     })
@@ -261,20 +265,6 @@ const VideoRoomComponent = (props) => {
     }
   }, [subscribers])
 
-  // // 채팅창 열기
-  // toggleChat(property) {
-  //   let display = property;
-  //   if (display === undefined) {
-  //     display = this.state.chatDisplay === 'none' ? 'block' : 'none';
-  //   }
-  //   if (display === 'block') {
-  //     this.setState({ chatDisplay: display, messageReceived: false });
-  //   } else {
-  //     console.log('chat', display);
-  //     this.setState({ chatDisplay: display });
-  //   }
-  // }
-
   // 메세지 보내기(Sender of the message (after 'session.connect'))
   const sendMsg = (msg, currentSession) => {
     // this.state.session으로는 자식이 인식할 수 없으므로 currentSession을 자식에게 props로 넘겨주고 다시 받음
@@ -298,6 +288,7 @@ const VideoRoomComponent = (props) => {
     // 현재 경매 세션의 출발 가격을 초기화함
     setPrice(props.items[itemIndex].starting_price)
     setSessionCount(0) // 현재 경매 세션의 카운트를 0으로 초기화함
+    setBestBidder(undefined) // 경매 최고 낙찰자를 undefined로 초기화함
     mySession.signal({
       data: true,
       type:"auction",
@@ -369,50 +360,58 @@ const VideoRoomComponent = (props) => {
 
       {session !== undefined ? (
         <div id="session">
-          <div id="session-header">
-            <PersonIcon style={{color:'red'}}></PersonIcon>{totalUsers}
-            {!toggleStart && <Button variant="contained" onClick={startAuction}><PlayCircleFilledIcon/>경매 세션 시작</Button>}
-            <div>
-              
-            </div>
-            {/* <div>
-              <p>{props.items[itemIndex].title}</p>
-              <p>{props.items[itemIndex].starting_price}원</p>
-              <p>{props.items[itemIndex].quantity}kg</p>
-            </div> */}
-            {toggleStart && <div>
-              {sessionCount}회차 경매
-              <AuctionTimer
-                seconds={seconds}
-                setSeconds={setSeconds} 
-                currentSession={session}
-                sessionCount={sessionCount}
-                setItemIndex={setItemIndex}
-                setToggleStart={setToggleStart}
-                maxIndex={props.items.length}
-              /></div>}
-            <Button onClick={leaveSession} variant="outlined">
-              경매방 나가기
-              <ExitToAppIcon/>
-            </Button>
-          </div>
-
           {/* 퍼블리셔의 화면 */}
           {mainStreamManager !== undefined ? (
             <div id="main-video" className="col-md-6">
               <UserVideoComponent streamManager={mainStreamManager} />
             </div>
           ) : null}
-          <div>
+          {/* <div>
             <p>현재 최고 입찰자: {bestBidder}</p>
             <p>현재 최고 입찰 가걱: {highestPrice}</p>
-          </div>
-          {displayBidding && <form onSubmit={biddingHandler}>
-              <input type="number" value={price} onChange={priceChangeHandler} step={props.items[itemIndex].bid_increment} min={price} />
+          </div> */}
+          {displayBidding && <div className='bidding-form'><form onSubmit={biddingHandler}>
+              <input type="number" value={price} onChange={priceChangeHandler} step={props.items[0].bid_increment} min={price} />
               <button>입찰</button>
-            </form>}
-          <ChattingList messageList={messageList}></ChattingList>
-          <ChattingForm myUserName={myUserName} onMessage={sendMsg} currentSession={session}></ChattingForm>
+            </form></div>}
+          <div id="session-header">
+            <div className="session-header2">
+              <div>
+                <img src={logo} /><span style={{ color: 'white' }}>배추 아저씨</span>
+                <div style={{ color: 'white' }}>걍 사 뭘 고민혀!</div>
+              </div>
+              <div>
+                <PersonIcon style={{ color: 'red' }} /><span style={{color: 'white'}}>{totalUsers}</span>
+                <br></br>
+                <Button className='mui-btn' onClick={leaveSession} variant="contained">
+                  나가기
+                  <ExitToAppIcon />
+                </Button>
+              </div>
+            </div>
+            <div className="session-header2">
+              <Button className='mui-btn' variant="contained">물품 목록</Button>
+              {!toggleStart && <Button className='mui-btn' variant="contained" onClick={startAuction}>
+                <PlayCircleFilledIcon />
+                세션 시작
+              </Button>}
+            </div>
+            {toggleStart && <div>
+              {sessionCount}회차 경매
+              <AuctionTimer
+                seconds={seconds}
+                setSeconds={setSeconds}
+                currentSession={session}
+                sessionCount={sessionCount}
+                setItemIndex={setItemIndex}
+                setToggleStart={setToggleStart}
+                maxIndex={props.items.length}
+              /></div>}
+          </div>
+          <div id="message-footer">
+            <ChattingList messageList={messageList}></ChattingList>
+            <ChattingForm myUserName={myUserName} onMessage={sendMsg} currentSession={session}></ChattingForm>
+          </div>
         </div>
       ) : null}
     </div>
