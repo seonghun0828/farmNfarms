@@ -15,9 +15,9 @@ import javax.persistence.Id;
 @AllArgsConstructor
 public class ProductAuctionDto {
 
-    long productId;
-    long gradeId;
 
+    String grade;
+    String productTitle;
     boolean isAuctioned;
     int initPrice;
     int bidIncrement;

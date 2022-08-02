@@ -59,10 +59,11 @@ public class SessionService {
         List<ProductAuctionDto> auctionInfoList = sessionInfo.getAuctionInfoList();
 
         //auction room 저장
-        AuctionRoom auctionRoom = new AuctionRoom(owner,
+        AuctionRoom auctionRoom = new AuctionRoom(
                 sessionInfo.getAuctionRoomTitle(),
                 sessionInfo.getRoomDescription(),
-                sessionInfo.getAuctionRoomThumbnail());
+                sessionInfo.getAuctionRoomThumbnail(),
+                owner.getId());
 
         auctionRoomRepository.save(auctionRoom);
 
@@ -70,12 +71,12 @@ public class SessionService {
        for(int i = 0 ; i < auctionInfoList.size(); i++){
             AuctionDetail productAuction = new AuctionDetail();
 
-            Product product = productRepository.findByIdAndGrade(auctionInfoList.get(i).getProductId(), auctionInfoList.get(i).getGradeId());
+            //Product product = productRepository.findByIdAndGrade(auctionInfoList.get(i).getProductId(), auctionInfoList.get(i).getGradeId());
 
             productAuction.setAuctionRoom(auctionRoom);
             productAuction.setAuctioned(false);
 
-            productAuction.setProduct(product);
+            productAuction.setProductTitle(auctionInfoList.get(i).getProductTitle());
             productAuction.setAuctionedPrice(auctionInfoList.get(i).getAuctionedPrice());
             productAuction.setBidIncrement(auctionInfoList.get(i).getBidIncrement());
             productAuction.setQuantity(auctionInfoList.get(i).getQuantity());
@@ -150,7 +151,7 @@ public class SessionService {
         if(params.get("mode").equals("1")){
             return auctionRoomRepository.findAllByAuctionRoomTitle(params.get("key"));
         }else if(params.get("mode").equals("2")){
-           /* return auctionDetailRepository.findALlByProduct(params.get("key"));*/
+          /*  return auctionDetailRepository.findAllByProduct(params.get("key"));*/
         }else if(params.get("mode").equals("3")){
             /*return auctionDetailRepository.findAllByTitle(params.get("key"));*/
         }

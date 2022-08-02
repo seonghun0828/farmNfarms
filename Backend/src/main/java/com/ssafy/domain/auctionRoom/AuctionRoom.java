@@ -1,14 +1,9 @@
 package com.ssafy.domain.auctionRoom;
 
-import com.ssafy.domain.auctionDetail.AuctionDetail;
-import com.ssafy.domain.userAuctionRoom.UserAuctionRoom;
-import com.ssafy.domain.user.User;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 
 import javax.persistence.*;
-import java.util.ArrayList;
-import java.util.List;
 
 @Entity
 @Getter
@@ -27,9 +22,9 @@ public class AuctionRoom {
     private String auctionRoomThumbnail;
 
     @Column
-    private String owner_id;
+    private Long owner_id;
 
-    public AuctionRoom(String auctionRoomTitle, String auctionRoomDescription, String auctionRoomThumbnail, String owner_id) {
+    public AuctionRoom(String auctionRoomTitle, String auctionRoomDescription, String auctionRoomThumbnail, Long owner_id) {
         this.auctionRoomTitle = auctionRoomTitle;
         this.auctionRoomDescription = auctionRoomDescription;
         this.auctionRoomThumbnail = auctionRoomThumbnail;

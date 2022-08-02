@@ -29,13 +29,11 @@ public class UserServiceImpl implements UserService {
 
         User user = new User();
         user.setPhone(userRegisterInfo.getPhone());
-        user.setPhone_auth(false);
         user.setPassword(passwordEncoder.encode(userRegisterInfo.getPassword()));
         user.setName(userRegisterInfo.getName());
         user.setAddress(userRegisterInfo.getAddress());
         user.setAccount(userRegisterInfo.getAccount());
         user.setAbout_me("자기소개를 입력해주세요");
-        user.setGrade(0);
         user.setData_create(LocalDateTime.now());
         userRepository.save(user);
         return true;

@@ -1,5 +1,7 @@
 package com.ssafy.domain.auctionDetail;
 
+import com.ssafy.domain.XXXauction.Auction;
+import com.ssafy.domain.auctionResult.AuctionResult;
 import com.ssafy.domain.auctionRoom.AuctionRoom;
 import com.ssafy.domain.product.Product;
 import lombok.Getter;
