@@ -19,10 +19,6 @@ public class AuctionRoom {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @OneToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "OWNER_ID")
-    private User user;
-
     @Column(nullable = false)
     private String auctionRoomTitle;
     @Column(nullable = false)
@@ -30,17 +26,13 @@ public class AuctionRoom {
     @Column(nullable = false)
     private String auctionRoomThumbnail;
 
-    @OneToMany(mappedBy = "auctionRoom")
-    List<UserAuctionRoom> userAuctionRooms = new ArrayList<>();
+    @Column
+    private String owner_id;
 
-    @OneToMany(mappedBy = "auctionRoom")
-    List<AuctionDetail> auctionDetails = new ArrayList<>();
-
-
-    public AuctionRoom(User user, String auctionRoomTitle, String auctionRoomDescription, String auctionRoomThumbnail) {
-        this.user = user;
+    public AuctionRoom(String auctionRoomTitle, String auctionRoomDescription, String auctionRoomThumbnail, String owner_id) {
         this.auctionRoomTitle = auctionRoomTitle;
         this.auctionRoomDescription = auctionRoomDescription;
         this.auctionRoomThumbnail = auctionRoomThumbnail;
+        this.owner_id = owner_id;
     }
 }

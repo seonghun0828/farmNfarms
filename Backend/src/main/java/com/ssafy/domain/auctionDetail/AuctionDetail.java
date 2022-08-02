@@ -21,17 +21,12 @@ public class AuctionDetail {
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "AUCTION_ROOM_ID")
     private AuctionRoom auctionRoom;
-/*
-    @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "GRADE_ID")
-    private Grade grade;*/
 
-    @OneToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "PRODUCT_ID")
-    private Product product;
+    @Column
+    private String productTitle;
 
-
-
+    @Column
+    private String grade;
 
     @Column
     private boolean isAuctioned;
@@ -44,6 +39,9 @@ public class AuctionDetail {
 
     @Column
     private int auctionedPrice;
+
+    @Column
+    private int startingPrice;
 
     @Column
     private int quantity;
