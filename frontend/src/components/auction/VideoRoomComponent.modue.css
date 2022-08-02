@@ -1,0 +1,38 @@
+/* #video-wrapper {
+  position: relative;
+} */
+
+#session-header{
+  background-color: rgba(0, 0, 0, 0.5);
+  width: 100%;
+  position: fixed;
+  top: 0;
+  height: 120px;
+}
+
+.session-header2{
+  display: flex;
+  justify-content: space-between;
+  margin-bottom: 10px;
+}
+
+#message-footer{
+  position: fixed; 
+  left:0px; 
+  bottom:100px; 
+  width:100%; 
+}
+
+.MuiButton-root.mui-btn {
+  margin-left: 5px;
+  margin-right: 5px;
+  margin-top: 1px;
+  margin-bottom: 1px;
+}
+
+.bidding-form {
+    position: relative;
+    top: 200px;
+    left: 50%;
+    transform: translate(-50%, 50%);
+}

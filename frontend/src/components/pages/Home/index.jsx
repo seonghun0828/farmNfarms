@@ -6,6 +6,8 @@ import Navbar from '../../molecules/Navbar';
 import SearchBar from '../../molecules/SearchBar';
 import Text from '../../atoms/Text';
 import Button from '../../atoms/Button';
+import RoomDetailModal from '../../molecules/RoomDetailModal';
+import Carousel from '../../molecules/Carousel';
 
 const StyledHome = styled.div``;
 const FlexSearchArea = styled.div`
@@ -31,9 +33,44 @@ const AddRoomArea = styled.div`
   justify-content: flex-end;
   padding-right: 1rem;
 `;
+
+const EXAMPLE_ROOM_INFOS = [
+  {
+    profileImg: logo,
+    headerSize: 'xxs',
+    viewerSize: 'sm',
+    title: '배추아저씨',
+    description: '고랭지 배추 팔아유~아주 맛나유',
+    tags: ['존맛', '배추', '고랭지', '평창'],
+    num: '13',
+    thumnail: 'https://img.seoul.co.kr//img/upload/2020/07/22/SSI_20200722215818.jpg' 
+  },
+  {
+    profileImg: logo,
+    headerSize: 'xxs',
+    viewerSize: 'sm',
+    title: '배추아저씨',
+    description: '고랭지 배추 팔아유~아주 맛나유',
+    tags: ['존맛', '배추', '고랭지', '평창'],
+    num: '13',
+    thumnail: 'https://img.seoul.co.kr//img/upload/2020/07/22/SSI_20200722215818.jpg' 
+  },
+  {
+    profileImg: logo,
+    headerSize: 'xxs',
+    viewerSize: 'sm',
+    title: '배추아저씨',
+    description: '고랭지 배추 팔아유~아주 맛나유',
+    tags: ['존맛', '배추', '고랭지', '평창'],
+    num: '13',
+    thumnail: 'https://img.seoul.co.kr//img/upload/2020/07/22/SSI_20200722215818.jpg' 
+  },
+]
+
 const Home = () => {
   return (
     <StyledHome>
+      <RoomDetailModal></RoomDetailModal>
       <Navbar url={logo} isLogin imgSize="xs" fontSize="sm" mode="graytext" />
       <FlexSearchArea>
         <SearchArea>
@@ -49,16 +86,7 @@ const Home = () => {
             더보기
           </Button>
         </MoreInfo>
-        <RoomCard
-          profileImg={logo}
-          headerSize="xxs"
-          viewerSize="sm"
-          title="배추아저씨"
-          description='고랭지 배추 팔아유~아주 맛나유'
-          tags={['존맛', '배추', '고랭지', '평창']}
-          num="13"
-          thumnail="https://img.seoul.co.kr//img/upload/2020/07/22/SSI_20200722215818.jpg"
-        />
+        <Carousel roominfos={EXAMPLE_ROOM_INFOS}/>
       </RoomCardArea>
       <MarketPriceArea>
         <Text fontSize="xl" weight="bold">
