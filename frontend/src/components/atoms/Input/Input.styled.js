@@ -43,7 +43,7 @@ export const FlexBox = styled.div`
 export const StyledInput = styled.input`
   width: 100%;
   box-sizing: border-box;
-  height: 3rem;
+  height: ${(props) => props.height}rem;
   padding: 0 0.5rem;
   border: 2px solid ${({status}) => borderColor[status]};
   border-radius: 5px;
