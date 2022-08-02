@@ -38,6 +38,8 @@ public class VerificationController {
             @ApiResponse(code = 200, message = "성공"),
             @ApiResponse(code = 401, message = "번호 중복"),
             @ApiResponse(code = 402, message = "인증 실패")
+
+
     })
     public ResponseEntity<Map<String, Integer>> confirmVerification(@PathVariable Long id, @RequestBody ConfirmVerificationDto confirmVerificationDto) {
 

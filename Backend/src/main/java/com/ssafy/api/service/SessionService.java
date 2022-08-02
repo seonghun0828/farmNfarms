@@ -1,14 +1,14 @@
 package com.ssafy.api.service;
 
-import com.ssafy.api.dto.ProductAuctionDto;
-import com.ssafy.api.request.SessionReq;
+import com.ssafy.api.dto.AuctionDetailReq;
+import com.ssafy.api.request.CreateAuctionRoomReq;
+import com.ssafy.api.response.CreateAuctionRoomRes;
+import com.ssafy.domain.auctionDetail.AuctionDetail;
 import com.ssafy.domain.auctionDetail.AuctionDetailRepository;
 import com.ssafy.domain.auctionRoom.AuctionRoom;
 import com.ssafy.domain.auctionRoom.AuctionRoomRepository;
 import com.ssafy.domain.grade.GradeRepository;
-import com.ssafy.domain.product.Product;
 import com.ssafy.domain.product.ProductRepository;
-import com.ssafy.domain.auctionDetail.AuctionDetail;
 import com.ssafy.domain.user.User;
 import com.ssafy.domain.user.UserRepository;
 import io.openvidu.java.client.*;
@@ -33,11 +33,11 @@ public class SessionService {
     private UserRepository userRepository;
     @Autowired
     private AuctionDetailRepository auctionDetailRepository;
-    @Autowired
+/*    @Autowired
     private GradeRepository gradeRepository;
 
     @Autowired
-    private ProductRepository productRepository;
+    private ProductRepository productRepository;*/
 
     private OpenVidu openVidu;
     private Map<String, Session> mapSessions = new ConcurrentHashMap<>();
@@ -53,10 +53,10 @@ public class SessionService {
         this.openVidu = new OpenVidu(OPENVIDU_URL, SECRET);
     }
 
-    public ResponseEntity<JSONObject> createRoom(String phoneNumber, SessionReq sessionInfo){
+    /*public ResponseEntity<JSONObject> createRoom(String phoneNumber, CreateAuctionRoomReq sessionInfo){
 
         User owner = userRepository.findByPhone(phoneNumber);
-        List<ProductAuctionDto> auctionInfoList = sessionInfo.getAuctionInfoList();
+        List<AuctionProductReq> auctionInfoList = sessionInfo.getProducts();
 
         //auction room 저장
         AuctionRoom auctionRoom = new AuctionRoom(
@@ -64,6 +64,7 @@ public class SessionService {
                 sessionInfo.getRoomDescription(),
                 sessionInfo.getAuctionRoomThumbnail(),
                 owner.getId());
+
 
         auctionRoomRepository.save(auctionRoom);
 
@@ -89,10 +90,10 @@ public class SessionService {
         JSONObject responseJson = new JSONObject();
         responseJson.put(0,"success");
         return new ResponseEntity<>(responseJson,HttpStatus.OK);
-    }
+    }*/
 
-    public ResponseEntity<JSONObject> getToken(String phoneNumber, SessionReq sessionInfo){
-        String sessionName = String.valueOf(sessionInfo.getAuctionRoomTitle());
+    public ResponseEntity<JSONObject> getToken(String phoneNumber, CreateAuctionRoomReq sessionInfo){
+        String sessionName = String.valueOf(sessionInfo.getTitle());
         ConnectionProperties connectionProperties = new ConnectionProperties.Builder().type(ConnectionType.WEBRTC).data(phoneNumber).role(OpenViduRole.PUBLISHER).build();
         JSONObject responseJson = new JSONObject();
 

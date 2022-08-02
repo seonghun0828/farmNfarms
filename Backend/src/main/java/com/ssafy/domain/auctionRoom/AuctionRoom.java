@@ -1,5 +1,9 @@
 package com.ssafy.domain.auctionRoom;
 
+import com.ssafy.domain.auctionDetail.AuctionDetail;
+import com.ssafy.domain.user.User;
+import lombok.AllArgsConstructor;
+import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 
@@ -8,6 +12,8 @@ import javax.persistence.*;
 @Entity
 @Getter
 @NoArgsConstructor
+@Builder
+@AllArgsConstructor
 public class AuctionRoom {
 
     @Id

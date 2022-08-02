@@ -11,7 +11,7 @@ import java.io.Serializable;
 @Entity
 @Getter
 @NoArgsConstructor
-public class UserAuctionRoom implements Serializable {
+public class XXUserAuctionRoom implements Serializable {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)

@@ -3,10 +3,7 @@ package com.ssafy.domain.auctionDetail;
 import com.ssafy.domain.XXXauction.Auction;
 import com.ssafy.domain.auctionResult.AuctionResult;
 import com.ssafy.domain.auctionRoom.AuctionRoom;
-import com.ssafy.domain.product.Product;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
-import lombok.Setter;
+import lombok.*;
 
 import javax.persistence.*;
 
@@ -14,6 +11,8 @@ import javax.persistence.*;
 @Getter
 @Setter
 @NoArgsConstructor
+@Builder
+@AllArgsConstructor
 public class AuctionDetail {
 
     @Id
@@ -30,11 +29,11 @@ public class AuctionDetail {
     @Column
     private String grade;
 
-    @Column
-    private boolean isAuctioned;
+    /*@Column
+    private boolean auctioned;*/
 
-    @Column
-    private int initPrice;
+//    @Column
+//    private int initPrice;
 
     @Column
     private int bidIncrement;
@@ -47,5 +46,6 @@ public class AuctionDetail {
 
     @Column
     private int quantity;
+
 
 }
