@@ -1,3 +1,4 @@
+/*
 package com.ssafy.api.repository;
 
 import com.ssafy.domain.XXXauction.Auction;
@@ -28,3 +29,4 @@ public class IntegratedRepositoryTest {
         System.out.println(actual);
     }
 }
+*/

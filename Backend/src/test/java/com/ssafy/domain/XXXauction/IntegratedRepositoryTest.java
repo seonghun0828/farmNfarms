@@ -1,3 +1,4 @@
+/*
 package com.ssafy.domain.XXXauction;
 
 import com.ssafy.domain.auctionDetail.AuctionDetail;
@@ -34,3 +35,4 @@ public class IntegratedRepositoryTest {
     }
 
 }
+ */
