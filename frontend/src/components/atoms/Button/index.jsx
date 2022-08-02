@@ -4,6 +4,7 @@ import { StyledButton, StyledTextButton } from './Button.styled';
 const MODE = {
   PRIMARY: "primary",
   SECONDARY: "secondary",
+  THIRD: "third",
   HIGHLIGHT: "highlight",
   GRAYTEXT: "graytext",
   WHITETEXT: "whitetext",

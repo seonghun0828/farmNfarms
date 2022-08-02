@@ -11,9 +11,6 @@ import Select from "../../atoms/Select";
 import join from "./join";
 import logo from '../../../assets/로고.svg'
 import { StyledJoin, LeftAlign, CenterAlign, FormGapLayout, TextLayout, ButtonLayout } from "./Join.styled"
-
-
-
 const Join = () => {
 
 	const [phone, setPhone] = useState(null);
@@ -158,7 +155,7 @@ const Join = () => {
 	useEffect(() => {
 		setIsVerificated(false)
 	}, [phone])
-
+	
 	return (
 		<StyledJoin>
 			<LeftAlign>

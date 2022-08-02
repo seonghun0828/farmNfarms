@@ -4,6 +4,7 @@ import theme from '../../../common/theme'
 const textColor = {
   primary: theme.colors.white,
   secondary: theme.colors.green3,
+  third: theme.colors.white,
   highlight: theme.colors.black,
   graytext: theme.colors.gray2,
   whitetext: theme.colors.white,
@@ -12,6 +13,7 @@ const textColor = {
 const bgColor = {
   primary: theme.colors.green3,
   secondary: theme.colors.gray1,
+  third: theme.colors.green5,
   highlight: theme.colors.green1,
   graytext: 'transparent',
   whitetext: 'transparent'
@@ -20,6 +22,7 @@ const bgColor = {
 const borderColor = {
   primary: theme.colors.green3,
   secondary: theme.colors.green3,
+  third: theme.colors.green5,
   highlight: theme.colors.green1,
   graytext: 'transparent',
   whitetext: 'transparent'

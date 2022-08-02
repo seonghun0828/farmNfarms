@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState } from 'react';
 import RoomCard from '../../molecules/RoomCard';
 import logo from '../../../assets/temp_logo.png';
 import styled from 'styled-components';
@@ -6,8 +6,8 @@ import Navbar from '../../molecules/Navbar';
 import SearchBar from '../../molecules/SearchBar';
 import Text from '../../atoms/Text';
 import Button from '../../atoms/Button';
-import RoomDetailModal from '../../molecules/RoomDetailModal';
 import Carousel from '../../molecules/Carousel';
+import RoomDetailModal from '../../molecules/RoomDetailModal';
 
 const StyledHome = styled.div``;
 const FlexSearchArea = styled.div`
@@ -68,9 +68,18 @@ const EXAMPLE_ROOM_INFOS = [
 ]
 
 const Home = () => {
+
+  const [isOnModal, setIsOnModal] = useState(false);
+  const handleClick = () => {
+    setIsOnModal(!isOnModal);
+  }
   return (
     <StyledHome>
-      <RoomDetailModal></RoomDetailModal>
+      	<Button onClick={() => {handleClick}}>모달열기</Button>
+        {isOnModal && <RoomDetailModal 
+          title="고랭지 배추 팔아유" 
+          description="Lorem ipsum dolor, sit amet consectetur adipisicing elit. Aut pariatur, hic, eveniet ipsam totam dolorum commodi nostrum dolorem sapiente fuga eum? Asperioabsdbsdfs;ldcms,dlfma;lsdmfdsjfmweofmnskldfmlksd아아아아아아아아아아아아아아아아아아아아아아아아아아아아아아아아아아아아아아아아아아아아아아아아아아아아아아아아아아아아아아아아아아아아아아아아아아아아아아아아아아아아아아아아아아아아아아아아아아아아아아아아아아아아아아아아아아아아아아아아아아아아아아아아아아아아아아아아아아아아아아아아아아아아아아아아아아아아아아아아아아아아아아아아아아아아아아아아아아아아아아아아아아아아아아아아아아아아아아아아아아아아아아아아아아아아아아아아아아아아아아아아아아아아아아아아아아아아아아아아아아아아아아아아아아아아아아아아아아아아아아아아아아아아아아아아아아아아아아아아아아아아아아아아아아아아아아아아아아아아아아아아아아아아아아아아아아아아아아아아아아아아아아아아아아아아아아아아아아아아아아아아아아아아아아아아아아아아아아아아아아아아아아아아아아아아아아아아아아아아아아아아아아아아아아아아아아아아아아아아아아아아아아아아아아아아아아아아아아아아아아아아아아아아아아아아아아아아아아아아아아아아아아아아아아아아아아아아아아아아아아아아아아아아아아아아아아아아아아아아아아아아아아아아아아아아아아아아아아아아아아아아아아아아아아아아아아아아아아아아아아아아아아아아아아아아아아아아아아아아아아아아아아아아아아아아아아아아아아아아아아아아아아아아아아아아아아아아아아아아아아아아아아 libero, excepturi hic sit nesciunt nisi suscipit cum!"
+        />}
       <Navbar url={logo} isLogin imgSize="xs" fontSize="sm" mode="graytext" />
       <FlexSearchArea>
         <SearchArea>
