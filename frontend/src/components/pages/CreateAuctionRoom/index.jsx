@@ -34,8 +34,14 @@ const ItemAddingArea = styled.div`
     border: 2px solid ${({theme}) => theme.colors.gray2};
     border-radius: 5px;
 `
+const Space = styled.div`
+  visibility: hidden;
+  width: 1rem;
+  height: 1rem;
+`
 const ItemAddingAreaNav = styled.div`
   ${({theme}) => theme.flex.rowCenter}
+  justify-content: space-around;
   height: 2rem;
   background-color: ${({theme}) => theme.colors.green3};
   border-radius: 5px 5px 0 0;
@@ -46,9 +52,6 @@ const ItemAddingAreaBody = styled.div`
   height: 22.5rem;
   overflow-y: auto;
   gap: 1rem;
-`
-const StyledButton = styled.div`
-  ${({theme}) => theme.flex.rowCenter}
 `
 const Footer = styled.div`
   ${({theme}) => theme.flex.rowCenter}
@@ -105,10 +108,9 @@ const CreateAuctionRoom = () => {
         </TextInputs>
         <ItemAddingArea>
           <ItemAddingAreaNav>
+            <Space />
             <Text color='white' weight='bold' fontSize='lg' >농산물 항목</Text>
-            <StyledButton>
-              <Button fontSize='md' color='white' onClick={addItem}>+</Button>
-            </StyledButton>
+            <Button mode='whitetext' width='1rem' height='1rem' fontSize='xxxl' color='white' onClick={addItem}>+</Button>
           </ItemAddingAreaNav>
           <ItemAddingAreaBody>
             {
