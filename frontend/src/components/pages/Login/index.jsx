@@ -9,6 +9,7 @@ import Input from '../../atoms/Input'
 import { useNavigate } from "react-router-dom";
 import move from '../../../common/move'
 import login from "./login";
+import CreateItemCard from "../../molecules/CreateItemCard";
 
 const StyledLogin = styled.div`
     ${({theme}) => theme.flex.columnCenter};
@@ -151,6 +152,7 @@ const Login = () => {
             <Button fontSize='lg' mode='graytext' onClick={() => move(navigate, -1)}>뒤로 가기</Button>
         </LeftAlign>
         <Image src={logo} alt='logo' size='xxxl' />
+        <CreateItemCard inputs={[{text: '품목명', type: 'text'}, {text: '수량', type: 'text'}, {text: '등급', type: 'text'}, {text: '경매시작가', type: 'number'}]} />
         <LeftAlign>
             <Text color='green5' weight='bold' fontSize='xxxl'>로그인</Text>
         </LeftAlign>
