@@ -1,9 +1,11 @@
+import zIndex from "@mui/material/styles/zIndex";
 import React, { useState, useEffect, useRef } from "react";
 import styled from "styled-components";
 import RoomCard from "../RoomCard";
 
 
-// 아오~~~ css 모르겟다 진짜
+// 카드 마지막에나오면 슬라이드 안되게 고치기
+// 터치 슬라이드로 가능하도록 커스텀하기 
 
 const Container = styled.div`
   width: 100%;
@@ -38,7 +40,6 @@ const Carousel = ({roominfos}) => {
   const slideRef = useRef(null);
 
   const TOTAL_SLIDES = roominfos.length-1;
-  console.log(TOTAL_SLIDES)
 
   const nextSlide = () => {
     if (currentSlide >= TOTAL_SLIDES) { 
@@ -66,10 +67,9 @@ return (
     <Container>
       <SliderContainer ref={slideRef}>
         {roominfos.map((roominfo, index) => (
-          <SlidePadding>
+          <SlidePadding key={index}>
           <RoomCard 
             {...roominfo}
-            key={index}
             />
           </SlidePadding>
         ))}

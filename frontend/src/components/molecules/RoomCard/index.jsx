@@ -69,8 +69,8 @@ const RoomCard = ({ profileImg, thumnail, headerSize, title, description, tags, 
         {tags.map((tag, idx) => {
           if (idx < 3)
             return (
-              <Tag>
-                <Text color='black' fontSize={headerSize} key={tag + idx}>{tag}</Text>
+              <Tag key={tag + idx}>
+                <Text color='black' fontSize={headerSize}>{tag}</Text>
               </Tag>
             )
         }
