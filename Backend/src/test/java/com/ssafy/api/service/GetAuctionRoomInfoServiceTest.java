@@ -1,3 +1,4 @@
+/*
 package com.ssafy.api.service;
 
 import com.ssafy.api.dto.AuctionDetailDto;
@@ -77,4 +78,4 @@ public class GetAuctionRoomInfoServiceTest {
 
 
     }
-}
+}*/

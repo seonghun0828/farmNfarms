@@ -1,3 +1,4 @@
+/*
 package com.ssafy.api.service;
 
 import com.ssafy.api.request.UserInfoChangePutReq;
@@ -56,7 +57,8 @@ public class UserServiceTest {
         Assertions.assertThat(actual.getAccount()).isEqualTo(ANY_ACCOUNT);
     }
 
-    /*@Test
+    */
+/*@Test
     public void 새로운_유저정보를_넘기면_호출한다() {
         // given
         given(userRepository.findByPhone(ANY_PHONE)).willReturn(user);
@@ -111,5 +113,6 @@ public class UserServiceTest {
 
         // then
         Assertions.assertThat(actual).isFalse();
-    }*/
-}
+    }*//*
+
+}*/

@@ -1,3 +1,4 @@
+/*
 package com.ssafy.api.controller;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
@@ -100,4 +101,4 @@ public class UserControllerTest {
         return objectMapper.writeValueAsString(data);
     }
 
-}
+}*/
