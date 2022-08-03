@@ -50,19 +50,21 @@ const RoomDetailSection = styled.div`
   padding: 0 1rem 0.5rem 1rem;
 `
 
+// 개행이 됐었는데 안됐습니다
 const TitleSection = styled.div`
   display: flex;
   flex-direction: column;
   width: 100%;
   height: auto;
   padding-top: 0.5rem;
+  white-space: pre-wrap;
   border-bottom: 2px solid ${theme.colors.gray1};
 `
  
 const DescriptionSection = styled.div`
   display: flex;
   flex-direction: column;
-  white-space: break-spaces;
+  white-space: pre-wrap;
   padding-top: 0.5rem;
   width: 100%;
   height: auto;

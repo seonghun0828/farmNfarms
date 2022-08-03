@@ -12,19 +12,19 @@ const ReadItemCard = ({imageUrl, product, quantity, grade, startingPrice, width}
           <Image src={imageUrl} alt="사진"/>
         </ImageBox>
         <ItemInfoFlexBox>
-          <Text size="xxxl" weight="bold">{product}</Text>
+          <Text size="xl" weight="bold">{product}</Text>
           <InfosFlexBox>
             <InfoFlexBox>
-              <Text color="gray2" size="xxl" weight="bold">수량</Text>
-              <Text size="xl" weight="bold">{quantity}</Text>
+              <Text color="gray2" size="lg" weight="bold">수량</Text>
+              <Text size="md" weight="bold">{quantity}</Text>
             </InfoFlexBox>
             <InfoFlexBox>
-              <Text color="gray2" size="xxl" weight="bold">등급</Text>
-              <Text size="xl" weight="bold">{grade}</Text>
+              <Text color="gray2" size="lg" weight="bold">등급</Text>
+              <Text size="md" weight="bold">{grade}</Text>
             </InfoFlexBox>
             <InfoFlexBox>
-              <Text color="gray2" size="xxl" weight="bold">경매시작가</Text>
-              <Text size="xl" weight="bold">{startingPrice}</Text>
+              <Text color="gray2" size="lg" weight="bold">경매시작가</Text>
+              <Text size="md" weight="bold">{startingPrice}</Text>
             </InfoFlexBox>
           </InfosFlexBox>
         </ItemInfoFlexBox>
