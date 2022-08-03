@@ -27,6 +27,7 @@ const fontWeight = css`
 `
 
 const StyledText = styled.div`
+
   display: inline-block;
   ${colorStyle}
   ${fontSize}
