@@ -31,7 +31,7 @@ const ImageButton = styled.div`
     background-color: ${({theme}) => theme.colors.gray2};
     border-radius: 0.5rem;
 `
-const CreateItemCard = ({inputs}) => {
+const CreateItemCard = ({inputs, items, idx, setItems}) => {
     const [url, setUrl] = useState(null);
     const clickHandler = () => {
         const fileUploader = document.querySelector('#file-uploader');
@@ -41,8 +41,34 @@ const CreateItemCard = ({inputs}) => {
         const fileUploader = document.querySelector('#file-uploader');
         setUrl(URL.createObjectURL(fileUploader.files[0]));
     }
+    const changeInput = (e) => {
+        // console.log(e.target.value);
+        // console.log(e.target.parentNode.parentNode.parentNode);
+        // const parent = e.target.parentNode.parentNode.parentNode;
+        // const arr = inputs.map(({text, type}, idx) => {
+        //     return {
+        //         [text]: ''     
+        //     }
+        // })
+        // for (let i = 0; i < items.length; i++) {
+        //     if (i === idx) {
+                // console.log(items[i]);
+                // console.log(idx, parent.name);
+            //     setItems(items => [
+            //         ...items,
+            //         [...arr,
+            //             {
+            //                 [e.target.name]: e.target
+            //             }
+            //         ]
+                    
+            //     ])
+                
+            // }
+        // }
+    }
     return (
-        <StyledCreateItemCard>
+        <StyledCreateItemCard name={idx}>
             <ImageArea>
                 <input type='file' hidden id='file-uploader' onChange={uploadImage} />
                 {
@@ -57,7 +83,7 @@ const CreateItemCard = ({inputs}) => {
                 }
             </ImageArea>
             <InputArea>
-                {inputs.map(({text, type}, idx) => <Input height='2' type={type} placeholder={text} key={text + idx} />)}
+                {inputs.map(({text, type}, idx) => <Input height='2' onChange={(e) => changeInput(e)} name={text} type={type} placeholder={text} key={text + idx} />)}
             </InputArea>
         </StyledCreateItemCard>
     );

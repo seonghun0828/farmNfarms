@@ -35,6 +35,7 @@ const Input = ({children, status, label, helpMsg, type, placeholder, name, setVa
         placeholder={placeholder} 
         onChange={handleChange}
         readOnly={isReadOnly}
+        name={name}
         {...rest}
       />
       <HelpText status={status} {...rest}>
