@@ -5,6 +5,8 @@ import Button from "../../atoms/Button";
 import theme from "../../../common/theme"
 import CloseIcon from '@mui/icons-material/Close';
 
+// 위로 올라오듯이 css 효과 넣기
+// div padding 같은거 통일해서 넣기
 const BackGround = styled.div`
   position: fixed;
   background-color: rgba(0, 0, 0, 0.40);
@@ -39,10 +41,6 @@ const Header = styled.div`
 
 const XPadding = styled.div`
   padding: 0 0.7rem 0 0.7rem;
-`
-
-const YMargin = styled.div`
-  margin: 0.7 0 0.7rem 0;
 `
 
 // 왜 알파벳은 개행 안되냐거~~
@@ -94,14 +92,14 @@ const ButtonSection = styled.div`
 const RoomDetailModal = ({title, description, items, closeModal}) => {
   return (
     <ModalPortal>
-      <BackGround/>
+      <BackGround onClick={closeModal}/>
       <Content>
         <Header>
           <XPadding>
             <Text color="white" size="xxl" weight="bold">방 상세 정보</Text>
           </XPadding>
           <XPadding>
-            <CloseIcon onClick={closeModal} color="white"/>
+            <CloseIcon onClick={closeModal} style={{cursor: 'pointer', color: 'white'}}/>
           </XPadding>
         </Header>
         <RoomDetailSection>
