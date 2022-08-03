@@ -2,14 +2,7 @@ import { useEffect } from 'react'
 import reactDom from "react-dom";
 import styled from 'styled-components';
 
-const BackGround = styled.div`
-  position: fixed;
-  background-color: rgba(0, 0, 0, 0.40);
-  width: 100%;
-  height: 100vh;
-  top: 0;
-  left: 0;
-`
+
 
 const ModalPortal = ({ children }) => {
 
@@ -28,7 +21,7 @@ const ModalPortal = ({ children }) => {
   }, []);
   
   const el = document.getElementById("modal");
-  return reactDom.createPortal(<BackGround>{children}</BackGround>, el);
+  return reactDom.createPortal(children, el);
 };
 
 export default ModalPortal;
