@@ -1,3 +1,4 @@
+import zIndex from "@mui/material/styles/zIndex";
 import React, { useState, useEffect, useRef } from "react";
 import styled from "styled-components";
 import RoomCard from "../RoomCard";
@@ -66,10 +67,9 @@ return (
     <Container>
       <SliderContainer ref={slideRef}>
         {roominfos.map((roominfo, index) => (
-          <SlidePadding>
+          <SlidePadding key={index}>
           <RoomCard 
             {...roominfo}
-            key={index}
             />
           </SlidePadding>
         ))}
