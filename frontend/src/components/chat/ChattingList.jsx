@@ -3,7 +3,7 @@ import styled from "styled-components";
 
 const StyledChattingList = styled.div`
   height: 150px;
-  background: rgba(255, 255, 255, 0.1);
+  background: rgba(255, 255, 255, 0.2);
   text-align: left;
   overflow: scroll;
   padding-left:10px;

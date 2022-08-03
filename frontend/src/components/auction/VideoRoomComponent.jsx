@@ -14,14 +14,18 @@ import './VideoRoomComponent.modue.css'
 import styled from "styled-components";
 
 const StyledDiv = styled.div`
+  background: rgba(255, 255, 255, 0.3);
+  width: 300px;
+  margin-left: 5px;
+  margin-right: 5px;
   position: absolute;
   top: 50%;
   left: 50%;
+  transform: translate(-50%, -50%);
 `
 
-
-// const OPENVIDU_SERVER_URL = 'https://' + window.location.hostname + ':4443';
-const OPENVIDU_SERVER_URL = 'https://i7b203.p.ssafy.io:8443';
+const OPENVIDU_SERVER_URL = 'https://' + window.location.hostname + ':4443';
+// const OPENVIDU_SERVER_URL = 'https://i7b203.p.ssafy.io:8443';
 const OPENVIDU_SERVER_SECRET = 'MY_SECRET';
 
 const VideoRoomComponent = (props) => {
@@ -86,6 +90,7 @@ const VideoRoomComponent = (props) => {
               )
             ) {
               window.location.assign(OPENVIDU_SERVER_URL + '/accept-certificate');
+              window.location.assign(OPENVIDU_SERVER_URL + '/openvidu/accept-certificate');
             }
           }
         });
@@ -417,10 +422,10 @@ const VideoRoomComponent = (props) => {
               setToggleStart={setToggleStart}
               maxIndex={props.items.length}
             /></StyledDiv>}
-          {/* <div id="message-footer">
+          <div id="message-footer">
             <ChattingList messageList={messageList}></ChattingList>
             <ChattingForm myUserName={myUserName} onMessage={sendMsg} currentSession={session}></ChattingForm>
-          </div> */}
+          </div>
         </div>
       ) : null}
     </div>
