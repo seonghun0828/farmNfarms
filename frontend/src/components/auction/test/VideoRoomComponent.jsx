@@ -11,17 +11,9 @@ import ExitToAppIcon from '@mui/icons-material/ExitToApp';
 import { Button } from '@mui/material';
 import logo from "../../assets/로고.svg";
 import './VideoRoomComponent.modue.css'
-import styled from "styled-components";
-
-const StyledDiv = styled.div`
-  position: absolute;
-  top: 50%;
-  left: 50%;
-`
 
 
-// const OPENVIDU_SERVER_URL = 'https://' + window.location.hostname + ':4443';
-const OPENVIDU_SERVER_URL = 'https://i7b203.p.ssafy.io:8443';
+const OPENVIDU_SERVER_URL = 'https://' + window.location.hostname + ':4443';
 const OPENVIDU_SERVER_SECRET = 'MY_SECRET';
 
 const VideoRoomComponent = (props) => {
@@ -198,7 +190,7 @@ const VideoRoomComponent = (props) => {
             videoSource: videoDevices[0].deviceId, // The source of video. If undefined default webcam
             publishAudio: true, // Whether you want to start publishing with your audio unmuted or not
             publishVideo: true, // Whether you want to start publishing with your video enabled or not
-            resolution: '450x720', // The resolution of your video
+            resolution: '390x844', // The resolution of your video
             frameRate: 30, // The frame rate of your video
             insertMode: 'APPEND', // How the video is inserted in the target element 'video-container'
             mirror: true, // Whether to mirror your local video or not
@@ -370,7 +362,7 @@ const VideoRoomComponent = (props) => {
         <div id="session">
           {/* 퍼블리셔의 화면 */}
           {mainStreamManager !== undefined ? (
-            <div id="main-video">
+            <div id="main-video" className="col-md-6">
               <UserVideoComponent streamManager={mainStreamManager} />
             </div>
           ) : null}
@@ -384,14 +376,13 @@ const VideoRoomComponent = (props) => {
             </form></div>}
           <div id="session-header">
             <div className="session-header2">
-              <div className="img-tag">
-                <img className="profile-img" src={logo} />
-                <div style={{ color: 'white' }}>배추 아저씨</div>
+              <div>
+                <img src={logo} /><span style={{ color: 'white' }}>배추 아저씨</span>
+                <div style={{ color: 'white' }}>걍 사 뭘 고민혀!</div>
               </div>
               <div>
-                <div>
-                  <PersonIcon style={{ color: 'red' }} /><span style={{color: 'white'}}>{totalUsers}</span>
-                </div>
+                <PersonIcon style={{ color: 'red' }} /><span style={{color: 'white'}}>{totalUsers}</span>
+                <br></br>
                 <Button className='mui-btn' onClick={leaveSession} variant="contained">
                   나가기
                   <ExitToAppIcon />
@@ -405,22 +396,22 @@ const VideoRoomComponent = (props) => {
                 세션 시작
               </Button>}
             </div>
+            {toggleStart && <div>
+              {sessionCount}회차 경매
+              <AuctionTimer
+                seconds={seconds}
+                setSeconds={setSeconds}
+                currentSession={session}
+                sessionCount={sessionCount}
+                setItemIndex={setItemIndex}
+                setToggleStart={setToggleStart}
+                maxIndex={props.items.length}
+              /></div>}
           </div>
-          {toggleStart && <StyledDiv>
-            {sessionCount}회차 경매
-            <AuctionTimer
-              seconds={seconds}
-              setSeconds={setSeconds}
-              currentSession={session}
-              sessionCount={sessionCount}
-              setItemIndex={setItemIndex}
-              setToggleStart={setToggleStart}
-              maxIndex={props.items.length}
-            /></StyledDiv>}
-          {/* <div id="message-footer">
+          <div id="message-footer">
             <ChattingList messageList={messageList}></ChattingList>
             <ChattingForm myUserName={myUserName} onMessage={sendMsg} currentSession={session}></ChattingForm>
-          </div> */}
+          </div>
         </div>
       ) : null}
     </div>
