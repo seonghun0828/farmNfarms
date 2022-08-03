@@ -1,26 +1,37 @@
-/* #video-wrapper {
-  position: relative;
-} */
+.container{
+  height: 100vh;
+}
+
+#session{
+  height: 100vh;
+}
 
 #session-header{
   background-color: rgba(0, 0, 0, 0.5);
   width: 100%;
-  position: fixed;
+  position: absolute;
   top: 0;
-  height: 120px;
+}
+
+#main-video{
+  height: 100%;
+  position: relative;
+  top: 0px;
+  left: 0px;
 }
 
 .session-header2{
   display: flex;
   justify-content: space-between;
+  align-items: center;
   margin-bottom: 10px;
 }
 
 #message-footer{
-  position: fixed; 
+  position: fixed;
   left:0px; 
-  bottom:100px; 
-  width:100%; 
+  bottom:200px;
+  width:100%;
 }
 
 .MuiButton-root.mui-btn {
@@ -35,4 +46,17 @@
     top: 200px;
     left: 50%;
     transform: translate(-50%, 50%);
+}
+
+.img-tag{
+  display: flex;
+  /* width: 100%; */
+  height: 100%;
+  justify-content: start;
+  align-items: center;
+}
+
+.profile-img{
+  width: 100px;
+  height: 50px;
 }

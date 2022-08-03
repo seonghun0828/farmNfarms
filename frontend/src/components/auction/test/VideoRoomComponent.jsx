@@ -362,7 +362,7 @@ const VideoRoomComponent = (props) => {
         <div id="session">
           {/* 퍼블리셔의 화면 */}
           {mainStreamManager !== undefined ? (
-            <div id="main-video">
+            <div id="main-video" className="col-md-6">
               <UserVideoComponent streamManager={mainStreamManager} />
             </div>
           ) : null}
@@ -376,14 +376,13 @@ const VideoRoomComponent = (props) => {
             </form></div>}
           <div id="session-header">
             <div className="session-header2">
-              <div className="img-tag">
-                <img className="profile-img" src={logo} />
-                <div style={{ color: 'white' }}>배추 아저씨</div>
+              <div>
+                <img src={logo} /><span style={{ color: 'white' }}>배추 아저씨</span>
+                <div style={{ color: 'white' }}>걍 사 뭘 고민혀!</div>
               </div>
               <div>
-                <div>
-                  <PersonIcon style={{ color: 'red' }} /><span style={{color: 'white'}}>{totalUsers}</span>
-                </div>
+                <PersonIcon style={{ color: 'red' }} /><span style={{color: 'white'}}>{totalUsers}</span>
+                <br></br>
                 <Button className='mui-btn' onClick={leaveSession} variant="contained">
                   나가기
                   <ExitToAppIcon />
@@ -409,10 +408,10 @@ const VideoRoomComponent = (props) => {
                 maxIndex={props.items.length}
               /></div>}
           </div>
-          {/* <div id="message-footer">
+          <div id="message-footer">
             <ChattingList messageList={messageList}></ChattingList>
             <ChattingForm myUserName={myUserName} onMessage={sendMsg} currentSession={session}></ChattingForm>
-          </div> */}
+          </div>
         </div>
       ) : null}
     </div>

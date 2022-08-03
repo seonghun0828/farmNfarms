@@ -6,6 +6,21 @@ import VideoRoomComponent from './components/auction/VideoRoomComponent'
 import { ThemeProvider } from "styled-components"
 import theme from './common/theme'
 
+const DUMMIES = [
+  {
+    title: '감자',
+    quantity: 1000,
+    bid_increment: 2000,
+    starting_price: 10000,
+  },
+  {
+    title: '배추',
+    quantity: 2000,
+    bid_increment: 1000,
+    starting_price: 15000,
+  },
+]
+
 function App() {
   return (
     <div className="App">
@@ -15,7 +30,7 @@ function App() {
             <Route path="/" element={<Home />} />
             <Route path="/login" element={<Login />} />
             <Route path="/join" element={<Join />} />
-            <Route path="/room" element={<VideoRoomComponent/>}/>
+            <Route path="/room" element={<VideoRoomComponent items={DUMMIES}/>}/>
           </Routes>
         </BrowserRouter>
       </ThemeProvider>
