@@ -50,19 +50,21 @@ const RoomDetailSection = styled.div`
   padding: 0 1rem 0.5rem 1rem;
 `
 
+// 개행이 됐었는데 안됐습니다
 const TitleSection = styled.div`
   display: flex;
   flex-direction: column;
   width: 100%;
   height: auto;
   padding-top: 0.5rem;
+  white-space: pre-wrap;
   border-bottom: 2px solid ${theme.colors.gray1};
 `
  
 const DescriptionSection = styled.div`
   display: flex;
   flex-direction: column;
-  white-space: break-spaces;
+  white-space: pre-wrap;
   padding-top: 0.5rem;
   width: 100%;
   height: auto;
@@ -81,6 +83,8 @@ const ItemCardSection = styled.div`
   flex-direction: column;
   justify-content: center;
   align-items: center;
+  width: 100%;
+  height: auto;
 `;
 
 const ButtonSection = styled.div`
@@ -107,21 +111,24 @@ const Div = styled.div`
 
 const EXAMPLE_ITEMS = [
   {
-    imageUrl: "https://www.google.com/search?q=%EB%B0%B0%EC%B6%94&sxsrf=ALiCzsb2vr7F2jO2MUeJdj3We_YYHVW9cQ:1659498426773&tbm=isch&source=iu&ictx=1&vet=1&fir=UseYLZmrPtJskM%252CX1UfksweKm-ntM%252C%252Fm%252F03hf_6m%253BG7y4fCvkOLKxlM%252CJO7SC9TH-MTb5M%252C_%253Bh_opXx5YpSoU1M%252C4OopPjhrSBq4pM%252C_%253BnT4W0ekhJyhE5M%252CCw5rMRmGGXBhyM%252C_%253BrAnBrljPKSgdQM%252CX5TyMXICmqpEDM%252C_&usg=AI4_-kQ4H_Mwmr7U8oMHVaiexT_51jPD7Q&sa=X&ved=2ahUKEwiUtO6x4an5AhXDa94KHT8SBDYQ_B16BAhOEAE#imgrc=UseYLZmrPtJskM",
+    id: '1',
+    imageUrl: "https://img.hankyung.com/photo/202010/01.24087325.1.jpg",
     product: "배추",
     quantity: "1000kg",
     grade: "최상",
     startingPrice: "100,000원"
   },
   {
-    imageUrl: "https://www.google.com/search?q=%EB%B0%B0%EC%B6%94&sxsrf=ALiCzsb2vr7F2jO2MUeJdj3We_YYHVW9cQ:1659498426773&tbm=isch&source=iu&ictx=1&vet=1&fir=UseYLZmrPtJskM%252CX1UfksweKm-ntM%252C%252Fm%252F03hf_6m%253BG7y4fCvkOLKxlM%252CJO7SC9TH-MTb5M%252C_%253Bh_opXx5YpSoU1M%252C4OopPjhrSBq4pM%252C_%253BnT4W0ekhJyhE5M%252CCw5rMRmGGXBhyM%252C_%253BrAnBrljPKSgdQM%252CX5TyMXICmqpEDM%252C_&usg=AI4_-kQ4H_Mwmr7U8oMHVaiexT_51jPD7Q&sa=X&ved=2ahUKEwiUtO6x4an5AhXDa94KHT8SBDYQ_B16BAhOEAE#imgrc=UseYLZmrPtJskM",
+    id: '2',
+    imageUrl: "https://img.hankyung.com/photo/202010/01.24087325.1.jpg",
     product: "감자",
     quantity: "2000kg",
     grade: "최상",
     startingPrice: "200,000원"
   },
   {
-    imageUrl: "https://www.google.com/search?q=%EB%B0%B0%EC%B6%94&sxsrf=ALiCzsb2vr7F2jO2MUeJdj3We_YYHVW9cQ:1659498426773&tbm=isch&source=iu&ictx=1&vet=1&fir=UseYLZmrPtJskM%252CX1UfksweKm-ntM%252C%252Fm%252F03hf_6m%253BG7y4fCvkOLKxlM%252CJO7SC9TH-MTb5M%252C_%253Bh_opXx5YpSoU1M%252C4OopPjhrSBq4pM%252C_%253BnT4W0ekhJyhE5M%252CCw5rMRmGGXBhyM%252C_%253BrAnBrljPKSgdQM%252CX5TyMXICmqpEDM%252C_&usg=AI4_-kQ4H_Mwmr7U8oMHVaiexT_51jPD7Q&sa=X&ved=2ahUKEwiUtO6x4an5AhXDa94KHT8SBDYQ_B16BAhOEAE#imgrc=UseYLZmrPtJskM",
+    id: '3',
+    imageUrl: "https://img.hankyung.com/photo/202010/01.24087325.1.jpg",
     product: "옥수수",
     quantity: "500kg",
     grade: "중상",
@@ -163,7 +170,7 @@ const RoomDetailModal = ({title, description, items, closeModal}) => {
           <ItemsSection>
             <Text color="gray2" size="xl" weight="bold">항목</Text>
             <ItemCardSection>
-              {items.map((item, index) => <ReadItemCard {...item} key={index}/>)}                         
+              {items.map((item) => <ReadItemCard {...item} key={item.id}/>)}                         
             </ItemCardSection>
           </ItemsSection>
           </Div>
