@@ -6,6 +6,7 @@ import VideoRoomComponent from './components/auction/VideoRoomComponent'
 import { ThemeProvider } from "styled-components"
 import theme from './common/theme'
 import CreateAuctionRoom from "./components/pages/CreateAuctionRoom"
+import AuctionRooms from "./components/pages/AuctionRooms"
 
 const DUMMIES = [
   {
@@ -33,6 +34,7 @@ function App() {
             <Route path="/join" element={<Join />} />
             <Route path="/room" element={<VideoRoomComponent items={DUMMIES}/>}/>
             <Route path="/create" element={<CreateAuctionRoom />} />
+            <Route path="/auctionrooms" element={<AuctionRooms />} />
           </Routes>
         </BrowserRouter>
       </ThemeProvider>

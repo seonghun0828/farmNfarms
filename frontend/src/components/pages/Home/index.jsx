@@ -7,6 +7,8 @@ import Text from '../../atoms/Text';
 import Button from '../../atoms/Button';
 import Carousel from '../../molecules/Carousel';
 import RoomDetailModal from '../../molecules/RoomDetailModal';
+import { useNavigate } from 'react-router-dom';
+import move from '../../../common/move'
 
 
 const StyledHome = styled.div``;
@@ -68,7 +70,7 @@ const EXAMPLE_ROOM_INFOS = [
 ]
 
 const Home = () => {
-
+  const navigate = useNavigate();
   const [isOnModal, setIsOnModal] = useState(false);
  
   const openModal = () => {
@@ -78,6 +80,14 @@ const Home = () => {
   const closeModal = () => {
     setIsOnModal(false);
   }
+
+  const moveToCreate = () => {
+    move(navigate, '/create');
+  }
+  const moveToAuctionRooms = () => {
+    move(navigate, 'auctionrooms');
+  }
+
 
   // 모달 열기 버튼은 임시~~
   return (
@@ -99,7 +109,7 @@ const Home = () => {
           빨리 들어와유
         </Text>
         <MoreInfo>
-          <Button mode="highlight" fontSize="sm">
+          <Button mode="highlight" fontSize="sm" onClick={moveToAuctionRooms}>
             더보기
           </Button>
         </MoreInfo>
@@ -116,7 +126,7 @@ const Home = () => {
         </MoreInfo>
       </MarketPriceArea>
       <AddRoomArea>
-        <Button mode="graytext" fontSize="titleSize">
+        <Button mode="graytext" fontSize="titleSize" onClick={moveToCreate}>
           ⨁
         </Button>
       </AddRoomArea>
