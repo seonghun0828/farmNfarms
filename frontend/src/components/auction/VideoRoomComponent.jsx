@@ -24,8 +24,8 @@ const StyledDiv = styled.div`
   transform: translate(-50%, -50%);
 `
 
-const OPENVIDU_SERVER_URL = 'https://' + window.location.hostname + ':4443';
-// const OPENVIDU_SERVER_URL = 'https://i7b203.p.ssafy.io:8443';
+// const OPENVIDU_SERVER_URL = 'https://' + window.location.hostname + ':4443';
+const OPENVIDU_SERVER_URL = 'https://i7b203.p.ssafy.io:8443';
 const OPENVIDU_SERVER_SECRET = 'MY_SECRET';
 
 const VideoRoomComponent = (props) => {
@@ -89,7 +89,7 @@ const VideoRoomComponent = (props) => {
                 '"',
               )
             ) {
-              window.location.assign(OPENVIDU_SERVER_URL + '/accept-certificate');
+              // window.location.assign(OPENVIDU_SERVER_URL + '/accept-certificate');
               window.location.assign(OPENVIDU_SERVER_URL + '/openvidu/accept-certificate');
             }
           }
