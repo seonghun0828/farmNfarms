@@ -4,8 +4,11 @@ package com.ssafy.api.controller;
 import com.ssafy.api.request.CreateAuctionRoomReq;
 import com.ssafy.api.response.CreateAuctionRoomRes;
 import com.ssafy.api.service.CreateAuctionRoomService;
+import com.ssafy.api.service.GetAuctionRoomInfoService;
 import com.ssafy.api.service.SessionService;
 import com.ssafy.api.dto.AuctionRoomDto;
+import com.ssafy.domain.auctionDetail.AuctionDetail;
+import com.ssafy.domain.auctionRoom.AuctionRoom;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import lombok.extern.slf4j.Slf4j;
@@ -17,7 +20,7 @@ import java.util.HashMap;
 import java.util.List;
 
 @RestController
-@RequestMapping("/api")
+@RequestMapping("/api/v1/rooms")
 @Api(value = "경매방 API",  tags = {"Room"})
 @Slf4j
 public class SessionController {
@@ -27,6 +30,10 @@ public class SessionController {
 
     @Autowired
     private CreateAuctionRoomService createAuctionRoomService;
+
+    @Autowired
+    private GetAuctionRoomInfoService getAuctionRoomInfoService;
+
 
     @PostMapping("/create-room/{phoneNumber}")
     @ApiOperation(value = "방 생성", notes = "방 생성 정보를 받아 저장하고, kms 를 통해 token을 전달한다.")
@@ -52,4 +59,16 @@ public class SessionController {
         return ResponseEntity.ok(sessionService.search(params)) ;
     }
 
+    @GetMapping()
+    @ApiOperation(value = "방 전체 조회", notes = "현재 진행 중인 (auctioned가 false인) 경매 방만 조회합니다.")
+    public ResponseEntity<List<AuctionRoom>> getAuctionRoomsInfo() {
+        return ResponseEntity.ok(getAuctionRoomInfoService.getAuctionRoomsInfo());
     }
+
+    @GetMapping("/details/{roomNumber}")
+    @ApiOperation(value = "방 상세 정보 조회", notes = "roomNumber에 해당하는 방의 상세정보를 조회합니다.")
+    public ResponseEntity<List<AuctionDetail>> getAuctionDetailsInfo(@PathVariable Long roomNumber) {
+        return ResponseEntity.ok(getAuctionRoomInfoService.getAuctionDetailsInfo(roomNumber));
+    }
+
+}

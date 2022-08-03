@@ -28,6 +28,9 @@ public class AuctionRoom {
     private String auctionRoomThumbnail;
 
     @Column
+    private boolean auctioned;
+
+    @Column
     private Long ownerId;
 
     public AuctionRoom(String auctionRoomTitle, String auctionRoomDescription, String auctionRoomThumbnail, Long ownerId) {

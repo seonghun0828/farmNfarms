@@ -10,9 +10,10 @@ import java.util.List;
 @NoArgsConstructor
 public class CreateAuctionRoomReq {
 
-    private Long ownerId;
+//    private Long ownerId;
     private String title;
     private String description;
     private String thumbnail;
     private List<AuctionDetailReq> details;
+//    private boolean auctioned;
 }

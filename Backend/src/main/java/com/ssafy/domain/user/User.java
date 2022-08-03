@@ -46,7 +46,7 @@ public class User {
     private String bank;
 
     @Column
-    private String zoneCode;
+    private String zipCode;
 
     @Column
     private String detailAddress;
@@ -62,7 +62,7 @@ public class User {
                 LocalDateTime data_create,
                 AuctionRoom auctionRoom,
                 String bank,
-                String zoneCode,
+                String zipCode,
                 String detailAddress) {
 
         this.phone = phone;
@@ -74,7 +74,7 @@ public class User {
         this.data_create = data_create;
         this.auctionRoom = auctionRoom;
         this.bank = bank;
-        this.zoneCode = zoneCode;
+        this.zipCode = zipCode;
         this.detailAddress = detailAddress;
     }
 }

@@ -43,6 +43,7 @@ public class CreateAuctionRoomService {
                 .auctionRoomTitle(request.getTitle())
                 .auctionRoomDescription(request.getDescription())
                 .auctionRoomThumbnail(request.getThumbnail())
+                .auctioned(false)
                 .build();
 
         return auctionRoomRepository.save(auctionRoom);

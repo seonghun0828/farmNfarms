@@ -1,11 +1,12 @@
 package com.ssafy.domain.auctionDetail;
 
-import com.ssafy.domain.XXXauction.Auction;
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.ssafy.domain.auctionResult.AuctionResult;
 import com.ssafy.domain.auctionRoom.AuctionRoom;
 import lombok.*;
 
 import javax.persistence.*;
+import java.io.Serializable;
 
 @Entity
 @Getter
@@ -13,7 +14,7 @@ import javax.persistence.*;
 @NoArgsConstructor
 @Builder
 @AllArgsConstructor
-public class AuctionDetail {
+public class AuctionDetail implements Serializable {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -21,6 +22,7 @@ public class AuctionDetail {
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "AUCTION_ROOM_ID")
+    @JsonIgnore
     private AuctionRoom auctionRoom;
 
     @Column
