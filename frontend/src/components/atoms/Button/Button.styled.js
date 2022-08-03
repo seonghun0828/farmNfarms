@@ -44,7 +44,7 @@ export const StyledTextButton = styled.div`
 
 export const StyledButton = styled.button`
   width: ${({width}) => width};
-  height: 3rem;
+  height: ${(height) => height};
   padding: 0 1rem;
 
   border-radius: 5px;

@@ -3,7 +3,8 @@ import styled from "styled-components";
 import RoomCard from "../RoomCard";
 
 
-// 아오~~~ css 모르겟다 진짜
+// 카드 마지막에나오면 슬라이드 안되게 고치기
+// 터치 슬라이드로 가능하도록 커스텀하기 
 
 const Container = styled.div`
   width: 100%;

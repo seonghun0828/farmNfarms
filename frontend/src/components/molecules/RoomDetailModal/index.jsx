@@ -4,9 +4,11 @@ import Text from "../../atoms/Text";
 import Button from "../../atoms/Button";
 import theme from "../../../common/theme"
 import CloseIcon from '@mui/icons-material/Close';
+import ReadItemCard from "../ReadItemCard";
 
 // 위로 올라오듯이 css 효과 넣기
 // div padding 같은거 통일해서 넣기
+// 상태를 메인페이지에서 관리하는게 맞나?? (리덕스 고려하기)
 const BackGround = styled.div`
   position: fixed;
   background-color: rgba(0, 0, 0, 0.40);
@@ -112,6 +114,8 @@ const RoomDetailModal = ({title, description, items, closeModal}) => {
           </DescriptionSection>
           <ItemsSection>
             <Text color="gray2" size="xl" weight="bold">항목</Text>
+            <ReadItemCard/>
+            <ReadItemCard/>
           </ItemsSection>
         </RoomDetailSection>
         <ButtonSection>

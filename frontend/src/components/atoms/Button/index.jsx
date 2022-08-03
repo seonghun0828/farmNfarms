@@ -12,12 +12,14 @@ const MODE = {
   REDBUTTON: "redbutton"
 };
 
-const Button = ({children, fontSize, mode, ...rest}) => {
+const Button = ({children, fontSize, mode, width, height, ...rest}) => {
   if (mode !== "graytext" && mode !== "whitetext") {
     return (
     <StyledButton 
       fontSize={fontSize}
       mode={mode}
+      width={width}
+      height={height}
       {...rest}
     >
       {children}
@@ -38,6 +40,7 @@ const Button = ({children, fontSize, mode, ...rest}) => {
 Button.defaultProps = {
   mode: MODE.PRIMARY,
   fontSize: 'xl',
+  height: '3rem',
 };
 
 export default Button;
