@@ -1,4 +1,4 @@
-const HOST = 'https://i7b203.p.ssafy.io:8080/api/v1/';
+const HOST = 'https://i7b203.p.ssafy.io:9000/api/v1/';
 
 const AUTH = 'auth/';
 const USER = 'user/';
