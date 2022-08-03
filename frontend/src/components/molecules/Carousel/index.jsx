@@ -39,7 +39,6 @@ const Carousel = ({roominfos}) => {
   const slideRef = useRef(null);
 
   const TOTAL_SLIDES = roominfos.length-1;
-  console.log(TOTAL_SLIDES)
 
   const nextSlide = () => {
     if (currentSlide >= TOTAL_SLIDES) { 

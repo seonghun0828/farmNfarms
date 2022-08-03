@@ -1,5 +1,4 @@
 import React, { useState } from 'react';
-import RoomCard from '../../molecules/RoomCard';
 import logo from '../../../assets/temp_logo.png';
 import styled from 'styled-components';
 import Navbar from '../../molecules/Navbar';
@@ -83,7 +82,6 @@ const Home = () => {
   // 모달 열기 버튼은 임시~~
   return (
     <StyledHome>
-      <Button onClick={openModal}>모달열기</Button> 
       {isOnModal && <RoomDetailModal
         closeModal={closeModal}
         title="고랭지 배추 팔아유" 

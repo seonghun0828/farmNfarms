@@ -11,7 +11,7 @@ import ReadItemCard from "../ReadItemCard";
 // 상태를 메인페이지에서 관리하는게 맞나?? (리덕스 고려하기)
 const BackGround = styled.div`
   position: fixed;
-  background-color: rgba(0, 0, 0, 0.40);
+  background-color: rgba(0, 0, 0, 0.4);
   width: 100%;
   height: 100vh;
   top: 0;
@@ -41,14 +41,10 @@ const Header = styled.div`
   align-items: center;
 `
 
-const XPadding = styled.div`
-  padding: 0 0.7rem 0 0.7rem;
-`
-
 // 왜 알파벳은 개행 안되냐거~~
 const RoomDetailSection = styled.div`
   width: 100%;
-  height: 82%;
+  height: 80%;
   overflow-x: hidden;
   overflow-y: auto;
   padding: 0 1rem 0.5rem 1rem;
@@ -80,6 +76,13 @@ const ItemsSection = styled.div`
   height: auto;
 `
 
+const ItemCardSection = styled.div`
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+`;
+
 const ButtonSection = styled.div`
   position: fixed;
   bottom: 0;
@@ -90,6 +93,41 @@ const ButtonSection = styled.div`
   height: 10%;
   background-color: white;
 `
+const Div = styled.div`
+  margin-top: ${(props) => props.mt + 'rem'};
+  margin-bottom: ${(props) => props.mb + 'rem'};
+  margin-left: ${(props) => props.ml + 'rem'};
+  margin-right: ${(props) => props.mr + 'rem'};
+
+  padding-top: ${(props) => props.pt + 'rem'};
+  padding-bottom: ${(props) => props.pb + 'rem'};
+  padding-left: ${(props) => props.pl + 'rem'};
+  padding-right: ${(props) => props.pr + 'rem'};
+`;
+
+const EXAMPLE_ITEMS = [
+  {
+    imageUrl: "https://www.google.com/search?q=%EB%B0%B0%EC%B6%94&sxsrf=ALiCzsb2vr7F2jO2MUeJdj3We_YYHVW9cQ:1659498426773&tbm=isch&source=iu&ictx=1&vet=1&fir=UseYLZmrPtJskM%252CX1UfksweKm-ntM%252C%252Fm%252F03hf_6m%253BG7y4fCvkOLKxlM%252CJO7SC9TH-MTb5M%252C_%253Bh_opXx5YpSoU1M%252C4OopPjhrSBq4pM%252C_%253BnT4W0ekhJyhE5M%252CCw5rMRmGGXBhyM%252C_%253BrAnBrljPKSgdQM%252CX5TyMXICmqpEDM%252C_&usg=AI4_-kQ4H_Mwmr7U8oMHVaiexT_51jPD7Q&sa=X&ved=2ahUKEwiUtO6x4an5AhXDa94KHT8SBDYQ_B16BAhOEAE#imgrc=UseYLZmrPtJskM",
+    product: "배추",
+    quantity: "1000kg",
+    grade: "최상",
+    startingPrice: "100,000원"
+  },
+  {
+    imageUrl: "https://www.google.com/search?q=%EB%B0%B0%EC%B6%94&sxsrf=ALiCzsb2vr7F2jO2MUeJdj3We_YYHVW9cQ:1659498426773&tbm=isch&source=iu&ictx=1&vet=1&fir=UseYLZmrPtJskM%252CX1UfksweKm-ntM%252C%252Fm%252F03hf_6m%253BG7y4fCvkOLKxlM%252CJO7SC9TH-MTb5M%252C_%253Bh_opXx5YpSoU1M%252C4OopPjhrSBq4pM%252C_%253BnT4W0ekhJyhE5M%252CCw5rMRmGGXBhyM%252C_%253BrAnBrljPKSgdQM%252CX5TyMXICmqpEDM%252C_&usg=AI4_-kQ4H_Mwmr7U8oMHVaiexT_51jPD7Q&sa=X&ved=2ahUKEwiUtO6x4an5AhXDa94KHT8SBDYQ_B16BAhOEAE#imgrc=UseYLZmrPtJskM",
+    product: "감자",
+    quantity: "2000kg",
+    grade: "최상",
+    startingPrice: "200,000원"
+  },
+  {
+    imageUrl: "https://www.google.com/search?q=%EB%B0%B0%EC%B6%94&sxsrf=ALiCzsb2vr7F2jO2MUeJdj3We_YYHVW9cQ:1659498426773&tbm=isch&source=iu&ictx=1&vet=1&fir=UseYLZmrPtJskM%252CX1UfksweKm-ntM%252C%252Fm%252F03hf_6m%253BG7y4fCvkOLKxlM%252CJO7SC9TH-MTb5M%252C_%253Bh_opXx5YpSoU1M%252C4OopPjhrSBq4pM%252C_%253BnT4W0ekhJyhE5M%252CCw5rMRmGGXBhyM%252C_%253BrAnBrljPKSgdQM%252CX5TyMXICmqpEDM%252C_&usg=AI4_-kQ4H_Mwmr7U8oMHVaiexT_51jPD7Q&sa=X&ved=2ahUKEwiUtO6x4an5AhXDa94KHT8SBDYQ_B16BAhOEAE#imgrc=UseYLZmrPtJskM",
+    product: "옥수수",
+    quantity: "500kg",
+    grade: "중상",
+    startingPrice: "80,000원"
+  },
+]
 
 const RoomDetailModal = ({title, description, items, closeModal}) => {
   return (
@@ -97,26 +135,38 @@ const RoomDetailModal = ({title, description, items, closeModal}) => {
       <BackGround onClick={closeModal}/>
       <Content>
         <Header>
-          <XPadding>
+          <Div pl={1}>
             <Text color="white" size="xxl" weight="bold">방 상세 정보</Text>
-          </XPadding>
-          <XPadding>
+          </Div>
+          <Div pr={1}>
             <CloseIcon onClick={closeModal} style={{cursor: 'pointer', color: 'white'}}/>
-          </XPadding>
+          </Div>
         </Header>
         <RoomDetailSection>
-          <TitleSection>
-            <Text color="gray2" size="xl" weight="bold">방 제목</Text>
-            <Text size="lg">{title}</Text>
-          </TitleSection>
-          <DescriptionSection>
-            <Text>{description}</Text>
-          </DescriptionSection>
+          <Div mt={0.5}>
+            <TitleSection>
+              <Text color="gray2" size="xl" weight="bold">방 제목</Text>
+              <Div mt={0.5} mb={0.5}>
+                <Text size="lg">{title}</Text>
+              </Div>
+            </TitleSection>
+          </Div>
+          <Div mt={0.5}>
+            <DescriptionSection>
+            <Text color="gray2" size="xl" weight="bold">내용</Text>
+            <Div mt={0.5} mb={0.5}>
+              <Text>{description}</Text>
+            </Div>
+            </DescriptionSection>
+          </Div>
+          <Div mt={0.5}>
           <ItemsSection>
             <Text color="gray2" size="xl" weight="bold">항목</Text>
-            <ReadItemCard/>
-            <ReadItemCard/>
+            <ItemCardSection>
+              {items.map((item, index) => <ReadItemCard {...item} key={index}/>)}                         
+            </ItemCardSection>
           </ItemsSection>
+          </Div>
         </RoomDetailSection>
         <ButtonSection>
           <Button width="90%">입장하기</Button>
@@ -124,6 +174,10 @@ const RoomDetailModal = ({title, description, items, closeModal}) => {
       </Content>
     </ModalPortal>
   );
+}
+
+RoomDetailModal.defaultProps = {
+  items: EXAMPLE_ITEMS,
 }
 
 export default RoomDetailModal;
