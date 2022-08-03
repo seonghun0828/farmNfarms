@@ -30,7 +30,7 @@
 #message-footer{
   position: fixed;
   left:0px; 
-  bottom:200px;
+  bottom:0px;
   width:100%;
 }
 
