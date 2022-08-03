@@ -31,12 +31,8 @@ function App() {
             <Route path="/" element={<Home />} />
             <Route path="/login" element={<Login />} />
             <Route path="/join" element={<Join />} />
-<<<<<<< HEAD
             <Route path="/room" element={<VideoRoomComponent items={DUMMIES}/>}/>
-=======
-            <Route path="/room" element={<VideoRoomComponent/>}/>
             <Route path="/create" element={<CreateAuctionRoom />} />
->>>>>>> cfbc2cd6200caa62ff20bb9ff5aae2f98f9d4dad
           </Routes>
         </BrowserRouter>
       </ThemeProvider>
