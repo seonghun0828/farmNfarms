@@ -1,8 +1,6 @@
 package com.ssafy.api.service;
 
 
-import com.ssafy.api.dto.AuctionDetailDto;
-import com.ssafy.api.request.AuctionDetailReq;
 import com.ssafy.domain.auctionDetail.AuctionDetail;
 import com.ssafy.domain.auctionDetail.AuctionDetailRepository;
 import com.ssafy.domain.auctionRoom.AuctionRoom;

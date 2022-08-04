@@ -11,6 +11,7 @@ import com.ssafy.domain.auctionDetail.AuctionDetail;
 import com.ssafy.domain.auctionRoom.AuctionRoom;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
+import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
@@ -23,16 +24,17 @@ import java.util.List;
 @RequestMapping("/api/v1/rooms")
 @Api(value = "경매방 API",  tags = {"Room"})
 @Slf4j
+@AllArgsConstructor
 public class SessionController {
 
     @Autowired
     private SessionService sessionService;
 
-    @Autowired
-    private CreateAuctionRoomService createAuctionRoomService;
 
-    @Autowired
-    private GetAuctionRoomInfoService getAuctionRoomInfoService;
+    private final CreateAuctionRoomService createAuctionRoomService;
+
+
+    private final GetAuctionRoomInfoService getAuctionRoomInfoService;
 
 
     @PostMapping("/create-room/{phoneNumber}")

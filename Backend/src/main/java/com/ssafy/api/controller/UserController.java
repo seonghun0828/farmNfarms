@@ -28,8 +28,8 @@ import java.util.Map;
 @RequestMapping("/api/v1/user")
 public class UserController {
 
-    UserService userService;
-    PasswordEncoder passwordEncoder;
+    private final UserService userService;
+    private final PasswordEncoder passwordEncoder;
     
     @PostMapping()
     @ApiOperation(value="회원 가입", notes = "아이디와 패스워드를 통해 회원가입 한다")

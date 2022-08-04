@@ -18,8 +18,8 @@ import java.util.Map;
 @Api(value = "휴대폰 인증 API", tags = {"Verification"})
 public class VerificationController {
 
-    @Autowired
-    private VerificationService verificationService;
+
+    private final VerificationService verificationService;
 
     @PostMapping()
     @ApiOperation(value = "인증 객체 생성", notes = "입력된 휴대전화을 통해 인증 번호를 발송한다.")
