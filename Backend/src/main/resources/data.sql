@@ -1,0 +1,1 @@
+INSERT INTO user (account, address, name, password, phone, about_me, data_create) VALUES ('110-342-143345', 'SSAFY', '홍길동', '1','010-0000-0001', '나중에 입력', now());
