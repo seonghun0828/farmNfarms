@@ -14,6 +14,9 @@ import io.swagger.annotations.ApiOperation;
 import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
@@ -63,8 +66,9 @@ public class SessionController {
 
     @GetMapping()
     @ApiOperation(value = "방 전체 조회", notes = "현재 진행 중인 (auctioned가 false인) 경매 방만 조회합니다.")
-    public ResponseEntity<List<AuctionRoom>> getAuctionRoomsInfo() {
-        return ResponseEntity.ok(getAuctionRoomInfoService.getAuctionRoomsInfo());
+    public ResponseEntity<Page<AuctionRoom>> getAuctionRoomsInfo(@RequestParam(value = "page") int page) {
+        Pageable pageable = PageRequest.of(page,5);
+        return ResponseEntity.ok(getAuctionRoomInfoService.getAuctionRoomsInfo(pageable));
     }
 
     @GetMapping("/details/{roomNumber}")
