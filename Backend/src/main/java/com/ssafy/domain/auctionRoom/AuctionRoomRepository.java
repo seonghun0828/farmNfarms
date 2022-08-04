@@ -23,6 +23,7 @@ public interface AuctionRoomRepository extends JpaRepository<AuctionRoom, Long> 
 
     Page<AuctionRoom> findAllByAuctionedFalse(Pageable pageable);
 
+    List<AuctionRoom> findTop6ByAuctionedFalseOrderByCreatedAtDesc();
 
 }
 
