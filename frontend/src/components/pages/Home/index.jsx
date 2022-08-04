@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import logo from '../../../assets/temp_logo.png';
 import styled from 'styled-components';
 import Navbar from '../../molecules/Navbar';
@@ -9,7 +9,8 @@ import Carousel from '../../molecules/Carousel';
 import RoomDetailModal from '../../molecules/RoomDetailModal';
 import { useNavigate } from 'react-router-dom';
 import move from '../../../common/move'
-
+import MainPriceCard from '../../molecules/MainPriceCard';
+import main_price from './main_price'
 
 const StyledHome = styled.div``;
 const FlexSearchArea = styled.div`
@@ -25,6 +26,15 @@ const RoomCardArea = styled.div`
 const MarketPriceArea = styled.div`
   height: 10rem;
 `;
+
+const PriceCardArea = styled.div`
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: space-evenly;
+  align-item: center;
+  align-content: space-evenly;
+`
+
 const MoreInfo = styled.div`
   display: flex;
   justify-content: flex-end;
@@ -34,6 +44,18 @@ const AddRoomArea = styled.div`
   display: flex;
   justify-content: flex-end;
   padding-right: 1rem;
+`;
+
+const Div = styled.div`
+  margin-top: ${(props) => props.mt + 'rem'};
+  margin-bottom: ${(props) => props.mb + 'rem'};
+  margin-left: ${(props) => props.ml + 'rem'};
+  margin-right: ${(props) => props.mr + 'rem'};
+
+  padding-top: ${(props) => props.pt + 'rem'};
+  padding-bottom: ${(props) => props.pb + 'rem'};
+  padding-left: ${(props) => props.pl + 'rem'};
+  padding-right: ${(props) => props.pr + 'rem'};
 `;
 
 const EXAMPLE_ROOM_INFOS = [
@@ -88,6 +110,14 @@ const Home = () => {
     move(navigate, 'auctionrooms');
   }
 
+  const [priceItems, setPriceItems] = useState([]);
+  const getMainPrice = async () => {
+    setPriceItems(await main_price());
+  }
+
+  useEffect(() => {
+    getMainPrice();
+  }, []);
 
   // 모달 열기 버튼은 임시~~
   return (
@@ -124,6 +154,13 @@ const Home = () => {
             더보기
           </Button>
         </MoreInfo>
+        <PriceCardArea>
+          {priceItems ?  priceItems.map((priceItem, index) => (
+            <Div mt={1} key={index}>
+              <MainPriceCard {...priceItem}></MainPriceCard>
+            </Div>
+          )) : <div>isLoading</div>}
+        </PriceCardArea>
       </MarketPriceArea>
       <AddRoomArea>
         <Button mode="graytext" fontSize="titleSize" onClick={moveToCreate}>
