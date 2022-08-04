@@ -1,11 +1,12 @@
 import axios from 'axios';
 import { alertError } from '../../../common/alertError';
+import apiPath from '../../../common/apiPath';
 
 const join = async ({phone, password, name, address, account}) => {
   try {
     const { data: {statusCode} } = await axios({
       method: 'post',
-      url: 'https://i7b203.p.ssafy.io:8080/api/v1/user',
+      url: apiPath.user.join(),
       data: {
         phone,
         password,
