@@ -2,6 +2,9 @@
 package com.ssafy.domain.auctionRoom;
 
 import com.ssafy.api.dto.AuctionRoomDto;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
@@ -18,7 +21,7 @@ public interface AuctionRoomRepository extends JpaRepository<AuctionRoom, Long> 
             "from auction_room r where r.auction_room_title like CONCAT('%', :title, '%')", nativeQuery = true)
     List<AuctionRoomDto> findAllByAuctionRoomTitle(@Param("title")String title);
 
-    List<AuctionRoom> findAllByAuctionedFalse();
+    Page<AuctionRoom> findAllByAuctionedFalse(Pageable pageable);
 
 
 }
