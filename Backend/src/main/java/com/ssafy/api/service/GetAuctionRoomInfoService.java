@@ -39,5 +39,8 @@ public class GetAuctionRoomInfoService {
     }
 
 
+    public List<AuctionRoom> getAuctionRoomsByCreatedTime() {
+        return auctionRoomRepository.findTop6ByAuctionedFalseOrderByCreatedAtDesc();
+    }
 
 }

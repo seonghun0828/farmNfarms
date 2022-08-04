@@ -70,6 +70,11 @@ public class SessionController {
         Pageable pageable = PageRequest.of(page,5);
         return ResponseEntity.ok(getAuctionRoomInfoService.getAuctionRoomsInfo(pageable));
     }
+    @GetMapping("/main")
+    @ApiOperation(value = "경매 방 생성시간 순으로 조회", notes="현재 진행 중인 경매방 중 생성 날짜가 최신인 순으로 6개를 조회합니다.")
+    public ResponseEntity<List<AuctionRoom>> getAuctionRoomsByCreatedTime() {
+        return ResponseEntity.ok(getAuctionRoomInfoService.getAuctionRoomsByCreatedTime());
+    }
 
     @GetMapping("/details/{roomNumber}")
     @ApiOperation(value = "방 상세 정보 조회", notes = "roomNumber에 해당하는 방의 상세정보를 조회합니다.")
