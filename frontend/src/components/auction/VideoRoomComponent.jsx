@@ -10,7 +10,7 @@ import PlayCircleFilledIcon from '@mui/icons-material/PlayCircleFilled';
 import ExitToAppIcon from '@mui/icons-material/ExitToApp';
 import { Button } from '@mui/material';
 import logo from "../../assets/로고.svg";
-import './VideoRoomComponent.modue.css'
+import './VideoRoomComponent.css'
 import styled from "styled-components";
 
 const StyledDiv = styled.div`
@@ -146,8 +146,7 @@ const VideoRoomComponent = (props) => {
     // 유저가 접속할 때마다 인원수를 += 1
     mySession.on('connectionCreated', (({stream}) => {
       setTotalUsers((prevTotalUsers) => {
-        prevTotalUsers = prevTotalUsers + 1
-        return prevTotalUsers
+        return prevTotalUsers + 1
       })
     }))
 

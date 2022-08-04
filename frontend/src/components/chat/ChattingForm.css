@@ -1,0 +1,11 @@
+#chat-form{
+  display: flex;
+}
+
+/* MuiInput-root에 width: 100% 적용 */
+.MuiInput-root{
+  width: 100%;
+  background: rgba(255, 255, 255);
+  border: 1px solid rgba(177, 177, 177);
+  border-radius: 5px;
+}
