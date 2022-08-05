@@ -9,21 +9,12 @@ import com.ssafy.api.vo.PayApprovalVO;
 import com.ssafy.domain.auctionResult.AuctionResult;
 import com.ssafy.domain.auctionResult.AuctionResultRepository;
 import io.swagger.annotations.Api;
-import lombok.Getter;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.HttpEntity;
-import org.springframework.http.HttpHeaders;
-import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
-import org.springframework.util.LinkedMultiValueMap;
-import org.springframework.util.MultiValueMap;
 import org.springframework.web.bind.annotation.*;
-import org.springframework.web.client.RestTemplate;
 
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
-import java.net.URI;
-import java.net.URISyntaxException;
 import java.util.Optional;
 
 @RestController
@@ -31,6 +22,7 @@ import java.util.Optional;
 @Api(value = "결제 API",  tags = {"Pay"})
 public class PayController {
 
+    @Autowired
     PayService payService;
 
     PayApprovalVO payApprovalVO;
@@ -42,28 +34,33 @@ public class PayController {
     @PostMapping()
     public void payReady(HttpServletResponse res, @RequestBody AuctionResultReq auctionResultReq) throws IOException {
 
-        Optional<AuctionResult> auctionResult = auctionResultRepository.findById(auctionResultReq.getAuctionResultId());
-        //헤더에 인증 키 + 구매 정보 기입
-        PayReadyRes payReadyRes = payService.payReady(auctionResult.get());
+        Optional<AuctionResult> optionalAuctionResult = auctionResultRepository.findById(auctionResultReq.getAuctionResultId());
 
+        AuctionResult auctionResult = optionalAuctionResult.get();
+
+        //헤더에 인증 키 + 구매 정보 기입
+        PayReadyRes payReadyRes = payService.payReady(auctionResult);
+
+        System.out.println(payReadyRes.toString());
         //여기에 auctionResult.get 을 통해 가져와서 넣어줘야함.
         payApprovalVO = new PayApprovalVO(
-                "cid",
+                "TC0ONETIME",
                 payReadyRes.getTid(),
-                "주문 번호",
-                "고객 번호"
+                String.valueOf(auctionResult.getId()),
+                String.valueOf(auctionResult.getBuyer().getId())
         );
         res.sendRedirect(payReadyRes.getNext_redirect_mobile_url());
 
     }
 
     @GetMapping("/success")
-    public ResponseEntity<PayApprovalRes> paySuccess(HttpServletResponse res, @RequestParam String pg_token){
+    public ResponseEntity<PayApprovalRes> paySuccess(HttpServletResponse res, @RequestParam String pg_token) {
 
-        PayApprovalRes payApprovalRes = payService.paySuccess(payApprovalVO, pg_token);
-        return ResponseEntity.ok(payApprovalRes);
+        System.out.println("token : " + pg_token);
+        ResponseEntity<PayApprovalRes> payApprovalRes = payService.paySuccess(payApprovalVO, pg_token);
+        System.out.println(payApprovalRes.toString());
+        return payApprovalRes;
     }
-
 
 
 }

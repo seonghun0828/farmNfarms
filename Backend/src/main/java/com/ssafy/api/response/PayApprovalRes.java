@@ -2,9 +2,11 @@ package com.ssafy.api.response;
 
 import com.ssafy.api.vo.AmountVO;
 import com.ssafy.api.vo.CardVO;
+import lombok.Data;
 
 import java.time.LocalDateTime;
 
+@Data
 public class PayApprovalRes {
 
     private String aid, tid, cid, sid;

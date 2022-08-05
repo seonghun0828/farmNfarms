@@ -2,9 +2,10 @@ package com.ssafy.api.vo;
 
 import lombok.AllArgsConstructor;
 import lombok.Builder;
+import lombok.Data;
 import lombok.Getter;
 
-@Getter
+@Data
 public class PayApprovalVO {
 
     private String cid;
