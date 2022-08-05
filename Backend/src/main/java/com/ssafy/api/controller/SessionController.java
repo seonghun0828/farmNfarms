@@ -62,19 +62,20 @@ public class SessionController {
         params.put("mode", mode);
         params.put("key", key);
 
-        return ResponseEntity.ok(sessionService.search(params)) ;
+        return ResponseEntity.ok(sessionService.search(params));
     }
 
-    @GetMapping()
+    /*@GetMapping()
     @ApiOperation(value = "방 전체 조회", notes = "현재 진행 중인 (auctioned가 false인) 경매 방만 조회합니다.")
     public ResponseEntity<Page<AuctionRoom>> getAuctionRoomsInfo(@RequestParam(value = "page") int page) {
         Pageable pageable = PageRequest.of(page,5);
         return ResponseEntity.ok(getAuctionRoomInfoService.getAuctionRoomsInfo(pageable));
-    }
-    @GetMapping("/main")
-    @ApiOperation(value = "경매 방 생성시간 순으로 조회", notes="현재 진행 중인 경매방 중 생성 날짜가 최신인 순으로 6개를 조회합니다.")
-    public ResponseEntity<List<AuctionRoomsInfoRes>> getAuctionRoomsByCreatedTime() {
-        return ResponseEntity.ok(getAuctionRoomInfoService.getAuctionRoomsByCreatedTime());
+    }*/
+    @GetMapping()
+    @ApiOperation(value = "경매 방 최신 순으로 전체 조회", notes="현재 진행 중인 경매방 중 생성 날짜가 최신인 순으로 조회합니다.")
+    public ResponseEntity<Page<AuctionRoomsInfoRes>> getAuctionRoomsByCreatedTime(@RequestParam(value = "page") int page) {
+        Pageable pageable = PageRequest.of(page, 6);
+        return ResponseEntity.ok(getAuctionRoomInfoService.getAuctionRoomsByCreatedTime(pageable));
     }
 
     @GetMapping("/details/{roomNumber}")
