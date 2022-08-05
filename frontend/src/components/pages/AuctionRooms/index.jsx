@@ -65,14 +65,16 @@ const AuctionRooms = () => {
         {pages.map(({ content }, idx1) =>
           content.map((data, idx2) => {
             const {
+              ownerName,
+              ownerPicture,
               auctionRoomTitle,
               auctionRoomThumbnail,
-              auctionRoomDescription,
             } = data;
             const props = {
-              title: auctionRoomTitle,
+              title: ownerName,
+              profileImg: ownerPicture,
+              description: auctionRoomTitle,
               thumbnail: auctionRoomThumbnail,
-              description: auctionRoomDescription,
             };
             return (
               <EachCard key={auctionRoomTitle + idx1 + idx2}>
