@@ -2,6 +2,7 @@ package com.ssafy.api.controller;
 
 
 import com.ssafy.api.request.CreateAuctionRoomReq;
+import com.ssafy.api.response.AuctionRoomsInfoRes;
 import com.ssafy.api.response.CreateAuctionRoomRes;
 import com.ssafy.api.service.CreateAuctionRoomService;
 import com.ssafy.api.service.GetAuctionRoomInfoService;
@@ -72,7 +73,7 @@ public class SessionController {
     }
     @GetMapping("/main")
     @ApiOperation(value = "경매 방 생성시간 순으로 조회", notes="현재 진행 중인 경매방 중 생성 날짜가 최신인 순으로 6개를 조회합니다.")
-    public ResponseEntity<List<AuctionRoom>> getAuctionRoomsByCreatedTime() {
+    public ResponseEntity<List<AuctionRoomsInfoRes>> getAuctionRoomsByCreatedTime() {
         return ResponseEntity.ok(getAuctionRoomInfoService.getAuctionRoomsByCreatedTime());
     }
 
