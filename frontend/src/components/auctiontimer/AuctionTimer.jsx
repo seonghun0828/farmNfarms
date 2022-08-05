@@ -2,14 +2,14 @@ import { Timer } from "@mui/icons-material";
 import { Button } from "@mui/material";
 import React, { useEffect } from "react";
 
-const AuctionTimer = ({ seconds, setSeconds, currentSession, sessionCount, setItemIndex, setToggleStart, maxIndex }) => {
+const AuctionTimer = ({ seconds, setSeconds, currentSession, sessionCount, setItemIndex, setToggleStart, setChatDisplay, maxIndex }) => {
 
   const startTimer = () => {
     // 시간이 다 됐을 때만 버튼이 작동 가능
-    if (seconds === 0) {
+    if (seconds === 0 && sessionCount < 2) {
       currentSession
         .signal({
-          data: 30,
+          data: 20,
           type: "timer",
         })
         .then(() => {
@@ -21,6 +21,17 @@ const AuctionTimer = ({ seconds, setSeconds, currentSession, sessionCount, setIt
     }
   }
 
+  // 20초 후 startTimer 자동 시작(테스트 단계에선 2초로 세팅해서 테스트함)
+  useEffect(() => {
+    if (seconds === 0 && sessionCount < 2) {
+      const autoStart = setInterval(() => {
+        startTimer()
+      }, 20000)
+      return () => clearInterval(autoStart)
+    }
+  }, [seconds])
+
+  // 타이머
   useEffect(() => {
     const countDown = setInterval(() => {
       if (seconds > 0) {
@@ -40,6 +51,9 @@ const AuctionTimer = ({ seconds, setSeconds, currentSession, sessionCount, setIt
           })
           setToggleStart((prevState) => {
             return !prevState
+          })
+          setChatDisplay((prevChatDisplay) => {
+            return true
           })
         }
       }

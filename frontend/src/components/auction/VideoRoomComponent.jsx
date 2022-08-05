@@ -8,6 +8,9 @@ import AuctionTimer from '../auctiontimer/AuctionTimer'
 import PersonIcon from '@mui/icons-material/Person';
 import PlayCircleFilledIcon from '@mui/icons-material/PlayCircleFilled';
 import ExitToAppIcon from '@mui/icons-material/ExitToApp';
+import PaidIcon from '@mui/icons-material/Paid';
+import UploadIcon from '@mui/icons-material/Upload';
+import DownloadIcon from '@mui/icons-material/Download';
 import { Button } from '@mui/material';
 import logo from "../../assets/로고.svg";
 import './VideoRoomComponent.css'
@@ -15,14 +18,22 @@ import styled from "styled-components";
 
 const StyledDiv = styled.div`
   background: rgba(255, 255, 255, 0.3);
+  border-radius: 5px;
   width: 300px;
   margin-left: 5px;
   margin-right: 5px;
-  position: absolute;
-  top: 50%;
   left: 50%;
-  transform: translate(-50%, -50%);
 `
+// const StyledDiv = styled.div`
+//   background: rgba(255, 255, 255, 0.3);
+//   width: 300px;
+//   margin-left: 5px;
+//   margin-right: 5px;
+//   position: absolute;
+//   top: 50%;
+//   left: 50%;
+//   transform: translate(-50%, -50%);
+// `
 
 // const OPENVIDU_SERVER_URL = 'https://' + window.location.hostname + ':4443';
 const OPENVIDU_SERVER_URL = 'https://i7b203.p.ssafy.io:8443';
@@ -43,10 +54,11 @@ const VideoRoomComponent = (props) => {
   const [price, setPrice] = useState(props.items[0].starting_price) // 나의 입찰(bidding) 가격
   const [highestPrice, setHighestPrice] = useState(0) // 최고 입찰 가격
   const [bestBidder, setBestBidder] = useState(undefined) // 최고 입찰자
-  const [auctionCount, setAuctionCount] = useState(0) // 경매 회수(props의 길이와 같아지면 경매방 종료)
+  // const [auctionCount, setAuctionCount] = useState(0) // 경매 회수(props의 길이와 같아지면 경매방 종료)
   const [sessionCount, setSessionCount] = useState(0) // 현재 경매의 세션 횟수(초깃값은 0, max는 2까지)
-  const [itemIndex, setItemIndex] = useState(0) // 인덱스
-
+  const [itemIndex, setItemIndex] = useState(0) // 물품 목록 인덱스
+  const [chatDisplay, setChatDisplay] = useState(true) // 채팅창 보이기(초깃값: true) 
+  
   let OV = undefined;
 
   // 토큰 받아오기(KMS로 직접 쏨)
@@ -172,8 +184,8 @@ const VideoRoomComponent = (props) => {
 
     // "timer"라는 시그널을 받아서 시간을 30초로 셋팅함
     mySession.on("signal:timer", (event) => {
-      setSeconds(event.data)
-      setSessionCount((prevCount) => {
+      setSeconds(event.data) // 시간 세팅
+      setSessionCount((prevCount) => { // 경매 세션 카운트 + 1
         return prevCount + 1
       })
     });
@@ -235,9 +247,12 @@ const VideoRoomComponent = (props) => {
     setPublisher(undefined)
     setMessageList([])
     setToggleStart(false)
+    setChatDisplay(true)
     setTotalUsers((prevTotalUsers) => {
-      return prevTotalUsers - 1
+      return 0
     })
+    setItemIndex(0) // 0으로 바꿔줘야 방을 파고 다시 들어왔을 때 목록을 0부터 시작할 수 있음
+    setSeconds(0)
   }
 
   useEffect(() => {
@@ -301,6 +316,7 @@ const VideoRoomComponent = (props) => {
     setPrice(props.items[itemIndex].starting_price)
     setSessionCount(0) // 현재 경매 세션의 카운트를 0으로 초기화함
     setBestBidder(undefined) // 경매 최고 낙찰자를 undefined로 초기화함
+    setChatDisplay(false) // 경매 시작하면 채팅창 off
     mySession.signal({
       data: true,
       type:"auction",
@@ -382,10 +398,10 @@ const VideoRoomComponent = (props) => {
             <p>현재 최고 입찰자: {bestBidder}</p>
             <p>현재 최고 입찰 가걱: {highestPrice}</p>
           </div> */}
-          {displayBidding && <div className='bidding-form'><form onSubmit={biddingHandler}>
+          {/* {displayBidding && <div className='bidding-form'><form onSubmit={biddingHandler}>
               <input type="number" value={price} onChange={priceChangeHandler} step={props.items[0].bid_increment} min={price} />
               <button>입찰</button>
-            </form></div>}
+            </form></div>} */}
           <div id="session-header">
             <div className="session-header2">
               <div className="img-tag">
@@ -410,7 +426,15 @@ const VideoRoomComponent = (props) => {
               </Button>}
             </div>
           </div>
-          {toggleStart && <StyledDiv>
+          {toggleStart && <div id="auction-screen">
+            <StyledDiv>
+              <span>
+                {props.items[itemIndex].title}
+                {props.items[itemIndex].grade}
+                {props.items[itemIndex].quantity}Kg
+              </span>
+            </StyledDiv>
+            <StyledDiv>
             {sessionCount}회차 경매
             <AuctionTimer
               seconds={seconds}
@@ -419,12 +443,35 @@ const VideoRoomComponent = (props) => {
               sessionCount={sessionCount}
               setItemIndex={setItemIndex}
               setToggleStart={setToggleStart}
+              setChatDisplay={setChatDisplay}
               maxIndex={props.items.length}
-            /></StyledDiv>}
-          <div id="message-footer">
+            /></StyledDiv>
+            <StyledDiv>
+              경매 시작가: {props.items[itemIndex].starting_price}
+              경매 호가: {props.items[itemIndex].bid_increment}
+            </StyledDiv>
+            <Button variant="contained" style={{ background: "#0F9749", width:" 300px"}} >응찰하기</Button>
+            <StyledDiv>
+              내 응찰 가격
+              {price}
+            </StyledDiv>
+            <div>
+              <Button variant='contained'>
+                <PaidIcon></PaidIcon>
+                <DownloadIcon></DownloadIcon>
+                내리기
+              </Button>
+              <Button variant='contained'>
+                <PaidIcon></PaidIcon>
+                <UploadIcon></UploadIcon>
+                올리기
+              </Button>
+            </div>
+            </div>}
+          {chatDisplay && <div id="message-footer">
             <ChattingList messageList={messageList}></ChattingList>
             <ChattingForm myUserName={myUserName} onMessage={sendMsg} currentSession={session}></ChattingForm>
-          </div>
+          </div>}
         </div>
       ) : null}
     </div>

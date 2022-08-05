@@ -11,12 +11,14 @@ import AuctionRooms from "./components/pages/AuctionRooms"
 const DUMMIES = [
   {
     title: '감자',
+    grade: '특등',
     quantity: 1000,
     bid_increment: 2000,
     starting_price: 10000,
   },
   {
     title: '배추',
+    grade: '1등급',
     quantity: 2000,
     bid_increment: 1000,
     starting_price: 15000,

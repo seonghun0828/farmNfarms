@@ -2,6 +2,18 @@
   height: 100vh;
 }
 
+#auction-screen{
+  left: 50%;
+  width: 300px;
+  position: fixed;
+  bottom: 0px;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  transform: translate(-50%, 0);
+}
+
 #session{
   height: 100vh;
 }
