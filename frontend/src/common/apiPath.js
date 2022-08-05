@@ -1,19 +1,16 @@
 const HOST = 'https://i7b203.p.ssafy.io:9000/api/v1/';
 
 const AUTH = 'auth/';
-const ROOM = 'rooms/';
 const USER = 'user/';
 const VERIFICATION = 'verifications/';
+const PRICE = 'price/';
 
 const apiPath = {
   auth: {
     login: () => HOST + AUTH + 'login/',
     reaccess: () => HOST + AUTH + 'reaccess',
   },
-  room: {
-    rooms: () => HOST + ROOM,
-    search: () => HOST + ROOM + 'search',
-  },
+
   user: {
     join: () => HOST + USER,
     delete: () => HOST + USER,
@@ -23,6 +20,10 @@ const apiPath = {
   verification: {
     create: () => HOST + VERIFICATION,
     send: (id) => HOST + VERIFICATION + `${id}/`,
+  },
+  // 아래부터 임시
+  price: {
+    main: () => HOST + PRICE + 'main/',
   },
 };
 
