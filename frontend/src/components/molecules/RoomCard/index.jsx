@@ -1,22 +1,23 @@
 import React from 'react';
-import styled, {css} from 'styled-components';
-import Text from '../../atoms/Text'
-import Image from '../../atoms/Image'
+import styled, { css } from 'styled-components';
+import Text from '../../atoms/Text';
+import Image from '../../atoms/Image';
 import ViewerNum from '../ViewerNum';
+import defaultImg from '../../../assets/defaultImg.png';
 
 const CardArea = styled.div`
   width: 8rem;
-`
+`;
 const StyledRoomCard = styled.div`
-  ${({theme}) => theme.flex.columnCenter}
+  ${({ theme }) => theme.flex.columnCenter}
   width: 8rem;
   height: 13rem;
   border-radius: 0.6rem;
-  background-image: url(${({url}) => url});
+  background-image: url(${({ url }) => url});
   background-size: cover;
-`
+`;
 const CardHeader = styled.div`
-  ${({theme}) => theme.flex.rowCenter}
+  ${({ theme }) => theme.flex.rowCenter}
   justify-content: flex-start;
   width: 100%;
   height: 2rem;
@@ -24,48 +25,69 @@ const CardHeader = styled.div`
   gap: 0.2rem;
   background: rgb(0, 0, 0, 0.4);
   border-radius: 0.6rem 0.6rem 0 0;
-`
+`;
+const ProfileImg = styled.div`
+  width: 1.5rem;
+  height: 1.5rem;
+`;
 const CardBody = styled.div`
   height: 9rem;
-`
+`;
 const CardFooter = styled.div`
   width: 90%;
   display: flex;
   justify-content: flex-end;
   height: 2rem;
-`
+`;
 const Tags = styled.div`
   display: flex;
   justify-content: flex-start;
   width: 100%;
   gap: 0.5rem;
   overflow-x: hidden;
-`
+`;
 const Tag = styled.div`
-  ${({theme}) => theme.flex.rowCenter}
+  ${({ theme }) => theme.flex.rowCenter}
   width: 100%;
   height: 1rem;
-  background-color: ${({theme}) => theme.colors.green3};
+  background-color: ${({ theme }) => theme.colors.green3};
   border-radius: 0.5rem;
   font-weight: bold;
-`
-const RoomCard = ({ profileImg, thumnail, headerSize, title, description, tags, num, ...rest}) => {
+`;
+const RoomCard = ({
+  profileImg,
+  thumnail,
+  headerSize,
+  title,
+  description,
+  tags,
+  num,
+  ...rest
+}) => {
   if (description.length > 14)
     description = description.substring(0, 14) + '...';
   return (
     <CardArea>
       <StyledRoomCard url={thumnail}>
         <CardHeader>
-          <Image src={profileImg} alt='profileImage' size={headerSize} />
-          <Text color='white' fontSize={headerSize}>{title}</Text>
+          <ProfileImg>
+            <Image src={profileImg} alt="profileImage" size={headerSize} />
+          </ProfileImg>
+          <Text color="white" fontSize={headerSize}>
+            {title}
+          </Text>
         </CardHeader>
         <CardBody />
         <CardFooter>
-          <ViewerNum color='white' {...rest}>{num}</ViewerNum>
+          <ViewerNum color="white" {...rest}>
+            {num}
+          </ViewerNum>
         </CardFooter>
       </StyledRoomCard>
-      <Text color='black' fontSize={headerSize}>{description}</Text>
-      <Tags>
+      <Text color="black" fontSize={headerSize}>
+        {description}
+      </Text>
+      {/* <Tags>
         {tags.map((tag, idx) => {
           if (idx < 3)
             return (
@@ -75,15 +97,13 @@ const RoomCard = ({ profileImg, thumnail, headerSize, title, description, tags, 
             )
         }
         )}
-      </Tags>
+      </Tags> */}
     </CardArea>
   );
-}
+};
 
 export default RoomCard;
 
-// RoomCard.defaultProps = {
-//   size: 'xl',
-//   color: 'black',
-//   weight: 'bold',
-// }
+RoomCard.defaultProps = {
+  profileImg: defaultImg,
+};
