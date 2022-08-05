@@ -5,12 +5,8 @@ import ChattingForm from '../chat/ChattingForm';
 import ChattingList from '../chat/ChattingList';
 import UserVideoComponent from './UserVideoComponent';
 import AuctionTimer from '../auctiontimer/AuctionTimer'
-import PersonIcon from '@mui/icons-material/Person';
-import PlayCircleFilledIcon from '@mui/icons-material/PlayCircleFilled';
-import ExitToAppIcon from '@mui/icons-material/ExitToApp';
-import PaidIcon from '@mui/icons-material/Paid';
-import UploadIcon from '@mui/icons-material/Upload';
-import DownloadIcon from '@mui/icons-material/Download';
+import { Person, PlayCircleFilled, ExitToApp, Paid, Upload, Download, RequestQuote } from '@mui/icons-material'
+import { useNavigate } from "react-router-dom";
 import { Button } from '@mui/material';
 import logo from "../../assets/로고.svg";
 import './VideoRoomComponent.css'
@@ -19,10 +15,18 @@ import styled from "styled-components";
 const StyledDiv = styled.div`
   background: rgba(255, 255, 255, 0.3);
   border-radius: 5px;
-  width: 300px;
+  width: 350px;
   margin-left: 5px;
   margin-right: 5px;
+  margin-top: 1px;
+  margin-bottom: 1px;
   left: 50%;
+  font-size: 28px;
+  text-align: center;
+  font-weight: bold;
+`
+const WhiteDiv = styled.div`
+  color: white;
 `
 // const StyledDiv = styled.div`
 //   background: rgba(255, 255, 255, 0.3);
@@ -58,6 +62,8 @@ const VideoRoomComponent = (props) => {
   const [sessionCount, setSessionCount] = useState(0) // 현재 경매의 세션 횟수(초깃값은 0, max는 2까지)
   const [itemIndex, setItemIndex] = useState(0) // 물품 목록 인덱스
   const [chatDisplay, setChatDisplay] = useState(true) // 채팅창 보이기(초깃값: true) 
+
+  const navigate = useNavigate() // 네비게이터
   
   let OV = undefined;
 
@@ -236,6 +242,7 @@ const VideoRoomComponent = (props) => {
     const mySession = session;
     if (mySession) {
       mySession.disconnect();
+      navigate('/') // 메인페이지로 이동
     }
     // 속성을 초기화함(필요한 속성은 초기화하면 안 됨)
     OV = null;
@@ -316,6 +323,7 @@ const VideoRoomComponent = (props) => {
     setPrice(props.items[itemIndex].starting_price)
     setSessionCount(0) // 현재 경매 세션의 카운트를 0으로 초기화함
     setBestBidder(undefined) // 경매 최고 낙찰자를 undefined로 초기화함
+    setHighestPrice(0) // 경매 최고 낙찰가를 0으로 초기화함
     setChatDisplay(false) // 경매 시작하면 채팅창 off
     mySession.signal({
       data: true,
@@ -328,9 +336,8 @@ const VideoRoomComponent = (props) => {
   }
 
   // 경매 가격 입찰
-  const biddingHandler = (event) => {
+  const biddingHandler = () => {
     // 가격을 전달받아야함
-    event.preventDefault()
     if (seconds > 0) {
       const mySession = session
       mySession.signal({
@@ -344,9 +351,21 @@ const VideoRoomComponent = (props) => {
     } 
   }
 
-  // 가격 변동 핸들러
-  const priceChangeHandler = (event) => {
-    setPrice(parseInt(event.target.value))
+  // 입찰가 증가 핸들러
+  const priceUpHandler = () => {
+    setPrice((prevPrice) => {
+      return prevPrice + props.items[itemIndex].bid_increment
+    })
+  }
+
+  // 입찰가 하락 핸들러
+  const priceDownHandler = () => {
+    setPrice((prevPrice) => {
+      if (prevPrice === 0) {
+        return 0
+      }
+      return prevPrice - props.items[itemIndex].bid_increment
+    })
   }
 
   return (
@@ -388,20 +407,12 @@ const VideoRoomComponent = (props) => {
 
       {session !== undefined ? (
         <div id="session">
-          {/* 퍼블리셔의 화면 */}
+          {/* 화면 */}
           {mainStreamManager !== undefined ? (
             <div id="main-video">
               <UserVideoComponent streamManager={mainStreamManager} />
             </div>
           ) : null}
-          {/* <div>
-            <p>현재 최고 입찰자: {bestBidder}</p>
-            <p>현재 최고 입찰 가걱: {highestPrice}</p>
-          </div> */}
-          {/* {displayBidding && <div className='bidding-form'><form onSubmit={biddingHandler}>
-              <input type="number" value={price} onChange={priceChangeHandler} step={props.items[0].bid_increment} min={price} />
-              <button>입찰</button>
-            </form></div>} */}
           <div id="session-header">
             <div className="session-header2">
               <div className="img-tag">
@@ -410,23 +421,36 @@ const VideoRoomComponent = (props) => {
               </div>
               <div>
                 <div>
-                  <PersonIcon style={{ color: 'red' }} /><span style={{color: 'white'}}>{totalUsers}</span>
+                  <Person style={{ color: 'red' }} /><span style={{color: 'white'}}>{totalUsers}</span>
                 </div>
                 <Button className='mui-btn' onClick={leaveSession} variant="contained">
                   나가기
-                  <ExitToAppIcon />
+                  <ExitToApp />
                 </Button>
               </div>
             </div>
             <div className="session-header2">
               <Button className='mui-btn' variant="contained">물품 목록</Button>
               {!toggleStart && <Button className='mui-btn' variant="contained" onClick={startAuction}>
-                <PlayCircleFilledIcon />
+                <PlayCircleFilled />
                 세션 시작
               </Button>}
             </div>
           </div>
           {toggleStart && <div id="auction-screen">
+            <StyledDiv>
+              {sessionCount}회차 경매
+              <AuctionTimer
+                seconds={seconds}
+                setSeconds={setSeconds}
+                currentSession={session}
+                sessionCount={sessionCount}
+                setItemIndex={setItemIndex}
+                setToggleStart={setToggleStart}
+                setChatDisplay={setChatDisplay}
+                setSessionCount={setSessionCount}
+                maxIndex={props.items.length}
+              /></StyledDiv>
             <StyledDiv>
               <span>
                 {props.items[itemIndex].title}
@@ -435,35 +459,56 @@ const VideoRoomComponent = (props) => {
               </span>
             </StyledDiv>
             <StyledDiv>
-            {sessionCount}회차 경매
-            <AuctionTimer
-              seconds={seconds}
-              setSeconds={setSeconds}
-              currentSession={session}
-              sessionCount={sessionCount}
-              setItemIndex={setItemIndex}
-              setToggleStart={setToggleStart}
-              setChatDisplay={setChatDisplay}
-              maxIndex={props.items.length}
-            /></StyledDiv>
-            <StyledDiv>
-              경매 시작가: {props.items[itemIndex].starting_price}
-              경매 호가: {props.items[itemIndex].bid_increment}
+              경매 시작가
+              <WhiteDiv>
+                ￦{props.items[itemIndex].starting_price.toLocaleString('ko-KR')}원
+              </WhiteDiv>
             </StyledDiv>
-            <Button variant="contained" style={{ background: "#0F9749", width:" 300px"}} >응찰하기</Button>
             <StyledDiv>
-              내 응찰 가격
-              {price}
+              경매 호가
+              <WhiteDiv>
+                ￦{props.items[itemIndex].bid_increment.toLocaleString('ko-KR')}원
+              </WhiteDiv>
             </StyledDiv>
-            <div>
-              <Button variant='contained'>
-                <PaidIcon></PaidIcon>
-                <DownloadIcon></DownloadIcon>
+            <StyledDiv>
+              최고 입찰가
+              <WhiteDiv>
+                ￦{highestPrice}원
+              </WhiteDiv>
+            </StyledDiv>
+            <Button 
+              variant="contained" 
+              style={{ background: '#0F9749', width: '350px', fontSize: '16px', fontWeight: 'bold' }}
+              onClick={biddingHandler}
+            >
+              <RequestQuote></RequestQuote>
+              응찰하기
+            </Button>
+            <StyledDiv>
+              <span>
+                내 응찰 가격
+              </span>
+              <WhiteDiv>
+                ￦{price.toLocaleString('ko-KR')}원
+              </WhiteDiv>
+            </StyledDiv>
+            <div style={{width: '350px'}}>
+              <Button 
+                variant='contained' 
+                style={{ fontSize: '16px', fontWeight: 'bold', width:'175px'}}
+                onClick={priceDownHandler}
+                >
+                <Paid></Paid>
+                <Download></Download>
                 내리기
               </Button>
-              <Button variant='contained'>
-                <PaidIcon></PaidIcon>
-                <UploadIcon></UploadIcon>
+              <Button 
+                variant='contained' 
+                style={{ fontSize: '16px', fontWeight: 'bold', width:'175px'}}
+                onClick={priceUpHandler}
+                >
+                <Paid></Paid>
+                <Upload></Upload>
                 올리기
               </Button>
             </div>
