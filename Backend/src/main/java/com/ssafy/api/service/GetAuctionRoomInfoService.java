@@ -11,6 +11,7 @@ import com.ssafy.domain.user.UserRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageImpl;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
@@ -22,11 +23,6 @@ import java.util.Optional;
 @Service
 @RequiredArgsConstructor
 public class GetAuctionRoomInfoService {
-
-//    private final AuctionRoomRepository auctionRoomRepository;
-
-//    private final AuctionDetailRepository auctionDetailRepository;
-
 
     private final AuctionRoomRepository auctionRoomRepository;
 
@@ -45,11 +41,10 @@ public class GetAuctionRoomInfoService {
     }
 
 
-    public List<AuctionRoomsInfoRes> getAuctionRoomsByCreatedTime() {
+    public Page<AuctionRoomsInfoRes> getAuctionRoomsByCreatedTime(Pageable pageable) {
 
-        List<AuctionRoom> foundList = auctionRoomRepository.findTop6ByAuctionedFalseOrderByCreatedAtDesc();
+        List<AuctionRoom> foundList = auctionRoomRepository.findAllByAuctionedFalseOrderByCreatedAtDesc();
         List<AuctionRoomsInfoRes> responseList = new ArrayList<>();
-
         for(AuctionRoom room : foundList) {
 
             Optional<User> foundUser = userRepository.findById(room.getOwnerId());
@@ -62,9 +57,12 @@ public class GetAuctionRoomInfoService {
                     .build();
 
             responseList.add(auctionRoomsInfoRes);
-
         }
-        return responseList;
+
+        int start = (int)pageable.getOffset();
+        int end = Math.min((start + pageable.getPageSize()), responseList.size());
+
+        return new PageImpl<>(responseList.subList(start, end), pageable, responseList.size());
     }
 
 }
