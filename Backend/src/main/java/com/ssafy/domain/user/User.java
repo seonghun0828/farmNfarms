@@ -51,6 +51,8 @@ public class User {
     @Column
     private String detailAddress;
 
+    @Column
+    private String picture;
 
     @Builder
     public User(String phone,
