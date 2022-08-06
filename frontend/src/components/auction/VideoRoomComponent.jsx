@@ -4,12 +4,13 @@ import React, { useCallback, useEffect, useState } from 'react';
 import ChattingForm from '../chat/ChattingForm';
 import ChattingList from '../chat/ChattingList';
 import UserVideoComponent from './UserVideoComponent';
-import AuctionTimer from '../auctiontimer/AuctionTimer'
-import { Person, PlayCircleFilled, ExitToApp, Paid, Upload, Download, RequestQuote } from '@mui/icons-material'
+import AuctionTimer from '../auctiontimer/AuctionTimer';
+import send from './send';
+import { Person, PlayCircleFilled, ExitToApp, Paid, Upload, Download, RequestQuote, Sell } from '@mui/icons-material'
 import { useNavigate } from "react-router-dom";
 import { Button } from '@mui/material';
 import logo from "../../assets/로고.svg";
-import './VideoRoomComponent.css'
+import './VideoRoomComponent.css';
 import styled from "styled-components";
 
 const StyledDiv = styled.div`
@@ -39,6 +40,9 @@ const WhiteDiv = styled.div`
 //   transform: translate(-50%, -50%);
 // `
 
+// 경매방 나가기 기능 정교화(요약 페이지를 보고 나가게 하기로 바꾸기?)
+// 입찰에 성공했을 때, 테두리 초록색 강조 => 비록 최고가는 아니지만
+
 // const OPENVIDU_SERVER_URL = 'https://' + window.location.hostname + ':4443';
 const OPENVIDU_SERVER_URL = 'https://i7b203.p.ssafy.io:8443';
 const OPENVIDU_SERVER_SECRET = 'MY_SECRET';
@@ -57,7 +61,9 @@ const VideoRoomComponent = (props) => {
   const [displayBidding, setDisplayBidding] = useState(false) // 비딩칸 display on/off
   const [price, setPrice] = useState(props.items[0].starting_price) // 나의 입찰(bidding) 가격
   const [highestPrice, setHighestPrice] = useState(0) // 최고 입찰 가격
+  const [tempHighestPrice, setTempHighestPrice] = useState(0) // 현재 세션에만 보여줄 최고 입찰 가격
   const [bestBidder, setBestBidder] = useState(undefined) // 최고 입찰자
+  const [tempBestBidder, setTempBestBidder] = useState(undefined) // 현재 세션에만 보여줄 최고 입찰자
   // const [auctionCount, setAuctionCount] = useState(0) // 경매 회수(props의 길이와 같아지면 경매방 종료)
   const [sessionCount, setSessionCount] = useState(0) // 현재 경매의 세션 횟수(초깃값은 0, max는 2까지)
   const [itemIndex, setItemIndex] = useState(0) // 물품 목록 인덱스
@@ -186,6 +192,7 @@ const VideoRoomComponent = (props) => {
     mySession.on("signal:auction", (event) => {
       setToggleStart(event.data)
       setDisplayBidding(!displayBidding)
+      setChatDisplay(false)
     });
 
     // "timer"라는 시그널을 받아서 시간을 30초로 셋팅함
@@ -322,8 +329,10 @@ const VideoRoomComponent = (props) => {
     // 현재 경매 세션의 출발 가격을 초기화함
     setPrice(props.items[itemIndex].starting_price)
     setSessionCount(0) // 현재 경매 세션의 카운트를 0으로 초기화함
-    setBestBidder(undefined) // 경매 최고 낙찰자를 undefined로 초기화함
     setHighestPrice(0) // 경매 최고 낙찰가를 0으로 초기화함
+    setBestBidder(undefined) // 경매 최고 낙찰자를 undefined로 초기화함
+    setTempHighestPrice(0) // 현재 세션에서 보여줄 임시 경매 최고 낙찰가를 0으로 함
+    setTempBestBidder(undefined) // 현재 세션에서 보여줄 임시 경매 최고 낙찰자를 undefined로 초기화함
     setChatDisplay(false) // 경매 시작하면 채팅창 off
     mySession.signal({
       data: true,
@@ -353,19 +362,35 @@ const VideoRoomComponent = (props) => {
 
   // 입찰가 증가 핸들러
   const priceUpHandler = () => {
-    setPrice((prevPrice) => {
-      return prevPrice + props.items[itemIndex].bid_increment
-    })
+    if (seconds > 0) {
+      setPrice((prevPrice) => {
+        return prevPrice + props.items[itemIndex].bid_increment
+      })  
+    }
   }
 
   // 입찰가 하락 핸들러
   const priceDownHandler = () => {
-    setPrice((prevPrice) => {
-      if (prevPrice === 0) {
-        return 0
-      }
-      return prevPrice - props.items[itemIndex].bid_increment
-    })
+    if (seconds > 0) {
+      setPrice((prevPrice) => {
+        if (prevPrice === 0) {
+          return 0
+        }
+        return prevPrice - props.items[itemIndex].bid_increment
+      })
+    }
+  }
+
+  const sendAuctionResult = () => {
+    console.log('send data to backend!')
+    // send함수를 호출해서 백엔드로 데이터를 보냄
+    // const payload = {};
+    // const sendResponse = send(payload);
+    // if (sendResponse) {
+    //   console.log('Send Data Successfully!');
+    // } else {
+    //   console.log('Send Data Failed!')
+    // }
   }
 
   return (
@@ -430,7 +455,10 @@ const VideoRoomComponent = (props) => {
               </div>
             </div>
             <div className="session-header2">
-              <Button className='mui-btn' variant="contained">물품 목록</Button>
+              <Button className='mui-btn' variant="contained">
+                <Sell></Sell>
+                물품 목록
+              </Button>
               {!toggleStart && <Button className='mui-btn' variant="contained" onClick={startAuction}>
                 <PlayCircleFilled />
                 세션 시작
@@ -449,6 +477,11 @@ const VideoRoomComponent = (props) => {
                 setToggleStart={setToggleStart}
                 setChatDisplay={setChatDisplay}
                 setSessionCount={setSessionCount}
+                sendAuctionResult={sendAuctionResult}
+                highestPrice={highestPrice}
+                setTempHighestPrice={setTempHighestPrice}
+                bestBidder={bestBidder}
+                setTempBestBidder={setTempBestBidder}
                 maxIndex={props.items.length}
               /></StyledDiv>
             <StyledDiv>
@@ -473,7 +506,9 @@ const VideoRoomComponent = (props) => {
             <StyledDiv>
               최고 입찰가
               <WhiteDiv>
-                ￦{highestPrice}원
+                {tempHighestPrice === 0 && <span>가격 공개 전</span>}
+                {tempHighestPrice !== 0 && <span>￦{tempHighestPrice}원</span>}
+                {tempBestBidder && <p>{tempBestBidder}</p>}
               </WhiteDiv>
             </StyledDiv>
             <Button 

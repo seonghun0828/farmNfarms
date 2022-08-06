@@ -12,7 +12,11 @@ const StyledDiv = styled.div`
   font-weight: bold;  
 `
 
-const AuctionTimer = ({ seconds, setSeconds, currentSession, sessionCount, setSessionCount, setItemIndex, setToggleStart, setChatDisplay, maxIndex }) => {
+const AuctionTimer = (
+  { seconds, setSeconds, currentSession, sessionCount, setSessionCount, 
+    setItemIndex, setToggleStart, setChatDisplay, maxIndex, sendAuctionResult, 
+    setTempHighestPrice, highestPrice, bestBidder, setTempBestBidder
+  }) => {
 
   const startTimer = () => {
     // 시간이 다 됐을 때만 버튼이 작동 가능
@@ -51,7 +55,10 @@ const AuctionTimer = ({ seconds, setSeconds, currentSession, sessionCount, setSe
       }
       if (seconds === 0) {
         clearInterval(countDown)
+        setTempHighestPrice(highestPrice) // 현재 세션에서만 고정되어 보여줄 경매 최고가
+        setTempBestBidder(bestBidder) // 현재 세션에서만 고정되어 보여줄 경매 최고 입찰자
         if (sessionCount === 2) {
+          sendAuctionResult() // 백엔드에 경매 결과 데이터를 보내는 함수를 호출함
           // 경매가 완전히 끝난 이후에도 20초를 대기함
           const endTimeOut = setTimeout(() => {
             setSessionCount(0)
