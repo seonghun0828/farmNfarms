@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import logo from '../../../assets/temp_logo.png';
+import logo from '../../../assets/로고.svg';
 import styled from 'styled-components';
 import Navbar from '../../molecules/Navbar';
 import SearchBar from '../../molecules/SearchBar';
@@ -11,6 +11,8 @@ import { useNavigate } from 'react-router-dom';
 import move from '../../../common/move'
 import MainPriceCard from '../../molecules/MainPriceCard';
 import main_price from './main_price'
+import RoomCard from '../../molecules/RoomCard';
+import AutoCarousel from '../../molecules/AutoCarousel';
 
 const StyledHome = styled.div``;
 const FlexSearchArea = styled.div`
@@ -26,14 +28,6 @@ const RoomCardArea = styled.div`
 const MarketPriceArea = styled.div`
   height: 10rem;
 `;
-
-const PriceCardArea = styled.div`
-  display: flex;
-  flex-wrap: wrap;
-  justify-content: space-evenly;
-  align-item: center;
-  align-content: space-evenly;
-`
 
 const MoreInfo = styled.div`
   display: flex;
@@ -59,6 +53,36 @@ const Div = styled.div`
 `;
 
 const EXAMPLE_ROOM_INFOS = [
+  {
+    profileImg: logo,
+    headerSize: 'xxs',
+    viewerSize: 'sm',
+    title: '1',
+    description: '고랭지 배추 팔아유~아주 맛나유',
+    tags: ['존맛', '배추', '고랭지', '평창'],
+    num: '13',
+    thumnail: 'https://img.seoul.co.kr//img/upload/2020/07/22/SSI_20200722215818.jpg' 
+  },
+  {
+    profileImg: logo,
+    headerSize: 'xxs',
+    viewerSize: 'sm',
+    title: '2',
+    description: '고랭지 배추 팔아유~아주 맛나유',
+    tags: ['존맛', '배추', '고랭지', '평창'],
+    num: '13',
+    thumnail: 'https://img.seoul.co.kr//img/upload/2020/07/22/SSI_20200722215818.jpg' 
+  },
+  {
+    profileImg: logo,
+    headerSize: 'xxs',
+    viewerSize: 'sm',
+    title: '3',
+    description: '고랭지 배추 팔아유~아주 맛나유',
+    tags: ['존맛', '배추', '고랭지', '평창'],
+    num: '13',
+    thumnail: 'https://img.seoul.co.kr//img/upload/2020/07/22/SSI_20200722215818.jpg' 
+  },
   {
     profileImg: logo,
     headerSize: 'xxs',
@@ -104,16 +128,27 @@ const Home = () => {
   }
 
   const moveToCreate = () => {
-    move(navigate, '/create');
+    move(navigate, 'create');
   }
   const moveToAuctionRooms = () => {
     move(navigate, 'auctionrooms');
   }
 
-  const [priceItems, setPriceItems] = useState([]);
+  const moveToPrice = () => {
+    move(navigate, 'price');
+  }
+
+  const [priceItems, setPriceItems] = useState(null);
   const getMainPrice = async () => {
     setPriceItems(await main_price());
   }
+
+  const Slide = styled.div`
+  width: 200px;
+  height: 100px;
+  border: 1px solid red;
+  flex-shrink: 0;
+`
 
   useEffect(() => {
     getMainPrice();
@@ -122,12 +157,12 @@ const Home = () => {
   // 모달 열기 버튼은 임시~~
   return (
     <StyledHome>
-      <Button onClick={openModal}>모달열기</Button> 
+      {/* <Button onClick={openModal}>모달열기</Button> 
       {isOnModal && <RoomDetailModal
         closeModal={closeModal}
         title="고랭지 배추 팔아유" 
         description="Lorem ipsum dolor, sit amet consectetur adipisicing elit. Aut pariatur, hic, eveniet ipsam totam dolorum commodi nostrum dolorem sapiente fuga eum? Asperioabsdbsdfs;ldcms,dlfma;lsdmfdsjfmweofmnskldfmlksd아아아아아아아아아아아아아아아아아아아아아아아아아아아아아아아아아아아아아아아아아아아아아아아아아아아아아아아아아아아아아아아아아아아아아아아아아아아아아아아아아아아아아아아아아아아아아아아아아아아아아아아아아아아아아아아아아아아아아아아아아아아아아아아아아아아아아아아아아아아아아아아아아아아아아아아아아아아아아아아아아아아아아아아아아아아아아아아아아아아아아아아아아아아아아아아아아아아아아아아아아아아아아아아아아아아아아아아아아아아아아아아아아아아아아아아아아아아아아아아아아아아아아아아아아아아아아아아아아아아아아아아아아아아아아아아아아아아아아아아아아아아아아아아아아아아아아아아아아아아아아아아아아아아아아아아아아아아아아아아아아아아아아아아아아아아아아아아아아아아아아아아아아아아아아아아아아아아아아아아아아아아아아아아아아아아아아아아아아아아아아아아아아아아아아아아아아아아아아아아아아아아아아아아아아아아아아아아아아아아아아아아아아아아아아아아아아아아아아아아아아아아아아아아아아아아아아아아아아아아아아아아아아아아아아아아아아아아아아아아아아아아아아아아아아아아아아아아아아아아아아아아아아아아아아아아아아아아아아아아아아아아아아아아아아아아아아아아아아아아아아아아아아아아아아아아아아아아아아아아아아아아아아아아아아아아아아아아아아아아아아아아아아아 libero, excepturi hic sit nesciunt nisi suscipit cum!"
-      />}
+      />} */}
       <Navbar url={logo} isLogin imgSize="xs" fontSize="sm" mode="graytext" />
       <FlexSearchArea>
         <SearchArea>
@@ -143,24 +178,29 @@ const Home = () => {
             더보기
           </Button>
         </MoreInfo>
-        <Carousel roominfos={EXAMPLE_ROOM_INFOS}/>
+        <Carousel>
+          {EXAMPLE_ROOM_INFOS.map((roominfo, index) => (
+            <Div pl={0.5} pr={0.5} key={index}>
+              <RoomCard {...roominfo}/>
+            </Div>))
+          }
+        </Carousel>
       </RoomCardArea>
       <MarketPriceArea>
         <Text fontSize="xl" weight="bold">
           농산물 시세
         </Text>
         <MoreInfo>
-          <Button mode="highlight" fontSize="sm">
+          <Button mode="highlight" fontSize="sm" onClick={moveToPrice}>
             더보기
           </Button>
         </MoreInfo>
-        <PriceCardArea>
-          {priceItems ?  priceItems.map((priceItem, index) => (
-            <Div mt={1} key={index}>
-              <MainPriceCard {...priceItem}></MainPriceCard>
-            </Div>
-          )) : <div>isLoading</div>}
-        </PriceCardArea>
+        {priceItems ?         
+        <AutoCarousel slideLength={10}>
+          {priceItems.map((priceItem, index) => (
+            <MainPriceCard {...priceItem} key={index}></MainPriceCard>
+          ))}            
+        </AutoCarousel> : <div>isLoading</div>}
       </MarketPriceArea>
       <AddRoomArea>
         <Button mode="graytext" fontSize="titleSize" onClick={moveToCreate}>

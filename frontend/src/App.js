@@ -7,6 +7,8 @@ import { ThemeProvider } from "styled-components"
 import theme from './common/theme'
 import CreateAuctionRoom from "./components/pages/CreateAuctionRoom"
 import AuctionRooms from "./components/pages/AuctionRooms"
+import Price from "./components/pages/Price"
+import NotFound from "./components/pages/NotFound"
 
 const DUMMIES = [
   {
@@ -35,6 +37,8 @@ function App() {
             <Route path="/room" element={<VideoRoomComponent items={DUMMIES}/>}/>
             <Route path="/create" element={<CreateAuctionRoom />} />
             <Route path="/auctionrooms" element={<AuctionRooms />} />
+            <Route path="/price" element={<Price />} />
+            <Route path="/*" element={<NotFound />}/>
           </Routes>
         </BrowserRouter>
       </ThemeProvider>

@@ -4,6 +4,7 @@ const AUTH = 'auth/';
 const USER = 'user/';
 const VERIFICATION = 'verifications/';
 const PRICE = 'price/';
+const ROOMS = 'rooms/';
 
 const apiPath = {
     auth: {
@@ -21,8 +22,12 @@ const apiPath = {
         create: () => HOST + VERIFICATION,
         send: (id) => HOST + VERIFICATION + `${id}/`,
     },
+    room: {
+        // 만들어 쓰십쇼!
+    },
     // 아래부터 임시
     price: {
+        all: (date, product) => HOST + PRICE + `${date}/` + `${product}/`,
         main: () => HOST + PRICE + 'main/',
     }
 }

@@ -17,7 +17,7 @@ const StyledSelect = styled.select`
   }
 `;
 
-const Select = ({options, setValue, name}) => {
+const Select = ({defaultValue, options, setValue, name}) => {
 
   const handleChange = (e) => {
     setValue && 
@@ -29,7 +29,7 @@ const Select = ({options, setValue, name}) => {
 
   return (
     <StyledSelect onChange={handleChange}>
-      <option value='' defaultValue>-- 은행 선택 --</option>
+      <option value='' defaultValue>-- {defaultValue} --</option>
       {options.map((option) => (
       <option
         key={option.value}
@@ -49,6 +49,7 @@ const EXAMPLE_OPTIONS = [
 
 Select.defaultProps = {
   options: EXAMPLE_OPTIONS,
+  defaultValue: '선택'
 };
 
 export default Select;
