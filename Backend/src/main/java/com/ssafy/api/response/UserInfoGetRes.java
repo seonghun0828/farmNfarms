@@ -14,4 +14,10 @@ public class UserInfoGetRes {
     private String phone;
     private String account;
     private String address;
+    private String name;
+    private String aboutMe;
+    private String bank;
+    private String zipCode;
+    private String detailAddress;
+    private String picture;
 }
