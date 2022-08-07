@@ -4,12 +4,13 @@ package com.ssafy.api.controller;
 import com.ssafy.api.request.CreateAuctionRoomReq;
 import com.ssafy.api.response.AuctionRoomsInfoRes;
 import com.ssafy.api.response.CreateAuctionRoomRes;
+import com.ssafy.api.response.FileInfoRes;
 import com.ssafy.api.service.CreateAuctionRoomService;
 import com.ssafy.api.service.GetAuctionRoomInfoService;
+import com.ssafy.api.service.FileService;
 import com.ssafy.api.service.SessionService;
 import com.ssafy.api.dto.AuctionRoomDto;
 import com.ssafy.domain.auctionDetail.AuctionDetail;
-import com.ssafy.domain.auctionRoom.AuctionRoom;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import lombok.AllArgsConstructor;
@@ -18,8 +19,10 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.multipart.MultipartFile;
 
 import java.util.HashMap;
 import java.util.List;
@@ -34,6 +37,8 @@ public class SessionController {
     @Autowired
     private SessionService sessionService;
 
+    @Autowired
+    private FileService fileService;
 
     private final CreateAuctionRoomService createAuctionRoomService;
 
@@ -52,6 +57,20 @@ public class SessionController {
         res.setSuccess(isCreated);
         return ResponseEntity.ok(res);
     }
+
+
+    @PostMapping("/save/img")
+    @ApiOperation(value = "이미지 저장", notes = "이미지 DB 저장 후, idx 반환")
+    public ResponseEntity<Long> saveImg(@RequestParam MultipartFile img){
+        return new ResponseEntity<>(fileService.fileSave(img), HttpStatus.OK);
+    }
+
+    @PostMapping("/load/img")
+    @ApiOperation(value = "이미지 로드", notes = "idx를 통해 DB에서 해당하는 이미지 경로, 타입 반환")
+    public ResponseEntity<FileInfoRes> uploadImg(@RequestParam Long idx){
+        return new ResponseEntity<>(fileService.fileUpload(idx), HttpStatus.OK);
+    }
+
 
     @GetMapping("/search")
     public ResponseEntity<List<AuctionRoomDto>> retrieveRoom(
