@@ -21,4 +21,18 @@ public class UserInfoChangePutReq {
     private String account;
 
     private String address;
+
+//    --- 추가 됨 ---
+
+    private String name;
+
+    private String aboutMe;
+
+    private String bank;
+
+    private String zipCode;
+
+    private String detailAddress;
+
+    private String picture;
 }

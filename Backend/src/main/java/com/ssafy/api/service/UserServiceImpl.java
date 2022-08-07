@@ -32,8 +32,12 @@ public class UserServiceImpl implements UserService {
         user.setPassword(passwordEncoder.encode(userRegisterInfo.getPassword()));
         user.setName(userRegisterInfo.getName());
         user.setAddress(userRegisterInfo.getAddress());
+        user.setBank(userRegisterInfo.getBank());
         user.setAccount(userRegisterInfo.getAccount());
-        user.setAbout_me("자기소개를 입력해주세요");
+        user.setAbout_me(userRegisterInfo.getAboutMe());
+        user.setZipCode(userRegisterInfo.getZipCode());
+        user.setDetailAddress(userRegisterInfo.getDetailAddress());
+        user.setPicture(userRegisterInfo.getPicture());
         user.setData_create(LocalDateTime.now());
         userRepository.save(user);
         return true;
@@ -60,7 +64,8 @@ public class UserServiceImpl implements UserService {
 
         User user = userRepository.findByPhone(phone);
 
-        return new UserInfoGetRes(user.getPhone(), user.getAccount(), user.getAddress());
+        return new UserInfoGetRes(user.getPhone(), user.getAccount(), user.getAddress(), user.getName(), user.getAbout_me(),
+                                    user.getBank(), user.getZipCode(), user.getDetailAddress(), user.getPicture());
 
 //        return UserInfoGetRes.builder()
 //                .phone(user.getPhone())
@@ -83,6 +88,12 @@ public class UserServiceImpl implements UserService {
                 }
                 user.setAccount(request.getAccount());
                 user.setAddress(request.getAddress());
+                user.setName(request.getName());    //상의 필요
+                user.setAbout_me(request.getAboutMe());
+                user.setBank(request.getBank());
+                user.setDetailAddress(request.getDetailAddress());
+                user.setZipCode(request.getZipCode());
+                user.setPicture(request.getPicture());
 
                 userRepository.save(user);
 
