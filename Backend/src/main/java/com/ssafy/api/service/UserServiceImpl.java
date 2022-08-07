@@ -32,8 +32,12 @@ public class UserServiceImpl implements UserService {
         user.setPassword(passwordEncoder.encode(userRegisterInfo.getPassword()));
         user.setName(userRegisterInfo.getName());
         user.setAddress(userRegisterInfo.getAddress());
+        user.setBank(userRegisterInfo.getBank());
         user.setAccount(userRegisterInfo.getAccount());
-        user.setAbout_me("자기소개를 입력해주세요");
+        user.setAbout_me(userRegisterInfo.getAboutMe());
+        user.setZipCode(userRegisterInfo.getZipCode());
+        user.setDetailAddress(userRegisterInfo.getDetailAddress());
+        user.setPicture(userRegisterInfo.getPicture());
         user.setData_create(LocalDateTime.now());
         userRepository.save(user);
         return true;
