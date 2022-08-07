@@ -41,7 +41,6 @@ const WhiteDiv = styled.div`
 // `
 
 // 경매방 나가기 기능 정교화(요약 페이지를 보고 나가게 하기로 바꾸기?)
-// 입찰에 성공했을 때, 테두리 초록색 강조 => 비록 최고가는 아니지만
 
 // const OPENVIDU_SERVER_URL = 'https://' + window.location.hostname + ':4443';
 const OPENVIDU_SERVER_URL = 'https://i7b203.p.ssafy.io:8443';

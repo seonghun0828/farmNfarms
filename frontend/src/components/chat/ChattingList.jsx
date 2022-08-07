@@ -1,14 +1,49 @@
 import React, { useCallback, useEffect, useRef, useState } from "react";
 import styled from "styled-components";
 import _ from 'lodash';
-import './ChattingList.css';
+import temp_logo from '../../assets/로고.svg';
 
 const StyledChattingList = styled.div`
-  height: 150px;
+  height: 200px;
   background: rgba(255, 255, 255, 0.2);
   text-align: left;
   overflow: scroll;
   padding-left:10px;
+`
+
+const ChatDiv = styled.div`
+  display: flex;
+  margin-top: 10px;
+  margin-bottom: 10px;
+`
+
+const ProfileDiv = styled.div`
+  height: 50px;
+  width: 50px;
+  border-radius: 70%;
+  overflow: hidden;
+  border: 1px solid;
+`
+
+const ProfileImg = styled.img`
+  height: 100%;
+  width: 100%;
+  object-fit: cover;
+`
+
+const MessageSenderDiv = styled.div`
+  color: rgba(100, 100, 100);
+  font-weight: bold;
+  font-size: large;
+  margin-left: 5px;
+`
+
+const MessageContentDiv = styled.div`
+  color: white;
+  font-weight: bold;
+  font-size: large;
+  margin-left: 5px;
+  text-shadow: -1px 0 black, 0 1px black, 1px 0 black, 0 -1px black;
 `
 
 const ChattingList = (props) => {
@@ -45,8 +80,15 @@ const ChattingList = (props) => {
       <div>
         {props.messageList.map((msg, i) => (
           <div key={i}>
-            <span id="msg-sender">{msg.split(":")[0]}</span>
-            <span id="sender-msg">{msg.split(":")[1]}</span>
+            <ChatDiv>
+              <ProfileDiv>
+                <ProfileImg src={temp_logo}></ProfileImg>
+              </ProfileDiv>
+              <div>
+                <MessageSenderDiv>{msg.split(":")[0]}</MessageSenderDiv>
+                <MessageContentDiv>{msg.split(":")[1]}</MessageContentDiv>
+              </div>
+            </ChatDiv>
           </div>
         ))}
       </div>
