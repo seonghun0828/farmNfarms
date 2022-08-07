@@ -39,6 +39,7 @@ const MessageSenderDiv = styled.div`
 `
 
 const MessageContentDiv = styled.div`
+  width: 300px;
   color: white;
   font-weight: bold;
   font-size: large;
@@ -54,7 +55,7 @@ const ChattingList = (props) => {
 
   const scrollEvent = _.debounce(() => {
     const scrollTop = boxRef.current.scrollTop; // 스크롤 위치
-    const clientHeight = boxRef.current.clientHeight; // 요소의 높이
+    const clientHeight = boxRef.current.clientHeight; // 요소의 높이(메세지 박스 창의 높이)
     const scrollHeight = boxRef.current.scrollHeight; // 스크롤의 높이
 
     // 스크롤이 맨 아래에 있을때

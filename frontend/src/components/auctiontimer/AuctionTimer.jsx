@@ -12,6 +12,14 @@ const StyledDiv = styled.div`
   font-weight: bold;  
 `
 
+const ButtonDiv = styled.div`
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  font-size: 16px;
+  font-weight: bold;
+`
+
 const AuctionTimer = (
   { seconds, setSeconds, currentSession, sessionCount, setSessionCount, 
     setItemIndex, setToggleStart, setChatDisplay, maxIndex, sendAuctionResult, 
@@ -86,14 +94,14 @@ const AuctionTimer = (
     <StyledDiv>
       {seconds < 10 ? `00:0${seconds}초` : `00:${seconds}초`}
       <Button variant="contained" onClick={startTimer}>
-        {seconds === 0 && <div style={{display: 'flex', justifyContent: 'center', alignItems: 'center', fontSize: '16px', fontWeight: 'bold'}}>
+        {seconds === 0 && <ButtonDiv>
             <Timer></Timer>
             지금 시작
-        </div>}
-        {seconds !== 0 && <div style={{display: 'flex', justifyContent: 'center', alignItems: 'center', fontSize: '16px', fontWeight: 'bold'}}>
+        </ButtonDiv>}
+        {seconds !== 0 && <ButtonDiv>
           <ShutterSpeed></ShutterSpeed>
           진행중
-        </div>}
+        </ButtonDiv>}
       </Button>
     </StyledDiv>
   )

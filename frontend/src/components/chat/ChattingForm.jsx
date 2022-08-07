@@ -1,7 +1,11 @@
 import React, { useState } from "react";
 import { Send } from '@mui/icons-material'
 import { Button, Input, Tooltip } from "@mui/material";
-import './ChattingForm.css';
+import styled from "styled-components";
+
+const StyledForm = styled.form`
+  display: flex;
+`
 
 const ChattingForm = (props) => {
   const [message, setMessage] = useState("")
@@ -21,19 +25,20 @@ const ChattingForm = (props) => {
   }
 
   return (
-      <form id="chat-form" onSubmit={sendMessage}>
-        <Input 
-          placeholder="메세지를 입력하세요"
-          id="chat-input"
-          value={message}
-          onChange={inputChangeHandler}
-          ></Input>
-        <Tooltip title="메세지 보내기">
-        <Button variant="contained" style={{ color: "#000000", background: '#d7e029'}} onClick={sendMessage}>
-            <Send></Send>
-          </Button>
-        </Tooltip>
-      </form>
+    <StyledForm onSubmit={sendMessage}>
+      <Input 
+        placeholder="메세지를 입력하세요"
+        id="chat-input"
+        value={message}
+        onChange={inputChangeHandler}
+        style={{ width: '100%', background: 'rgba(255, 255, 255)', border: '1px solid rgba(177, 177, 177)', borderRadius: '5px'}}
+        ></Input>
+      <Tooltip title="메세지 보내기">
+      <Button variant="contained" style={{ color: "#000000", background: '#d7e029'}} onClick={sendMessage}>
+          <Send></Send>
+        </Button>
+      </Tooltip>
+    </StyledForm>
   )
 }
 

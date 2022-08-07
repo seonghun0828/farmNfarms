@@ -40,6 +40,8 @@ const WhiteDiv = styled.div`
 //   transform: translate(-50%, -50%);
 // `
 
+// 추가하고픈 기능 => 채팅창이 스크롤 위인 상태에서 누군가 채팅을 쳤으면 새로운 메세지 보기가 뜨고 클릭하면 이동
+// 
 // 경매방 나가기 기능 정교화(요약 페이지를 보고 나가게 하기로 바꾸기?)
 
 // const OPENVIDU_SERVER_URL = 'https://' + window.location.hostname + ':4443';
