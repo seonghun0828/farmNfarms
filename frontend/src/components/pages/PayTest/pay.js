@@ -4,7 +4,7 @@ import apiPath from '../../../common/apiPath';
 
 const pay = async (auctionResultId) => {
   try {
-    const { data } = await axios({
+    const data = await axios({
       method: 'post',
       url: apiPath.pay.pay(),
       data: {

@@ -13,6 +13,7 @@ import MainPriceCard from '../../molecules/MainPriceCard';
 import main_price from './main_price'
 import RoomCard from '../../molecules/RoomCard';
 import AutoCarousel from '../../molecules/AutoCarousel';
+import room_infos from './room_infos';
 
 const StyledHome = styled.div``;
 const FlexSearchArea = styled.div`
@@ -155,6 +156,7 @@ const Home = () => {
 
   useEffect(() => {
     getMainPrice();
+    room_infos();
   }, []);
 
   // 모달 열기 버튼은 임시~~
