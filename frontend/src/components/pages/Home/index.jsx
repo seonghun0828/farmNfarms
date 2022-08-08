@@ -153,10 +153,11 @@ const Home = () => {
   border: 1px solid red;
   flex-shrink: 0;
 `
+  let ROOM_INFOS = [];
 
   useEffect(() => {
     getMainPrice();
-    room_infos();
+    ROOM_INFOS = room_infos();
   }, []);
 
   // 모달 열기 버튼은 임시~~
@@ -185,6 +186,13 @@ const Home = () => {
         </MoreInfo>
         <Carousel>
           {EXAMPLE_ROOM_INFOS.map((roominfo, index) => (
+            <Div pl={0.5} pr={0.5} key={index}>
+              <RoomCard {...roominfo}/>
+            </Div>))
+          }
+        </Carousel>
+        <Carousel>
+          {ROOM_INFOS.map((roominfo, index) => (
             <Div pl={0.5} pr={0.5} key={index}>
               <RoomCard {...roominfo}/>
             </Div>))
