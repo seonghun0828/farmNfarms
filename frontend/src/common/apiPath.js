@@ -2,9 +2,10 @@ const HOST = 'https://i7b203.p.ssafy.io:9000/api/v1/';
 
 const AUTH = 'auth/';
 const USER = 'user/';
-const VERIFICATION = 'verifications/';
+const VERIFICATIONS = 'verifications/';
 const PRICE = 'price/';
 const ROOMS = 'rooms/';
+const PAY = 'pay/';
 
 const apiPath = {
   auth: {
@@ -19,8 +20,8 @@ const apiPath = {
     update: (phone) => HOST + USER + `${phone}/`,
   },
   verification: {
-    create: () => HOST + VERIFICATION,
-    send: (id) => HOST + VERIFICATION + `${id}/`,
+    create: () => HOST + VERIFICATIONS,
+    send: (id) => HOST + VERIFICATIONS + `${id}/`,
   },
   room: {
     rooms: () => HOST + ROOMS,
@@ -28,9 +29,13 @@ const apiPath = {
   },
   // 아래부터 임시
   price: {
-    all: (date, product) => HOST + PRICE + `${date}/${product}/`,
+    all: () => HOST + PRICE,
     main: () => HOST + PRICE + 'main/',
   },
+  pay: {
+    pay: () => HOST + PAY,
+    success: () => HOST + PAY + 'success/',
+  }
 };
 
 export default apiPath;
