@@ -450,7 +450,8 @@ const VideoRoomComponent = (props) => {
           {/* 화면 */}
           {mainStreamManager !== undefined ? (
             <div id="main-video">
-              <UserVideoComponent streamManager={mainStreamManager} />
+              {/* <UserVideoComponent streamManager={mainStreamManager} /> */}
+              <UserVideoComponent streamManager={publisher} />
             </div>
           ) : null}
           <div id="session-header">
