@@ -2,19 +2,23 @@ import React, { useEffect, useState } from "react";
 import Image from "../../atoms/Image";
 import CheckboxLabel from "../../molecules/CheckboxLabel";
 import Button from '../../atoms/Button'
-import logo from '../../../assets/temp_logo.png'
+import logo from '../../../assets/로고.svg'
 import styled from "styled-components";
 import Text from "../../atoms/Text";
 import Input from '../../atoms/Input'
 import { useNavigate } from "react-router-dom";
 import move from '../../../common/move'
 import login from "./login";
-import CreateItemCard from "../../molecules/CreateItemCard";
+import { useDispatch } from 'react-redux/es/exports';
 
 const StyledLogin = styled.div`
     ${({theme}) => theme.flex.columnCenter};
     justify-content: space-around;
     height:80vh;
+`
+const StyledLogo = styled.div`
+    width: 18rem;
+    hieght: 18rem;
 `
 
 const LoginInput = styled.div`
@@ -56,6 +60,7 @@ const Login = () => {
     const {phoneAlert, passwordAlert} = alert;
 
     const navigate = useNavigate();
+    const dispatch = useDispatch();
 
     const onChange = (e) => {
         const { checked } = e.target;
@@ -127,7 +132,7 @@ const Login = () => {
             }));
 
             // 여기에서 로그인 api 호출
-            const isLogin = await login(phone, password, setLoginFail);
+            const isLogin = await login(phone, password, setLoginFail, dispatch);
             if (isLogin) {
                 if (isSaved)
                     localStorage.setItem('phone', phone);
@@ -151,8 +156,9 @@ const Login = () => {
         <LeftAlign>
             <Button fontSize='lg' mode='graytext' onClick={() => move(navigate, -1)}>뒤로 가기</Button>
         </LeftAlign>
-        <Image src={logo} alt='logo' size='xxxl' />
-        <CreateItemCard inputs={[{text: '품목명', type: 'text'}, {text: '수량', type: 'text'}, {text: '등급', type: 'text'}, {text: '경매시작가', type: 'number'}]} />
+        <StyledLogo>
+            <Image src={logo} alt='logo'/>
+        </StyledLogo>
         <LeftAlign>
             <Text color='green5' weight='bold' fontSize='xxxl'>로그인</Text>
         </LeftAlign>
