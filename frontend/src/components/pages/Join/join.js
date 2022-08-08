@@ -15,7 +15,6 @@ const join = async ({phone, password, name, address, account}) => {
         account,
       }
     });
-    console.log('??')
     console.log(statusCode);
     if (statusCode === 200) {
       window.alert('회원가입에 성공했습니다.');
