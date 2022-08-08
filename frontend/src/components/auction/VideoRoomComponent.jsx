@@ -454,7 +454,6 @@ const VideoRoomComponent = (props) => {
             <div id="main-video">
               {/* <UserVideoComponent streamManager={mainStreamManager} /> */}
               {isHost && <UserVideoComponent streamManager={publisher}></UserVideoComponent>}
-              {!isHost && <UserVideoComponent streamManager={publisher}></UserVideoComponent>}
               {!isHost && <UserVideoComponent streamManager={subscribers}></UserVideoComponent>}
             </div>
           ) : null}
