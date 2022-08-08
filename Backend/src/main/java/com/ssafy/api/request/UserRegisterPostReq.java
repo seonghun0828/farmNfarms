@@ -13,7 +13,7 @@ import java.time.LocalDateTime;
 @ToString
 @ApiModel("UserRegisterPostRequest")
 public class UserRegisterPostReq {
-    @ApiModelProperty(name="유저 PhoneNumber", example = "010-0000-0000")
+    @ApiModelProperty(name="유저 PhoneNumber", example = "01000000000")
     String phone;
     @ApiModelProperty(name="유저 Password", example = "your_password")
     String password;
@@ -21,8 +21,8 @@ public class UserRegisterPostReq {
     String name;
     @ApiModelProperty(name="유저 주소", example = "협의가 필요합니다")
     String address;
-    @ApiModelProperty(name="유저 소개", example = "감자는 제가 또 기가막히게 키웁니다")
-    String aboutMe;
+//    @ApiModelProperty(name="유저 소개", example = "감자는 제가 또 기가막히게 키웁니다")
+//    String aboutMe;
     @ApiModelProperty(name="유저 은행", example = "농협")
     String bank;
     @ApiModelProperty(name="유저 계좌번호", example = "110-342-143345")
