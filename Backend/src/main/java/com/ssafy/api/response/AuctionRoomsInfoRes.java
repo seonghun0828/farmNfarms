@@ -9,6 +9,7 @@ import lombok.*;
 @Builder
 public class AuctionRoomsInfoRes {
 
+    private Long id;
     private String ownerName;
     private String ownerPicture;
     private String auctionRoomThumbnail;
