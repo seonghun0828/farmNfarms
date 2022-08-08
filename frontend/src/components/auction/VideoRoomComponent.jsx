@@ -162,7 +162,7 @@ const VideoRoomComponent = (props) => {
       const subscriber = mySession.subscribe(event.stream, 'publisher'); // undefined
       // 참가자 배열을 최신화
       // setSubscribers((preSubscribers) => { return [...preSubscribers, subscriber] })
-      // setSubscribers(subscriber)
+      setSubscribers(subscriber)
       setPublisher(subscriber)
     });
 
@@ -455,6 +455,7 @@ const VideoRoomComponent = (props) => {
               {/* <UserVideoComponent streamManager={mainStreamManager} /> */}
               {isHost && <UserVideoComponent streamManager={publisher}></UserVideoComponent>}
               {!isHost && <UserVideoComponent streamManager={publisher}></UserVideoComponent>}
+              {!isHost && <UserVideoComponent streamManager={subscribers}></UserVideoComponent>}
             </div>
           ) : null}
           <div id="session-header">
