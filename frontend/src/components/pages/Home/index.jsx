@@ -35,6 +35,9 @@ const MoreInfo = styled.div`
   padding-right: 1rem;
 `;
 const AddRoomArea = styled.div`
+  position: fixed;
+  bottom: 1rem;
+  right: 1rem;
   display: flex;
   justify-content: flex-end;
   padding-right: 1rem;
