@@ -7,7 +7,7 @@ import get_price from './get_price';
 import Navbar from '../../molecules/Navbar';
 import Table from './Table'
 import Text from '../../atoms/Text';
-import Graph from './Graph';
+// import Graph from './Graph';
 
 const EXAMPLE_OPTIONS = [
   { value: "배추", name: "배추" },
@@ -46,7 +46,7 @@ const Price = () => {
         <Text size="lg" weight="bold">{priceData.product}의 최근 가격 추이</Text>
         <Table price={priceData.price}/>
         <div style={{width: '100%', height: '50vh'}}>
-          <Graph priceData={priceData}/>
+          {/* <Graph priceData={priceData}/> */}
         </div>
       </div> : <div>선택된 정보가 없습니다</div>}
     </div>
