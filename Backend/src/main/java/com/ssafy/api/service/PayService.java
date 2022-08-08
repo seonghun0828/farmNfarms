@@ -23,7 +23,8 @@ public class PayService {
     private  static final String READY_ADDR = HOST + "/v1/payment/ready";
     private  static final String APPROVE_ADDR = HOST + "/v1/payment/approve";
     private static final String ADMIN = "7786e49abfcbd35314669d03d013869a";
-    private static final String DOMAIN = "https://i7b203.p.ssafy.io/api/v1/pay";
+    private static final String DOMAIN = "https://localhost:8080/api/v1/pay";
+    //private static final String DOMAIN = "https://i7b203.p.ssafy.io:9000/api/v1/pay";
 
 
     public PayReadyRes payReady(AuctionResult auctionResult){
@@ -74,7 +75,7 @@ public class PayService {
                 "partner_user_id=" + String.valueOf(auctionResult.getBuyer().getId()) + "&" +
                 "item_name=" + auctionResult.getAuctionDetail().getProductTitle() + "&" +
                 "quantity=" + auctionResult.getAuctionDetail().getQuantity() + "&" +
-                "total_amount=2200&" + //총 가격 -> 결제창에 보여지는 값.
+                "total_amount=" + auctionResult.getAuctionDetail().getQuantity() * auctionResult.getAuctionedPrice() + "&" +//총 가격 -> 결제창에 보여지는 값.
                 "vat_amount=200&" + //세금?
                 "tax_free_amount=0&" + //비과세 금액인듯
                 "approval_url=" + DOMAIN + "/success&" +

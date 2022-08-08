@@ -2,6 +2,7 @@ package com.ssafy.domain.user;
 
 //import com.ssafy.domain.rating.Rating;
 import com.ssafy.domain.auctionRoom.AuctionRoom;
+import com.ssafy.domain.imgae.Image;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -51,8 +52,9 @@ public class User {
     @Column
     private String detailAddress;
 
-    @Column
-    private String picture;
+    @OneToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "IMAGE_ID")
+    private Image picture;
 
     @Builder
     public User(String phone,

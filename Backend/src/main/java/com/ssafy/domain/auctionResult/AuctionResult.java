@@ -32,5 +32,8 @@ public class AuctionResult {
     private  User buyer;
 
     @Column
-    private boolean signCompleted;
+    private boolean dealCompleted;
+
+    @Column
+    private long auctionedPrice;
 }
