@@ -40,8 +40,10 @@ public class AuctionDetail implements Serializable {
     @Column
     private int bidIncrement;
 
+/*
     @Column
     private int auctionedPrice;
+*/
 
     @Column
     private int startingPrice;
