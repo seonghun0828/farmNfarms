@@ -1,7 +1,3 @@
-INSERT INTO user (account, address, name, password, phone, data_create)
-VALUES ('110-342-143345', 'SSAFY', '홍길동', '1','01000000001', now());
-
-
 INSERT INTO IMAGE (origin_file_name, server_file_name, file_path, content_type, file_size)
 VALUES
 ('string', 'string1', 'string', 'string', 100),
@@ -14,6 +10,10 @@ VALUES
 ('string', 'string8', 'string', 'string', 100),
 ('string', 'string9', 'string', 'string', 100),
 ('string', 'string10', 'string', 'string', 100);
+
+INSERT INTO user (account, address, name, password, phone, data_create, IMAGE_ID)
+VALUES ('110-342-143345', 'SSAFY', '홍길동', '1','01000000001', now(), 1);
+
 
 INSERT INTO AUCTION_ROOM (created_at, auction_room_description, thumbnail_id, auction_room_title, auctioned, owner_id)
 VALUES

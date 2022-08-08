@@ -31,6 +31,6 @@ public class UserRegisterPostReq {
     String zipCode;
     @ApiModelProperty(name="유저 상세주소", example = "123-12번지")
     String detailAddress;
-    @ApiModelProperty(name="유저 사진 idx", example = "picture.jpg의 db 저장 idx")
+    @ApiModelProperty(name="유저 사진 idx", example="1")
     long picture;
 }

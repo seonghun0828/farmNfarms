@@ -49,6 +49,7 @@ public class GetAuctionRoomInfoService {
 
             Optional<User> foundUser = userRepository.findById(room.getOwnerId());
 
+            System.out.println(foundUser.get().toString());
             AuctionRoomsInfoRes auctionRoomsInfoRes = AuctionRoomsInfoRes.builder()
                     .id(room.getId())
                     .ownerName(foundUser.get().getName())

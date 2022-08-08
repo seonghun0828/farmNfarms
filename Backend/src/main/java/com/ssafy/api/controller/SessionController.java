@@ -12,7 +12,9 @@ import com.ssafy.api.service.SessionService;
 import com.ssafy.api.dto.AuctionRoomDto;
 import com.ssafy.domain.auctionDetail.AuctionDetail;
 import io.swagger.annotations.Api;
+import io.swagger.annotations.ApiModelProperty;
 import io.swagger.annotations.ApiOperation;
+import io.swagger.annotations.ApiParam;
 import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -73,9 +75,13 @@ public class SessionController {
 
 
     @GetMapping("/search")
+    @ApiOperation(value = "경매 검색" , notes = "1 : 방제목, 2: 상품검색 , 3 : 통합검색")
     public ResponseEntity<List<AuctionRoomDto>> retrieveRoom(
-            @RequestParam() String mode,
-            @RequestParam() String key
+            @ApiParam(name = "검색 방식" , example = "1")
+            @RequestParam(value="mode")
+            String mode,
+            @ApiParam(name = "검색어" , example = "감자")
+            @RequestParam(value="key") String key
     ){
         HashMap<String ,String> params = new HashMap<>();
         params.put("mode", mode);
