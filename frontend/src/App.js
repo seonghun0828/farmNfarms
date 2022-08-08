@@ -1,12 +1,13 @@
-import { BrowserRouter, Routes, Route } from "react-router-dom"
-import Home from './components/pages/Home'
-import Login from './components/pages/Login'
-import Join from './components/pages/Join'
-import VideoRoomComponent from './components/auction/VideoRoomComponent'
-import { ThemeProvider } from "styled-components"
-import theme from './common/theme'
-import CreateAuctionRoom from "./components/pages/CreateAuctionRoom"
-import AuctionRooms from "./components/pages/AuctionRooms"
+import { BrowserRouter, Routes, Route } from 'react-router-dom';
+import Home from './components/pages/Home';
+import Login from './components/pages/Login';
+import Join from './components/pages/Join';
+import VideoRoomComponent from './components/auction/VideoRoomComponent';
+import { ThemeProvider } from 'styled-components';
+import theme from './common/theme';
+import CreateAuctionRoom from './components/pages/CreateAuctionRoom';
+import AuctionRooms from './components/pages/AuctionRooms';
+import Mypage from './components/pages/Mypage';
 
 const DUMMIES = [
   {
@@ -21,7 +22,7 @@ const DUMMIES = [
     bid_increment: 1000,
     starting_price: 15000,
   },
-]
+];
 
 function App() {
   return (
@@ -32,9 +33,13 @@ function App() {
             <Route path="/" element={<Home />} />
             <Route path="/login" element={<Login />} />
             <Route path="/join" element={<Join />} />
-            <Route path="/room" element={<VideoRoomComponent items={DUMMIES}/>}/>
+            <Route
+              path="/room"
+              element={<VideoRoomComponent items={DUMMIES} />}
+            />
             <Route path="/create" element={<CreateAuctionRoom />} />
             <Route path="/auctionrooms" element={<AuctionRooms />} />
+            <Route path="/mypage" element={<Mypage />} />
           </Routes>
         </BrowserRouter>
       </ThemeProvider>
