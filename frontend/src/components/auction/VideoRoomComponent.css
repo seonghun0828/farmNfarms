@@ -2,6 +2,18 @@
   height: 100vh;
 }
 
+#auction-screen{
+  left: 50%;
+  width: 300px;
+  position: fixed;
+  bottom: 0px;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  transform: translate(-50%, 0);
+}
+
 #session{
   height: 100vh;
 }
@@ -24,7 +36,8 @@
   display: flex;
   justify-content: space-between;
   align-items: center;
-  margin-bottom: 10px;
+  margin-top: 5px;
+  margin-bottom: 5px;
 }
 
 #message-footer{
@@ -42,10 +55,10 @@
 }
 
 .bidding-form {
-    position: relative;
-    top: 200px;
-    left: 50%;
-    transform: translate(-50%, 50%);
+  position: relative;
+  top: 200px;
+  left: 50%;
+  transform: translate(-50%, 50%);
 }
 
 .img-tag{
