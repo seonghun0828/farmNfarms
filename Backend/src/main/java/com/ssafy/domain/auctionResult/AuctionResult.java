@@ -3,9 +3,7 @@ package com.ssafy.domain.auctionResult;
 
 import com.ssafy.domain.auctionDetail.AuctionDetail;
 import com.ssafy.domain.user.User;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
-import lombok.Setter;
+import lombok.*;
 
 import javax.persistence.*;
 
@@ -13,6 +11,8 @@ import javax.persistence.*;
 @Getter
 @Setter
 @NoArgsConstructor
+@AllArgsConstructor
+@Builder
 public class AuctionResult {
 
     @Id
@@ -35,5 +35,5 @@ public class AuctionResult {
     private boolean dealCompleted;
 
     @Column
-    private long auctionedPrice;
+    private Long auctionedPrice;
 }
