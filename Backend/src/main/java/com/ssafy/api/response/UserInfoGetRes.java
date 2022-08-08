@@ -15,7 +15,7 @@ public class UserInfoGetRes {
     private String account;
     private String address;
     private String name;
-    private String aboutMe;
+//    private String aboutMe;
     private String bank;
     private String zipCode;
     private String detailAddress;

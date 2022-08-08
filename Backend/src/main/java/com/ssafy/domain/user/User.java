@@ -33,8 +33,8 @@ public class User {
     private String address;
     @Column(nullable = false)
     private String account;
-    @Column(nullable = false)
-    private String about_me;
+//    @Column(nullable = false)
+//    private String about_me;
     @Column(nullable = false)
     private LocalDateTime data_create;
 
@@ -60,7 +60,7 @@ public class User {
                 String name,
                 String address,
                 String account,
-                String about_me,
+//                String about_me,
                 LocalDateTime data_create,
                 AuctionRoom auctionRoom,
                 String bank,
@@ -72,7 +72,7 @@ public class User {
         this.name = name;
         this.address = address;
         this.account = account;
-        this.about_me = about_me;
+//        this.about_me = about_me;
         this.data_create = data_create;
         this.auctionRoom = auctionRoom;
         this.bank = bank;

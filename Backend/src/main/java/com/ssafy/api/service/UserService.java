@@ -31,7 +31,7 @@ public class UserService {
         user.setAddress(userRegisterInfo.getAddress());
         user.setBank(userRegisterInfo.getBank());
         user.setAccount(userRegisterInfo.getAccount());
-        user.setAbout_me(userRegisterInfo.getAboutMe());
+//        user.setAbout_me(userRegisterInfo.getAboutMe());
         user.setZipCode(userRegisterInfo.getZipCode());
         user.setDetailAddress(userRegisterInfo.getDetailAddress());
         user.setPicture(userRegisterInfo.getPicture());
@@ -58,7 +58,7 @@ public class UserService {
 
         User user = userRepository.findByPhone(phone);
 
-        return new UserInfoGetRes(user.getPhone(), user.getAccount(), user.getAddress(), user.getName(), user.getAbout_me(),
+        return new UserInfoGetRes(user.getPhone(), user.getAccount(), user.getAddress(), user.getName(),
                                     user.getBank(), user.getZipCode(), user.getDetailAddress(), user.getPicture());
 
 //        return UserInfoGetRes.builder()
@@ -82,7 +82,7 @@ public class UserService {
                 user.setAccount(request.getAccount());
                 user.setAddress(request.getAddress());
                 user.setName(request.getName());    //상의 필요
-                user.setAbout_me(request.getAboutMe());
+//                user.setAbout_me(request.getAboutMe());
                 user.setBank(request.getBank());
                 user.setDetailAddress(request.getDetailAddress());
                 user.setZipCode(request.getZipCode());
