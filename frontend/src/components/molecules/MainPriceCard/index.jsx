@@ -3,6 +3,7 @@ import Text from '../../atoms/Text';
 import theme from '../../../common/theme';
 import KeyboardArrowUpIcon from '@mui/icons-material/KeyboardArrowUp';
 import KeyboardArrowDownIcon from '@mui/icons-material/KeyboardArrowDown';
+import RemoveIcon from '@mui/icons-material/Remove';
 
 const CardTop = styled.div`
   width: 10rem;
@@ -49,13 +50,13 @@ const directionIcon = (direction) => {
     return (<><KeyboardArrowUpIcon style={{color: theme.colors.red}}/></>);
   }
   else if (direction === '2') {
-    return (<></>);
+    return (<><RemoveIcon/></>);
   }
 }
 
 const MainPriceCard = ({name, price, unit, direction, value}) => {
   return (
-    <>
+    <div style={{flexShrink: 0}}>
       <CardTop product={name}/>
       <CardBottom>
         <NameBox>
@@ -67,7 +68,7 @@ const MainPriceCard = ({name, price, unit, direction, value}) => {
           <Text size="sm">({value}%)</Text>
         </RowFlex>
       </CardBottom>
-    </>
+    </div>
   );
 }
 
