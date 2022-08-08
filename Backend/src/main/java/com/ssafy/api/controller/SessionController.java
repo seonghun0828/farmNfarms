@@ -77,12 +77,13 @@ public class SessionController {
     @GetMapping("/search")
     @ApiOperation(value = "경매 검색" , notes = "1 : 방제목, 2: 상품검색 , 3 : 통합검색")
     public ResponseEntity<List<AuctionRoomDto>> retrieveRoom(
-            @ApiParam(name = "검색 방식" , example = "1")
-            @RequestParam(value="mode")
+            @ApiParam(name = "mode" , example = "1", value = "mode(검색방식)")
+            @RequestParam(name="mode", required = false)
             String mode,
-            @ApiParam(name = "검색어" , example = "감자")
-            @RequestParam(value="key") String key
+            @ApiParam(name = "key" , example = "감자")
+            @RequestParam(name="key", required = false) String key
     ){
+        System.out.println("mode : " + mode + " key : " + key);
         HashMap<String ,String> params = new HashMap<>();
         params.put("mode", mode);
         params.put("key", key);

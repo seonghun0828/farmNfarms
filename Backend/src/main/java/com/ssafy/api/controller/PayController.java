@@ -34,7 +34,7 @@ public class PayController {
 
     //결제 준비 -> 결제 버튼 누를 때 경매 완료 정보를 받아와야함.
     @PostMapping()
-    public boolean payReady(HttpServletResponse res, @RequestBody AuctionResultReq auctionResultReq) throws IOException {
+    public PayReadyRes payReady(HttpServletResponse res, @RequestBody AuctionResultReq auctionResultReq) throws IOException {
 
         auctionResult = auctionResultRepository.findById(auctionResultReq.getAuctionResultId()).get();
 
@@ -50,14 +50,7 @@ public class PayController {
                 String.valueOf(auctionResult.getBuyer().getId())
         );
 
-        try{
-            res.sendRedirect(payReadyRes.getNext_redirect_mobile_url());
-            return true;
-        }
-        catch (Exception e){
-            e.printStackTrace();
-        }
-        return false;
+        return payReadyRes;
     }
 
     @GetMapping("/success")

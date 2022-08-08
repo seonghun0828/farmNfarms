@@ -61,7 +61,7 @@ public class UserService {
     public UserInfoGetRes getUserInfo(String phone) {
 
         User user = userRepository.findByPhone(phone);
-
+        System.out.println(user.getPicture());
         return new UserInfoGetRes(user.getPhone(), user.getAccount(), user.getAddress(), user.getName(),
                                     user.getBank(), user.getZipCode(), user.getDetailAddress(), user.getPicture().getFullPath());
 
