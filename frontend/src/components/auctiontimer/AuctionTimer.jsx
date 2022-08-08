@@ -1,7 +1,8 @@
 import { Timer, ShutterSpeed } from "@mui/icons-material";
 import { Button } from "@mui/material";
-import React, { useEffect } from "react";
+import React, { useEffect, useState } from "react";
 import styled from "styled-components";
+import { CountdownCircleTimer } from 'react-countdown-circle-timer';
 
 const StyledDiv = styled.div`
   color: red;
@@ -20,15 +21,37 @@ const ButtonDiv = styled.div`
   font-weight: bold;
 `
 
+const StyledSpan = styled.span`
+  font-size: 28px;
+`
+
 const AuctionTimer = (
   { seconds, setSeconds, currentSession, sessionCount, setSessionCount, 
     setItemIndex, setToggleStart, setChatDisplay, maxIndex, sendAuctionResult, 
     setTempHighestPrice, highestPrice, bestBidder, setTempBestBidder
   }) => {
+  
+  const [key, setKey] = useState(0); // 타이머를 재작동하기 위한 키
+  const [timerCount, setTimerCount] = useState(0); // 타이머를 세팅하기 위함(초기에 작동X)
+  
+  const getSeconds = () => {
+    return seconds;
+  };
+
+  const timerProps = {
+    size: 120,
+    strokeWidth: 8,
+    isPlaying: true,
+    
+  };
 
   const startTimer = () => {
     // 시간이 다 됐을 때만 버튼이 작동 가능
     if (seconds === 0 && sessionCount < 2) {
+      setKey((prev) => {
+        return prev + 1;
+      });
+      setTimerCount(20);
       currentSession
         .signal({
           data: 20,
@@ -40,16 +63,20 @@ const AuctionTimer = (
         .catch((error) => {
           console.error(error);
         });
-    }
-  }
+    };
+  };
 
   // 20초 후 startTimer 자동 시작(테스트 단계에선 2초로 세팅해서 테스트함)
   useEffect(() => {
     if (seconds === 0 && sessionCount < 2) {
-      const autoStart = setInterval(() => {
-        startTimer()
+      const autoStart = setTimeout(() => {
+        startTimer();
+        setKey((prev) => {
+          return prev + 1;
+        });
+        setTimerCount(20);
       }, 20000)
-      return () => clearInterval(autoStart)
+      return () => clearTimeout(autoStart)
     }
   }, [seconds])
 
@@ -63,6 +90,7 @@ const AuctionTimer = (
       }
       if (seconds === 0) {
         clearInterval(countDown)
+        setTimerCount(0);
         setTempHighestPrice(highestPrice) // 현재 세션에서만 고정되어 보여줄 경매 최고가
         setTempBestBidder(bestBidder) // 현재 세션에서만 고정되어 보여줄 경매 최고 입찰자
         if (sessionCount === 2) {
@@ -72,7 +100,7 @@ const AuctionTimer = (
             setSessionCount(0)
             setItemIndex((prevIndex) => {
               // props가 가진 items의 길이를 넘었을 때에 대한 예외처리필요
-              if (prevIndex + 1 == maxIndex) {
+              if (prevIndex + 1 === maxIndex) {
                 return prevIndex
               }
               return prevIndex + 1
@@ -89,10 +117,22 @@ const AuctionTimer = (
     return () => clearInterval(countDown)
   }, [seconds])
 
-  
   return (
     <StyledDiv>
-      {seconds < 10 ? `00:0${seconds}초` : `00:${seconds}초`}
+      <CountdownCircleTimer
+        {...timerProps}
+        key={key}
+        duration={timerCount}
+        colors={['#004777', '#F7B801', '#A30000', '#A30000']}
+        colorsTime={[15, 10, 5, 0]}
+      >
+        {({ color }) => (
+          <StyledSpan style={{ color }}>
+            {getSeconds() < 10 ? `00:0${getSeconds()}초` : `00:${getSeconds()}초`}
+          </StyledSpan>
+        )}
+      </CountdownCircleTimer>
+      {/* {seconds < 10 ? `00:0${seconds}초` : `00:${seconds}초`} */}
       <Button variant="contained" onClick={startTimer}>
         {seconds === 0 && <ButtonDiv>
             <Timer></Timer>
