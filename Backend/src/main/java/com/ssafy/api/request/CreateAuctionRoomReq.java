@@ -13,7 +13,7 @@ public class CreateAuctionRoomReq {
 //    private Long ownerId;
     private String title;
     private String description;
-    private String thumbnail;
+    private Long thumbnail;
     private List<AuctionDetailReq> details;
 //    private boolean auctioned;
 }

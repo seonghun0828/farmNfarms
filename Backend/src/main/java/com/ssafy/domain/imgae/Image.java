@@ -38,4 +38,13 @@ public class Image {
         this.filePath = filePath;
         this.fileSize = fileSize;
     }
+
+    public String getFullPath(){
+        if(this.getContentType().equals("image/jpeg") || this.getContentType().equals("image/jpg")){
+            return filePath + ".jpg";
+        }
+        else{
+            return filePath + ".png";
+        }
+    }
 }

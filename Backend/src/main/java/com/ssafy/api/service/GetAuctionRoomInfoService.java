@@ -52,8 +52,8 @@ public class GetAuctionRoomInfoService {
             AuctionRoomsInfoRes auctionRoomsInfoRes = AuctionRoomsInfoRes.builder()
                     .id(room.getId())
                     .ownerName(foundUser.get().getName())
-                    .ownerPicture(foundUser.get().getPicture())
-                    .auctionRoomThumbnail(room.getAuctionRoomThumbnail())
+                    .ownerPicture(foundUser.get().getPicture().getFullPath())
+                    .auctionRoomThumbnail(room.getImage().getFullPath())
                     .auctionRoomTitle(room.getAuctionRoomTitle())
                     .build();
 

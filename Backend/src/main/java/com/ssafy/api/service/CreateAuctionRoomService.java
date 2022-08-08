@@ -6,6 +6,7 @@ import com.ssafy.domain.auctionDetail.AuctionDetail;
 import com.ssafy.domain.auctionDetail.AuctionDetailRepository;
 import com.ssafy.domain.auctionRoom.AuctionRoom;
 import com.ssafy.domain.auctionRoom.AuctionRoomRepository;
+import com.ssafy.domain.imgae.ImageRepository;
 import com.ssafy.domain.user.User;
 import com.ssafy.domain.user.UserRepository;
 import lombok.RequiredArgsConstructor;
@@ -18,6 +19,8 @@ public class CreateAuctionRoomService {
     private final AuctionRoomRepository auctionRoomRepository;
     private final UserRepository userRepository;
     private final AuctionDetailRepository auctionDetailRepository;
+
+    private final ImageRepository imageRepository;
 
     public boolean createBy(String phoneNumber, CreateAuctionRoomReq request) {
 //        CreateAuctionRoomRes response = new CreateAuctionRoomRes();
@@ -42,7 +45,7 @@ public class CreateAuctionRoomService {
                 .ownerId(foundUserId)
                 .auctionRoomTitle(request.getTitle())
                 .auctionRoomDescription(request.getDescription())
-                .auctionRoomThumbnail(request.getThumbnail())
+                .image(imageRepository.findById(request.getThumbnail()).get())
                 .auctioned(false)
                 .build();
 
