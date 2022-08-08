@@ -74,10 +74,6 @@ const VideoRoomComponent = (props) => {
 
   let OV = undefined;
 
-  // if (!isHost) {
-  //   setIsHost(localStorage.getItem("host") ? true : false); 
-  // }
-
   // 토큰 받아오기(KMS로 직접 쏨)
   const getToken = useCallback(() => {
     return createSession(mySessionId).then((sessionId) => createToken(sessionId));
@@ -159,11 +155,12 @@ const VideoRoomComponent = (props) => {
     // 스트림이 생길 때마다
     mySession.on('streamCreated', (event) => {
       // 스트림 객체를 참가자에게 넘겨줌. 두번째 인자가 undefined이므로 HTML video를 스스로 생성하지 않음
+      // 퍼블리셔를 구독자로 넣어줌
       const subscriber = mySession.subscribe(event.stream, 'publisher'); // undefined
       // 참가자 배열을 최신화
       // setSubscribers((preSubscribers) => { return [...preSubscribers, subscriber] })
       setSubscribers(subscriber)
-      setPublisher(subscriber)
+      // setPublisher(subscriber)
     });
 
     // 스트림을 종료할 때마다
@@ -277,13 +274,14 @@ const VideoRoomComponent = (props) => {
     })
     setItemIndex(0) // 0으로 바꿔줘야 방을 파고 다시 들어왔을 때 목록을 0부터 시작할 수 있음
     setSeconds(0)
+    setIsHost(false) // isHost를 false로 설정함
   }
 
+  // 호스트(방 생성자) 여부에 따른 isHost를 토글링함(created())
   useEffect(() => {
     setIsHost(localStorage.getItem("host") ? true : false)
     console.log(isHost)
-  })
-
+  }, [])
 
   useEffect(() => {
     const onbeforeunload = (event) => {
@@ -350,7 +348,6 @@ const VideoRoomComponent = (props) => {
     setTempHighestPrice(0) // 현재 세션에서 보여줄 임시 경매 최고 낙찰가를 0으로 함
     setTempBestBidder(undefined) // 현재 세션에서 보여줄 임시 경매 최고 낙찰자를 undefined로 초기화함
     setChatDisplay(false) // 경매 시작하면 채팅창 off
-    setIsHost(false)
     mySession.signal({
       data: true,
       type:"auction",
@@ -502,6 +499,7 @@ const VideoRoomComponent = (props) => {
                 bestBidder={bestBidder}
                 setTempBestBidder={setTempBestBidder}
                 maxIndex={props.items.length}
+                isHost={isHost}
               /></StyledDiv>
             <StyledDiv>
               <span>
