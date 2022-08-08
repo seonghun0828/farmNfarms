@@ -1,5 +1,5 @@
 INSERT INTO user (account, address, name, password, phone, about_me, data_create)
-VALUES ('110-342-143345', 'SSAFY', '홍길동', '1','010-0000-0001', '나중에 입력', now());
+VALUES ('110-342-143345', 'SSAFY', '홍길동', '1','01000000001', '나중에 입력', now());
 
 INSERT INTO AUCTION_ROOM (created_at, auction_room_description, auction_room_thumbnail, auction_room_title, auctioned, owner_id)
 VALUES
