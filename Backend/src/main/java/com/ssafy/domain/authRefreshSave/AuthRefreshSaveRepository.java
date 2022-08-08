@@ -8,5 +8,5 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 
 public interface AuthRefreshSaveRepository extends JpaRepository<AuthRefreshSave, Long> {
-
+    AuthRefreshSave findByRefreshToken(String refreshToken);
 }
