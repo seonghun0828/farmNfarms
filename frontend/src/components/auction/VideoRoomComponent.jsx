@@ -161,8 +161,8 @@ const VideoRoomComponent = (props) => {
       // 스트림 객체를 참가자에게 넘겨줌. 두번째 인자가 undefined이므로 HTML video를 스스로 생성하지 않음
       const subscriber = mySession.subscribe(event.stream, 'publisher'); // undefined
       // 참가자 배열을 최신화
-      // setSubscribers((preSubscribers) => { return [...preSubscribers, subscriber] })
-      setSubscribers(subscriber)
+      setSubscribers((preSubscribers) => { return [...preSubscribers, subscriber] })
+      // setSubscribers(subscriber)
     });
 
     // 스트림을 종료할 때마다
@@ -453,7 +453,7 @@ const VideoRoomComponent = (props) => {
             <div id="main-video">
               {/* <UserVideoComponent streamManager={mainStreamManager} /> */}
               {isHost && <UserVideoComponent streamManager={publisher}></UserVideoComponent>}
-              {!isHost && <UserVideoComponent streamManager={publisher}></UserVideoComponent>}
+              {!isHost && <UserVideoComponent streamManager={subscribers[0]}></UserVideoComponent>}
             </div>
           ) : null}
           <div id="session-header">
