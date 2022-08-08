@@ -1,5 +1,6 @@
 package com.ssafy.api.controller;
 
+import com.auth0.jwt.interfaces.DecodedJWT;
 import com.ssafy.api.request.UserLoginPostReq;
 import com.ssafy.api.response.ReAccessPostRes;
 import com.ssafy.api.response.UserLoginPostRes;
@@ -90,15 +91,49 @@ public class AuthController {
             return ResponseEntity.status(404).body(BaseResponseBody.of(404, "Request Error"));
         }
 
-        // DB에 refreshToken 이 없으면 토큰 없음 에러
+        // DB에 refreshToken 이 있으면 refreshToken 삭제 후 로그아웃
         AuthRefreshSave token = authRefreshSaveRepository.findByRefreshToken(refreshToken);
         if(token!=null) {
             authRefreshSaveRepository.delete(token);
+
+            Cookie cookie = new Cookie("refreshToken", null);
+            cookie.setMaxAge(0);
+            cookie.setPath("/");
+
+            response.addCookie(cookie);
             return ResponseEntity.ok(BaseResponseBody.of(200, "Success"));
         }
 
-        // 패스워드가 일치하지 않으면 로그인 실패 응답
+        // DB에 refreshToken 이 없으면 토큰 없음 에러
         return ResponseEntity.status(401).body(BaseResponseBody.of(401, "Invalid Token"));
+    }
+
+    @PostMapping("/reissue")
+    @ApiOperation(value = "access 토큰 재발급", notes = "access 토큰을 재발급한다")
+    @ApiResponses({
+            @ApiResponse(code = 200, message = "성공", response = UserLoginPostRes.class),
+            @ApiResponse(code = 401, message = "토큰 없음", response = BaseResponseBody.class),
+            @ApiResponse(code = 404, message = "요청 실패", response = BaseResponseBody.class),
+            @ApiResponse(code = 500, message = "서버 오류", response = BaseResponseBody.class)
+    })
+    public ResponseEntity<ReAccessPostRes> reissue(@CookieValue("refreshToken") String refreshToken, HttpServletResponse response) {
+
+        // 쿠키 목록에 refreshToken 이 없으면 요청 실패 에러
+        if(refreshToken==null) {
+            return ResponseEntity.status(404).body(ReAccessPostRes.of(404, "Request Error", null, null));
+        }
+
+        // DB에 refreshToken 이 있으면 토큰재발급
+        AuthRefreshSave token = authRefreshSaveRepository.findByRefreshToken(refreshToken);
+        if(token!=null) {
+            // 폰번호도 보내기
+            DecodedJWT decodedJWT = JwtTokenUtil.getVerifier().verify(refreshToken.replace(JwtTokenUtil.TOKEN_PRIFIX, ""));
+            String phone = decodedJWT.getSubject();
+            return ResponseEntity.ok(ReAccessPostRes.of(200, "Success", JwtTokenUtil.getAccessToken(phone), phone));
+        }
+
+        // DB에 refreshToken 이 없으면 토큰 없음 에러
+        return ResponseEntity.status(401).body(ReAccessPostRes.of(401, "Invalid Token", null, null));
     }
 
 }

@@ -15,12 +15,15 @@ import lombok.Setter;
 public class ReAccessPostRes extends BaseResponseBody {
     @ApiModelProperty(name="JWT access 인증 토큰", example = "ekdif123SDKVIdf1231...")
     String accessToken;
+    @ApiModelProperty(name="phone 번호", example = "01000000000")
+    String phone;
 
-    public static ReAccessPostRes of(Integer statusCode, String message, String accessToken) {
+    public static ReAccessPostRes of(Integer statusCode, String message, String accessToken, String phone) {
         ReAccessPostRes res = new ReAccessPostRes();
         res.setStatusCode(statusCode);
         res.setMessage(message);
         res.setAccessToken(accessToken);
+        res.setPhone(phone);
         return res;
     }
 }
