@@ -34,5 +34,5 @@ public class UserInfoChangePutReq {
 
     private String detailAddress;
 
-    private String picture;
+    private Long picture;
 }

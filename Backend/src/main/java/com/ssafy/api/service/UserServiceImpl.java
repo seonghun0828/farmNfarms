@@ -6,6 +6,7 @@ import com.ssafy.api.request.UserInfoChangePutReq;
 import com.ssafy.api.request.UserRegisterPostReq;
 import com.ssafy.api.response.UserInfoChangePutRes;
 import com.ssafy.api.response.UserInfoGetRes;
+import com.ssafy.domain.imgae.ImageRepository;
 import com.ssafy.domain.user.User;
 import com.ssafy.domain.user.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -20,6 +21,9 @@ public class UserServiceImpl implements UserService {
     private UserRepository userRepository;
     @Autowired
     private PasswordEncoder passwordEncoder;
+
+    @Autowired
+    private ImageRepository imageRepository;
 
     @Override
     public boolean createUser(UserRegisterPostReq userRegisterInfo) {
@@ -37,7 +41,7 @@ public class UserServiceImpl implements UserService {
         user.setAbout_me(userRegisterInfo.getAboutMe());
         user.setZipCode(userRegisterInfo.getZipCode());
         user.setDetailAddress(userRegisterInfo.getDetailAddress());
-        user.setPicture(userRegisterInfo.getPicture());
+        user.setPicture(imageRepository.findById(userRegisterInfo.getPicture()).get());
         user.setData_create(LocalDateTime.now());
         userRepository.save(user);
         return true;
@@ -65,7 +69,7 @@ public class UserServiceImpl implements UserService {
         User user = userRepository.findByPhone(phone);
 
         return new UserInfoGetRes(user.getPhone(), user.getAccount(), user.getAddress(), user.getName(), user.getAbout_me(),
-                                    user.getBank(), user.getZipCode(), user.getDetailAddress(), user.getPicture());
+                                    user.getBank(), user.getZipCode(), user.getDetailAddress(), user.getPicture().getFullPath());
 
 //        return UserInfoGetRes.builder()
 //                .phone(user.getPhone())
@@ -93,7 +97,7 @@ public class UserServiceImpl implements UserService {
                 user.setBank(request.getBank());
                 user.setDetailAddress(request.getDetailAddress());
                 user.setZipCode(request.getZipCode());
-                user.setPicture(request.getPicture());
+                user.setPicture(imageRepository.findById(request.getPicture()).get());
 
                 userRepository.save(user);
 
