@@ -71,7 +71,7 @@ const VideoRoomComponent = (props) => {
   const [chatDisplay, setChatDisplay] = useState(true) // 채팅창 보이기(초깃값: true) 
 
   const navigate = useNavigate() // 네비게이터
-  
+
   let OV = undefined;
 
   // 토큰 받아오기(KMS로 직접 쏨)
@@ -124,8 +124,10 @@ const VideoRoomComponent = (props) => {
 
   // 토큰 생성(KMS로 직접 쏨)
   const createToken = (sessionId) => {
+    // let myrole = this.isHost ? "PUBLISHER" : "SUBSCRIBER";
+    let myRole = "PUBLISHER";
     return new Promise((resolve, reject) => {
-      var data = {}; // 여기에 인자를 뭐를 넣냐에 따라 오픈비두 서버에 요청하는 데이터가 달라짐
+      var data = {role: myRole}; // 여기에 인자를 뭐를 넣냐에 따라 오픈비두 서버에 요청하는 데이터가 달라짐
       axios
         .post(OPENVIDU_SERVER_URL + "/openvidu/api/sessions/" + sessionId + "/connection", data, {
           headers: {
