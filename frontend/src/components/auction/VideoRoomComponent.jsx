@@ -74,9 +74,9 @@ const VideoRoomComponent = (props) => {
 
   let OV = undefined;
 
-  if (!isHost) {
-    setIsHost(localStorage.getItem("host") ? true : false); 
-  }
+  // if (!isHost) {
+  //   setIsHost(localStorage.getItem("host") ? true : false); 
+  // }
 
   // 토큰 받아오기(KMS로 직접 쏨)
   const getToken = useCallback(() => {
@@ -129,9 +129,10 @@ const VideoRoomComponent = (props) => {
   // 토큰 생성(KMS로 직접 쏨)
   const createToken = (sessionId) => {
     // let myrole = this.isHost ? "PUBLISHER" : "SUBSCRIBER";
-    let myRole = "PUBLISHER";
+    let myRole = isHost ? "PUBLISHER" : "SUBSCRIBER";
+    console.log(myRole)
     return new Promise((resolve, reject) => {
-      var data = {role: myRole}; // 여기에 인자를 뭐를 넣냐에 따라 오픈비두 서버에 요청하는 데이터가 달라짐
+      const data = { role: myRole }; // 여기에 인자를 뭐를 넣냐에 따라 오픈비두 서버에 요청하는 데이터가 달라짐
       axios
         .post(OPENVIDU_SERVER_URL + "/openvidu/api/sessions/" + sessionId + "/connection", data, {
           headers: {
@@ -277,6 +278,12 @@ const VideoRoomComponent = (props) => {
   }
 
   useEffect(() => {
+    setIsHost(localStorage.getItem("host") ? true : false)
+    console.log(isHost)
+  })
+
+
+  useEffect(() => {
     const onbeforeunload = (event) => {
       leaveSession();
     }
@@ -341,6 +348,7 @@ const VideoRoomComponent = (props) => {
     setTempHighestPrice(0) // 현재 세션에서 보여줄 임시 경매 최고 낙찰가를 0으로 함
     setTempBestBidder(undefined) // 현재 세션에서 보여줄 임시 경매 최고 낙찰자를 undefined로 초기화함
     setChatDisplay(false) // 경매 시작하면 채팅창 off
+    setIsHost(false)
     mySession.signal({
       data: true,
       type:"auction",
