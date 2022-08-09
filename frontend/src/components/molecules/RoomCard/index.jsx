@@ -72,6 +72,7 @@ const RoomCard = ({id, auctionRoomThumbnail, auctionRoomTitle, auctionRoomDescri
 
   const clickHandler = () => {
     getRoomDetail();
+    console.log(roomDetailInfo);
     openModal();
   }
 
@@ -81,7 +82,7 @@ const RoomCard = ({id, auctionRoomThumbnail, auctionRoomTitle, auctionRoomDescri
         closeModal={closeModal}
         title={auctionRoomTitle}
         description={auctionRoomDescription}
-        items={roomDetailInfo}
+        // items={roomDetailInfo}
       />}
       <CardBottom>
         <OwnerPicture thumbnail={ownerPicture}/>
