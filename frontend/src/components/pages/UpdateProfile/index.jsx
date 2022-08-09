@@ -1,31 +1,44 @@
-import { useState } from 'react'
+import { useState, useEffect } from 'react'
+import { useNavigate } from "react-router-dom";
+import move from '../../../common/move'
 import styled from 'styled-components';
 import PhotoCameraIcon from '@mui/icons-material/PhotoCamera';
-import Image from '../../atoms/Image';
 import Input from '../../atoms/Input';
 import PostCode from '../../molecules/PostCode';
+import Select from '../../atoms/Select';
+import Button from '../../atoms/Button';
 
 const ImageArea = styled.div`
   width: 9rem;
   height: 9rem;
-`
-
-const ImageButton = styled.div`
-  ${({theme}) => theme.flex.rowCenter}
-  width: 9rem;
-  height: 9rem;
-  background-color: ${({theme}) => theme.colors.gray2};
-  border-radius: 0.5rem;
+  position: relative;
 `
 
 const StyledImage = styled.div`
   width: 9rem;
   height: 9rem;
-  border-radius: 0.5rem;
+  border-radius: 50%;
   overflow: hidden;
+  background-color: ${({theme}) => theme.colors.gray2};
+  background-image: url('${({thumbnail}) => thumbnail}');
+  background-repeat: no-repeat;
+  background-position: center;
+`
+
+const CameraImage = styled.div`
+  position: absolute;
+  bottom: 0;
+  right: 0;
+`
+
+export const CenterAlign = styled.div`
+  display: flex;
+  justify-content: center;
 `
 
 const UpdateProfile = () => {
+
+  const navigate = useNavigate();
 
   const [url, setUrl] = useState(null);
   const clickHandler = () => {
@@ -44,33 +57,41 @@ const UpdateProfile = () => {
 		fullAddress: '',
 		detailAddress: '',
 	});
-
   const getPostCode = (data) => {
     setPostCode(data)
   }
 
+  const BANK_OPTIONS = [
+		{ value: "woori", name: "우리은행" },
+		{ value: "kookmin", name: "국민은행" },
+		{ value: "shinhan", name: "신한은행" },
+		{ value: "hana", name: "하나은행" },
+		{ value: "kakao", name: "카카오뱅크" },
+	]
+
   return (
     <>
-      <ImageArea>
-        <input type='file' hidden id='file-uploader' onChange={uploadImage} />
-        {
-          !url ?
-            <ImageButton>
-              <PhotoCameraIcon fontSize='large' onClick={clickHandler} />
-            </ImageButton>
-            :
-            <StyledImage>
-              <Image src={url} onClick={clickHandler} />
-            </StyledImage>
-        }
-      </ImageArea>
-<<<<<<< HEAD
-      <Input></Input>
-      <Input></Input>
+      <Button mode="graytext" onClick={() => move(navigate, -1)}>
+        뒤로 가기
+      </Button>
+      <CenterAlign>
+        <ImageArea  onClick={clickHandler}>
+          <input type='file' hidden id='file-uploader' onChange={uploadImage} />
+          <StyledImage thumbnail={url}/>
+          <CameraImage>
+            <PhotoCameraIcon fontSize="large"/>
+          </CameraImage>
+        </ImageArea>
+      </CenterAlign>
+      <Input label="아이디" status="readOnly"/>
+      <Input label="이름" status="readOnly"/>
+      <Input label="비밀번호"/>
+      <Input label="수정 비밀번호"/>
+      <Input label="수정 비밀번호 확인"/>
+      <Select/>
+      <Input label="계좌번호"/>
       <PostCode setPostCode={getPostCode}/>
-=======
-      <Image src="file:////root/pictures/pictures/pictures/20220809991931989948023.png"/>
->>>>>>> 5ba4a6cdbd7af7d8741d2e8791ed9ddd9f36167a
+      <Button width="100%">수정하기</Button>
     </>
   );
 }
