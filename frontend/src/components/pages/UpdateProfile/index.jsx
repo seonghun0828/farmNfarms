@@ -64,9 +64,13 @@ const UpdateProfile = () => {
             </StyledImage>
         }
       </ImageArea>
+<<<<<<< HEAD
       <Input></Input>
       <Input></Input>
       <PostCode setPostCode={getPostCode}/>
+=======
+      <Image src="file:////root/pictures/pictures/pictures/20220809991931989948023.png"/>
+>>>>>>> 5ba4a6cdbd7af7d8741d2e8791ed9ddd9f36167a
     </>
   );
 }

@@ -12,6 +12,8 @@ import { Button } from '@mui/material';
 import logo from "../../assets/로고.svg";
 import './VideoRoomComponent.css';
 import styled from "styled-components";
+import { useLocation } from 'react-router-dom';
+import Loading from './Loading'
 
 const StyledDiv = styled.div`
   background: rgba(255, 255, 255, 0.3);
@@ -48,6 +50,9 @@ const OPENVIDU_SERVER_URL = 'https://i7b203.p.ssafy.io:8443';
 const OPENVIDU_SERVER_SECRET = 'MY_SECRET';
 
 const VideoRoomComponent = (props) => {
+  const location = useLocation();
+  const roomId = location.state.id;
+
   const [mySessionId, setMySessionId] = useState('SessionA');
   const [myUserName, setMyUserName] = useState('Participant' + Math.floor(Math.random() * 100));
   const [session, setSession] = useState(undefined);
@@ -71,6 +76,7 @@ const VideoRoomComponent = (props) => {
   const [isHost, setIsHost] = useState(false);
 
   const navigate = useNavigate(); // 네비게이터
+
 
   let OV = undefined;
 
@@ -144,6 +150,10 @@ const VideoRoomComponent = (props) => {
     });
   }
 
+  useEffect(() => {
+    setMySessionId(`Session${roomId}`)
+  }, [])
+
   // 세션에 참여하기
   const joinSession = () => {
     // --- 1) 오픈비두 오브젝트 생성 ---
@@ -175,7 +185,7 @@ const VideoRoomComponent = (props) => {
     });
 
     // 유저가 접속할 때마다 인원수를 += 1
-    mySession.on('connectionCreated', (({stream}) => {
+    mySession.on('connectionCreated', (({ stream }) => {
       setTotalUsers((prevTotalUsers) => {
         return prevTotalUsers + 1
       })
@@ -216,12 +226,12 @@ const VideoRoomComponent = (props) => {
       const username = tmp[0]
       const newPrice = parseInt(tmp[1])
       const currentHigh = parseInt(tmp[2]) // 세션 안에서 highPrice가 계속 0이어서 이렇게 처리했음
-      if (newPrice > currentHigh) { 
+      if (newPrice > currentHigh) {
         setHighestPrice(newPrice)
         setBestBidder(username)
       }
     })
-    
+
     // --- 4) 유효한 토큰으로 세션에 접속하기 ---
     getToken().then((token) => {
       mySession.connect(token, { clientData: myUserName },)
@@ -297,7 +307,7 @@ const VideoRoomComponent = (props) => {
   const handleChangeSessionId = (event) => {
     setMySessionId(event.target.value)
   }
-  
+
   // 유저 이름 변경
   const handleChangeUserName = (event) => {
     setMyUserName(event.target.value)
@@ -350,7 +360,7 @@ const VideoRoomComponent = (props) => {
     setChatDisplay(false) // 경매 시작하면 채팅창 off
     mySession.signal({
       data: true,
-      type:"auction",
+      type: "auction",
     }).then(() => {
       console.log("Auction Start!")
     }).catch((error) => {
@@ -371,7 +381,7 @@ const VideoRoomComponent = (props) => {
       }).catch((error) => {
         console.error(error)
       })
-    } 
+    }
   }
 
   // 입찰가 증가 핸들러
@@ -379,7 +389,7 @@ const VideoRoomComponent = (props) => {
     if (seconds > 0) {
       setPrice((prevPrice) => {
         return prevPrice + props.items[itemIndex].bid_increment
-      })  
+      })
     }
   }
 
@@ -414,15 +424,22 @@ const VideoRoomComponent = (props) => {
     // }
   }
 
+  const enterAuctionRoom = () => {
+    joinSession()
+  }
+
   return (
     <div className="container">
-      {session === undefined ? (
+      {/* {session === undefined && <Button onClick={joinSession}> 입장 </Button>} */}
+      {session === undefined && <Loading enterAuctionRoom={enterAuctionRoom}></Loading>}
+      
+      {/* {session === undefined ? (
         <div id="join">
           <div id="join-dialog" className="jumbotron vertical-center">
             <h1> 경매방 입장하기 </h1>
             <form className="form-group" onSubmit={joinSession}>
               <p>
-                <label>Participant: </label>
+                <label>Participant: </label> 
                 <input
                   className="form-control"
                   type="text"
@@ -449,7 +466,7 @@ const VideoRoomComponent = (props) => {
             </form>
           </div>
         </div>
-      ) : null}
+      ) : null} */} 
 
       {session !== undefined ? (
         <div id="session">
@@ -469,7 +486,7 @@ const VideoRoomComponent = (props) => {
               </div>
               <div>
                 <div>
-                  <Person style={{ color: 'red' }} /><span style={{color: 'white'}}>{totalUsers}</span>
+                  <Person style={{ color: 'red' }} /><span style={{ color: 'white' }}>{totalUsers}</span>
                 </div>
                 <Button className='mui-btn' onClick={leaveSession} variant="contained">
                   나가기
@@ -535,8 +552,8 @@ const VideoRoomComponent = (props) => {
                 {tempBestBidder && <p>{tempBestBidder}</p>}
               </WhiteDiv>
             </StyledDiv>
-            <Button 
-              variant="contained" 
+            <Button
+              variant="contained"
               style={{ background: '#0F9749', width: '350px', fontSize: '16px', fontWeight: 'bold' }}
               onClick={biddingHandler}
             >
@@ -551,27 +568,27 @@ const VideoRoomComponent = (props) => {
                 ￦{price.toLocaleString('ko-KR')}원
               </WhiteDiv>
             </StyledDiv>
-            <div style={{width: '350px'}}>
-              <Button 
-                variant='contained' 
-                style={{ fontSize: '16px', fontWeight: 'bold', width:'175px'}}
+            <div style={{ width: '350px' }}>
+              <Button
+                variant='contained'
+                style={{ fontSize: '16px', fontWeight: 'bold', width: '175px' }}
                 onClick={priceDownHandler}
-                >
+              >
                 <Paid></Paid>
                 <Download></Download>
                 내리기
               </Button>
-              <Button 
-                variant='contained' 
-                style={{ fontSize: '16px', fontWeight: 'bold', width:'175px'}}
+              <Button
+                variant='contained'
+                style={{ fontSize: '16px', fontWeight: 'bold', width: '175px' }}
                 onClick={priceUpHandler}
-                >
+              >
                 <Paid></Paid>
                 <Upload></Upload>
                 올리기
               </Button>
             </div>
-            </div>}
+          </div>}
           {chatDisplay && <div id="message-footer">
             <ChattingList messageList={messageList}></ChattingList>
             <ChattingForm myUserName={myUserName} onMessage={sendMsg} currentSession={session}></ChattingForm>
