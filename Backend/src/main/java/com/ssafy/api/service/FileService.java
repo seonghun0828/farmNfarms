@@ -34,7 +34,7 @@ public class FileService {
 
     //image를 받으면 1. server에 저장하고, 2. 저장정보를 db에 저장하고, 3. 저장 정보 중 id를 반환한다.
     public Long fileSave(MultipartFile file) {
-        uploadPath = servletContext.getRealPath("/pictures");
+        uploadPath = servletContext.getRealPath("/");
         SimpleDateFormat sdf = new SimpleDateFormat("yyyyMMdd");
         String curDate = sdf.format(new Date());
         String ftype = file.getContentType();
