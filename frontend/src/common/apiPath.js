@@ -10,7 +10,8 @@ const PAY = 'pay/';
 const apiPath = {
   auth: {
     login: () => HOST + AUTH + 'login/',
-    reaccess: () => HOST + AUTH + 'reaccess',
+    logout: () => HOST + AUTH + 'logout/',
+    reissue: () => HOST + AUTH + 'reissue/',
   },
 
   user: {
@@ -25,11 +26,9 @@ const apiPath = {
   },
   room: {
     rooms: () => HOST + ROOMS,
-    search: () => HOST + ROOMS + 'search/',
-    detail: (roomNumber) => HOST + ROOMS + 'details/' + `${roomNumber}/`,
-    create: (phone) => HOST + ROOMS + 'create-room/' + `${phone}/`,
-    load_img: () => HOST + ROOMS + `load/img/`,
-    save_img: () => HOST + ROOMS + `save/img/`,
+    search: () => HOST + ROOMS + 'search',
+    saveImg: () => HOST + ROOMS + 'save/img',
+    createRoom: (phone) => HOST + ROOMS + 'create-room/' + phone 
   },
   // 아래부터 임시
   price: {
