@@ -4,7 +4,7 @@ import { alertError } from '../../../common/alertError';
 
 const createAuctionRoom = async (title, description, thumbnailIdx, items, phone) => {
     try {
-        const result = await axios({
+        const { data: { success }} = await axios({
             method: 'post',
             url: apiPath.room.createRoom(phone),
             data: {
@@ -14,9 +14,7 @@ const createAuctionRoom = async (title, description, thumbnailIdx, items, phone)
                 details: items
             }
         });
-        // 데이터 받으면 idx 빼서 리턴하기
-        console.log(result);
-
+        return success;
     } catch (e) {
         alertError(e);
     }

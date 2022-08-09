@@ -120,7 +120,6 @@ const CreateAuctionRoom = () => {
   const navigate = useNavigate();
 
   const addItem = () => {
-    // reissue();
     setItems(items => [...items, 
       cardInputs.reduce((total, {name}) => {
         return {
@@ -150,15 +149,20 @@ const CreateAuctionRoom = () => {
         }
       }
     }
+    reissue();
     setEmptyInput(true);
     const file = document.querySelector('#file-uploader').files[0];
-    let thumbnailIdx = -1;
+    // db 디폴트 썸네일 인덱스
+    let thumbnailIdx = 1;
     if (file) {
       const formData = new FormData();
       formData.append('img', file);
       thumbnailIdx = await uploadFile(formData);
     }
-    createAuctionRoom(title, description, thumbnailIdx, items, phone);
+    if (await createAuctionRoom(title, description, thumbnailIdx, items, phone)) {
+      // 경매방으로 navigate
+      console.log('경매방 생성 성공');
+    }
   }
   return (
     <StyledCreateAuctionRoom>
