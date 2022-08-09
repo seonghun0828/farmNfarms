@@ -5,6 +5,6 @@ public interface AuctionRoomDto {
     Long getId();
     String getAuctionRoomTitle();
     String getAuctionRoomDescription();
-    String getAuctionRoomThumbnail();
+    String getThumbnailId();
     Long getOwnerId();
 }

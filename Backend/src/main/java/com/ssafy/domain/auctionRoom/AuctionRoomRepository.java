@@ -16,7 +16,7 @@ public interface AuctionRoomRepository extends JpaRepository<AuctionRoom, Long> 
     @Query(value ="select r.id id, " +
             "r.auction_room_title auctionRoomTitle," +
             "r.auction_room_description auctionRoomDescription, " +
-            "r.auction_room_thumbnail auctionRoomThumbnail," +
+            "r.thumbnail_id thumbnailId," +
             "r.owner_id ownerId " +
             "from auction_room r where r.auction_room_title like CONCAT('%', :title, '%')", nativeQuery = true)
     List<AuctionRoomDto> findAllByAuctionRoomTitle(@Param("title")String title);
