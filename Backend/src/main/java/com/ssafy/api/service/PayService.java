@@ -51,6 +51,7 @@ public class PayService {
             System.out.println("code : " + res);
             InputStream in;
 
+
             if(res == 200){
                 in = conn.getInputStream();
             }else{
@@ -59,8 +60,8 @@ public class PayService {
 
             InputStreamReader inr = new InputStreamReader(in);
             BufferedReader br = new BufferedReader(inr);
+            //System.out.println(br.readLine());
             PayReadyRes payReadyRes = mapper.readValue(br.readLine(), PayReadyRes.class);
-            System.out.println(payReadyRes.toString());
             return payReadyRes;
         }
         catch (IOException e){
@@ -75,7 +76,8 @@ public class PayService {
                 "partner_user_id=" + String.valueOf(auctionResult.getBuyer().getId()) + "&" +
                 "item_name=" + auctionResult.getAuctionDetail().getProductTitle() + "&" +
                 "quantity=" + auctionResult.getAuctionDetail().getQuantity() + "&" +
-                "total_amount=" + auctionResult.getAuctionDetail().getQuantity() * auctionResult.getAuctionedPrice() + "&" +//총 가격 -> 결제창에 보여지는 값.
+                "total_amount=2200" + "&" +
+                //"total_amount=" + auctionResult.getAuctionDetail().getQuantity() * auctionResult.getAuctionedPrice() + "&" +//총 가격 -> 결제창에 보여지는 값.
                 "vat_amount=200&" + //세금?
                 "tax_free_amount=0&" + //비과세 금액인듯
                 "approval_url=" + DOMAIN + "/success&" +
