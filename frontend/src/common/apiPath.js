@@ -26,8 +26,10 @@ const apiPath = {
   },
   room: {
     rooms: () => HOST + ROOMS,
-    search: () => HOST + ROOMS + 'search',
+    search: () => HOST + ROOMS + 'search/',
+    detail: (roomNumber) => HOST + ROOMS + 'details/' + `${roomNumber}/`,
     saveImg: () => HOST + ROOMS + 'save/img',
+    loadImg: () => HOST + ROOMS + `load/img/`,
     createRoom: (phone) => HOST + ROOMS + 'create-room/' + phone 
   },
   // 아래부터 임시
