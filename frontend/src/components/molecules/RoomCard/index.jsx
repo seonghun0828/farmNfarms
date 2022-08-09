@@ -55,7 +55,7 @@ const ColoumFlex = styled.div`
   align-items: center;
 `
 
-const RoomCard = ({auctionRoomThumbnail, auctionRoomTitle, id, ownerName, ownerPicture}) => {
+const RoomCard = ({id, auctionRoomThumbnail, auctionRoomTitle, auctionRoomDescription, ownerName, ownerPicture}) => {
   const [isOnModal, setIsOnModal] = useState(false);
   const [roomDetailInfo, setRoomDetailInfo] = useState(null);
   const openModal = () => {
@@ -67,7 +67,7 @@ const RoomCard = ({auctionRoomThumbnail, auctionRoomTitle, id, ownerName, ownerP
   }
 
   const getRoomDetail = async () => {
-    setRoomDetailInfo(await roomDetail(11));
+    setRoomDetailInfo(await roomDetail(id));
   }
 
   const clickHandler = () => {
@@ -80,7 +80,7 @@ const RoomCard = ({auctionRoomThumbnail, auctionRoomTitle, id, ownerName, ownerP
       {isOnModal && <RoomDetailModal
         closeModal={closeModal}
         title={auctionRoomTitle}
-        description="아직 방 내용 없음"
+        description={auctionRoomDescription}
         items={roomDetailInfo}
       />}
       <CardBottom>
@@ -91,7 +91,7 @@ const RoomCard = ({auctionRoomThumbnail, auctionRoomTitle, id, ownerName, ownerP
             {auctionRoomTitle}
           </TextEllipsis>
         </ColoumFlex>
-      </CardBottom>
+      </CardBottom> 
     </Card>
   );
 }
