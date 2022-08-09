@@ -47,7 +47,7 @@ function App() {
             <Route path="/auctionrooms" element={<AuctionRooms />} />
             <Route path="/mypage" element={<Mypage />} />
             <Route path="/price" element={<Price />} />
-            <Route path="/mypage/update" element={<UpdateProfile />} />
+            <Route path="/update" element={<UpdateProfile />} />
             <Route path="/pay-test" element={<PayTest />} />
             <Route path="/*" element={<NotFound />}/>
           </Routes>

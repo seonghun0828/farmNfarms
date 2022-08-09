@@ -2,6 +2,8 @@ import { useState } from 'react'
 import styled from 'styled-components';
 import PhotoCameraIcon from '@mui/icons-material/PhotoCamera';
 import Image from '../../atoms/Image';
+import Input from '../../atoms/Input';
+import PostCode from '../../molecules/PostCode';
 
 const ImageArea = styled.div`
   width: 9rem;
@@ -35,6 +37,18 @@ const UpdateProfile = () => {
       setUrl(URL.createObjectURL(fileUploader.files[0]));
   }
 
+  const [postCode, setPostCode] = useState({
+		zonecode: '',
+    address: '',
+    extraAddress: '',
+		fullAddress: '',
+		detailAddress: '',
+	});
+
+  const getPostCode = (data) => {
+    setPostCode(data)
+  }
+
   return (
     <>
       <ImageArea>
@@ -50,6 +64,9 @@ const UpdateProfile = () => {
             </StyledImage>
         }
       </ImageArea>
+      <Input></Input>
+      <Input></Input>
+      <PostCode setPostCode={getPostCode}/>
     </>
   );
 }
