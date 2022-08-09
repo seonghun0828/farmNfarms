@@ -82,6 +82,7 @@ const RoomCard = ({id, auctionRoomThumbnail, auctionRoomTitle, auctionRoomDescri
         title={auctionRoomTitle}
         description={auctionRoomDescription}
         items={roomDetailInfo}
+        roomId={id}
       />}
       <CardBottom>
         <OwnerPicture thumbnail={ownerPicture}/>

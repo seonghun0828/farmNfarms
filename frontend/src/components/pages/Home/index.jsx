@@ -13,6 +13,7 @@ import main_price from './main_price'
 import RoomCard from '../../molecules/RoomCard';
 import AutoCarousel from '../../molecules/AutoCarousel';
 import room_infos from './room_infos';
+import { AddCircle } from '@mui/icons-material';
 
 const StyledHome = styled.div``;
 const FlexSearchArea = styled.div`
@@ -48,7 +49,6 @@ const Div = styled.div`
   margin-bottom: ${(props) => props.mb + 'rem'};
   margin-left: ${(props) => props.ml + 'rem'};
   margin-right: ${(props) => props.mr + 'rem'};
-
   padding-top: ${(props) => props.pt + 'rem'};
   padding-bottom: ${(props) => props.pb + 'rem'};
   padding-left: ${(props) => props.pl + 'rem'};
@@ -130,7 +130,7 @@ const Home = () => {
       </MarketPriceArea>
       <AddRoomArea>
         <Button mode="graytext" fontSize="titleSize" onClick={moveToCreate}>
-          ⨁
+          <AddCircle style={{height: '50px', width: '50px'}}/>
         </Button>
       </AddRoomArea>
     </StyledHome>
