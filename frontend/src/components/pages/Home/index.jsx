@@ -14,6 +14,7 @@ import RoomCard from '../../molecules/RoomCard';
 import AutoCarousel from '../../molecules/AutoCarousel';
 import room_infos from './room_infos';
 import { AddCircle } from '@mui/icons-material';
+import ArrowForwardIosIcon from '@mui/icons-material/ArrowForwardIos';
 
 const StyledHome = styled.div``;
 const FlexSearchArea = styled.div`
@@ -24,17 +25,22 @@ const SearchArea = styled.div`
   width: 90%;
 `;
 const RoomCardArea = styled.div`
-  height: 25rem;
 `;
 const MarketPriceArea = styled.div`
-  height: 10rem;
+  margin-top: 1rem;
 `;
+
+const SectionTitle = styled.div`
+  display: flex;
+  flex-direction: column;
+  margin: 0 0.5rem 0.5rem 0.5rem;
+`
 
 const MoreInfo = styled.div`
   display: flex;
   justify-content: flex-end;
-  padding-right: 1rem;
-`;
+`
+
 const AddRoomArea = styled.div`
   position: fixed;
   bottom: 1rem;
@@ -54,6 +60,10 @@ const Div = styled.div`
   padding-left: ${(props) => props.pl + 'rem'};
   padding-right: ${(props) => props.pr + 'rem'};
 `;
+
+const MoreButton = styled.div`
+
+`
 
 const Home = () => {
   const navigate = useNavigate();
@@ -93,14 +103,16 @@ const Home = () => {
         </SearchArea>
       </FlexSearchArea>
       <RoomCardArea>
-        <Text fontSize="xl" weight="bold">
-          빨리 들어와유
-        </Text>
-        <MoreInfo>
-          <Button mode="highlight" fontSize="sm" onClick={moveToAuctionRooms}>
-            더보기
-          </Button>
-        </MoreInfo>
+        <SectionTitle>
+          <Text fontSize="xl" weight="bold">
+            빨리 들어와유
+          </Text>
+          <MoreInfo>
+            <Button mode="graytext" fontSize="md" fontWeight="" onClick={moveToAuctionRooms}>
+              더보기
+            </Button>
+          </MoreInfo>
+        </SectionTitle>
         {roomInfos ?         
         <Carousel>
           {roomInfos.map((roominfo, index) => (
@@ -113,14 +125,16 @@ const Home = () => {
         {/* isLoading 말고 좋은거 없나 시청자수 가져올 수 있는지 물어보기*/}
       </RoomCardArea>
       <MarketPriceArea>
-        <Text fontSize="xl" weight="bold">
-          농산물 시세
-        </Text>
-        <MoreInfo>
-          <Button mode="highlight" fontSize="sm" onClick={moveToPrice}>
-            더보기
-          </Button>
-        </MoreInfo>
+        <SectionTitle>
+          <Text fontSize="xl" weight="bold">
+            농산물 시세
+          </Text>
+          <MoreInfo>
+            <Button mode="graytext" fontSize="md" onClick={moveToPrice}>
+              더보기
+            </Button>
+          </MoreInfo>
+        </SectionTitle>
         {priceItems ?         
         <AutoCarousel slideLength={10}>
           {priceItems.map((priceItem, index) => (
