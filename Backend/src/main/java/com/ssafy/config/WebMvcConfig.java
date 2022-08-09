@@ -1,6 +1,7 @@
 package com.ssafy.config;
 
 import com.ssafy.common.util.JwtTokenUtil;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.web.cors.CorsConfiguration;
@@ -15,6 +16,8 @@ public class WebMvcConfig implements WebMvcConfigurer {
 
     private final String uploadImagePath = "/var/lib/jenkins/area-deploy/backend/upload-images/";
 
+    @Value("${app.upload.dir:${user.home}}")
+    private String uploadPath;
 
     @Bean
     public CorsConfigurationSource corsConfigurationSource() {
@@ -45,7 +48,7 @@ public class WebMvcConfig implements WebMvcConfigurer {
         registry.addResourceHandler("/img/**")
                 .addResourceLocations("classpath:/dist/img/");
 
-        registry.addResourceHandler("/static/img/**")
+        registry.addResourceHandler(uploadImagePath + "/pictures/**")
                 .addResourceLocations("file:///" + uploadImagePath + "/")
                 .setCachePeriod(3600)
                 .resourceChain(true)
