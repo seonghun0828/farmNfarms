@@ -9,6 +9,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.util.StringUtils;
 import org.springframework.web.multipart.MultipartFile;
 
+import javax.servlet.ServletContext;
 import java.io.File;
 import java.io.IOException;
 import java.nio.file.Files;
@@ -25,12 +26,15 @@ public class FileService {
     @Autowired
     ImageRepository imageRepository;
 
+    @Autowired
+    ServletContext servletContext;
+
     //application.properties에 app.upload.dir을 정의하고, 없는 경우에는 default값으로 user.home
-    @Value("${app.upload.dir:${user.home}}")
     private String uploadPath;
 
     //image를 받으면 1. server에 저장하고, 2. 저장정보를 db에 저장하고, 3. 저장 정보 중 id를 반환한다.
     public Long fileSave(MultipartFile file) {
+        uploadPath = servletContext.getRealPath("/pictures");
         SimpleDateFormat sdf = new SimpleDateFormat("yyyyMMdd");
         String curDate = sdf.format(new Date());
         String ftype = file.getContentType();
