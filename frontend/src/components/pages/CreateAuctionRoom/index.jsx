@@ -120,7 +120,6 @@ const CreateAuctionRoom = () => {
   const navigate = useNavigate();
 
   const addItem = () => {
-    // reissue();
     setItems(items => [...items, 
       cardInputs.reduce((total, {name}) => {
         return {
@@ -150,6 +149,7 @@ const CreateAuctionRoom = () => {
         }
       }
     }
+    reissue();
     setEmptyInput(true);
     const file = document.querySelector('#file-uploader').files[0];
     let thumbnailIdx = -1;
