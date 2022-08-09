@@ -5,28 +5,55 @@ import Navbar from '../../molecules/Navbar';
 import Text from '../../atoms/Text';
 import Button from '../../atoms/Button';
 import Input from '../../atoms/Input';
+import Image from "../../atoms/Image"
 import Textarea from '../../atoms/Textarea';
 import CreateItemCard from '../../molecules/CreateItemCard';
 import { useNavigate } from 'react-router-dom';
 import move from '../../../common/move'
+import PhotoCameraIcon from '@mui/icons-material/PhotoCamera';
+import reissue from '../../../common/reissue';
+import uploadFile from './uploadFile';
+import createAuctionRoom from './createAuctionRoom';
+import { useSelector } from 'react-redux';
 
 const StyledCreateAuctionRoom = styled.div``;
 
-// ${({theme}) => theme.flex.columnCenter}
 const PageBody = styled.div`
+  ${({theme}) => theme.flex.columnCenter}
     padding: 1.2rem;
     height: 46rem;
 `;
+const FixedInputArea = styled.div`
+  ${({theme}) => theme.flex.rowCenter}
+  justify-content: space-between;
+  gap: 0.8rem;
+`
+const ImageArea = styled.div`
+    width: 7.5rem;
+    height: 10.5rem;
+    `
+const StyledImage = styled.div`
+  width: 7.5rem;
+  height: 10.5rem;
+  border-radius: 0.5rem;
+`
+const ImageButton = styled.div`
+  ${({theme}) => theme.flex.rowCenter}
+  width: 7.5rem;
+  height: 10.5rem;
+  background-color: ${({theme}) => theme.colors.gray2};
+  border-radius: 0.5rem;
+`
 const TextInputs = styled.div`
     ${({theme}) => theme.flex.columnCenter}
     justify-content: space-around;
     height: 12rem;
 `
 const StyledInput = styled.div`
-    width: 22rem;
+    width: 14rem;
 `
 const StyledTextarea = styled.div`
-    width: 22rem;
+    width: 14rem;
     `;
 const ItemAddingArea = styled.div`
     width: 22rem;
@@ -50,62 +77,117 @@ const ItemAddingAreaBody = styled.div`
   ${({theme}) => theme.flex.columnCenter}
   justify-content: flex-start;
   height: 22.5rem;
+  padding: 0.8rem 0;
   overflow-y: auto;
   gap: 1rem;
 `
 const Footer = styled.div`
-  ${({theme}) => theme.flex.rowCenter}
+  ${({theme}) => theme.flex.columnCenter}
   padding-top: 2rem;
+  gap: 1rem;
 `
 const FooterButtons = styled.div`
   ${({theme}) => theme.flex.rowCenter}
   width: 100%;
+  gap: 2rem;
   justify-content: space-around;
 `
-const cardInputs=[{text: '품목명', type: 'text'}, {text: '수량', type: 'text'}, {text: '등급', type: 'text'}, {text: '경매시작가', type: 'number'}];
+const cardInputs=[{text: '품목명', name: 'productTitle', type: 'text'}, {text: '수량', name: 'quantity', type: 'number'}, {text: '등급', name: 'gradeTitle', type: 'text'}, {text: '금액증가폭', name: 'bidIncrement', type: 'number'}, {text: '경매시작가', name: 'startingPrice', type: 'number'}];
 
 const CreateAuctionRoom = () => {
   const [title, setTitle] = useState('');
-  const [content, setContent] = useState('');
+  const [description, setDescription] = useState('');
   const [items, setItems] = useState([
-    cardInputs.map(({text}) => {
+    cardInputs.reduce((total, {name}) => {
       return {
-        [text] : ''
-      }})
+        ...total,
+        [name]: ''
+      }
+    }, {})
   ]);
+  const [url, setUrl] = useState(null);
+  const [emptyInput, setEmptyInput] = useState(true);
+  const phone = useSelector((state) => state.token.value.phone);
+  const clickHandler = () => {
+      const fileUploader = document.querySelector('#file-uploader');
+      fileUploader.click();
+  }
+  const changeImage = () => {
+      const fileUploader = document.querySelector('#file-uploader');
+      setUrl(URL.createObjectURL(fileUploader.files[0]));
+  }
+
   const navigate = useNavigate();
+
   const addItem = () => {
+    // reissue();
     setItems(items => [...items, 
-      cardInputs.map(({text}) => {
+      cardInputs.reduce((total, {name}) => {
         return {
-          [text] : ''
-        }})
+          ...total,
+          [name]: ''
+        }
+      }, {})
     ]);
   }
+
   const onChange = (e, setValue) => {
     setValue(e.target.value);
   }
   const goBack = () => {
     move(navigate, -1);
   }
-  const create = () => {
-    console.log(title);
-    console.log(content);
-    console.log(items);
+  const createRoom = async () => {
+    if (title.trim() === '' || description.trim() === '') {
+      setEmptyInput(false);
+      return;
+    }
+    for (let item of items) {
+      for (let input of Object.keys(item)) {
+        if (item[input].trim() === '') {
+          setEmptyInput(false);
+          return;
+        }
+      }
+    }
+    setEmptyInput(true);
+    const file = document.querySelector('#file-uploader').files[0];
+    let thumbnailIdx = -1;
+    if (file) {
+      const formData = new FormData();
+      formData.append('img', file);
+      thumbnailIdx = await uploadFile(formData);
+    }
+    createAuctionRoom(title, description, thumbnailIdx, items, phone);
   }
   return (
     <StyledCreateAuctionRoom>
       <Navbar url={logo} isLogin imgSize="xs" fontSize="sm" mode="graytext" />
       <PageBody>
         <Text weight='bold' fontSize='xxxl'>경매방 생성 페이지</Text>
-        <TextInputs>
-            <StyledInput>
-                <Input height='2' placeholder='제목을 입력하세요' onChange={(e) => onChange(e, setTitle)} />
-            </StyledInput>
-            <StyledTextarea>
-                <Textarea height='7' placeholder='내용을 입력하세요' onChange={(e) => onChange(e, setContent)} />
-            </StyledTextarea>
-        </TextInputs>
+        <FixedInputArea>
+          <ImageArea>
+            <input type='file' hidden id='file-uploader' onChange={changeImage} />
+            {
+                !url ?
+                    <ImageButton>
+                        <PhotoCameraIcon fontSize='large' onClick={clickHandler} />
+                    </ImageButton>
+                    :
+                    <StyledImage>
+                        <Image src={url} onClick={clickHandler} />
+                    </StyledImage>
+            }
+          </ImageArea>
+          <TextInputs>
+              <StyledInput>
+                  <Input height='2' placeholder='제목을 입력하세요' onChange={(e) => onChange(e, setTitle)} />
+              </StyledInput>
+              <StyledTextarea>
+                  <Textarea height='7' placeholder='내용을 입력하세요' onChange={(e) => onChange(e, setDescription)} />
+              </StyledTextarea>
+          </TextInputs>
+        </FixedInputArea>
         <ItemAddingArea>
           <ItemAddingAreaNav>
             <Space />
@@ -119,9 +201,12 @@ const CreateAuctionRoom = () => {
           </ItemAddingAreaBody>
         </ItemAddingArea>
         <Footer>
+          {
+              !emptyInput ? <Text color='red' fontSize='lg' weight='bold'>필수 입력값을 작성해주세요.</Text> : null
+          }
           <FooterButtons>
             <Button onClick={goBack}>돌아가기</Button>
-            <Button onClick={create}>생성하기</Button>
+            <Button onClick={createRoom}>생성하기</Button>
           </FooterButtons>
         </Footer>
       </PageBody>
