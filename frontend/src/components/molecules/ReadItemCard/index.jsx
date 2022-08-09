@@ -1,6 +1,5 @@
 import styled from 'styled-components';
 import theme from '../../../common/theme'
-import Image from '../../atoms/Image';
 import Text from '../../atoms/Text';
 
 // width로 가로 길이 조절 / 디폴트는 92%
