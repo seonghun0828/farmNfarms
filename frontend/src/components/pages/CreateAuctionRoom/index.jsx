@@ -161,6 +161,7 @@ const CreateAuctionRoom = () => {
     }
     if (await createAuctionRoom(title, description, thumbnailIdx, items, phone)) {
       // 경매방으로 navigate
+      console.log('경매방 생성 성공');
     }
   }
   return (
