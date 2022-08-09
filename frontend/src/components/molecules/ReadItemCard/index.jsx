@@ -1,22 +1,19 @@
 import styled from 'styled-components';
 import theme from '../../../common/theme'
-import Image from '../../atoms/Image';
 import Text from '../../atoms/Text';
 
 // width로 가로 길이 조절 / 디폴트는 92%
-const ReadItemCard = ({imageUrl, product, quantity, grade, startingPrice, width}) => {
+const ReadItemCard = ({productTitle, quantity, grade, startingPrice, width}) => {
   return (
     <ItemBox width={width}>
       <ImageInfoFlexBox>
-        <ImageBox>
-          <Image src={imageUrl} alt="사진"/>
-        </ImageBox>
+        <ImageBox product={productTitle}/>
         <ItemInfoFlexBox>
-          <Text size="xl" weight="bold">{product}</Text>
+          <Text size="xl" weight="bold">{productTitle}</Text>
           <InfosFlexBox>
             <InfoFlexBox>
               <Text color="gray2" size="lg" weight="bold">수량</Text>
-              <Text size="md" weight="bold">{quantity}</Text>
+              <Text size="md" weight="bold">{quantity}kg</Text>
             </InfoFlexBox>
             <InfoFlexBox>
               <Text color="gray2" size="lg" weight="bold">등급</Text>
@@ -24,7 +21,7 @@ const ReadItemCard = ({imageUrl, product, quantity, grade, startingPrice, width}
             </InfoFlexBox>
             <InfoFlexBox>
               <Text color="gray2" size="lg" weight="bold">경매시작가</Text>
-              <Text size="md" weight="bold">{startingPrice}</Text>
+              <Text size="md" weight="bold">{startingPrice}원</Text>
             </InfoFlexBox>
           </InfosFlexBox>
         </ItemInfoFlexBox>
@@ -42,10 +39,14 @@ const ItemBox = styled.div`
   display: flex;
   justify-content: center;
   align-items: center;
-   margin-top: 1rem;
+  margin-top: 1rem;
 `;
 
 const ImageBox = styled.div`
+  background-image: url('/assets/농산물그림/${({product}) => product}.png');
+  background-size: 60%;
+  background-position: center;
+  background-repeat: no-repeat;
   width: 40%;
   height: 100%;
   border-radius: 0.5rem;

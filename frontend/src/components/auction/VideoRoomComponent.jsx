@@ -41,7 +41,6 @@ const WhiteDiv = styled.div`
 // `
 
 // 추가하고픈 기능 => 채팅창이 스크롤 위인 상태에서 누군가 채팅을 쳤으면 새로운 메세지 보기가 뜨고 클릭하면 이동
-// 
 // 경매방 나가기 기능 정교화(요약 페이지를 보고 나가게 하기로 바꾸기?)
 
 // const OPENVIDU_SERVER_URL = 'https://' + window.location.hostname + ':4443';
@@ -49,35 +48,36 @@ const OPENVIDU_SERVER_URL = 'https://i7b203.p.ssafy.io:8443';
 const OPENVIDU_SERVER_SECRET = 'MY_SECRET';
 
 const VideoRoomComponent = (props) => {
-  const [mySessionId, setMySessionId] = useState('SessionA')
-  const [myUserName, setMyUserName] = useState('Participant' + Math.floor(Math.random() * 100))
-  const [session, setSession] = useState(undefined)
-  const [mainStreamManager, setMainStreamManager] = useState(undefined) // 페이지의 메인 비디오 화면(퍼블리셔 또는 참가자의 화면 중 하나)
-  const [publisher, setPublisher] = useState(undefined) // 자기 자신의 캠
-  const [subscribers, setSubscribers] = useState([]) // 다른 유저의 스트림 정보를 저장할 배열
-  const [messageList, setMessageList] = useState([]) // 메세지 정보를 담을 배열
-  const [totalUsers, setTotalUsers] = useState(0) // 총 유저수
-  const [toggleStart, setToggleStart] = useState(false) // 스타트 버튼 토글
-  const [seconds, setSeconds] = useState(0) // 타이머 시작 시간
-  const [displayBidding, setDisplayBidding] = useState(false) // 비딩칸 display on/off
-  const [price, setPrice] = useState(props.items[0].starting_price) // 나의 입찰(bidding) 가격
-  const [highestPrice, setHighestPrice] = useState(0) // 최고 입찰 가격
-  const [tempHighestPrice, setTempHighestPrice] = useState(0) // 현재 세션에만 보여줄 최고 입찰 가격
-  const [bestBidder, setBestBidder] = useState(undefined) // 최고 입찰자
-  const [tempBestBidder, setTempBestBidder] = useState(undefined) // 현재 세션에만 보여줄 최고 입찰자
+  const [mySessionId, setMySessionId] = useState('SessionA');
+  const [myUserName, setMyUserName] = useState('Participant' + Math.floor(Math.random() * 100));
+  const [session, setSession] = useState(undefined);
+  const [mainStreamManager, setMainStreamManager] = useState(undefined); // 페이지의 메인 비디오 화면(퍼블리셔 또는 참가자의 화면 중 하나)
+  const [publisher, setPublisher] = useState(undefined); // 자기 자신의 캠
+  const [subscribers, setSubscribers] = useState([]); // 다른 유저의 스트림 정보를 저장할 배열
+  const [messageList, setMessageList] = useState([]); // 메세지 정보를 담을 배열
+  const [totalUsers, setTotalUsers] = useState(0); // 총 유저수
+  const [toggleStart, setToggleStart] = useState(false); // 스타트 버튼 토글
+  const [seconds, setSeconds] = useState(0); // 타이머 시작 시간
+  const [displayBidding, setDisplayBidding] = useState(false); // 비딩칸 display on/off
+  const [price, setPrice] = useState(props.items[0].starting_price); // 나의 입찰(bidding) 가격
+  const [highestPrice, setHighestPrice] = useState(0); // 최고 입찰 가격
+  const [tempHighestPrice, setTempHighestPrice] = useState(0); // 현재 세션에만 보여줄 최고 입찰 가격
+  const [bestBidder, setBestBidder] = useState(undefined); // 최고 입찰자
+  const [tempBestBidder, setTempBestBidder] = useState(undefined); // 현재 세션에만 보여줄 최고 입찰자
   // const [auctionCount, setAuctionCount] = useState(0) // 경매 회수(props의 길이와 같아지면 경매방 종료)
-  const [sessionCount, setSessionCount] = useState(0) // 현재 경매의 세션 횟수(초깃값은 0, max는 2까지)
-  const [itemIndex, setItemIndex] = useState(0) // 물품 목록 인덱스
-  const [chatDisplay, setChatDisplay] = useState(true) // 채팅창 보이기(초깃값: true) 
+  const [sessionCount, setSessionCount] = useState(0); // 현재 경매의 세션 횟수(초깃값은 0, max는 2까지)
+  const [itemIndex, setItemIndex] = useState(0); // 물품 목록 인덱스
+  const [chatDisplay, setChatDisplay] = useState(true); // 채팅창 보이기(초깃값: true) 
+  const [isHost, setIsHost] = useState(false);
 
-  const navigate = useNavigate() // 네비게이터
+  const navigate = useNavigate(); // 네비게이터
 
   let OV = undefined;
 
   // 토큰 받아오기(KMS로 직접 쏨)
   const getToken = useCallback(() => {
     return createSession(mySessionId).then((sessionId) => createToken(sessionId));
-  }, [mySessionId])
+  }, [mySessionId]);
 
   // 세션 생성(KMS로 직접 쏨)
   const createSession = (sessionId) => {
@@ -125,9 +125,10 @@ const VideoRoomComponent = (props) => {
   // 토큰 생성(KMS로 직접 쏨)
   const createToken = (sessionId) => {
     // let myrole = this.isHost ? "PUBLISHER" : "SUBSCRIBER";
-    let myRole = "PUBLISHER";
+    let myRole = isHost ? "PUBLISHER" : "SUBSCRIBER";
+    console.log(myRole)
     return new Promise((resolve, reject) => {
-      var data = {role: myRole}; // 여기에 인자를 뭐를 넣냐에 따라 오픈비두 서버에 요청하는 데이터가 달라짐
+      const data = { role: myRole }; // 여기에 인자를 뭐를 넣냐에 따라 오픈비두 서버에 요청하는 데이터가 달라짐
       axios
         .post(OPENVIDU_SERVER_URL + "/openvidu/api/sessions/" + sessionId + "/connection", data, {
           headers: {
@@ -154,9 +155,12 @@ const VideoRoomComponent = (props) => {
     // 스트림이 생길 때마다
     mySession.on('streamCreated', (event) => {
       // 스트림 객체를 참가자에게 넘겨줌. 두번째 인자가 undefined이므로 HTML video를 스스로 생성하지 않음
-      const subscriber = mySession.subscribe(event.stream, 'undefined');
+      // 퍼블리셔를 구독자로 넣어줌
+      const subscriber = mySession.subscribe(event.stream, 'publisher'); // undefined
       // 참가자 배열을 최신화
-      setSubscribers((preSubscribers) => { return [...preSubscribers, subscriber] })
+      // setSubscribers((preSubscribers) => { return [...preSubscribers, subscriber] })
+      setSubscribers(subscriber)
+      // setPublisher(subscriber)
     });
 
     // 스트림을 종료할 때마다
@@ -270,7 +274,14 @@ const VideoRoomComponent = (props) => {
     })
     setItemIndex(0) // 0으로 바꿔줘야 방을 파고 다시 들어왔을 때 목록을 0부터 시작할 수 있음
     setSeconds(0)
+    setIsHost(false) // isHost를 false로 설정함
   }
+
+  // 호스트(방 생성자) 여부에 따른 isHost를 토글링함(created())
+  useEffect(() => {
+    setIsHost(localStorage.getItem("host") ? true : false)
+    console.log(isHost)
+  }, [])
 
   useEffect(() => {
     const onbeforeunload = (event) => {
@@ -387,7 +398,14 @@ const VideoRoomComponent = (props) => {
   const sendAuctionResult = () => {
     console.log('send data to backend!')
     // send함수를 호출해서 백엔드로 데이터를 보냄
-    // const payload = {};
+    const payload = {
+      seller_phone: "01012345678",
+      buyer_phone: "01087654321",
+      title: props.items[itemIndex].title,
+      quantity: props.items[itemIndex].quantity,
+      grade: props.items[itemIndex].grade,
+      auctioned_price: highestPrice,
+    }
     // const sendResponse = send(payload);
     // if (sendResponse) {
     //   console.log('Send Data Successfully!');
@@ -438,7 +456,9 @@ const VideoRoomComponent = (props) => {
           {/* 화면 */}
           {mainStreamManager !== undefined ? (
             <div id="main-video">
-              <UserVideoComponent streamManager={mainStreamManager} />
+              {/* <UserVideoComponent streamManager={mainStreamManager} /> */}
+              {isHost && <UserVideoComponent streamManager={publisher}></UserVideoComponent>}
+              {!isHost && <UserVideoComponent streamManager={subscribers}></UserVideoComponent>}
             </div>
           ) : null}
           <div id="session-header">
@@ -486,6 +506,7 @@ const VideoRoomComponent = (props) => {
                 bestBidder={bestBidder}
                 setTempBestBidder={setTempBestBidder}
                 maxIndex={props.items.length}
+                isHost={isHost}
               /></StyledDiv>
             <StyledDiv>
               <span>

@@ -20,7 +20,7 @@ const CardTop = styled.div`
 const CardBottom = styled.div`
   width: 10rem;
   height: auto;
-  border: 1px solid ${theme.colors.gray2};;
+  border: 1px solid ${theme.colors.gray2};
   border-radius: 0 0 0.5rem 0.5rem;
   background-color: rgba(0, 0, 0, 0.3);
   display: flex;

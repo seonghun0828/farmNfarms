@@ -133,7 +133,10 @@ const Join = () => {
 						password,
 						name,
 						address: fullAddress,
+						detailAddress,
 						account,
+						bank,
+						zipCode: zonecode,
 					}
 					const isJoin = await join(payload);
 					if (isJoin) {

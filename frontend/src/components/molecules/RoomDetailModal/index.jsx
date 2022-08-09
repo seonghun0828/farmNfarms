@@ -5,10 +5,9 @@ import Button from "../../atoms/Button";
 import theme from "../../../common/theme"
 import CloseIcon from '@mui/icons-material/Close';
 import ReadItemCard from "../ReadItemCard";
+import { useNavigate } from "react-router-dom";
 
 // 위로 올라오듯이 css 효과 넣기
-// div padding 같은거 통일해서 넣기
-// 상태를 메인페이지에서 관리하는게 맞나?? (리덕스 고려하기)
 const BackGround = styled.div`
   position: fixed;
   background-color: rgba(0, 0, 0, 0.4);
@@ -26,15 +25,15 @@ const Content = styled.div`
   margin: auto;
   background-color: white;
   width: 100%;
-  height: 80vh;
+  height: 65vh;
   border-radius: 1rem 1rem 0 0;
   box-shadow: 0 0 1rem 0.2rem rgba(0, 0, 0, 0.3);
-`;
+`
 
 const Header = styled.div`
   background-color: ${theme.colors.green5};
   width: 100%;
-  height: 8%;
+  height: 9%;
   border-radius: 1rem 1rem 0 0;
   display: flex;
   justify-content: space-between; 
@@ -44,10 +43,10 @@ const Header = styled.div`
 // 왜 알파벳은 개행 안되냐거~~
 const RoomDetailSection = styled.div`
   width: 100%;
-  height: 80%;
+  height: 82%;
   overflow-x: hidden;
   overflow-y: auto;
-  padding: 0 1rem 0.5rem 1rem;
+  padding: 0 1rem 2rem 1rem;
 `
 
 // 개행이 됐었는데 안됐습니다
@@ -85,7 +84,7 @@ const ItemCardSection = styled.div`
   align-items: center;
   width: 100%;
   height: auto;
-`;
+`
 
 const ButtonSection = styled.div`
   position: fixed;
@@ -94,59 +93,48 @@ const ButtonSection = styled.div`
   justify-content: center;
   align-items: center;
   width: 100%;
-  height: 10%;
+  height: 9%;
   background-color: white;
 `
+
 const Div = styled.div`
   margin-top: ${(props) => props.mt + 'rem'};
   margin-bottom: ${(props) => props.mb + 'rem'};
   margin-left: ${(props) => props.ml + 'rem'};
   margin-right: ${(props) => props.mr + 'rem'};
-
   padding-top: ${(props) => props.pt + 'rem'};
   padding-bottom: ${(props) => props.pb + 'rem'};
   padding-left: ${(props) => props.pl + 'rem'};
   padding-right: ${(props) => props.pr + 'rem'};
-`;
+`
 
-const EXAMPLE_ITEMS = [
-  {
-    id: '1',
-    imageUrl: "https://img.hankyung.com/photo/202010/01.24087325.1.jpg",
-    product: "배추",
-    quantity: "1000kg",
-    grade: "최상",
-    startingPrice: "100,000원"
-  },
-  {
-    id: '2',
-    imageUrl: "https://img.hankyung.com/photo/202010/01.24087325.1.jpg",
-    product: "감자",
-    quantity: "2000kg",
-    grade: "최상",
-    startingPrice: "200,000원"
-  },
-  {
-    id: '3',
-    imageUrl: "https://img.hankyung.com/photo/202010/01.24087325.1.jpg",
-    product: "옥수수",
-    quantity: "500kg",
-    grade: "중상",
-    startingPrice: "80,000원"
-  },
-]
+const RoomDetailModal = ({title, description, items, closeModal, roomId}) => {
 
-const RoomDetailModal = ({title, description, items, closeModal}) => {
+  const navigate = useNavigate();
+
+  const enterRoomHandler = (roomId) => {
+    navigate("/room")
+  }
+
   return (
     <ModalPortal>
-      <BackGround onClick={closeModal}/>
+      <BackGround onClick={(e) => {
+        closeModal();
+        e.stopPropagation();
+      }}/>
       <Content>
         <Header>
           <Div pl={1}>
             <Text color="white" size="xxl" weight="bold">방 상세 정보</Text>
           </Div>
           <Div pr={1}>
-            <CloseIcon onClick={closeModal} style={{cursor: 'pointer', color: 'white'}}/>
+            <CloseIcon 
+              onClick={(e) => {
+                closeModal();
+                e.stopPropagation();
+              }} 
+              style={{cursor: 'pointer', color: 'white'}}
+            />
           </Div>
         </Header>
         <RoomDetailSection>
@@ -170,18 +158,45 @@ const RoomDetailModal = ({title, description, items, closeModal}) => {
           <ItemsSection>
             <Text color="gray2" size="xl" weight="bold">항목</Text>
             <ItemCardSection>
-              {items.map((item) => <ReadItemCard {...item} key={item.id}/>)}                         
+              {items ? 
+                items.map((item) => <ReadItemCard {...item} key={item.id}/>) :
+                <div>isLoading</div>
+              }                        
             </ItemCardSection>
           </ItemsSection>
           </Div>
         </RoomDetailSection>
         <ButtonSection>
-          <Button width="90%">입장하기</Button>
+          <Button width="90%" onClick={enterRoomHandler}>입장하기</Button>
         </ButtonSection>
       </Content>
     </ModalPortal>
   );
 }
+
+const EXAMPLE_ITEMS = [
+  {
+    id: '1',
+    productTitle: "배추",
+    quantity: "1000",
+    grade: "최상",
+    startingPrice: "100,000"
+  },
+  {
+    id: '2',
+    productTitle: "감자",
+    quantity: "2000",
+    grade: "최상",
+    startingPrice: "200,000"
+  },
+  {
+    id: '3',
+    productTitle: "당근",
+    quantity: "500",
+    grade: "중상",
+    startingPrice: "80,000"
+  },
+]
 
 RoomDetailModal.defaultProps = {
   items: EXAMPLE_ITEMS,

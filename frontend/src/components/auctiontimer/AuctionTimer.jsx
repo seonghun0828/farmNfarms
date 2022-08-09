@@ -25,10 +25,12 @@ const StyledSpan = styled.span`
   font-size: 28px;
 `
 
+// 두 가지 큰 버그 => 모바일 상에서는 localStroage가 없어서 isHost가 먹히질 않음
+// 타이머 동작이 본인 카메라에서는 정상작동하나 상대방 화면에서는 제대로 동작하지 않음
 const AuctionTimer = (
   { seconds, setSeconds, currentSession, sessionCount, setSessionCount, 
     setItemIndex, setToggleStart, setChatDisplay, maxIndex, sendAuctionResult, 
-    setTempHighestPrice, highestPrice, bestBidder, setTempBestBidder
+    setTempHighestPrice, highestPrice, bestBidder, setTempBestBidder, isHost
   }) => {
   
   const [key, setKey] = useState(0); // 타이머를 재작동하기 위한 키
@@ -42,7 +44,6 @@ const AuctionTimer = (
     size: 120,
     strokeWidth: 8,
     isPlaying: true,
-    
   };
 
   const startTimer = () => {
@@ -133,16 +134,16 @@ const AuctionTimer = (
         )}
       </CountdownCircleTimer>
       {/* {seconds < 10 ? `00:0${seconds}초` : `00:${seconds}초`} */}
-      <Button variant="contained" onClick={startTimer}>
+      {isHost && <Button variant="contained" onClick={startTimer}>
         {seconds === 0 && <ButtonDiv>
-            <Timer></Timer>
-            지금 시작
+          <Timer></Timer>
+          지금 시작
         </ButtonDiv>}
         {seconds !== 0 && <ButtonDiv>
           <ShutterSpeed></ShutterSpeed>
           진행중
         </ButtonDiv>}
-      </Button>
+      </Button>}
     </StyledDiv>
   )
 }
