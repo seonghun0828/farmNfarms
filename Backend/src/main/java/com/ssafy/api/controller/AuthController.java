@@ -119,6 +119,9 @@ public class AuthController {
     public ResponseEntity<ReAccessPostRes> reissue(HttpServletRequest request, HttpServletResponse response) {
         String refreshToken=null;
         Cookie[] cookies = request.getCookies();
+        if(cookies==null) {
+            return ResponseEntity.status(404).body(ReAccessPostRes.of(404, "Cookies is null", null, null));
+        }
         for(Cookie cookie : cookies){
             if("refreshToken".equals(cookie.getName())){
                 refreshToken=cookie.getValue();
@@ -127,7 +130,7 @@ public class AuthController {
 
         // 쿠키 목록에 refreshToken 이 없으면 요청 실패 에러
         if(refreshToken==null) {
-            return ResponseEntity.status(404).body(ReAccessPostRes.of(404, "Request Error", null, null));
+            return ResponseEntity.status(404).body(ReAccessPostRes.of(404, "Not Exist refreshToken", null, null));
         }
 
         // DB에 refreshToken 이 있으면 토큰재발급
