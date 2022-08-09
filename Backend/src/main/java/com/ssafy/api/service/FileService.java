@@ -35,7 +35,7 @@ public class FileService {
         String curDate = sdf.format(new Date());
         String ftype = file.getContentType();
         String newFileName = curDate + Long.toString(System.nanoTime());
-        Path copyOfLocation = Paths.get(uploadPath + File.separator + newFileName);
+        Path copyOfLocation = Paths.get(uploadPath + File.separator + "pictures" + File.separator + newFileName);
          /*
         uploadPath : 기본 저장 경로
         File.separator :  프로그램이 실행 중인 OS에 해당하는 구분자를 리턴(win : \ mac : / )
