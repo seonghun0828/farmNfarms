@@ -2,17 +2,13 @@ import axios from 'axios';
 import { alertError } from '../../../common/alertError';
 import apiPath from '../../../common/apiPath';
 
-const join = async ({phone, password, name, address, account}) => {
+const join = async (payload) => {
   try {
     const { data: {statusCode} } = await axios({
       method: 'post',
       url: apiPath.user.join(),
       data: {
-        phone,
-        password,
-        name,
-        address,
-        account,
+        ...payload,      
       }
     });
     console.log(statusCode);

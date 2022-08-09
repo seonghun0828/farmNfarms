@@ -2,7 +2,6 @@ import { rest } from 'msw'
 import apiPath from '../../common/apiPath';
 
 export default rest.get(apiPath.price.main(), (req, res, ctx) => {
-  console.log('들어오는가?')
   return res(
     ctx.status(200),
     ctx.json({

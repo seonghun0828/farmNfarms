@@ -6,13 +6,13 @@ import SearchBar from '../../molecules/SearchBar';
 import Text from '../../atoms/Text';
 import Button from '../../atoms/Button';
 import Carousel from '../../molecules/Carousel';
-import RoomDetailModal from '../../molecules/RoomDetailModal';
 import { useNavigate } from 'react-router-dom';
 import move from '../../../common/move'
 import MainPriceCard from '../../molecules/MainPriceCard';
 import main_price from './main_price'
 import RoomCard from '../../molecules/RoomCard';
 import AutoCarousel from '../../molecules/AutoCarousel';
+import room_infos from './room_infos';
 
 const StyledHome = styled.div``;
 const FlexSearchArea = styled.div`
@@ -55,80 +55,8 @@ const Div = styled.div`
   padding-right: ${(props) => props.pr + 'rem'};
 `;
 
-const EXAMPLE_ROOM_INFOS = [
-  {
-    profileImg: logo,
-    headerSize: 'xxs',
-    viewerSize: 'sm',
-    title: '1',
-    description: '고랭지 배추 팔아유~아주 맛나유',
-    tags: ['존맛', '배추', '고랭지', '평창'],
-    num: '13',
-    thumnail: 'https://img.seoul.co.kr//img/upload/2020/07/22/SSI_20200722215818.jpg' 
-  },
-  {
-    profileImg: logo,
-    headerSize: 'xxs',
-    viewerSize: 'sm',
-    title: '2',
-    description: '고랭지 배추 팔아유~아주 맛나유',
-    tags: ['존맛', '배추', '고랭지', '평창'],
-    num: '13',
-    thumnail: 'https://img.seoul.co.kr//img/upload/2020/07/22/SSI_20200722215818.jpg' 
-  },
-  {
-    profileImg: logo,
-    headerSize: 'xxs',
-    viewerSize: 'sm',
-    title: '3',
-    description: '고랭지 배추 팔아유~아주 맛나유',
-    tags: ['존맛', '배추', '고랭지', '평창'],
-    num: '13',
-    thumnail: 'https://img.seoul.co.kr//img/upload/2020/07/22/SSI_20200722215818.jpg' 
-  },
-  {
-    profileImg: logo,
-    headerSize: 'xxs',
-    viewerSize: 'sm',
-    title: '배추아저씨',
-    description: '고랭지 배추 팔아유~아주 맛나유',
-    tags: ['존맛', '배추', '고랭지', '평창'],
-    num: '13',
-    thumnail: 'https://img.seoul.co.kr//img/upload/2020/07/22/SSI_20200722215818.jpg' 
-  },
-  {
-    profileImg: logo,
-    headerSize: 'xxs',
-    viewerSize: 'sm',
-    title: '배추아저씨',
-    description: '고랭지 배추 팔아유~아주 맛나유',
-    tags: ['존맛', '배추', '고랭지', '평창'],
-    num: '13',
-    thumnail: 'https://img.seoul.co.kr//img/upload/2020/07/22/SSI_20200722215818.jpg' 
-  },
-  {
-    profileImg: logo,
-    headerSize: 'xxs',
-    viewerSize: 'sm',
-    title: '배추아저씨',
-    description: '고랭지 배추 팔아유~아주 맛나유',
-    tags: ['존맛', '배추', '고랭지', '평창'],
-    num: '13',
-    thumnail: 'https://img.seoul.co.kr//img/upload/2020/07/22/SSI_20200722215818.jpg' 
-  },
-]
-
 const Home = () => {
   const navigate = useNavigate();
-  const [isOnModal, setIsOnModal] = useState(false);
- 
-  const openModal = () => {
-    setIsOnModal(true);
-  }
-  
-  const closeModal = () => {
-    setIsOnModal(false);
-  }
 
   const moveToCreate = () => {
     move(navigate, 'create');
@@ -141,31 +69,23 @@ const Home = () => {
     move(navigate, 'price');
   }
 
+  const [roomInfos, setRoomInfos] = useState(null);
+  const getRoomInfos = async () => {
+    setRoomInfos(await room_infos());
+  }
   const [priceItems, setPriceItems] = useState(null);
   const getMainPrice = async () => {
     setPriceItems(await main_price());
   }
 
-  const Slide = styled.div`
-  width: 200px;
-  height: 100px;
-  border: 1px solid red;
-  flex-shrink: 0;
-`
-
   useEffect(() => {
     getMainPrice();
+    getRoomInfos();
+    console.log(roomInfos);
   }, []);
 
-  // 모달 열기 버튼은 임시~~
   return (
     <StyledHome>
-      {/* <Button onClick={openModal}>모달열기</Button> 
-      {isOnModal && <RoomDetailModal
-        closeModal={closeModal}
-        title="고랭지 배추 팔아유" 
-        description="Lorem ipsum dolor, sit amet consectetur adipisicing elit. Aut pariatur, hic, eveniet ipsam totam dolorum commodi nostrum dolorem sapiente fuga eum? Asperioabsdbsdfs;ldcms,dlfma;lsdmfdsjfmweofmnskldfmlksd아아아아아아아아아아아아아아아아아아아아아아아아아아아아아아아아아아아아아아아아아아아아아아아아아아아아아아아아아아아아아아아아아아아아아아아아아아아아아아아아아아아아아아아아아아아아아아아아아아아아아아아아아아아아아아아아아아아아아아아아아아아아아아아아아아아아아아아아아아아아아아아아아아아아아아아아아아아아아아아아아아아아아아아아아아아아아아아아아아아아아아아아아아아아아아아아아아아아아아아아아아아아아아아아아아아아아아아아아아아아아아아아아아아아아아아아아아아아아아아아아아아아아아아아아아아아아아아아아아아아아아아아아아아아아아아아아아아아아아아아아아아아아아아아아아아아아아아아아아아아아아아아아아아아아아아아아아아아아아아아아아아아아아아아아아아아아아아아아아아아아아아아아아아아아아아아아아아아아아아아아아아아아아아아아아아아아아아아아아아아아아아아아아아아아아아아아아아아아아아아아아아아아아아아아아아아아아아아아아아아아아아아아아아아아아아아아아아아아아아아아아아아아아아아아아아아아아아아아아아아아아아아아아아아아아아아아아아아아아아아아아아아아아아아아아아아아아아아아아아아아아아아아아아아아아아아아아아아아아아아아아아아아아아아아아아아아아아아아아아아아아아아아아아아아아아아아아아아아아아아아아아아아아아아아아아아아아아아아아아아아아아아아아 libero, excepturi hic sit nesciunt nisi suscipit cum!"
-      />} */}
       <Navbar url={logo} isLogin imgSize="xs" fontSize="sm" mode="graytext" />
       <FlexSearchArea>
         <SearchArea>
@@ -181,13 +101,16 @@ const Home = () => {
             더보기
           </Button>
         </MoreInfo>
+        {roomInfos ?         
         <Carousel>
-          {EXAMPLE_ROOM_INFOS.map((roominfo, index) => (
+          {roomInfos.map((roominfo, index) => (
             <Div pl={0.5} pr={0.5} key={index}>
               <RoomCard {...roominfo}/>
             </Div>))
           }
         </Carousel>
+         : <div>isLoading</div>} 
+        {/* isLoading 말고 좋은거 없나 시청자수 가져올 수 있는지 물어보기*/}
       </RoomCardArea>
       <MarketPriceArea>
         <Text fontSize="xl" weight="bold">
