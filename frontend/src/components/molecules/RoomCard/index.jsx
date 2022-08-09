@@ -82,7 +82,12 @@ const RoomCard = ({id, auctionRoomThumbnail, auctionRoomTitle, auctionRoomDescri
         closeModal={closeModal}
         title={auctionRoomTitle}
         description={auctionRoomDescription}
+<<<<<<< HEAD
         // items={roomDetailInfo}
+=======
+        items={roomDetailInfo}
+        roomId={id}
+>>>>>>> f4ac42ab4078157549ee7c0a8fb0a508c2b96fbe
       />}
       <CardBottom>
         <OwnerPicture thumbnail={ownerPicture}/>

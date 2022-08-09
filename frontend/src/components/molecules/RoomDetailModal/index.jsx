@@ -5,9 +5,9 @@ import Button from "../../atoms/Button";
 import theme from "../../../common/theme"
 import CloseIcon from '@mui/icons-material/Close';
 import ReadItemCard from "../ReadItemCard";
+import { useNavigate } from "react-router-dom";
 
 // 위로 올라오듯이 css 효과 넣기
-
 const BackGround = styled.div`
   position: fixed;
   background-color: rgba(0, 0, 0, 0.4);
@@ -28,7 +28,7 @@ const Content = styled.div`
   height: 65vh;
   border-radius: 1rem 1rem 0 0;
   box-shadow: 0 0 1rem 0.2rem rgba(0, 0, 0, 0.3);
-`;
+`
 
 const Header = styled.div`
   background-color: ${theme.colors.green5};
@@ -84,7 +84,7 @@ const ItemCardSection = styled.div`
   align-items: center;
   width: 100%;
   height: auto;
-`;
+`
 
 const ButtonSection = styled.div`
   position: fixed;
@@ -96,19 +96,26 @@ const ButtonSection = styled.div`
   height: 9%;
   background-color: white;
 `
+
 const Div = styled.div`
   margin-top: ${(props) => props.mt + 'rem'};
   margin-bottom: ${(props) => props.mb + 'rem'};
   margin-left: ${(props) => props.ml + 'rem'};
   margin-right: ${(props) => props.mr + 'rem'};
-
   padding-top: ${(props) => props.pt + 'rem'};
   padding-bottom: ${(props) => props.pb + 'rem'};
   padding-left: ${(props) => props.pl + 'rem'};
   padding-right: ${(props) => props.pr + 'rem'};
-`;
+`
 
-const RoomDetailModal = ({title, description, items, closeModal}) => {
+const RoomDetailModal = ({title, description, items, closeModal, roomId}) => {
+
+  const navigate = useNavigate();
+
+  const enterRoomHandler = (roomId) => {
+    navigate("/room")
+  }
+
   return (
     <ModalPortal>
       <BackGround onClick={(e) => {
@@ -160,7 +167,7 @@ const RoomDetailModal = ({title, description, items, closeModal}) => {
           </Div>
         </RoomDetailSection>
         <ButtonSection>
-          <Button width="90%">입장하기</Button>
+          <Button width="90%" onClick={enterRoomHandler}>입장하기</Button>
         </ButtonSection>
       </Content>
     </ModalPortal>
