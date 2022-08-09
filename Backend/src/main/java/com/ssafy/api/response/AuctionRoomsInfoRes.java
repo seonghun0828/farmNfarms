@@ -14,5 +14,6 @@ public class AuctionRoomsInfoRes {
     private String ownerPicture;
     private String auctionRoomThumbnail;
     private String auctionRoomTitle;
+    private String auctionRoomDescription;
 
 }
