@@ -31,12 +31,13 @@ public class FileService {
 
     //application.properties에 app.upload.dir을 정의하고, 없는 경우에는 default값으로 user.home
     @Value("${app.upload.dir:${user.home}}")
+    private String DOMAIN;
     private String uploadPath;
 
     //image를 받으면 1. server에 저장하고, 2. 저장정보를 db에 저장하고, 3. 저장 정보 중 id를 반환한다.
     public Long fileSave(MultipartFile file) {
-        //uploadPath = servletContext.getRealPath("/");
-        uploadPath += "/pictures";
+        uploadPath = DOMAIN + File.separator + "pictures";
+
         File folder = new File(uploadPath);
 
         if(!folder.exists()){
