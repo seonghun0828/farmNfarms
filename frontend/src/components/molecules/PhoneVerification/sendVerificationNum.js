@@ -5,6 +5,7 @@ import { alertError } from '../../../common/alertError';
 const sendVerificationNum = async (confirmNumber, id, setErrorType) => {
   try {
     console.log(confirmNumber);
+    console.log(id);
     const { data: { isSuccess } } = await axios({
       method: 'post',
       url: apiPath.verification.send(id),

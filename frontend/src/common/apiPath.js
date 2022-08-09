@@ -25,7 +25,8 @@ const apiPath = {
   },
   room: {
     rooms: () => HOST + ROOMS,
-    search: () => HOST + ROOMS + 'search',
+    search: () => HOST + ROOMS + 'search/',
+    detail: (roomNumber) => HOST + ROOMS + 'details/' + `${roomNumber}/`,
   },
   // 아래부터 임시
   price: {
