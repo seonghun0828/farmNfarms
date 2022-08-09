@@ -8,9 +8,13 @@ import org.springframework.web.cors.CorsConfigurationSource;
 import org.springframework.web.cors.UrlBasedCorsConfigurationSource;
 import org.springframework.web.servlet.config.annotation.ResourceHandlerRegistry;
 import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
+import org.springframework.web.servlet.resource.PathResourceResolver;
 
 @Configuration
 public class WebMvcConfig implements WebMvcConfigurer {
+
+    private final String uploadImagePath = "/var/lib/jenkins/area-deploy/backend/upload-images/";
+
 
     @Bean
     public CorsConfigurationSource corsConfigurationSource() {
@@ -40,5 +44,11 @@ public class WebMvcConfig implements WebMvcConfigurer {
          */
         registry.addResourceHandler("/img/**")
                 .addResourceLocations("classpath:/dist/img/");
+
+        registry.addResourceHandler("/static/img/**")
+                .addResourceLocations("file:///" + uploadImagePath + "/")
+                .setCachePeriod(3600)
+                .resourceChain(true)
+                .addResolver(new PathResourceResolver());
     }
 }
