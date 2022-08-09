@@ -178,23 +178,23 @@ const EXAMPLE_ITEMS = [
   {
     id: '1',
     productTitle: "배추",
-    quantity: "1000kg",
+    quantity: "1000",
     grade: "최상",
-    startingPrice: "100,000원"
+    startingPrice: "100,000"
   },
   {
     id: '2',
     productTitle: "감자",
-    quantity: "2000kg",
+    quantity: "2000",
     grade: "최상",
-    startingPrice: "200,000원"
+    startingPrice: "200,000"
   },
   {
     id: '3',
     productTitle: "당근",
-    quantity: "500kg",
+    quantity: "500",
     grade: "중상",
-    startingPrice: "80,000원"
+    startingPrice: "80,000"
   },
 ]
 

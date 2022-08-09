@@ -4,17 +4,6 @@ import roomDetail from './roomDetail';
 import RoomDetailModal from '../../molecules/RoomDetailModal';
 import TextEllipsis from '../../atoms/TextEllipsis';
 
-const CardTop = styled.div`
-  width: 14rem;
-  height: 12rem;
-  border-radius: 0.5rem 0.5rem 0 0;
-  background-image: url('https://img.seoul.co.kr//img/upload/2020/07/22/SSI_20200722215818.jpg');
-  background-position: center;
-  background-size: cover;
-  padding:1rem;
-  background-repeat: no-repeat;
-`
-
 const Card = styled.div`
   position: relative;
   width: 10rem;
@@ -82,12 +71,8 @@ const RoomCard = ({id, auctionRoomThumbnail, auctionRoomTitle, auctionRoomDescri
         closeModal={closeModal}
         title={auctionRoomTitle}
         description={auctionRoomDescription}
-<<<<<<< HEAD
         // items={roomDetailInfo}
-=======
-        items={roomDetailInfo}
         roomId={id}
->>>>>>> f4ac42ab4078157549ee7c0a8fb0a508c2b96fbe
       />}
       <CardBottom>
         <OwnerPicture thumbnail={ownerPicture}/>
