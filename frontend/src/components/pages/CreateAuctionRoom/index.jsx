@@ -159,7 +159,7 @@ const CreateAuctionRoom = () => {
       formData.append('img', file);
       thumbnailIdx = await uploadFile(formData);
     }
-    if (await createAuctionRoom(title, description, thumbnailIdx, items, phone) {
+    if (await createAuctionRoom(title, description, thumbnailIdx, items, phone)) {
       // 경매방으로 navigate
     }
   }

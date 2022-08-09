@@ -50,6 +50,7 @@ const UpdateProfile = () => {
             </StyledImage>
         }
       </ImageArea>
+      <Image src="file:////root/pictures/pictures/pictures/20220809991931989948023.png"/>
     </>
   );
 }
