@@ -23,8 +23,8 @@ public class PayService {
     private  static final String READY_ADDR = HOST + "/v1/payment/ready";
     private  static final String APPROVE_ADDR = HOST + "/v1/payment/approve";
     private static final String ADMIN = "7786e49abfcbd35314669d03d013869a";
-    private static final String DOMAIN = "https://localhost:8080/api/v1/pay";
-    //private static final String DOMAIN = "https://i7b203.p.ssafy.io:9000/api/v1/pay";
+    //private static final String DOMAIN = "https://localhost:8080/api/v1/pay";
+    private static final String DOMAIN = "https://i7b203.p.ssafy.io:9000/api/v1/pay";
 
 
     public PayReadyRes payReady(AuctionResult auctionResult){
