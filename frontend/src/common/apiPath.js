@@ -26,8 +26,8 @@ const apiPath = {
   room: {
     rooms: () => HOST + ROOMS,
     search: () => HOST + ROOMS + 'search/',
-    detail: (roomNumber) => HOST + ROOMS + 'details' + `${roomNumber}/`,
-    create: (phone) => HOST + ROOMS + 'create-room' + `${phone}/`,
+    detail: (roomNumber) => HOST + ROOMS + 'details/' + `${roomNumber}/`,
+    create: (phone) => HOST + ROOMS + 'create-room/' + `${phone}/`,
     load_img: () => HOST + ROOMS + `load/img/`,
     save_img: () => HOST + ROOMS + `save/img/`,
   },
