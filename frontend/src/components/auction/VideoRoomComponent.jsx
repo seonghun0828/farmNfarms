@@ -48,7 +48,7 @@ const OPENVIDU_SERVER_URL = 'https://i7b203.p.ssafy.io:8443';
 const OPENVIDU_SERVER_SECRET = 'MY_SECRET';
 
 const VideoRoomComponent = (props) => {
-  const [mySessionId, setMySessionId] = useState('SessionA');
+  const [mySessionId, setMySessionId] = useState('SessionB'); // SessionA
   const [myUserName, setMyUserName] = useState('Participant' + Math.floor(Math.random() * 100));
   const [session, setSession] = useState(undefined);
   const [mainStreamManager, setMainStreamManager] = useState(undefined); // 페이지의 메인 비디오 화면(퍼블리셔 또는 참가자의 화면 중 하나)
@@ -69,8 +69,6 @@ const VideoRoomComponent = (props) => {
   const [itemIndex, setItemIndex] = useState(0); // 물품 목록 인덱스
   const [chatDisplay, setChatDisplay] = useState(true); // 채팅창 보이기(초깃값: true) 
   const [isHost, setIsHost] = useState(false); // 호스트 여부 판별(이후에 바꿈)
-  const [key, setKey] = useState(0); // 타이머를 재작동하기 위한 키
-  const [timerCount, setTimerCount] = useState(0); // 타이머를 세팅하기 위함(초기에 작동X)
 
   const navigate = useNavigate(); // 네비게이터
 
@@ -128,7 +126,6 @@ const VideoRoomComponent = (props) => {
   const createToken = (sessionId) => {
     // let myrole = this.isHost ? "PUBLISHER" : "SUBSCRIBER";
     let myRole = isHost ? "PUBLISHER" : "SUBSCRIBER";
-    console.log(myRole)
     return new Promise((resolve, reject) => {
       const data = { role: myRole }; // 여기에 인자를 뭐를 넣냐에 따라 오픈비두 서버에 요청하는 데이터가 달라짐
       axios
@@ -264,7 +261,7 @@ const VideoRoomComponent = (props) => {
     OV = null;
     setSession(undefined)
     setSubscribers([])
-    setMySessionId('SessionA')
+    setMySessionId('SessionB') // SessionA
     setMyUserName('Participant' + Math.floor(Math.random() * 100))
     setMainStreamManager(undefined)
     setPublisher(undefined)
@@ -281,8 +278,7 @@ const VideoRoomComponent = (props) => {
 
   // 호스트(방 생성자) 여부에 따른 isHost를 토글링함(created())
   useEffect(() => {
-    setIsHost(localStorage.getItem("host") ? true : false)
-    console.log(isHost)
+    setIsHost(localStorage.getItem('host') ? true : false)
   }, [])
 
   useEffect(() => {
@@ -418,7 +414,8 @@ const VideoRoomComponent = (props) => {
 
   return (
     <div className="container">
-      {session === undefined ? (
+      {session === undefined && <Button onClick={joinSession}> 눌러서 계속하기 </Button>}
+      {/* {session === undefined ? (
         <div id="join">
           <div id="join-dialog" className="jumbotron vertical-center">
             <h1> 경매방 입장하기 </h1>
@@ -451,7 +448,7 @@ const VideoRoomComponent = (props) => {
             </form>
           </div>
         </div>
-      ) : null}
+      ) : null} */}
 
       {session !== undefined ? (
         <div id="session">
@@ -509,10 +506,6 @@ const VideoRoomComponent = (props) => {
                 setTempBestBidder={setTempBestBidder}
                 maxIndex={props.items.length}
                 isHost={isHost}
-                key={key}
-                setKey={setKey}
-                timerCount={timerCount}
-                setTimerCount={setTimerCount}
               /></StyledDiv>
             <StyledDiv>
               <span>
@@ -583,7 +576,7 @@ const VideoRoomComponent = (props) => {
             <ChattingForm myUserName={myUserName} onMessage={sendMsg} currentSession={session}></ChattingForm>
           </div>}
         </div>
-      ) : <div>Loading 중...</div>}
+      ) : null}
     </div>
   );
 }

@@ -31,12 +31,11 @@ const StyledSpan = styled.span`
 const AuctionTimer = (
   { seconds, setSeconds, currentSession, sessionCount, setSessionCount, 
     setItemIndex, setToggleStart, setChatDisplay, maxIndex, sendAuctionResult, 
-    setTempHighestPrice, highestPrice, bestBidder, setTempBestBidder, isHost,
-    key, setKey, timerCount, setTimerCount
+    setTempHighestPrice, highestPrice, bestBidder, setTempBestBidder, isHost
   }) => {
   
-  // const [key, setKey] = useState(0); // 타이머를 재작동하기 위한 키
-  // const [timerCount, setTimerCount] = useState(0); // 타이머를 세팅하기 위함(초기에 작동X)
+  const [key, setKey] = useState(0); // 타이머를 재작동하기 위한 키
+  const [timerCount, setTimerCount] = useState(0); // 타이머를 세팅하기 위함(초기에 작동X)
   
   const getSeconds = () => {
     return seconds;
