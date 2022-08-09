@@ -68,7 +68,9 @@ const VideoRoomComponent = (props) => {
   const [sessionCount, setSessionCount] = useState(0); // 현재 경매의 세션 횟수(초깃값은 0, max는 2까지)
   const [itemIndex, setItemIndex] = useState(0); // 물품 목록 인덱스
   const [chatDisplay, setChatDisplay] = useState(true); // 채팅창 보이기(초깃값: true) 
-  const [isHost, setIsHost] = useState(false);
+  const [isHost, setIsHost] = useState(false); // 호스트 여부 판별(이후에 바꿈)
+  const [key, setKey] = useState(0); // 타이머를 재작동하기 위한 키
+  const [timerCount, setTimerCount] = useState(0); // 타이머를 세팅하기 위함(초기에 작동X)
 
   const navigate = useNavigate(); // 네비게이터
 
@@ -507,6 +509,10 @@ const VideoRoomComponent = (props) => {
                 setTempBestBidder={setTempBestBidder}
                 maxIndex={props.items.length}
                 isHost={isHost}
+                key={key}
+                setKey={setKey}
+                timerCount={timerCount}
+                setTimerCount={setTimerCount}
               /></StyledDiv>
             <StyledDiv>
               <span>
@@ -577,7 +583,7 @@ const VideoRoomComponent = (props) => {
             <ChattingForm myUserName={myUserName} onMessage={sendMsg} currentSession={session}></ChattingForm>
           </div>}
         </div>
-      ) : null}
+      ) : <div>Loading 중...</div>}
     </div>
   );
 }
