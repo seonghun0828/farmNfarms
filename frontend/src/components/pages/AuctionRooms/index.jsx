@@ -65,24 +65,28 @@ const AuctionRooms = () => {
         {pages.map(({ content }, idx1) =>
           content.map((data, idx2) => {
             const {
+              id,
               ownerName,
               ownerPicture,
               auctionRoomTitle,
               auctionRoomThumbnail,
+              auctionRoomDescription
             } = data;
             const props = {
-              title: ownerName,
-              profileImg: ownerPicture,
-              description: auctionRoomTitle,
-              thumbnail: auctionRoomThumbnail,
+              id,
+              ownerName,
+              ownerPicture,
+              auctionRoomTitle,
+              auctionRoomThumbnail,
+              auctionRoomDescription
             };
             return (
               <EachCard key={auctionRoomTitle + idx1 + idx2}>
-                <RoomCard {...props} key={auctionRoomTitle + idx1 + idx2} />;
+                <RoomCard {...props} key={auctionRoomTitle + idx1 + idx2} />
               </EachCard>
             );
           })
-        )}
+        )}d
       </CardArea>
       {isFetchingNextPage ? <div>Loading...</div> : <div ref={ref}></div>}
     </StyledAuctionRooms>
