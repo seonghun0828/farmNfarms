@@ -28,7 +28,7 @@ const StyledSpan = styled.span`
 const AuctionTimer = (
   { seconds, setSeconds, currentSession, sessionCount, setSessionCount, 
     setItemIndex, setToggleStart, setChatDisplay, maxIndex, sendAuctionResult, 
-    setTempHighestPrice, highestPrice, bestBidder, setTempBestBidder
+    setTempHighestPrice, highestPrice, bestBidder, setTempBestBidder, isHost
   }) => {
   
   const [key, setKey] = useState(0); // 타이머를 재작동하기 위한 키
@@ -133,16 +133,16 @@ const AuctionTimer = (
         )}
       </CountdownCircleTimer>
       {/* {seconds < 10 ? `00:0${seconds}초` : `00:${seconds}초`} */}
-      <Button variant="contained" onClick={startTimer}>
+      {isHost && <Button variant="contained" onClick={startTimer}>
         {seconds === 0 && <ButtonDiv>
-            <Timer></Timer>
-            지금 시작
+          <Timer></Timer>
+          지금 시작
         </ButtonDiv>}
         {seconds !== 0 && <ButtonDiv>
           <ShutterSpeed></ShutterSpeed>
           진행중
         </ButtonDiv>}
-      </Button>
+      </Button>}
     </StyledDiv>
   )
 }
