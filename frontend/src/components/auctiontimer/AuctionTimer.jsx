@@ -26,15 +26,17 @@ const StyledSpan = styled.span`
 `
 
 // 두 가지 큰 버그 => 모바일 상에서는 localStroage가 없어서 isHost가 먹히질 않음
-// 타이머 동작이 본인 카메라에서는 정상작동하나 상대방 화면에서는 제대로 동작하지 않음
+// 타이머 동작이 본인 카메라에서는 정상작동하나 상대방 화면에서는 제대로 동작하지 않음 아마 키와 타이머 카운트가
+// 소켓 내에서 공유되는 요소가 아니라서 그런듯
 const AuctionTimer = (
   { seconds, setSeconds, currentSession, sessionCount, setSessionCount, 
     setItemIndex, setToggleStart, setChatDisplay, maxIndex, sendAuctionResult, 
-    setTempHighestPrice, highestPrice, bestBidder, setTempBestBidder, isHost
+    setTempHighestPrice, highestPrice, bestBidder, setTempBestBidder, isHost,
+    key, setKey, timerCount, setTimerCount
   }) => {
   
-  const [key, setKey] = useState(0); // 타이머를 재작동하기 위한 키
-  const [timerCount, setTimerCount] = useState(0); // 타이머를 세팅하기 위함(초기에 작동X)
+  // const [key, setKey] = useState(0); // 타이머를 재작동하기 위한 키
+  // const [timerCount, setTimerCount] = useState(0); // 타이머를 세팅하기 위함(초기에 작동X)
   
   const getSeconds = () => {
     return seconds;
