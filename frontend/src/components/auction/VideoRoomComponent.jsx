@@ -398,7 +398,14 @@ const VideoRoomComponent = (props) => {
   const sendAuctionResult = () => {
     console.log('send data to backend!')
     // send함수를 호출해서 백엔드로 데이터를 보냄
-    // const payload = {};
+    const payload = {
+      seller_phone: "01012345678",
+      buyer_phone: "01087654321",
+      title: props.items[itemIndex].title,
+      quantity: props.items[itemIndex].quantity,
+      grade: props.items[itemIndex].grade,
+      auctioned_price: highestPrice,
+    }
     // const sendResponse = send(payload);
     // if (sendResponse) {
     //   console.log('Send Data Successfully!');
