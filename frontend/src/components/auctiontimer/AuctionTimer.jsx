@@ -25,6 +25,8 @@ const StyledSpan = styled.span`
   font-size: 28px;
 `
 
+// 두 가지 큰 버그 => 모바일 상에서는 localStroage가 없어서 isHost가 먹히질 않음
+// 타이머 동작이 본인 카메라에서는 정상작동하나 상대방 화면에서는 제대로 동작하지 않음
 const AuctionTimer = (
   { seconds, setSeconds, currentSession, sessionCount, setSessionCount, 
     setItemIndex, setToggleStart, setChatDisplay, maxIndex, sendAuctionResult, 
@@ -42,7 +44,6 @@ const AuctionTimer = (
     size: 120,
     strokeWidth: 8,
     isPlaying: true,
-    
   };
 
   const startTimer = () => {
