@@ -40,7 +40,7 @@ const ItemBox = styled.div`
   display: flex;
   justify-content: center;
   align-items: center;
-   margin-top: 1rem;
+  margin-top: 1rem;
 `;
 
 const ImageBox = styled.div`
