@@ -1,11 +1,13 @@
 package com.ssafy.domain.auctionResult;
 
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.ssafy.domain.auctionDetail.AuctionDetail;
 import com.ssafy.domain.user.User;
 import lombok.*;
 
 import javax.persistence.*;
+import java.io.Serializable;
 
 @Entity
 @Getter
@@ -13,7 +15,7 @@ import javax.persistence.*;
 @NoArgsConstructor
 @AllArgsConstructor
 @Builder
-public class AuctionResult {
+public class AuctionResult implements Serializable {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -25,10 +27,12 @@ public class AuctionResult {
 
     @ManyToOne
     @JoinColumn(name = "SELLER_ID")
+    @JsonIgnore
     private User seller;
 
     @ManyToOne
     @JoinColumn(name = "BUYER_ID")
+    @JsonIgnore
     private  User buyer;
 
     @Column
