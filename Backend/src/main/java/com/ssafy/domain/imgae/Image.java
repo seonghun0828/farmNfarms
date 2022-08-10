@@ -12,6 +12,8 @@ import javax.persistence.*;
 @Builder
 public class Image {
 
+    private final String DOMAIN = "https://i7b203.p.ssafy.io/images/";
+
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
@@ -40,11 +42,6 @@ public class Image {
     }
 
     public String getFullPath(){
-        if(this.getContentType().equals("image/jpeg") || this.getContentType().equals("image/jpg")){
-            return filePath + ".jpg";
-        }
-        else{
-            return filePath + ".png";
-        }
+       return DOMAIN + this.serverFileName;
     }
 }

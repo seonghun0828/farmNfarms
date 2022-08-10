@@ -61,12 +61,14 @@ public class FileService {
             newFileName += ".png";
         }
         Path copyOfLocation = Paths.get(uploadPath + File.separator + newFileName);
+
          /*
         uploadPath : 기본 저장 경로
         File.separator :  프로그램이 실행 중인 OS에 해당하는 구분자를 리턴(win : \ mac : / )
         StringUtils.cleanPath : Normalize the path by suppressing sequences like "path/.." and inner simple dots. /나, . 떼어주는 역할
 
         */
+
         try{
             Files.copy(file.getInputStream(), copyOfLocation, StandardCopyOption.REPLACE_EXISTING);
 
@@ -89,7 +91,6 @@ public class FileService {
         Image imgInfo = imageRepository.findById(idx).get();
         String filePath = imgInfo.getFilePath();
         String fileType = imgInfo.getContentType();
-
         return new FileInfoRes(filePath,fileType);
 
     }
