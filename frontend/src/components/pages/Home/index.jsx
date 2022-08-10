@@ -94,11 +94,11 @@ const Home = () => {
     console.log(roomInfos);
   }, []);
 
-  const isLogin = localStorage.getItem('isLogin');
+  const [isLogin, setIsLogin] = useState(localStorage.getItem('isLogin'));
 
   return (
     <StyledHome>
-      <Navbar url={logo} navigate={navigate} isLogin={isLogin} imgSize="xs" fontSize="sm" mode="graytext" />
+      <Navbar url={logo} navigate={navigate} isLogin={isLogin} setIsLogin={setIsLogin} imgSize="xs" fontSize="sm" mode="graytext" />
       <FlexSearchArea>
         <SearchArea>
           <SearchBar />
