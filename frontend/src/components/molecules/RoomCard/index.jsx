@@ -44,7 +44,7 @@ const ColoumFlex = styled.div`
   align-items: center;
 `
 
-const RoomCard = ({id, auctionRoomThumbnail, auctionRoomTitle, auctionRoomDescription, ownerName, ownerPicture}) => {
+const RoomCard = ({ id, auctionRoomThumbnail, auctionRoomTitle, auctionRoomDescription, ownerName, ownerPicture, ownerPhoneNumber }) => {
   const [isOnModal, setIsOnModal] = useState(false);
   const [roomDetailInfo, setRoomDetailInfo] = useState(null);
   const openModal = () => {
@@ -61,7 +61,7 @@ const RoomCard = ({id, auctionRoomThumbnail, auctionRoomTitle, auctionRoomDescri
 
   const clickHandler = () => {
     getRoomDetail();
-    console.log(roomDetailInfo);
+    // console.log(roomDetailInfo);
     openModal();
   }
 
@@ -71,8 +71,9 @@ const RoomCard = ({id, auctionRoomThumbnail, auctionRoomTitle, auctionRoomDescri
         closeModal={closeModal}
         title={auctionRoomTitle}
         description={auctionRoomDescription}
-        // items={roomDetailInfo}
+        items={roomDetailInfo}
         roomId={id}
+        ownerPhone={ownerPhoneNumber}
       />}
       <CardBottom>
         <OwnerPicture thumbnail={ownerPicture}/>
@@ -87,53 +88,53 @@ const RoomCard = ({id, auctionRoomThumbnail, auctionRoomTitle, auctionRoomDescri
   );
 }
 
-const EXAMPLE_ROOM_INFOS = [
-  {
-    auctionRoomThumbnail: 'https://img.seoul.co.kr//img/upload/2020/07/22/SSI_20200722215818.jpg',
-    auctionRoomTitle: '배추팔아유',
-    id: '1',
-    ownerName: '이왕득',
-    ownerPicture: 'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRVCF_Yq1ebm0rHdPc7_StrJUCVui19rv8a-Q&usqp=CAU',
-  },
-  {
-    auctionRoomThumbnail: 'https://img.seoul.co.kr//img/upload/2020/07/22/SSI_20200722215818.jpg',
-    auctionRoomTitle: '배추팔아유',
-    id: '1',
-    ownerName: '이왕득',
-    ownerPicture: 'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRVCF_Yq1ebm0rHdPc7_StrJUCVui19rv8a-Q&usqp=CAU',
-  },
-  {
-    auctionRoomThumbnail: 'https://img.seoul.co.kr//img/upload/2020/07/22/SSI_20200722215818.jpg',
-    auctionRoomTitle: '배추팔아유',
-    id: '1',
-    ownerName: '이왕득',
-    ownerPicture: 'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRVCF_Yq1ebm0rHdPc7_StrJUCVui19rv8a-Q&usqp=CAU',
-  },
-  {
-    auctionRoomThumbnail: 'https://img.seoul.co.kr//img/upload/2020/07/22/SSI_20200722215818.jpg',
-    auctionRoomTitle: '배추팔아유',
-    id: '1',
-    ownerName: '이왕득',
-    ownerPicture: 'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRVCF_Yq1ebm0rHdPc7_StrJUCVui19rv8a-Q&usqp=CAU',
-  },
-  {
-    auctionRoomThumbnail: 'https://img.seoul.co.kr//img/upload/2020/07/22/SSI_20200722215818.jpg',
-    auctionRoomTitle: '배추팔아유',
-    id: '1',
-    ownerName: '이왕득',
-    ownerPicture: 'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRVCF_Yq1ebm0rHdPc7_StrJUCVui19rv8a-Q&usqp=CAU',
-  },
-  {
-    auctionRoomThumbnail: 'https://img.seoul.co.kr//img/upload/2020/07/22/SSI_20200722215818.jpg',
-    auctionRoomTitle: '배추팔아유',
-    id: '1',
-    ownerName: '이왕득',
-    ownerPicture: 'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRVCF_Yq1ebm0rHdPc7_StrJUCVui19rv8a-Q&usqp=CAU',
-  },
-]
+// const EXAMPLE_ROOM_INFOS = [
+//   {
+//     auctionRoomThumbnail: 'https://img.seoul.co.kr//img/upload/2020/07/22/SSI_20200722215818.jpg',
+//     auctionRoomTitle: '배추팔아유',
+//     id: '1',
+//     ownerName: '이왕득',
+//     ownerPicture: 'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRVCF_Yq1ebm0rHdPc7_StrJUCVui19rv8a-Q&usqp=CAU',
+//   },
+//   {
+//     auctionRoomThumbnail: 'https://img.seoul.co.kr//img/upload/2020/07/22/SSI_20200722215818.jpg',
+//     auctionRoomTitle: '배추팔아유',
+//     id: '1',
+//     ownerName: '이왕득',
+//     ownerPicture: 'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRVCF_Yq1ebm0rHdPc7_StrJUCVui19rv8a-Q&usqp=CAU',
+//   },
+//   {
+//     auctionRoomThumbnail: 'https://img.seoul.co.kr//img/upload/2020/07/22/SSI_20200722215818.jpg',
+//     auctionRoomTitle: '배추팔아유',
+//     id: '1',
+//     ownerName: '이왕득',
+//     ownerPicture: 'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRVCF_Yq1ebm0rHdPc7_StrJUCVui19rv8a-Q&usqp=CAU',
+//   },
+//   {
+//     auctionRoomThumbnail: 'https://img.seoul.co.kr//img/upload/2020/07/22/SSI_20200722215818.jpg',
+//     auctionRoomTitle: '배추팔아유',
+//     id: '1',
+//     ownerName: '이왕득',
+//     ownerPicture: 'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRVCF_Yq1ebm0rHdPc7_StrJUCVui19rv8a-Q&usqp=CAU',
+//   },
+//   {
+//     auctionRoomThumbnail: 'https://img.seoul.co.kr//img/upload/2020/07/22/SSI_20200722215818.jpg',
+//     auctionRoomTitle: '배추팔아유',
+//     id: '1',
+//     ownerName: '이왕득',
+//     ownerPicture: 'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRVCF_Yq1ebm0rHdPc7_StrJUCVui19rv8a-Q&usqp=CAU',
+//   },
+//   {
+//     auctionRoomThumbnail: 'https://img.seoul.co.kr//img/upload/2020/07/22/SSI_20200722215818.jpg',
+//     auctionRoomTitle: '배추팔아유',
+//     id: '1',
+//     ownerName: '이왕득',
+//     ownerPicture: 'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRVCF_Yq1ebm0rHdPc7_StrJUCVui19rv8a-Q&usqp=CAU',
+//   },
+// ]
 
-RoomCard.defaultProps = {
-  ...EXAMPLE_ROOM_INFOS,
-}
+// RoomCard.defaultProps = {
+//   ...EXAMPLE_ROOM_INFOS,
+// }
 
 export default RoomCard;

@@ -14,7 +14,6 @@ import './VideoRoomComponent.css';
 import styled from "styled-components";
 import { useLocation } from 'react-router-dom';
 import Loading from './Loading'
-import { useSelector } from 'react-redux';
 
 const StyledDiv = styled.div`
   background: rgba(255, 255, 255, 0.3);
@@ -51,12 +50,8 @@ const OPENVIDU_SERVER_URL = 'https://i7b203.p.ssafy.io:8443';
 const OPENVIDU_SERVER_SECRET = 'MY_SECRET';
 
 const VideoRoomComponent = (props) => {
-  const navigate = useNavigate(); // 네비게이터(방 나갈 때 사용)
-  const location = useLocation(); // 로케이션(이전 페이지에서 데이터를 받아옴)
+  const location = useLocation();
   const roomId = location.state.id;
-  const items = location.state.items;
-  const sellerPhoneNumber = location.state.phone;
-  const myPhoneNumber = useSelector((state) => state.token.value.phone)
 
   const [mySessionId, setMySessionId] = useState('SessionA');
   const [myUserName, setMyUserName] = useState('Participant' + Math.floor(Math.random() * 100));
@@ -79,6 +74,9 @@ const VideoRoomComponent = (props) => {
   const [itemIndex, setItemIndex] = useState(0); // 물품 목록 인덱스
   const [chatDisplay, setChatDisplay] = useState(true); // 채팅창 보이기(초깃값: true) 
   const [isHost, setIsHost] = useState(false);
+
+  const navigate = useNavigate(); // 네비게이터
+
 
   let OV = undefined;
 
@@ -411,13 +409,12 @@ const VideoRoomComponent = (props) => {
     console.log('send data to backend!')
     // send함수를 호출해서 백엔드로 데이터를 보냄
     const payload = {
-      auctionDetailId: items[itemIndex].id,
-      sellerPhoneNumber: sellerPhoneNumber,
-      buyerPhoneNumber: "string",
+      seller_phone: "01012345678",
+      buyer_phone: "01087654321",
+      title: props.items[itemIndex].title,
+      quantity: props.items[itemIndex].quantity,
+      grade: props.items[itemIndex].grade,
       auctioned_price: highestPrice,
-      grade: items[itemIndex].grade,
-      productTitle: items[itemIndex].title,
-      quantity: items[itemIndex].quantity
     }
     // const sendResponse = send(payload);
     // if (sendResponse) {
