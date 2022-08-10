@@ -33,6 +33,8 @@ const OwnerPicture = styled.div`
   background-color: rgba(0, 0, 0, 0.3);
   background-image: url('${({thumbnail}) => thumbnail}');
   border-radius: 50%;
+  background-repeat: no-repeat;
+  background-position: center;
   flex-shrink: 0;
   margin: 0 0.3rem 0 0.2rem;
 `
