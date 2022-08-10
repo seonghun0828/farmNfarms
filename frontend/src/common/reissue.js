@@ -4,6 +4,8 @@ import { alertError } from './alertError';
 import { save } from './tokenSlice';
 
 const reissue = async (dispatch) => {
+    if (!localStorage.getItem('isLogin'))
+        return;
     try {
         const { data: { message, statusCode, phone, accessToken } } = await axios({
             method: 'post',
@@ -13,10 +15,11 @@ const reissue = async (dispatch) => {
         if (statusCode === 200) {
             console.log('success reissue!');
             dispatch(save({
-                isLogin: true,
                 phone,
                 accessToken
             }));
+            
+            localStorage.setItem('isLogin', true);
             // 5분마다 다시 reissue 요청
             setTimeout(() => reissue(dispatch), 1000 * 60 * 5);
         } else {

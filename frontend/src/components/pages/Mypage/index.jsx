@@ -72,10 +72,11 @@ const Mypage = () => {
     move(navigate, 'update');
   }
 
+  const [isLogin, setIsLogin] = useState(localStorage.getItem('isLogin'));
+
   return (
     <StyledMypage>
-      <Navbar url={logo} imgSize="xs" fontSize="sm" mode="graytext" />
-      <ProfileArea>
+        <Navbar url={logo} navigate={navigate} isLogin={isLogin} setIsLogin={setIsLogin} imgSize="xs" fontSize="sm" mode="graytext" />      <ProfileArea>
         <ProfileImageArea>
           <Image src={logo} alt="profile" />
         </ProfileImageArea>
