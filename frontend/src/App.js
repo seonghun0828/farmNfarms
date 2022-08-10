@@ -12,6 +12,7 @@ import Price from "./components/pages/Price"
 import NotFound from "./components/pages/NotFound"
 import PayTest from "./components/pages/PayTest"
 import UpdateProfile from './components/pages/UpdateProfile';
+import axios from 'axios';
 
 const DUMMIES = [
   {
@@ -29,6 +30,7 @@ const DUMMIES = [
     starting_price: 15000,
   },
 ];
+axios.defaults.withCredentials = true;
 
 function App() {
   return (
