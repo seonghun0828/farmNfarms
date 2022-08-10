@@ -42,7 +42,7 @@ export const CenterAlign = styled.div`
 const UpdateProfile = () => {
 
   const navigate = useNavigate();
-  const isLogin = useSelector((state) => state.token.value.isLogin);
+  // const isLogin = useSelector((state) => state.token.value.isLogin);
   const [url, setUrl] = useState(null);
   const clickHandler = () => {
       const fileUploader = document.querySelector('#file-uploader');
@@ -51,6 +51,16 @@ const UpdateProfile = () => {
   const uploadImage = () => {
       const fileUploader = document.querySelector('#file-uploader');
       setUrl(URL.createObjectURL(fileUploader.files[0]));
+  }
+
+  const originData = {
+    name: '이윤경',
+    phone: '01088422922',
+    password: '1234',
+    bank: '우리은행',
+    zonecode: '12345',
+    address: '청주시 어쩌구',
+    detailAddress: '123-1234'
   }
 
   const [postCode, setPostCode] = useState({
@@ -72,8 +82,6 @@ const UpdateProfile = () => {
 		{ value: "kakao", name: "카카오뱅크" },
 	]
 
-  console.log(isLogin);
-
   return (
     <>
       <Navbar url={logo} imgSize="xs" fontSize="sm" mode="graytext" />
@@ -89,12 +97,12 @@ const UpdateProfile = () => {
           </CameraImage>
         </ImageArea>
       </CenterAlign>
-      <Input label="아이디" status="readOnly"/>
-      <Input label="이름" status="readOnly"/>
+      <Input label="아이디" status="readOnly" value={originData.phone}/>
+      <Input label="이름" status="readOnly" value={originData.name}/>
       <Input label="비밀번호"/>
       <Input label="수정 비밀번호"/>
       <Input label="수정 비밀번호 확인"/>
-      <Select options={BANK_OPTIONS}/>
+      <Select options={BANK_OPTIONS} value={originData.bank}/>
       <Input label="계좌번호"/>
       <PostCode setPostCode={getPostCode}/>
       <Button width="100%">수정하기</Button>
