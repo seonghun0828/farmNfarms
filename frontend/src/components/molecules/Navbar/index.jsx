@@ -23,8 +23,8 @@ const StyledNavbar = styled.div`
 
 const Buttons = styled.div`
     ${flexRow}
-    width: 10rem;
     justify-content: space-between;
+    gap: 1rem;
 `
 const Navbar = ({url, navigate, isLogin, setIsLogin, imgSize, fontSize, mode, ...rest}) => {
     const text = isLogin ? '로그아웃' : '로그인';
@@ -37,11 +37,16 @@ const Navbar = ({url, navigate, isLogin, setIsLogin, imgSize, fontSize, mode, ..
     const clickHandler = () => {
         isLogin ? confirmLogout() : move(navigate, '/login')
     }
+    const moveToMypage = () => {
+        move(navigate, '/mypage');
+    }
     return <StyledNavbar {...rest}>
         <Image src={url} alt='logo' size={imgSize} />
         <Buttons>
+            {
+                isLogin ? <Button fontSize={fontSize} mode={mode} onClick={moveToMypage} {...rest}>마이페이지</Button> : null
+            }
             <Button fontSize={fontSize} mode={mode} onClick={clickHandler} {...rest}>{text}</Button>
-            <Button fontSize={fontSize} mode={mode} {...rest}>마이페이지</Button>
         </Buttons>
     </StyledNavbar>
 }
