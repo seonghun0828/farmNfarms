@@ -63,7 +63,7 @@ public class ResultController {
 
     @GetMapping("/buy/detail")
     @ApiOperation(value = "구매내역 상세조회", notes = "전달받은 경매결과의 id를 통해 구매내역을 상세 조회합니다.")
-    public ResponseEntity<?> getBuyHistoryDetail(Long auctionResultId) {
+    public ResponseEntity<GetBuyHistoryDetailRes> getBuyHistoryDetail(Long auctionResultId) {
         return ResponseEntity.ok(getHistoryService.getBuyHistoryDetail(auctionResultId));
     }
 
