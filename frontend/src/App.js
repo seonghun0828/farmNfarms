@@ -14,7 +14,7 @@ import PayTest from "./components/pages/PayTest"
 import UpdateProfile from './components/pages/UpdateProfile';
 import axios from 'axios';
 import { useEffect } from 'react';
-import { useDispatch } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 import reissue from '../src/common/reissue'
 
 const DUMMIES = [
@@ -33,12 +33,14 @@ const DUMMIES = [
     starting_price: 15000,
   },
 ];
-// axios.defaults.withCredentials = true;
 
 function App() {
   const dispatch = useDispatch();
   useEffect(() => {
-    reissue(dispatch);
+    if (localStorage.getItem('isLogin')) {
+      console.log('로그인 돼있네유');
+      reissue(dispatch);
+    }
   }, [dispatch]);
   return (
     <div className="App">
