@@ -94,9 +94,11 @@ const Home = () => {
     console.log(roomInfos);
   }, []);
 
+  const isLogin = localStorage.getItem('isLogin');
+
   return (
     <StyledHome>
-      <Navbar url={logo} isLogin imgSize="xs" fontSize="sm" mode="graytext" />
+      <Navbar url={logo} navigate={navigate} isLogin={isLogin} imgSize="xs" fontSize="sm" mode="graytext" />
       <FlexSearchArea>
         <SearchArea>
           <SearchBar />
@@ -143,6 +145,9 @@ const Home = () => {
         </AutoCarousel> : <div>isLoading</div>}
       </MarketPriceArea>
       <AddRoomArea>
+        <Button mode="graytext" fontSize="lg" onClick={() => window.alert(localStorage.getItem('isLogin'))}>
+          로컬스토리지 테스트 버튼
+        </Button>
         <Button mode="graytext" fontSize="titleSize" onClick={moveToCreate}>
           <AddCircle style={{height: '50px', width: '50px'}}/>
         </Button>
