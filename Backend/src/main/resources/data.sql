@@ -1,7 +1,7 @@
 INSERT INTO IMAGE (origin_file_name, server_file_name, file_path, content_type, file_size)
 VALUES
-('string', 'string1', 'string', 'string', 100),
-('string', 'string2', 'string', 'string', 100),
+('karina.jpg', '202208101037266079035057.jpg', '/root/pictures/202208101037266079035057.jpg', 'image/jpeg', 100),
+('dog.png', '202208101037502688086397.png', '/root/pictures/202208101037502688086397.png', 'image/png', 100),
 ('string', 'string3', 'string', 'string', 100),
 ('string', 'string4', 'string', 'string', 100),
 ('string', 'string5', 'string', 'string', 100),
