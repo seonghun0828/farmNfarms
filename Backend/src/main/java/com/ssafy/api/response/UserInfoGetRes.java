@@ -19,5 +19,6 @@ public class UserInfoGetRes {
     private String bank;
     private String zipCode;
     private String detailAddress;
-    private String picture;
+    private String picturePath;
+    private Long pictureIdx;
 }

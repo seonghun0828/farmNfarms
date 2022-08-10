@@ -81,19 +81,22 @@ public class SessionController {
 
     @GetMapping("/search")
     @ApiOperation(value = "경매 검색" , notes = "1 : 방제목, 2: 상품검색 , 3 : 통합검색")
-    public ResponseEntity<List<AuctionRoomDto>> retrieveRoom(
+    public ResponseEntity<Page<AuctionRoomDto>> retrieveRoom(
             @ApiParam(name = "mode" , example = "1", value = "mode(검색방식)")
             @RequestParam(name="mode", required = false)
             String mode,
             @ApiParam(name = "key" , example = "감자")
-            @RequestParam(name="key", required = false) String key
+            @RequestParam(name="key", required = false)
+            String key,
+            @RequestParam(value = "page") int page
     ){
+        Pageable pageable = PageRequest.of(page, 6);
         System.out.println("mode : " + mode + " key : " + key);
         HashMap<String ,String> params = new HashMap<>();
         params.put("mode", mode);
         params.put("key", key);
 
-        return ResponseEntity.ok(sessionService.search(params));
+        return ResponseEntity.ok(sessionService.search(params, pageable));
     }
 
     /*@GetMapping()

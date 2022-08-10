@@ -9,9 +9,12 @@ import io.openvidu.java.client.*;
 import org.json.simple.JSONObject;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageImpl;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
+import org.springframework.data.domain.Pageable;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -103,21 +106,30 @@ public class SessionService {
     // 품목 검색
     // 통합 검색
     // 농부 이름 검색
-    public List<AuctionRoomDto> search(HashMap<String, String> params) {
-
+    public Page<AuctionRoomDto> search(HashMap<String, String> params, Pageable pageable) {
+        int start = (int)pageable.getOffset();
         if(params.get("mode").equals("1")){
-            return auctionRoomRepository.findAllByAuctionRoomTitle(params.get("key"));
+
+            List<AuctionRoomDto> responseList = auctionRoomRepository.findAllByAuctionRoomTitle(params.get("key"));
+            int end = Math.min((start + pageable.getPageSize()), responseList.size());
+            return new PageImpl<>(responseList.subList(start, end), pageable, responseList.size());
+
         }else if(params.get("mode").equals("2")){
-            return auctionDetailRepository.findAllByProduct(params.get("key"));
+
+            List<AuctionRoomDto> responseList = auctionDetailRepository.findAllByProduct(params.get("key"));
+            int end = Math.min((start + pageable.getPageSize()), responseList.size());
+            return new PageImpl<>(responseList.subList(start, end), pageable, responseList.size());
+
         }else if(params.get("mode").equals("3")){
 
             List<AuctionRoomDto> titleList = auctionRoomRepository.findAllByAuctionRoomTitle(params.get("key"));
             List<AuctionRoomDto> productList = auctionDetailRepository.findAllByProduct(params.get("key"));
-            List<AuctionRoomDto> joined = new ArrayList<>();
+            List<AuctionRoomDto> responseList = new ArrayList<>();
+            responseList.addAll(titleList);
+            responseList.addAll(productList);
 
-            joined.addAll(titleList);
-            joined.addAll(productList);
-            return joined;
+            int end = Math.min((start + pageable.getPageSize()), responseList.size());
+            return new PageImpl<>(responseList.subList(start, end), pageable, responseList.size());
         }
 
         throw new IllegalArgumentException();
