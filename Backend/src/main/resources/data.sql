@@ -1,16 +1,15 @@
-INSERT INTO IMAGE (content_type, file_path, file_size, origin_file_name, server_file_name)
+INSERT INTO IMAGE (origin_file_name, server_file_name, file_path, content_type, file_size)
 VALUES
-('image/jpeg', '/root/pictures/202208101037266079035057.jpg', 88821, 'karina.jpg', '202208101037266079035057.jpg'),
-('image/png', '/root/pictures/202208101037502688086397.png', 21058, 'dog.png', '202208101037502688086397.png'),
-('string', 'string3',100 'string', 'string'),
-('string', 'string4',100 'string', 'string'),
-('string', 'string5',100 'string', 'string'),
-('string', 'string6',100 'string', 'string'),
-('string', 'string7',100 'string', 'string'),
-('string', 'string8',100 'string', 'string'),
-('string', 'string9',100 'string', 'string'),
-('string', 'string10',100 'string', 'string');
-
+('string', 'string1', 'string', 'string', 100),
+('string', 'string2', 'string', 'string', 100),
+('string', 'string3', 'string', 'string', 100),
+('string', 'string4', 'string', 'string', 100),
+('string', 'string5', 'string', 'string', 100),
+('string', 'string6', 'string', 'string', 100),
+('string', 'string7', 'string', 'string', 100),
+('string', 'string8', 'string', 'string', 100),
+('string', 'string9', 'string', 'string', 100),
+('string', 'string9', 'string', 'string', 100);
 
 INSERT INTO user (account, address, name, password, phone, data_create, IMAGE_ID)
 VALUES ('110-342-143345', 'SSAFY', '홍길동', '1','01000000001', now(), 1);
