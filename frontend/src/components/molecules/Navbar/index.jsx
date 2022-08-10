@@ -26,11 +26,13 @@ const Buttons = styled.div`
     width: 10rem;
     justify-content: space-between;
 `
-const Navbar = ({url, navigate, isLogin, imgSize, fontSize, mode, ...rest}) => {
+const Navbar = ({url, navigate, isLogin, setIsLogin, imgSize, fontSize, mode, ...rest}) => {
     const text = isLogin ? '로그아웃' : '로그인';
     const confirmLogout = () => {
-        if (window.confirm('로그아웃 하시겠습니까?'))
+        if (window.confirm('로그아웃 하시겠습니까?')) {
+            setIsLogin(false);
             logout();
+        }
     }
     const clickHandler = () => {
         isLogin ? confirmLogout() : move(navigate, '/login')
