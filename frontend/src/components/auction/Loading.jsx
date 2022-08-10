@@ -66,29 +66,33 @@ const LogoImg = styled.img`
 const loading = keyframes`
   0% {
     content: "Loading";
+    transform: translate(-55px, 0px);
   }
 
   33% {
     content: "Loading.";
+    transform: translate(-55px, 0px);
   }
 
   66% {
     content: "Loading..";
+    transform: translate(-55px, 0px);
   }
 
   100% {
     content: "Loading...";
+    transform: translate(-55px, 0px);
   }
 `
 
 const LoadingMessageDiv = styled.div`
   ::after {
-    content: "Loading";
+    content: "로고를 터치하여 계속하세요";
     position: absolute;
     color: white;
     text-align: center;
-    transform: translate(-55px, 0px);
-    animation: ${loading} 1.5s linear infinite;
+    transform: translate(-95px, 0px);
+    animation: ${loading} 2s linear;
     font-size: 28px;
     font-weight: bold;
   }

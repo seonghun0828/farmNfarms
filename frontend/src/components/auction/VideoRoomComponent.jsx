@@ -56,7 +56,7 @@ const VideoRoomComponent = (props) => {
   const roomId = location.state.id;
   const items = location.state.items;
   const sellerPhoneNumber = location.state.phone;
-  const myPhoneNumber = useSelector((state) => state.token.value.phone)
+  const myPhoneNumber = useSelector((state) => state.token.value.phone);
 
   const [mySessionId, setMySessionId] = useState('SessionA');
   const [myUserName, setMyUserName] = useState('Participant' + Math.floor(Math.random() * 100));
@@ -132,7 +132,6 @@ const VideoRoomComponent = (props) => {
 
   // 토큰 생성(KMS로 직접 쏨)
   const createToken = (sessionId) => {
-    // let myrole = this.isHost ? "PUBLISHER" : "SUBSCRIBER";
     let myRole = isHost ? "PUBLISHER" : "SUBSCRIBER";
     console.log(myRole)
     return new Promise((resolve, reject) => {
