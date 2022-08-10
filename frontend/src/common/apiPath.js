@@ -6,6 +6,7 @@ const VERIFICATIONS = 'verifications/';
 const PRICE = 'price/';
 const ROOMS = 'rooms/';
 const PAY = 'pay/';
+const RESULT = 'result/';
 
 const apiPath = {
   auth: {
@@ -13,7 +14,6 @@ const apiPath = {
     logout: () => HOST + AUTH + 'logout/',
     reissue: () => HOST + AUTH + 'reissue/',
   },
-
   user: {
     join: () => HOST + USER,
     delete: () => HOST + USER,
@@ -40,6 +40,13 @@ const apiPath = {
   pay: {
     pay: () => HOST + PAY,
     success: () => HOST + PAY + 'success/',
+  },
+  result: {
+    create: () => HOST + RESULT,
+    buy: () => HOST + RESULT + 'buy/',
+    buyDetail: () => HOST + RESULT + 'buy/detail/',
+    sell: () => HOST + RESULT + 'sell/',
+    sellDetail: () => HOST + RESULT + 'sell/detail/',
   }
 };
 
