@@ -17,7 +17,7 @@ const StyledSelect = styled.select`
   }
 `;
 
-const Select = ({defaultValue, options, setValue, name}) => {
+const Select = ({defaultValue, options, setValue, name, selected}) => {
 
   const handleChange = (e) => {
     setValue && 
