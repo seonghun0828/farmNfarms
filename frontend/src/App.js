@@ -33,7 +33,7 @@ const DUMMIES = [
     starting_price: 15000,
   },
 ];
-axios.defaults.withCredentials = true;
+// axios.defaults.withCredentials = true;
 
 function App() {
   const dispatch = useDispatch();

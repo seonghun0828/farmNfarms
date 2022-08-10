@@ -11,7 +11,8 @@ const login = async (phone, password, setLoginFail, dispatch) => {
             data: {
                 phone,
                 password
-            }
+            },
+            withCredentials: true
         });
         if (statusCode === 200) {
             dispatch(save({

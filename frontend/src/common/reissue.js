@@ -8,6 +8,7 @@ const reissue = async (dispatch) => {
         const { data: { message, statusCode, phone, accessToken } } = await axios({
             method: 'post',
             url: apiPath.auth.reissue(),
+            withCredentials: true
         });
         if (statusCode === 200) {
             console.log('success reissue!');
