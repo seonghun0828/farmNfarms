@@ -1,7 +1,8 @@
 package com.ssafy.domain.imgae;
 
+import com.sun.org.apache.xalan.internal.xsltc.DOM;
 import lombok.*;
-
+import org.springframework.beans.factory.annotation.Value;
 import javax.persistence.*;
 
 @Getter
@@ -12,7 +13,9 @@ import javax.persistence.*;
 @Builder
 public class Image {
 
-    private final String DOMAIN = "https://i7b203.p.ssafy.io/images/";
+    @Transient
+    @Value("${image.domain}")
+    String DOMAIN;
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
