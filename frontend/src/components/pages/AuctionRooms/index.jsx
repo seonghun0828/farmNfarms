@@ -27,12 +27,11 @@ const SearchArea = styled.div`
 `;
 const CardArea = styled.div`
   ${({ theme }) => theme.flex.rowCenter}
-  justify-content: space-between;
+  justify-content: space-evenly;
   flex-wrap: wrap;
-  padding: 1rem 2rem;
 `;
 const EachCard = styled.div`
-  width: 40%;
+  margin-bottom: 1rem;
 `;
 
 const AuctionRooms = () => {
@@ -86,7 +85,7 @@ const AuctionRooms = () => {
               </EachCard>
             );
           })
-        )}d
+        )}
       </CardArea>
       {isFetchingNextPage ? <div>Loading...</div> : <div ref={ref}></div>}
     </StyledAuctionRooms>
