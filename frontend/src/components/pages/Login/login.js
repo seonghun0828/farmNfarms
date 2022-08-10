@@ -16,11 +16,11 @@ const login = async (phone, password, setLoginFail, dispatch) => {
         });
         if (statusCode === 200) {
             dispatch(save({
-                isLogin: true,
                 phone,
                 accessToken
             }));
             setLoginFail(false);
+            localStorage.setItem('isLogin', true);
             window.alert('로그인에 성공했습니다.');
             return true;
         }

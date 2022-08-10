@@ -1,5 +1,7 @@
 import React, { useState } from 'react';
 import logo from '../../../assets/로고.svg';
+import { useNavigate } from "react-router-dom";
+import move from '../../../common/move';
 import styled from 'styled-components';
 import Navbar from '../../molecules/Navbar';
 import Image from '../../atoms/Image';
@@ -63,10 +65,18 @@ const Mypage = () => {
       setIsSalesHistory((state) => !state);
     }
   };
+
+  const navigate = useNavigate();
+
+  const moveToUpdate = () => {
+    move(navigate, 'update');
+  }
+
+  const [isLogin, setIsLogin] = useState(localStorage.getItem('isLogin'));
+
   return (
     <StyledMypage>
-      <Navbar url={logo} imgSize="xs" fontSize="sm" mode="graytext" />
-      <ProfileArea>
+        <Navbar url={logo} navigate={navigate} isLogin={isLogin} setIsLogin={setIsLogin} imgSize="xs" fontSize="sm" mode="graytext" />      <ProfileArea>
         <ProfileImageArea>
           <Image src={logo} alt="profile" />
         </ProfileImageArea>
@@ -74,7 +84,7 @@ const Mypage = () => {
           <Button width="10rem" height="2rem">
             김농부 님
           </Button>
-          <Button width="10rem" height="2rem" mode="highlight">
+          <Button width="10rem" height="2rem" mode="highlight" onClick={moveToUpdate}>
             회원 정보 수정
           </Button>
         </ProfileButtonArea>

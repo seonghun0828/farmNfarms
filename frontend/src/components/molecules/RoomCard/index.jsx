@@ -11,6 +11,7 @@ const Card = styled.div`
   background-color: rgba(0, 0, 0, 0.3);
   border-radius: 0.5rem;
   background-image: url('${({thumbnail}) => thumbnail}');
+  background-size: cover;
   background-repeat: no-repeat;
   background-position: center;
 `
@@ -33,6 +34,9 @@ const OwnerPicture = styled.div`
   background-color: rgba(0, 0, 0, 0.3);
   background-image: url('${({thumbnail}) => thumbnail}');
   border-radius: 50%;
+  background-repeat: no-repeat;
+  background-position: center;
+  background-size: cover;
   flex-shrink: 0;
   margin: 0 0.3rem 0 0.2rem;
 `
