@@ -13,7 +13,7 @@ public class AuctionDetailReq {
     private int quantity;
     private int startingPrice;
     private int bidIncrement;
-    private int auctionedPrice;
+//    private int auctionedPrice;
 
     //Product
     private String productTitle;
