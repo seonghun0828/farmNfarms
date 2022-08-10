@@ -22,17 +22,18 @@ public class CreateAuctionRoomService {
 
     private final ImageRepository imageRepository;
 
-    public boolean createBy(String phoneNumber, CreateAuctionRoomReq request) {
+    public Long createBy(String phoneNumber, CreateAuctionRoomReq request) {
 //        CreateAuctionRoomRes response = new CreateAuctionRoomRes();
 
         try {
             Long foundUserId = getUserBy(phoneNumber).getId();
             AuctionRoom savedAuctionRoom = createAuctionRoom(request, foundUserId);
             addAuctionDetailToAuctionRoom(request, savedAuctionRoom);
-            return true;
+
+            return savedAuctionRoom.getId();
         } catch (Exception e) {
             e.printStackTrace();
-            return false;
+            return 0L;
         }
     }
 
