@@ -57,6 +57,7 @@ const VideoRoomComponent = (props) => {
   const items = location.state.items;
   const sellerPhoneNumber = location.state.phone;
   const myPhoneNumber = useSelector((state) => state.token.value.phone);
+  console.log(myPhoneNumber)
 
   const [mySessionId, setMySessionId] = useState('SessionA');
   const [myUserName, setMyUserName] = useState('Participant' + Math.floor(Math.random() * 100));
