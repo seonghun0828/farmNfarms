@@ -85,10 +85,22 @@ public class AuthController {
             @ApiResponse(code = 404, message = "요청 실패", response = BaseResponseBody.class),
             @ApiResponse(code = 500, message = "서버 오류", response = BaseResponseBody.class)
     })
-    public ResponseEntity<BaseResponseBody> logout(@CookieValue("refreshToken") String refreshToken, HttpServletResponse response) {
+    public ResponseEntity<BaseResponseBody> logout(HttpServletRequest request, HttpServletResponse response) {
+        String refreshToken=null;
+        Cookie[] cookies = request.getCookies();
+        if(cookies==null) {
+            return ResponseEntity.status(404).body(ReAccessPostRes.of(404, "Cookies is null", null, null));
+        }
+
+        for(Cookie cookie : cookies){
+            if("refreshToken".equals(cookie.getName())){
+                refreshToken=cookie.getValue();
+            }
+        }
+
         // 쿠키 목록에 refreshToken 이 없으면 요청 실패 에러
         if(refreshToken==null) {
-            return ResponseEntity.status(404).body(BaseResponseBody.of(404, "Request Error"));
+            return ResponseEntity.status(404).body(ReAccessPostRes.of(404, "Not Exist refreshToken", null, null));
         }
 
         // DB에 refreshToken 이 있으면 refreshToken 삭제 후 로그아웃
