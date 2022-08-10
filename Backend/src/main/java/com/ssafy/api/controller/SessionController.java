@@ -50,14 +50,19 @@ public class SessionController {
 
     @PostMapping("/create-room/{phoneNumber}")
     @ApiOperation(value = "방 생성", notes = "방 생성 정보를 받아 저장하고, kms 를 통해 token을 전달한다.")
-    public ResponseEntity<?> createRoom(
+    public ResponseEntity<HashMap<String, Object>> createRoom(
             @PathVariable String phoneNumber,
             @RequestBody CreateAuctionRoomReq createAuctionRoomReq){
 
-        boolean isCreated = createAuctionRoomService.createBy(phoneNumber, createAuctionRoomReq);
-        CreateAuctionRoomRes res = new CreateAuctionRoomRes();
-        res.setSuccess(isCreated);
-        return ResponseEntity.ok(res);
+        HashMap<String, Object> jsonMap = new HashMap<>();
+        Long auctionRoomId = createAuctionRoomService.createBy(phoneNumber, createAuctionRoomReq);
+//        CreateAuctionRoomRes res = new CreateAuctionRoomRes();
+//        res.setSuccess(isCreated);
+
+        if(auctionRoomId > 0L) jsonMap.put("AuctionRoomId", auctionRoomId);
+        else jsonMap.put("isSuccess", false);
+
+        return ResponseEntity.ok(jsonMap);
     }
 
 
