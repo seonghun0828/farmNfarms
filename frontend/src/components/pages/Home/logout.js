@@ -10,10 +10,12 @@ const logout = async () => {
             url: apiPath.auth.logout(),
             withCredentials: true
         });
-        console.log(message);
-        console.log(statusCode);
         if (statusCode === 200) {
-            console.log('로그아웃 되었습니다.');
+            localStorage.removeItem('isLogin');
+            window.alert('로그아웃 되었습니다.');
+        }
+        else {
+            throw new Error(message);
         }
         // if (statusCode === 200) {
         //     dispatch(save({
