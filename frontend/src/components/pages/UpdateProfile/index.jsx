@@ -53,6 +53,7 @@ const UpdateProfile = () => {
       setUrl(URL.createObjectURL(fileUploader.files[0]));
   }
 
+  const [inputs, setInputs] = useState({});
   const originData = {
     name: '이윤경',
     phone: '01088422922',
