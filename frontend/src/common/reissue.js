@@ -4,33 +4,27 @@ import { alertError } from './alertError';
 import { save } from './tokenSlice';
 
 const reissue = async (dispatch) => {
-    console.log('리이슈!');
     try {
-        const { data} = await axios({
+        const { data: { message, statusCode, phone, accessToken } } = await axios({
             method: 'post',
             url: apiPath.auth.reissue(),
         });
-        console.log(data);
-        // if (statusCode === 200) {
-        //     dispatch(save({
-        //         isLogin: true,
-        //         phone,
-        //         accessToken
-        //     }));
-        //     setLoginFail(false);
-        //     window.alert('로그인에 성공했습니다.');
-        //     return true;
-        // }
+        if (statusCode === 200) {
+            console.log('success reissue!');
+            dispatch(save({
+                isLogin: true,
+                phone,
+                accessToken
+            }));
+            // 5분마다 다시 reissue 요청
+            setTimeout(() => reissue(dispatch), 1000 * 60 * 5);
+        } else {
+            console.log('fail reissue!');
+            throw new Error(message);
+        }
 
     } catch (e) {
-        // const { status } = e.response;
-        // if (status === 401 || status === 404)
-        //     setLoginFail(true);
-        
-        // else 
-            // alertError(e);
-            console.log(e);
-        return false;
+        alertError(e);
     }
 }
 

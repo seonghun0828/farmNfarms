@@ -13,6 +13,9 @@ import NotFound from "./components/pages/NotFound"
 import PayTest from "./components/pages/PayTest"
 import UpdateProfile from './components/pages/UpdateProfile';
 import axios from 'axios';
+import { useEffect } from 'react';
+import { useDispatch } from 'react-redux';
+import reissue from '../src/common/reissue'
 
 const DUMMIES = [
   {
@@ -33,6 +36,10 @@ const DUMMIES = [
 axios.defaults.withCredentials = true;
 
 function App() {
+  const dispatch = useDispatch();
+  useEffect(() => {
+    reissue(dispatch);
+  }, [dispatch]);
   return (
     <div className="App">
       <ThemeProvider theme={theme}>

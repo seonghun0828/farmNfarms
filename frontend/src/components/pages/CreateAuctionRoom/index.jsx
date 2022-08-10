@@ -11,7 +11,6 @@ import CreateItemCard from '../../molecules/CreateItemCard';
 import { useNavigate } from 'react-router-dom';
 import move from '../../../common/move'
 import PhotoCameraIcon from '@mui/icons-material/PhotoCamera';
-import reissue from '../../../common/reissue';
 import uploadFile from './uploadFile';
 import createAuctionRoom from './createAuctionRoom';
 import { useSelector } from 'react-redux';
@@ -149,7 +148,6 @@ const CreateAuctionRoom = () => {
         }
       }
     }
-    reissue();
     setEmptyInput(true);
     const file = document.querySelector('#file-uploader').files[0];
     // db 디폴트 썸네일 인덱스

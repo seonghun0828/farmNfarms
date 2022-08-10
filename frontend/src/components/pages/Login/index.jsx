@@ -10,6 +10,7 @@ import { useNavigate } from "react-router-dom";
 import move from '../../../common/move'
 import login from "./login";
 import { useDispatch } from 'react-redux/es/exports';
+import reissue from "../../../common/reissue";
 
 const StyledLogin = styled.div`
     ${({theme}) => theme.flex.columnCenter};
@@ -136,6 +137,8 @@ const Login = () => {
             if (isLogin) {
                 if (isSaved)
                     localStorage.setItem('phone', phone);
+                // 5분 후 reissue 요청
+                setTimeout(() => reissue(dispatch), 1000 * 60 * 5);
                 navigate('/');
             }
             break;
