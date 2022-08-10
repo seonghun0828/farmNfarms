@@ -7,6 +7,9 @@ import Input from '../../atoms/Input';
 import PostCode from '../../molecules/PostCode';
 import Select from '../../atoms/Select';
 import Button from '../../atoms/Button';
+import Navbar from '../../molecules/Navbar';
+import logo from '../../../assets/로고.svg';
+import { useSelector } from 'react-redux';
 
 const ImageArea = styled.div`
   width: 9rem;
@@ -39,7 +42,7 @@ export const CenterAlign = styled.div`
 const UpdateProfile = () => {
 
   const navigate = useNavigate();
-
+  const isLogin = useSelector((state) => state.token.value.isLogin);
   const [url, setUrl] = useState(null);
   const clickHandler = () => {
       const fileUploader = document.querySelector('#file-uploader');
@@ -69,8 +72,11 @@ const UpdateProfile = () => {
 		{ value: "kakao", name: "카카오뱅크" },
 	]
 
+  console.log(isLogin);
+
   return (
     <>
+      <Navbar url={logo} imgSize="xs" fontSize="sm" mode="graytext" />
       <Button mode="graytext" onClick={() => move(navigate, -1)}>
         뒤로 가기
       </Button>
@@ -88,7 +94,7 @@ const UpdateProfile = () => {
       <Input label="비밀번호"/>
       <Input label="수정 비밀번호"/>
       <Input label="수정 비밀번호 확인"/>
-      <Select/>
+      <Select options={BANK_OPTIONS}/>
       <Input label="계좌번호"/>
       <PostCode setPostCode={getPostCode}/>
       <Button width="100%">수정하기</Button>
