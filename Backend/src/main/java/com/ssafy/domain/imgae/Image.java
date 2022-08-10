@@ -14,8 +14,7 @@ import javax.persistence.*;
 public class Image {
 
     @Transient
-    @Value("${image.domain}")
-    String DOMAIN;
+    private String DOMAIN = "https://i7b203.p.ssafy.io/images/";
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
