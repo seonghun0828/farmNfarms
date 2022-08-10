@@ -58,12 +58,15 @@ const UpdateProfile = () => {
     name: '이윤경',
     phone: '01088422922',
     password: '1234',
-    bank: '우리은행',
-    zonecode: '12345',
+    bank: 'hana',
+    account: '12341234',
+    zipCode: '12345',
     address: '청주시 어쩌구',
-    detailAddress: '123-1234'
+    detailAddress: '123-1234',
+    pictureIdx: '1',
   }
 
+  const 
   const [postCode, setPostCode] = useState({
 		zonecode: '',
     address: '',
@@ -71,6 +74,7 @@ const UpdateProfile = () => {
 		fullAddress: '',
 		detailAddress: '',
 	});
+
   const getPostCode = (data) => {
     setPostCode(data)
   }
@@ -103,9 +107,9 @@ const UpdateProfile = () => {
       <Input label="비밀번호"/>
       <Input label="수정 비밀번호"/>
       <Input label="수정 비밀번호 확인"/>
-      <Select options={BANK_OPTIONS} value={originData.bank}/>
+      <Select options={BANK_OPTIONS} selectedvalue={originData.bank}/>
       <Input label="계좌번호"/>
-      <PostCode setPostCode={getPostCode}/>
+      <PostCode setPostCode={getPostCode} defalutValue={}/>
       <Button width="100%">수정하기</Button>
     </>
   );
