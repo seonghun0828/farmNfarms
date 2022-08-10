@@ -2,7 +2,6 @@ import { createSlice } from "@reduxjs/toolkit";
 
 const initialState = {
     value: {
-        isLogin: false,
         phone: '',
         accessToken: ''
     }
