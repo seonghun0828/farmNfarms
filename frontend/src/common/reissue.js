@@ -4,6 +4,8 @@ import { alertError } from './alertError';
 import { save } from './tokenSlice';
 
 const reissue = async (dispatch) => {
+    if (!localStorage.getItem('isLogin'))
+        return;
     try {
         const { data: { message, statusCode, phone, accessToken } } = await axios({
             method: 'post',
