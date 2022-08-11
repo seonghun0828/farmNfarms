@@ -58,7 +58,7 @@ function App() {
             <Route path="/auctionrooms" element={<AuctionRooms />} />
             <Route path="/mypage" element={<Mypage />} />
             <Route path="/price" element={<Price />} />
-            <Route path="/mypage/update" element={localStorage.getItem('isLogin') ? <UpdateProfile /> : <Login />}/>
+            <Route path="/mypage/update" element={<UpdateProfile />}/>
             <Route path="/*" element={<NotFound />}/>
           </Routes>
         </BrowserRouter>
