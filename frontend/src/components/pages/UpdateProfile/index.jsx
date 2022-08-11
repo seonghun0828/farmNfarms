@@ -45,10 +45,10 @@ export const CenterAlign = styled.div`
 
 const UpdateProfile = () => {
 
-  const myPhoneNum = useSelector((state) => state.token.value.phone);
   const [isLogin, setIsLogin] = useState(localStorage.getItem('isLogin'));
-
   const navigate = useNavigate();
+
+  const myPhoneNum = useSelector((state) => state.token.value.phone);
 
   const [url, setUrl] = useState(null);
   const clickHandler = () => {

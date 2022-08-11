@@ -40,8 +40,12 @@ const Navbar = ({url, navigate, isLogin, setIsLogin, imgSize, fontSize, mode, ..
     const moveToMypage = () => {
         move(navigate, '/mypage');
     }
+
+    const moveToHome = () => {
+        move(navigate, '/');
+    }
     return <StyledNavbar {...rest}>
-        <Image src={url} alt='logo' size={imgSize} />
+        <Image src={url} alt='logo' size={imgSize} onClick={moveToHome}/>
         <Buttons>
             {
                 isLogin ? <Button fontSize={fontSize} mode={mode} onClick={moveToMypage} {...rest}>마이페이지</Button> : null
