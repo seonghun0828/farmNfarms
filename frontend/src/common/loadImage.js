@@ -1,6 +1,6 @@
 import axios from 'axios';
-import { alertError } from '../../../common/alertError';
-import apiPath from '../../../common/apiPath';
+import { alertError } from './alertError';
+import apiPath from './apiPath';
 
 const loadImage = async (idx) => {
     console.log(idx, '넣었음')

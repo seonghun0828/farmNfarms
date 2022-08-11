@@ -3,7 +3,7 @@ import Input from '../../atoms/Input';
 import InputButton from '../../molecules/InputButton';
 import { useDaumPostcodePopup } from 'react-daum-postcode';
 
-const PostCode = ({setPostCode}) => {
+const PostCode = ({setPostCode, defaultValue}) => {
 
   const [inputs, setInputs] = useState({
 		zonecode: '',
@@ -45,6 +45,10 @@ const PostCode = ({setPostCode}) => {
   };
 
   useEffect(() => {
+    setInputs(defaultValue);
+  }, [defaultValue.zonecode]);
+
+  useEffect(() => {
     setPostCode(inputs)
   }, [inputs]);
 
@@ -76,6 +80,16 @@ const PostCode = ({setPostCode}) => {
       />
     </>
   );
+}
+
+PostCode.defaultProps = {
+  defaultValue: {
+		zonecode: '',
+    address: '',
+    extraAddress: '',
+		detailAddress: '',
+    fullAddress: '',    
+  }
 }
 
 export default PostCode;

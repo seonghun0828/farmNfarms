@@ -11,7 +11,7 @@ import CreateItemCard from '../../molecules/CreateItemCard';
 import { useNavigate } from 'react-router-dom';
 import move from '../../../common/move'
 import PhotoCameraIcon from '@mui/icons-material/PhotoCamera';
-import uploadFile from './uploadFile';
+import uploadFile from '../../../common/uploadFile';
 import createAuctionRoom from './createAuctionRoom';
 import { useSelector } from 'react-redux';
 

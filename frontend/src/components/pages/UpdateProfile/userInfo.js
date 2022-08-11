@@ -8,7 +8,7 @@ const userInfo = async (phone) => {
       method: 'get',
       url: apiPath.user.get(phone),
     });
-    console.log(data);
+    return data;
   } catch (e) {
     alertError();
   }
