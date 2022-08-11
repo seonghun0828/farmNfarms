@@ -1,6 +1,6 @@
 import axios from 'axios';
-import apiPath from '../../../common/apiPath';
-import { alertError } from '../../../common/alertError';
+import apiPath from './apiPath';
+import { alertError } from './alertError';
 
 const uploadFile = async (formData) => {
     try {
@@ -12,6 +12,7 @@ const uploadFile = async (formData) => {
         // idx 리턴하기
         return data;
     } catch (e) {
+        console.log(e);
         alertError(e);
     }
 }

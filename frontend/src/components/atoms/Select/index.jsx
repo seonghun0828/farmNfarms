@@ -27,8 +27,6 @@ const Select = ({defaultValue, options, setValue, name, selectedvalue}) => {
     }));
   }
 
-  console.log(selectedvalue)
-
   return (
     <StyledSelect onChange={handleChange}>
       <option value='' defaultValue>-- {defaultValue} --</option>

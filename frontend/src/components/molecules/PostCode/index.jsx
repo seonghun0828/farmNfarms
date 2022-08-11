@@ -45,11 +45,8 @@ const PostCode = ({setPostCode, defaultValue}) => {
   };
 
   useEffect(() => {
-    setInputs({
-      ...defaultValue,
-      fullAddress: defaultValue
-    });
-  }, []);
+    setInputs(defaultValue);
+  }, [defaultValue.zonecode]);
 
   useEffect(() => {
     setPostCode(inputs)

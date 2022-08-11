@@ -10,6 +10,9 @@ import Button from '../../atoms/Button';
 import Navbar from '../../molecules/Navbar';
 import logo from '../../../assets/로고.svg';
 import { useSelector } from 'react-redux';
+import userInfo from './userInfo';
+import updateUserInfo from './updateUserInfo';
+import uploadFile from '../../../common/uploadFile';
 
 const ImageArea = styled.div`
   width: 9rem;
@@ -26,6 +29,7 @@ const StyledImage = styled.div`
   background-image: url('${({thumbnail}) => thumbnail}');
   background-repeat: no-repeat;
   background-position: center;
+  background-size: cover;
 `
 
 const CameraImage = styled.div`
@@ -42,31 +46,44 @@ export const CenterAlign = styled.div`
 const UpdateProfile = () => {
 
   const navigate = useNavigate();
-  // const isLogin = useSelector((state) => state.token.value.isLogin);
+
   const [url, setUrl] = useState(null);
   const clickHandler = () => {
       const fileUploader = document.querySelector('#file-uploader');
       fileUploader.click();
   }
-  const uploadImage = () => {
+  const uploadImage = async () => {
       const fileUploader = document.querySelector('#file-uploader');
       setUrl(URL.createObjectURL(fileUploader.files[0]));
+
+      const formData = new FormData();
+      formData.append('img', fileUploader.files[0]);
+      const thumbnailIdx = await uploadFile(formData);
+      setInputs({...inputs, picture: thumbnailIdx});
   }
 
-  const [inputs, setInputs] = useState({});
-  const originData = {
-    name: '이윤경',
-    phone: '01088422922',
-    password: '1234',
-    bank: 'hana',
-    account: '12341234',
-    zipCode: '12345',
-    address: '청주시 어쩌구',
-    detailAddress: '123-1234',
-    pictureIdx: '1',
-  }
+  const [inputs, setInputs] = useState({
+    aboutMe: undefined,
+    account: undefined,
+    bank: undefined,
+    name: undefined,
+    newPassword: undefined,
+    newPasswordAgain: undefined,
+    password: undefined,
+    picture: undefined,
+  });
+  const [originData, setOriginData] = useState({
+    account: "",
+    address: "",
+    bank: "",
+    detailAddress: "",
+    name: "",
+    phone: "",
+    pictureIdx: "",
+    picturePath: "",
+    zipCode: "",
+  });
 
-  const 
   const [postCode, setPostCode] = useState({
 		zonecode: '',
     address: '',
@@ -87,30 +104,112 @@ const UpdateProfile = () => {
 		{ value: "kakao", name: "카카오뱅크" },
 	]
 
+  const [isLogin, setIsLogin] = useState(localStorage.getItem('isLogin'));
+  if (isLogin) {
+    // 로그인이 아니면 리다이렉트 되도록!!
+  }
+
+  const getOriginData = async () => {
+    setOriginData(await userInfo('01088422922'));
+  }
+
+  useEffect(() => {
+    getOriginData();
+  }, []);
+
+  useEffect(() => {
+    setInputs({
+      ...inputs,
+      account: originData.account,
+      bank: originData.bank,
+      name: originData.name,
+      phone: originData.phone,
+      picture: originData.pictureIdx,
+      newPassword: originData.newPassword,
+      newPasswordAgain: originData.newPasswordAgain,
+    });
+    setPostCode({
+      zonecode: originData.zipCode,
+      address: '',
+      extraAddress: '',
+      detailAddress: originData.detailAddress,
+      fullAddress: originData.address,        
+    });
+    setUrl(originData.picturePath)
+  }, [originData]);
+
+  const onClickHandler = async () => {
+    const payload = {
+      phone: inputs.phone,
+      aboutMe: inputs.aboutMe,
+      account: inputs.account,
+      address: postCode.fullAddress,
+      bank: inputs.bank,
+      detailAddress: postCode.detailAddress,
+      name: inputs.name,
+      newPassword: inputs.newPassword,
+      newPasswordAgain: inputs.newPasswordAgain,
+      password: inputs.password,
+      picture: inputs.picture,
+      zipCode: postCode.zonecode,
+    }
+    const isSuccess = await updateUserInfo(payload);
+    if (isSuccess) {
+      console.log('회원정보 수정 성공');
+      move(navigate, '/mypage');
+    } else {
+      console.log('실패');
+    }
+  }
+  console.log(inputs);
+  console.log(postCode);
   return (
     <>
-      <Navbar url={logo} imgSize="xs" fontSize="sm" mode="graytext" />
+      <Navbar url={logo} navigate={navigate} isLogin={isLogin} setIsLogin={setIsLogin} imgSize="xs" fontSize="sm" mode="graytext" />
       <Button mode="graytext" onClick={() => move(navigate, -1)}>
         뒤로 가기
       </Button>
       <CenterAlign>
-        <ImageArea  onClick={clickHandler}>
-          <input type='file' hidden id='file-uploader' onChange={uploadImage} />
-          <StyledImage thumbnail={url}/>
-          <CameraImage>
-            <PhotoCameraIcon fontSize="large"/>
-          </CameraImage>
-        </ImageArea>
+      <ImageArea  onClick={clickHandler}>
+        <input type='file' hidden id='file-uploader' onChange={uploadImage} />
+        <StyledImage thumbnail={url}/>
+        <CameraImage>
+          <PhotoCameraIcon fontSize="large"/>
+        </CameraImage>
+      </ImageArea>
       </CenterAlign>
       <Input label="아이디" status="readOnly" value={originData.phone}/>
       <Input label="이름" status="readOnly" value={originData.name}/>
-      <Input label="비밀번호"/>
-      <Input label="수정 비밀번호"/>
-      <Input label="수정 비밀번호 확인"/>
-      <Select options={BANK_OPTIONS} selectedvalue={originData.bank}/>
-      <Input label="계좌번호"/>
-      <PostCode setPostCode={getPostCode} defalutValue={}/>
-      <Button width="100%">수정하기</Button>
+      <Input 
+        label="비밀번호" 
+        placeholder="비밀번호를 입력해주세요" 
+        type="password"
+        name="password"
+        setValue={setInputs}
+      />
+      <Input 
+        label="수정 비밀번호"
+        placeholder="수정할 비밀번호를 입력해주세요" 
+        type="password"
+        name="newPassword"
+        setValue={setInputs}
+      />
+      <Input 
+        label="수정 비밀번호 확인"
+        placeholder="수정할 비밀번호를 다시 입력해주세요" 
+        type="password"
+        name="newPasswordAgain"
+        setValue={setInputs}
+      />
+      <Select options={BANK_OPTIONS} name="bank" setValue={setInputs} selectedvalue={inputs.bank} defaultValue="은행 선택"/>
+      <Input 
+        label="계좌번호"  
+        value={inputs.account}
+        placeholder="계좌번호를 입력해주세요" 
+        name="account" 
+        setValue={setInputs}/>
+      <PostCode setPostCode={getPostCode} defaultValue={postCode}/>
+      <Button width="100%" onClick={onClickHandler}>수정하기</Button>
     </>
   );
 }
