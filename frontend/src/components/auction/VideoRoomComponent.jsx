@@ -32,6 +32,7 @@ const StyledDiv = styled.div`
 const WhiteDiv = styled.div`
   color: white;
 `
+
 // const StyledDiv = styled.div`
 //   background: rgba(255, 255, 255, 0.3);
 //   width: 300px;
@@ -293,7 +294,6 @@ const VideoRoomComponent = () => {
   // 호스트(방 생성자) 여부에 따른 isHost를 토글링함(created())
   useEffect(() => {
     setIsHost(localStorage.getItem("host") ? true : false)
-    console.log(isHost)
   }, [])
 
   useEffect(() => {
@@ -358,7 +358,6 @@ const VideoRoomComponent = () => {
   // 경매 가격 입찰
   const biddingHandler = () => {
     // 가격을 전달받아야함
-    console.log(myPhoneNumber)
     if (seconds > 0) {
       const mySession = session
       mySession.signal({
@@ -394,7 +393,6 @@ const VideoRoomComponent = () => {
   }
 
   const sendAuctionResult = async() => {
-    console.log('send data to backend!')
     // send함수를 호출해서 백엔드로 데이터를 보냄
     const payload = {
       auctionDetailId: items[itemIndex].id,
