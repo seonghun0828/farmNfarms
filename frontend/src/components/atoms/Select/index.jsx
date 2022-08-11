@@ -17,7 +17,7 @@ const StyledSelect = styled.select`
   }
 `;
 
-const Select = ({defaultValue, options, setValue, name, selected}) => {
+const Select = ({defaultValue, options, setValue, name, selectedvalue}) => {
 
   const handleChange = (e) => {
     setValue && 
@@ -30,13 +30,24 @@ const Select = ({defaultValue, options, setValue, name, selected}) => {
   return (
     <StyledSelect onChange={handleChange}>
       <option value='' defaultValue>-- {defaultValue} --</option>
-      {options.map((option) => (
-      <option
+      {options.map((option) => {
+      if (selectedvalue === option.value) {
+        return (<option
         key={option.value}
         value={option.value}
-      >
+        selected
+       >
         {option.name}
-      </option>))}
+      </option>);       
+      } else {
+        return (<option
+        key={option.value}
+        value={option.value}
+        >
+          {option.name}
+        </option>);          
+      }
+    })}
     </StyledSelect>
   );
 }
