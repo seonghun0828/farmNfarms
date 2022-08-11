@@ -45,6 +45,9 @@ export const CenterAlign = styled.div`
 
 const UpdateProfile = () => {
 
+  const myPhoneNum = useSelector((state) => state.token.value.phone);
+  const [isLogin, setIsLogin] = useState(localStorage.getItem('isLogin'));
+
   const navigate = useNavigate();
 
   const [url, setUrl] = useState(null);
@@ -63,14 +66,14 @@ const UpdateProfile = () => {
   }
 
   const [inputs, setInputs] = useState({
-    aboutMe: undefined,
-    account: undefined,
-    bank: undefined,
-    name: undefined,
+    aboutMe: '',
+    account: '',
+    bank: '',
+    name: '',
     newPassword: undefined,
     newPasswordAgain: undefined,
-    password: undefined,
-    picture: undefined,
+    password: '',
+    picture: '',
   });
   const [originData, setOriginData] = useState({
     account: "",
@@ -104,13 +107,8 @@ const UpdateProfile = () => {
 		{ value: "kakao", name: "카카오뱅크" },
 	]
 
-  const [isLogin, setIsLogin] = useState(localStorage.getItem('isLogin'));
-  if (isLogin) {
-    // 로그인이 아니면 리다이렉트 되도록!!
-  }
-
   const getOriginData = async () => {
-    setOriginData(await userInfo('01088422922'));
+    setOriginData(await userInfo(myPhoneNum));
   }
 
   useEffect(() => {
@@ -161,8 +159,7 @@ const UpdateProfile = () => {
       console.log('실패');
     }
   }
-  console.log(inputs);
-  console.log(postCode);
+
   return (
     <>
       <Navbar url={logo} navigate={navigate} isLogin={isLogin} setIsLogin={setIsLogin} imgSize="xs" fontSize="sm" mode="graytext" />

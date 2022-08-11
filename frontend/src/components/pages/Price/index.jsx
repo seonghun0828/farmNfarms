@@ -1,4 +1,5 @@
 import { useState } from 'react'
+import { useNavigate } from "react-router-dom";
 import DatePicker from "../../molecules/DatePicker";
 import Button from "../../atoms/Button";
 import dayjs from "dayjs";
@@ -7,6 +8,7 @@ import get_price from './get_price';
 import Navbar from '../../molecules/Navbar';
 import Table from './Table'
 import Text from '../../atoms/Text';
+import logo from '../../../assets/로고.svg';
 // import Graph from './Graph';
 
 const EXAMPLE_OPTIONS = [
@@ -33,10 +35,12 @@ const Price = () => {
     console.log(priceData)
   }
 
+  const [isLogin, setIsLogin] = useState(localStorage.getItem('isLogin'));
+  const navigate = useNavigate();
   
   return (
     <div>
-      <Navbar url='./assets/로고.svg' isLogin imgSize="xs" fontSize="sm" mode="graytext" />
+      <Navbar url={logo} navigate={navigate} isLogin={isLogin} setIsLogin={setIsLogin} imgSize="xs" fontSize="sm" mode="graytext" />
       <DatePicker date={date} setDate={setDate} />
       <Select defaultValue={pickedProduct.product ? pickedProduct.product : '농산물 선택'} options={EXAMPLE_OPTIONS} setValue={setPickedProduct} name="product"/>
       <Button onClick={searchPrice}>검색</Button>
