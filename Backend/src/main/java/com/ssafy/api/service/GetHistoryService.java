@@ -18,13 +18,7 @@ public class GetHistoryService {
 
     private final AuctionResultRepository auctionResultRepository;
 
-    private final UserRepository userRepository;
-
-
-    // 판매내역 전체조회
-    public List<GetAllHistoryRes> getAllSellHistory(String phoneNumber) {
-
-        List<AuctionResult> auctionResultList = auctionResultRepository.findAllBySeller_Phone(phoneNumber);
+    public List<GetAllHistoryRes> createList(List<AuctionResult> auctionResultList) {
 
         List<GetAllHistoryRes> historyResList = new ArrayList<>();
 
@@ -38,11 +32,27 @@ public class GetHistoryService {
                     .dealCompleted(result.isDealCompleted())
                     .build();
 
-            historyResList.add(getAllHistoryRes);
+        historyResList.add(getAllHistoryRes);
         }
 
-
         return historyResList;
+    }
+
+
+    // 판매내역 전체조회
+    public List<GetAllHistoryRes> getAllSellHistory(String phoneNumber) {
+
+        List<AuctionResult> auctionResultList = auctionResultRepository.findAllBySeller_Phone(phoneNumber);
+
+        return createList(auctionResultList);
+
+    }
+    // 구매내역 전체조회
+    public List<GetAllHistoryRes> getAllBuyHistory(String phoneNumber) {
+
+        List<AuctionResult> auctionResultList = auctionResultRepository.findAllByBuyer_Phone(phoneNumber);
+
+        return createList(auctionResultList);
 
     }
 
@@ -62,31 +72,6 @@ public class GetHistoryService {
                 .build();
 
         return res;
-
-    }
-
-
-    // 구매내역 전체조회
-    public List<GetAllHistoryRes> getAllBuyHistory(String phoneNumber) {
-
-        List<AuctionResult> auctionResultList = auctionResultRepository.findAllByBuyer_Phone(phoneNumber);
-
-        List<GetAllHistoryRes> historyResList = new ArrayList<>();
-
-        for(AuctionResult result : auctionResultList) {
-            GetAllHistoryRes getAllHistoryRes = GetAllHistoryRes.builder()
-                    .productTitle(result.getAuctionDetail().getProductTitle())
-                    .grade(result.getAuctionDetail().getGrade())
-                    .quantity(result.getAuctionDetail().getQuantity())
-                    .auctionedPrice(result.getAuctionedPrice())
-                    .auctionResultId(result.getId())
-                    .dealCompleted(result.isDealCompleted())
-                    .build();
-
-            historyResList.add(getAllHistoryRes);
-
-        }
-        return historyResList;
 
     }
 
