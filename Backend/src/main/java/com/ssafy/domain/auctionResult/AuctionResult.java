@@ -2,12 +2,15 @@ package com.ssafy.domain.auctionResult;
 
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.ssafy.domain.BaseTimeEntity;
 import com.ssafy.domain.auctionDetail.AuctionDetail;
 import com.ssafy.domain.user.User;
 import lombok.*;
+import org.springframework.data.annotation.CreatedDate;
 
 import javax.persistence.*;
 import java.io.Serializable;
+import java.time.LocalDateTime;
 
 @Entity
 @Getter
@@ -15,7 +18,7 @@ import java.io.Serializable;
 @NoArgsConstructor
 @AllArgsConstructor
 @Builder
-public class AuctionResult implements Serializable {
+public class AuctionResult extends BaseTimeEntity implements Serializable {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -40,4 +43,8 @@ public class AuctionResult implements Serializable {
 
     @Column
     private Long auctionedPrice;
+
+    @Column
+    @CreatedDate
+    private LocalDateTime createdAt;
 }
