@@ -198,7 +198,7 @@ const Join = () => {
 					name="password2" 
 					setValue={setPasswords}
 				/>
-					<Select options={BANK_OPTIONS} name="bank" setValue={setInputs}></Select>
+					<Select options={BANK_OPTIONS} name="bank" setValue={setInputs} defaultValue="은행 선택"></Select>
 					<Input label="계좌번호" placeholder="계좌번호" name="account" setValue={setInputs}/>
 				<PostCode setPostCode={getPostCode}/>
 			</FormGapLayout>

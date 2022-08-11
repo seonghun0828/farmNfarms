@@ -1,4 +1,4 @@
-import { BrowserRouter, Routes, Route } from 'react-router-dom';
+import { BrowserRouter, Routes, Route, Redirect } from 'react-router-dom';
 import Home from './components/pages/Home';
 import Login from './components/pages/Login';
 import Join from './components/pages/Join';
@@ -10,10 +10,9 @@ import AuctionRooms from './components/pages/AuctionRooms';
 import Mypage from './components/pages/Mypage';
 import Price from "./components/pages/Price"
 import NotFound from "./components/pages/NotFound"
-import PayTest from "./components/pages/PayTest"
 import UpdateProfile from './components/pages/UpdateProfile';
 import axios from 'axios';
-import { useEffect } from 'react';
+import { useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import reissue from '../src/common/reissue'
 
@@ -42,6 +41,7 @@ function App() {
       reissue(dispatch);
     }
   }, [dispatch]);
+
   return (
     <div className="App">
       <ThemeProvider theme={theme}>
@@ -58,8 +58,7 @@ function App() {
             <Route path="/auctionrooms" element={<AuctionRooms />} />
             <Route path="/mypage" element={<Mypage />} />
             <Route path="/price" element={<Price />} />
-            <Route path="/mypage/update" element={<UpdateProfile />} />
-            <Route path="/pay-test" element={<PayTest />} />
+            <Route path="/mypage/update" element={<UpdateProfile />}/>
             <Route path="/*" element={<NotFound />}/>
           </Routes>
         </BrowserRouter>
