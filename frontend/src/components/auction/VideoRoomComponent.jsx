@@ -376,7 +376,7 @@ const VideoRoomComponent = () => {
   const priceUpHandler = () => {
     if (seconds > 0) {
       setPrice((prevPrice) => {
-        return prevPrice + items[itemIndex].bidIncrement
+        return parseInt(prevPrice) + parseInt(items[itemIndex].bidIncrement)
       })
     }
   }
@@ -388,7 +388,7 @@ const VideoRoomComponent = () => {
         if (prevPrice === 0) {
           return 0
         }
-        return prevPrice - items[itemIndex].bidIncrement
+        return parseInt(prevPrice) - parseInt(items[itemIndex].bidIncrement)
       })
     }
   }
@@ -400,14 +400,13 @@ const VideoRoomComponent = () => {
       auctionDetailId: items[itemIndex].id,
       sellerPhoneNumber: sellerPhoneNumber,
       buyerPhoneNumber: bestBidderPhone,
-      auctioned_price: highestPrice,
+      auctionedPrice: highestPrice,
       grade: items[itemIndex].grade,
       productTitle: items[itemIndex].productTitle,
       quantity: items[itemIndex].quantity
     }
     if (bestBidderPhone !== "" && bestBidderPhone !== undefined) {
       const sendResponse = await send({...payload});
-      console.log(sendResponse);
       if (sendResponse) {
         console.log('Send Data Successfully!');
       } else {
