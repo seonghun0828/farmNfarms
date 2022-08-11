@@ -2,6 +2,7 @@ package com.ssafy.util;
 
 import org.springframework.stereotype.Component;
 
+import java.util.HashMap;
 import java.util.Random;
 import java.util.concurrent.ThreadLocalRandom;
 
@@ -17,12 +18,17 @@ public class RandomNumberGenerator {
 
     private final Random random = new Random();
 
-    public String generate() {
+    public HashMap<String, String> generate() {
 //        int randomNumber = random.nextInt(START_INCLUSIVE, END_EXCLUSIVE) + START_INCLUSIVE;
 //        return String.valueOf(randomNumber);
 
         String randomNumber = Integer.toString(random.nextInt(899999) + 100000);
-        return randomNumber;
+        String content = "팜앤팜스 인증번호는 [" +  randomNumber + "] 입니다.";
+
+        HashMap<String, String> message = new HashMap<>();
+        message.put("randomNumber", randomNumber);
+        message.put("content", content);
+        return message;
     }
 
 }
