@@ -9,6 +9,7 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.util.HashMap;
 import java.util.List;
 import java.util.Optional;
 import java.util.stream.Collectors;
@@ -25,11 +26,15 @@ public class VerificationService {
     private final SmsSender smsSender;
 
     public Long createVerification(String phoneNumber) {
-        String confirmNumber = randomNumberGenerator.generate();
+        HashMap<String, String> message = randomNumberGenerator.generate();
+        String confirmNumber = message.get("randomNumber");
+        System.out.println(confirmNumber);
+
         Verification verification = new Verification(phoneNumber, confirmNumber);
         Verification savedVerification = repository.save(verification);
 
-        smsSender.sendVerificationMessage(phoneNumber, confirmNumber);
+        String content = message.get("content");
+        smsSender.sendVerificationMessage(phoneNumber, content);
 
         Long savedVerificationId = savedVerification.getId();
         return savedVerificationId;
