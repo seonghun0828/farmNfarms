@@ -405,7 +405,7 @@ const VideoRoomComponent = () => {
       productTitle: items[itemIndex].productTitle,
       quantity: items[itemIndex].quantity
     }
-    if (buyerPhoneNumber !== "" && buyerPhoneNumber !== undefined) {
+    if (bestBidderPhone !== "" && bestBidderPhone !== undefined) {
       const sendResponse = await send({...payload});
       console.log(sendResponse);
       if (sendResponse) {
