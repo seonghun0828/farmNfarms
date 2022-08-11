@@ -31,19 +31,11 @@ public class AuctionDetail implements Serializable {
     @Column
     private String grade;
 
-    /*@Column
-    private boolean auctioned;*/
-
 //    @Column
 //    private int initPrice;
 
     @Column
     private int bidIncrement;
-
-/*
-    @Column
-    private int auctionedPrice;
-*/
 
     @Column
     private int startingPrice;
