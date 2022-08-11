@@ -92,7 +92,7 @@ const LoadingMessageDiv = styled.div`
     color: white;
     text-align: center;
     transform: translate(-95px, 0px);
-    animation: ${loading} 2s linear;
+    animation: ${loading} 1.5s linear;
     font-size: 28px;
     font-weight: bold;
   }
