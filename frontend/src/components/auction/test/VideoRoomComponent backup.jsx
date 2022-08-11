@@ -14,7 +14,6 @@ import './VideoRoomComponent.css';
 import styled from "styled-components";
 import { useLocation } from 'react-router-dom';
 import Loading from './Loading'
-import { useSelector } from 'react-redux';
 
 const StyledDiv = styled.div`
   background: rgba(255, 255, 255, 0.3);
@@ -50,14 +49,10 @@ const WhiteDiv = styled.div`
 const OPENVIDU_SERVER_URL = 'https://i7b203.p.ssafy.io:8443';
 const OPENVIDU_SERVER_SECRET = 'MY_SECRET';
 
-const VideoRoomComponent = () => {
-  const navigate = useNavigate(); // 네비게이터(방 나갈 때 사용)
-  const location = useLocation(); // 로케이션(이전 페이지에서 데이터를 받아옴)
+const VideoRoomComponent = (props) => {
+  const location = useLocation();
   const roomId = location.state.id;
-  const items = location.state.items;
-  const sellerPhoneNumber = location.state.phone;
-  const myPhoneNumber = useSelector((state) => state.token.value.phone);
-  
+
   const [mySessionId, setMySessionId] = useState('SessionA');
   const [myUserName, setMyUserName] = useState('Participant' + Math.floor(Math.random() * 100));
   const [session, setSession] = useState(undefined);
@@ -69,17 +64,19 @@ const VideoRoomComponent = () => {
   const [toggleStart, setToggleStart] = useState(false); // 스타트 버튼 토글
   const [seconds, setSeconds] = useState(0); // 타이머 시작 시간
   const [displayBidding, setDisplayBidding] = useState(false); // 비딩칸 display on/off
-  const [price, setPrice] = useState(items[0].startingPrice); // 나의 입찰(bidding) 가격
+  const [price, setPrice] = useState(props.items[0].starting_price); // 나의 입찰(bidding) 가격
   const [highestPrice, setHighestPrice] = useState(0); // 최고 입찰 가격
   const [tempHighestPrice, setTempHighestPrice] = useState(0); // 현재 세션에만 보여줄 최고 입찰 가격
   const [bestBidder, setBestBidder] = useState(undefined); // 최고 입찰자
-  const [bestBidderPhone, setBestBidderPhone] = useState(undefined); // 최고 입찰자의 핸드폰 번호
   const [tempBestBidder, setTempBestBidder] = useState(undefined); // 현재 세션에만 보여줄 최고 입찰자
   // const [auctionCount, setAuctionCount] = useState(0) // 경매 회수(props의 길이와 같아지면 경매방 종료)
   const [sessionCount, setSessionCount] = useState(0); // 현재 경매의 세션 횟수(초깃값은 0, max는 2까지)
   const [itemIndex, setItemIndex] = useState(0); // 물품 목록 인덱스
   const [chatDisplay, setChatDisplay] = useState(true); // 채팅창 보이기(초깃값: true) 
   const [isHost, setIsHost] = useState(false);
+
+  const navigate = useNavigate(); // 네비게이터
+
 
   let OV = undefined;
 
@@ -133,6 +130,7 @@ const VideoRoomComponent = () => {
 
   // 토큰 생성(KMS로 직접 쏨)
   const createToken = (sessionId) => {
+    // let myrole = this.isHost ? "PUBLISHER" : "SUBSCRIBER";
     let myRole = isHost ? "PUBLISHER" : "SUBSCRIBER";
     console.log(myRole)
     return new Promise((resolve, reject) => {
@@ -229,9 +227,8 @@ const VideoRoomComponent = () => {
       const newPrice = parseInt(tmp[1])
       const currentHigh = parseInt(tmp[2]) // 세션 안에서 highPrice가 계속 0이어서 이렇게 처리했음
       if (newPrice > currentHigh) {
-        setHighestPrice(newPrice);
-        setBestBidder(username);
-        setBestBidderPhone(tmp[3]);
+        setHighestPrice(newPrice)
+        setBestBidder(username)
       }
     })
 
@@ -306,6 +303,23 @@ const VideoRoomComponent = () => {
     }
   }, [leaveSession])
 
+  // 세션 아이디 변경
+  const handleChangeSessionId = (event) => {
+    setMySessionId(event.target.value)
+  }
+
+  // 유저 이름 변경
+  const handleChangeUserName = (event) => {
+    setMyUserName(event.target.value)
+  }
+
+  // 메인 비디오 스트림(일단은 안 씀)
+  const handleMainVideoStream = (stream) => {
+    if (mainStreamManager !== stream) {
+      setMainStreamManager(stream)
+    }
+  }
+
   // 참가자를 배열에서 제거함 
   const deleteSubscriber = useCallback((streamManager) => {
     let tmp_subscribers = subscribers;
@@ -337,14 +351,13 @@ const VideoRoomComponent = () => {
   const startAuction = () => {
     const mySession = session
     // 현재 경매 세션의 출발 가격을 초기화함
-    setPrice(items[itemIndex].startingPrice)
+    setPrice(props.items[itemIndex].starting_price)
     setSessionCount(0) // 현재 경매 세션의 카운트를 0으로 초기화함
     setHighestPrice(0) // 경매 최고 낙찰가를 0으로 초기화함
     setBestBidder(undefined) // 경매 최고 낙찰자를 undefined로 초기화함
     setTempHighestPrice(0) // 현재 세션에서 보여줄 임시 경매 최고 낙찰가를 0으로 함
     setTempBestBidder(undefined) // 현재 세션에서 보여줄 임시 경매 최고 낙찰자를 undefined로 초기화함
     setChatDisplay(false) // 경매 시작하면 채팅창 off
-    setBestBidderPhone(undefined) // 최고 입찰자의 핸드폰 번호 초기화
     mySession.signal({
       data: true,
       type: "auction",
@@ -358,11 +371,10 @@ const VideoRoomComponent = () => {
   // 경매 가격 입찰
   const biddingHandler = () => {
     // 가격을 전달받아야함
-    console.log(myPhoneNumber)
     if (seconds > 0) {
       const mySession = session
       mySession.signal({
-        data: `${myUserName} : ${price} : ${highestPrice} : ${myPhoneNumber}`,
+        data: `${myUserName} : ${price} : ${highestPrice}`,
         type: "bidding",
       }).then(() => {
         console.log("bid successfully")
@@ -376,7 +388,7 @@ const VideoRoomComponent = () => {
   const priceUpHandler = () => {
     if (seconds > 0) {
       setPrice((prevPrice) => {
-        return prevPrice + items[itemIndex].bidIncrement
+        return prevPrice + props.items[itemIndex].bid_increment
       })
     }
   }
@@ -388,32 +400,28 @@ const VideoRoomComponent = () => {
         if (prevPrice === 0) {
           return 0
         }
-        return prevPrice - items[itemIndex].bidIncrement
+        return prevPrice - props.items[itemIndex].bid_increment
       })
     }
   }
 
-  const sendAuctionResult = async() => {
+  const sendAuctionResult = () => {
     console.log('send data to backend!')
     // send함수를 호출해서 백엔드로 데이터를 보냄
     const payload = {
-      auctionDetailId: items[itemIndex].id,
-      sellerPhoneNumber: sellerPhoneNumber,
-      buyerPhoneNumber: bestBidderPhone,
+      seller_phone: "01012345678",
+      buyer_phone: "01087654321",
+      title: props.items[itemIndex].title,
+      quantity: props.items[itemIndex].quantity,
+      grade: props.items[itemIndex].grade,
       auctioned_price: highestPrice,
-      grade: items[itemIndex].grade,
-      productTitle: items[itemIndex].productTitle,
-      quantity: items[itemIndex].quantity
     }
-    if (buyerPhoneNumber !== "" && buyerPhoneNumber !== undefined) {
-      const sendResponse = await send({...payload});
-      console.log(sendResponse);
-      if (sendResponse) {
-        console.log('Send Data Successfully!');
-      } else {
-      console.log('Send Data Failed!')
-      }
-    }
+    // const sendResponse = send(payload);
+    // if (sendResponse) {
+    //   console.log('Send Data Successfully!');
+    // } else {
+    //   console.log('Send Data Failed!')
+    // }
   }
 
   const enterAuctionRoom = () => {
@@ -422,7 +430,44 @@ const VideoRoomComponent = () => {
 
   return (
     <div className="container">
+      {/* {session === undefined && <Button onClick={joinSession}> 입장 </Button>} */}
       {session === undefined && <Loading enterAuctionRoom={enterAuctionRoom}></Loading>}
+      
+      {/* {session === undefined ? (
+        <div id="join">
+          <div id="join-dialog" className="jumbotron vertical-center">
+            <h1> 경매방 입장하기 </h1>
+            <form className="form-group" onSubmit={joinSession}>
+              <p>
+                <label>Participant: </label> 
+                <input
+                  className="form-control"
+                  type="text"
+                  id="userName"
+                  value={myUserName}
+                  onChange={handleChangeUserName}
+                  required
+                />
+              </p>
+              <p>
+                <label> Session: </label>
+                <input
+                  className="form-control"
+                  type="text"
+                  id="sessionId"
+                  value={mySessionId}
+                  onChange={handleChangeSessionId}
+                  required
+                />
+              </p>
+              <p className="text-center">
+                <input className="btn btn-lg btn-success" name="commit" type="submit" value="JOIN" />
+              </p>
+            </form>
+          </div>
+        </div>
+      ) : null} */} 
+
       {session !== undefined ? (
         <div id="session">
           {/* 화면 */}
@@ -477,26 +522,26 @@ const VideoRoomComponent = () => {
                 setTempHighestPrice={setTempHighestPrice}
                 bestBidder={bestBidder}
                 setTempBestBidder={setTempBestBidder}
-                maxIndex={items.length}
+                maxIndex={props.items.length}
                 isHost={isHost}
               /></StyledDiv>
             <StyledDiv>
               <span>
-                {items[itemIndex].productTitle}
-                {items[itemIndex].grade}
-                {items[itemIndex].quantity}Kg
+                {props.items[itemIndex].title}
+                {props.items[itemIndex].grade}
+                {props.items[itemIndex].quantity}Kg
               </span>
             </StyledDiv>
             <StyledDiv>
               경매 시작가
               <WhiteDiv>
-                ￦{items[itemIndex].startingPrice.toLocaleString('ko-KR')}원
+                ￦{props.items[itemIndex].starting_price.toLocaleString('ko-KR')}원
               </WhiteDiv>
             </StyledDiv>
             <StyledDiv>
               경매 호가
               <WhiteDiv>
-                ￦{items[itemIndex].bidIncrement.toLocaleString('ko-KR')}원
+                ￦{props.items[itemIndex].bid_increment.toLocaleString('ko-KR')}원
               </WhiteDiv>
             </StyledDiv>
             <StyledDiv>

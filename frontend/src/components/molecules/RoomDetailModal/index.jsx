@@ -108,12 +108,12 @@ const Div = styled.div`
   padding-right: ${(props) => props.pr + 'rem'};
 `
 
-const RoomDetailModal = ({title, description, items, closeModal, roomId}) => {
+const RoomDetailModal = ({ title, description, items, closeModal, roomId, ownerPhone }) => {
 
   const navigate = useNavigate();
 
   const enterRoomHandler = () => {
-    navigate("/room", {state: {id: roomId}})
+    navigate("/room", { state: { id: roomId, items: items, phone: ownerPhone }})
   }
 
   return (
@@ -174,32 +174,32 @@ const RoomDetailModal = ({title, description, items, closeModal, roomId}) => {
   );
 }
 
-const EXAMPLE_ITEMS = [
-  {
-    id: '1',
-    productTitle: "배추",
-    quantity: "1000",
-    grade: "최상",
-    startingPrice: "100,000"
-  },
-  {
-    id: '2',
-    productTitle: "감자",
-    quantity: "2000",
-    grade: "최상",
-    startingPrice: "200,000"
-  },
-  {
-    id: '3',
-    productTitle: "당근",
-    quantity: "500",
-    grade: "중상",
-    startingPrice: "80,000"
-  },
-]
+// const EXAMPLE_ITEMS = [
+//   {
+//     id: '1',
+//     productTitle: "배추",
+//     quantity: "1000",
+//     grade: "최상",
+//     startingPrice: "100,000"
+//   },
+//   {
+//     id: '2',
+//     productTitle: "감자",
+//     quantity: "2000",
+//     grade: "최상",
+//     startingPrice: "200,000"
+//   },
+//   {
+//     id: '3',
+//     productTitle: "당근",
+//     quantity: "500",
+//     grade: "중상",
+//     startingPrice: "80,000"
+//   },
+// ]
 
-RoomDetailModal.defaultProps = {
-  items: EXAMPLE_ITEMS,
-}
+// RoomDetailModal.defaultProps = {
+//   items: EXAMPLE_ITEMS,
+// }
 
 export default RoomDetailModal;

@@ -4,7 +4,7 @@ import { alertError } from '../../../common/alertError';
 
 const createAuctionRoom = async (title, description, thumbnailIdx, items, phone) => {
     try {
-        const { data: { success }} = await axios({
+        const { data: { AuctionRoomId }} = await axios({
             method: 'post',
             url: apiPath.room.createRoom(phone),
             data: {
@@ -14,7 +14,7 @@ const createAuctionRoom = async (title, description, thumbnailIdx, items, phone)
                 details: items
             }
         });
-        return success;
+        return AuctionRoomId;
     } catch (e) {
         alertError(e);
     }
