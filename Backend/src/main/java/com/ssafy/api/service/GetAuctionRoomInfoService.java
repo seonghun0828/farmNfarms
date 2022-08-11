@@ -30,10 +30,10 @@ public class GetAuctionRoomInfoService {
 
     private final AuctionDetailRepository auctionDetailRepository;
 
-    public Page<AuctionRoom> getAuctionRoomsInfo(Pageable pageable) {
+   /* public Page<AuctionRoom> getAuctionRoomsInfo(Pageable pageable) {
 
         return auctionRoomRepository.findAllByAuctionedFalse(pageable);
-    }
+    }*/
 
     public List<AuctionDetail> getAuctionDetailsInfo(Long auctionRoomId) {
 
