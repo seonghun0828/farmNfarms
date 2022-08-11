@@ -1,23 +1,17 @@
 import axios from "axios";
 import apiPath from '../../common/apiPath';
 
-const send = async ({ auctionDetailId, sellerPhoneNumber, buyerPhoneNumber, auctioned_price, grade, productTitle, quantity }) => {
+const send = async (payload) => {
   try {
-    const { data: { statusCode } } = await axios({
+    const { data: { success } } = await axios({
       method: 'post',
-      url: apiPath.room.result(),
+      url: apiPath.result.create(),
       // 줘야하는 데이터를 전달
       data: {
-        auctionDetailId,
-        sellerPhoneNumber, 
-        buyerPhoneNumber, 
-        productTitle, 
-        quantity,
-        grade, 
-        auctioned_price
+        ...payload
       }
     });
-    if (statusCode === 200) {
+    if (success === true) {
       return true;
     } else {
       return false;
