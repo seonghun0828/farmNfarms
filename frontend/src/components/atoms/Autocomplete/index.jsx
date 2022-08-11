@@ -4,34 +4,58 @@ import styled from 'styled-components';
 
 const InputBox = styled.div`
   display:flex;
-  border: 1px solid rgba(0, 0, 0, 0.3);
+  border: 2px solid #ADA7A8;
   z-index: 3;
   &:focus-within {
-    box-shadow: rgb(0, 0, 0, 0.3);
+    box-shadow: #0F9749;
   }
   background-color: white;
+  height: 2rem;
+  align-items: center;
+  border-radius: 5px;
+  box-sizing: border-box;
+  width: 100%;
+  margin-bottom: 2px;
 `
 
 const AutoStyledInput = styled.input`
   flex: 1 0 0;
+  margin: 0;
+  padding: 0 0.5rem;
   background-color: transparent;
   border: none;
   outline: none;
+  font-size: 1rem;
+  font-weight: 400;
+  color: #232724;
 `
 
 const DeleteButton = styled.div`
+  margin: 5px;
   cursor: pointer;
+`
+
+const StyledDiv = styled.div`
 `
 
 const RecommendBox = styled.ul`
   display: block;
+  width: 240px;
+  box-sizing: border-box;
+  position: absolute;
+  margin: 0 auto;
+  padding: 8px 0;
   background-color: white;
-  border: 1px solid rgba(0, 0, 0, 0.3);
+  border: 2px solid #ADA7A8;
+  border-top: 1px;
   list-style-type: none;
+  border-radius: 0 0 5px 5px;
   z-index: 3;
+  transform: translate(0px, -5px);
 `
 
 const RecommendItems = styled.li`
+  padding: 0 16px;
   &.selected {
     background-color: lightgray;
   }
@@ -46,7 +70,7 @@ const productSuggestions = [
 
 const Autocomplete = () => {
   const [suggestions, setSuggestions] = useState(productSuggestions); // 자동완성 추천 목록
-  const [itemIdx, setItemIdx] = useState(0); // suggestion에 대한 아이템 인덱스
+  const [itemIdx, setItemIdx] = useState(-1); // suggestion에 대한 아이템 인덱스
   const [inputText, setInputText] = useState(''); // 텍스트 입력값
   const [isAutocompleting, setIsAutocompleting] = useState(false); // 자동 완성을 보여줄지 말지 결정
 
@@ -78,27 +102,41 @@ const Autocomplete = () => {
 
   return (
     <FlexBox>
-      <InputBox>
-        <AutoStyledInput
-          value={inputText}
-          type="text"
-          onChange={textChangeHandler}
-        />
-        <DeleteButton onClick={() => setInputText('')}>&times;</DeleteButton>
-      </InputBox>
-      {isAutocompleting && <RecommendBox>
-        {suggestions.length === 0 && <RecommendItems>추천하는 품목이 없습니다</RecommendItems>}
-        {suggestions.map((item, i) => {
-          return (
-            <RecommendItems
-              key={i}
-              onClick={() => selectSuggestion(item)}
-            >
-              {item}
-            </RecommendItems>
-          )
-        })}
-      </RecommendBox>}
+      <StyledDiv>
+        <InputBox>
+          <AutoStyledInput
+            value={inputText}
+            type="text"
+            placeholder="품목"
+            onChange={textChangeHandler}
+          />
+          {inputText !== "" && <DeleteButton onClick={() => setInputText('')}>&times;</DeleteButton>}
+        </InputBox>
+        {isAutocompleting && <StyledDiv>
+          <RecommendBox>
+            {suggestions.length === 0 && <RecommendItems>추천하는 품목이 없습니다</RecommendItems>}
+            {suggestions.map((item, i) => {
+              return (
+                <StyledDiv>
+                  <RecommendItems
+                    key={i}
+                    onClick={() => {
+                      selectSuggestion(item)
+                      setItemIdx(i)
+                    }}
+                    onMouseOver={() => setItemIdx(i)}
+                    className={
+                      itemIdx === i ? 'selected' : ''
+                    }
+                  >
+                    {item}
+                  </RecommendItems>
+                </StyledDiv>
+              )
+            })}
+          </RecommendBox>
+        </StyledDiv>}
+      </StyledDiv>
     </FlexBox>
   )
 
