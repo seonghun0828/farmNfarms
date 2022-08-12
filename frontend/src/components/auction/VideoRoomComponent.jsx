@@ -32,16 +32,6 @@ const StyledDiv = styled.div`
 const WhiteDiv = styled.div`
   color: white;
 `
-// const StyledDiv = styled.div`
-//   background: rgba(255, 255, 255, 0.3);
-//   width: 300px;
-//   margin-left: 5px;
-//   margin-right: 5px;
-//   position: absolute;
-//   top: 50%;
-//   left: 50%;
-//   transform: translate(-50%, -50%);
-// `
 
 // 추가하고픈 기능 => 채팅창이 스크롤 위인 상태에서 누군가 채팅을 쳤으면 새로운 메세지 보기가 뜨고 클릭하면 이동
 // 경매방 나가기 기능 정교화(요약 페이지를 보고 나가게 하기로 바꾸기?)
@@ -293,7 +283,6 @@ const VideoRoomComponent = () => {
   // 호스트(방 생성자) 여부에 따른 isHost를 토글링함(created())
   useEffect(() => {
     setIsHost(localStorage.getItem("host") ? true : false)
-    console.log(isHost)
   }, [])
 
   useEffect(() => {
@@ -358,7 +347,6 @@ const VideoRoomComponent = () => {
   // 경매 가격 입찰
   const biddingHandler = () => {
     // 가격을 전달받아야함
-    console.log(myPhoneNumber)
     if (seconds > 0) {
       const mySession = session
       mySession.signal({
@@ -394,7 +382,6 @@ const VideoRoomComponent = () => {
   }
 
   const sendAuctionResult = async() => {
-    console.log('send data to backend!')
     // send함수를 호출해서 백엔드로 데이터를 보냄
     const payload = {
       auctionDetailId: items[itemIndex].id,
@@ -439,8 +426,18 @@ const VideoRoomComponent = () => {
                 <div style={{ color: 'white' }}>배추 아저씨</div>
               </div>
               <div>
-                <div>
-                  <Person style={{ color: 'red' }} /><span style={{ color: 'white' }}>{totalUsers}</span>
+                <div style={{display: 'flex', justifyContent: 'space-between', margin: '5px'}}>
+                  <div style={{ display: 'flex', justifyContent: 'base', alignItems: 'center' }}>
+                    <Person style={{ color: 'red' }} /><span style={{ color: 'white' }}>{totalUsers}</span>
+                  </div>
+                  <Button variant="contained" style={{ backgroundColor: 'red', color: 'white', padding: '0px'}}>
+                    <span style={{ fontSize: 'x-small'}} >
+                      ●
+                    </span>
+                    <span style={{fontSize: 'medium', padding: '3px', fontWeight: 'bold', padding: '0px'}}>
+                      Live
+                    </span>
+                  </Button>
                 </div>
                 <Button className='mui-btn' onClick={leaveSession} variant="contained">
                   나가기
