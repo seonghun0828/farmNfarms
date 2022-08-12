@@ -2,17 +2,13 @@ import React from 'react';
 import styled from 'styled-components';
 import Text from '../../atoms/Text';
 import Button from '../../atoms/Button';
+import move from '../../../common/move';
 
 const StyledTradeItemCard = styled.div`
   width: 20rem;
   height: 13rem;
   border: 2px solid ${({ theme }) => theme.colors.green3};
   border-radius: 5px;
-`;
-const Space = styled.div`
-  visibility: hidden;
-  width: 3rem;
-  height: 3rem;
 `;
 const ItemNav = styled.div`
   ${({ theme }) => theme.flex.rowCenter}
@@ -46,30 +42,60 @@ const InfoContent = styled.div`
   padding-left: 0.5rem;
 `;
 
-const TradeItemCard = ({ labels, isTrading }) => {
-  const btnMode = isTrading ? 'primary' : '';
+const TradeItemCard = ({labels, navigate, ...rest}) => {
+  const { auctionResultId, auctionedPrice, dealCompleted,
+    grade, productTitle, quantity } = rest.item;
+
+  const btnMode = dealCompleted ? '' : 'primary';
+
+  const clickHandler = () => {
+    console.log('click! auctionResultId: ', auctionResultId);
+    // 페이지 이동하면서 넘길 값 넘기기
+    // move(navigate, '/history');
+  }
   return (
-    <StyledTradeItemCard>
+    <StyledTradeItemCard onClick={clickHandler}>
       <ItemNav>
-        {/* <Space /> */}
         <Text color="white" weight="bold" fontSize="lg">
           물품 정보
         </Text>
       </ItemNav>
       <ItemBody>
-        {labels.map((label, idx) => (
-          <Info key={label + idx}>
-            <InfoName>
-              <Text size="lg" color="gray2" weight="bold">
-                {label}
-              </Text>
-            </InfoName>
-            <InfoContent>{idx}입니다</InfoContent>
-          </Info>
-        ))}
+        <Info key={labels[0]}>
+          <InfoName>
+            <Text size="lg" color="gray2" weight="bold">
+              {labels[0]}
+            </Text>
+          </InfoName>
+          <InfoContent>{productTitle}</InfoContent>
+        </Info>
+        <Info key={labels[1]}>
+          <InfoName>
+            <Text size="lg" color="gray2" weight="bold">
+              {labels[1]}
+            </Text>
+          </InfoName>
+          <InfoContent>{grade}</InfoContent>
+        </Info>
+        <Info key={labels[2]}>
+          <InfoName>
+            <Text size="lg" color="gray2" weight="bold">
+              {labels[2]}
+            </Text>
+          </InfoName>
+          <InfoContent>{quantity}kg</InfoContent>
+        </Info>
+        <Info key={labels[3]}>
+          <InfoName>
+            <Text size="lg" color="gray2" weight="bold">
+              {labels[3]}
+            </Text>
+          </InfoName>
+          <InfoContent>{auctionedPrice}원</InfoContent>
+        </Info>
         <FloatButton>
           <Button mode={btnMode} width="6.5rem" height="3rem" fontSize="lg">
-            {isTrading ? '거래 중' : '거래완료'}
+            {dealCompleted ? '거래완료' : '거래 중'}
           </Button>
         </FloatButton>
       </ItemBody>
@@ -79,7 +105,6 @@ const TradeItemCard = ({ labels, isTrading }) => {
 
 TradeItemCard.defaultProps = {
   labels: ['품목', '등급', '수량', '낙찰가'],
-  isTrading: false,
 };
 
 export default TradeItemCard;
