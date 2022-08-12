@@ -5,7 +5,6 @@ import com.ssafy.api.response.GetBuyHistoryDetailRes;
 import com.ssafy.api.response.GetSellHistoryDetailRes;
 import com.ssafy.domain.auctionResult.AuctionResult;
 import com.ssafy.domain.auctionResult.AuctionResultRepository;
-import com.ssafy.domain.user.UserRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
@@ -14,7 +13,7 @@ import java.util.List;
 
 @Service
 @RequiredArgsConstructor
-public class GetHistoryService {
+public class HistoryService {
 
     private final AuctionResultRepository auctionResultRepository;
 
@@ -23,6 +22,7 @@ public class GetHistoryService {
         List<GetAllHistoryRes> historyResList = new ArrayList<>();
 
         for(AuctionResult result : auctionResultList) {
+
             GetAllHistoryRes getAllHistoryRes = GetAllHistoryRes.builder()
                     .productTitle(result.getAuctionDetail().getProductTitle())
                     .grade(result.getAuctionDetail().getGrade())
@@ -31,6 +31,7 @@ public class GetHistoryService {
                     .auctionResultId(result.getId())
                     .dealCompleted(result.isDealCompleted())
                     .build();
+
 
         historyResList.add(getAllHistoryRes);
         }
@@ -69,6 +70,8 @@ public class GetHistoryService {
                 .buyerName(auctionResult.getBuyer().getName())
                 .buyerPhoneNumber(auctionResult.getBuyer().getPhone())
                 .buyerAddress(auctionResult.getBuyer().getAddress())
+                .deliveryCompleted(auctionResult.isDeliveryCompleted())
+                .paymentCompleted(auctionResult.isPaymentCompleted())
                 .build();
 
         return res;
@@ -90,10 +93,27 @@ public class GetHistoryService {
                 .sellerPhoneNumber(auctionResult.getSeller().getPhone())
                 .sellerBank(auctionResult.getSeller().getBank())
                 .sellerAccount(auctionResult.getSeller().getAccount())
+                .createAt(auctionResult.getCreatedAt())
+                .deliveryCompleted(auctionResult.isDeliveryCompleted())
+                .paymentCompleted(auctionResult.isPaymentCompleted())
                 .build();
 
         return res;
 
+    }
+
+    public boolean updateDeliveryAndDealState(Long auctionResultId) {
+        AuctionResult foundAuctionResult = auctionResultRepository.findById(auctionResultId).get();
+        try{
+            foundAuctionResult.setDeliveryCompleted(true);
+            foundAuctionResult.setDealCompleted(true);
+
+            auctionResultRepository.save(foundAuctionResult);
+            return true;
+        } catch (Exception e) {
+            e.printStackTrace();
+            return false;
+        }
     }
 
 

@@ -38,13 +38,18 @@ public class AuctionResult extends BaseTimeEntity implements Serializable {
     @JsonIgnore
     private  User buyer;
 
-    @Column
-    private boolean dealCompleted;
 
     @Column
     private Long auctionedPrice;
 
     @Column
-    @CreatedDate
-    private LocalDateTime createdAt;
+    private boolean dealCompleted;
+
+    @Column
+    private boolean deliveryCompleted;
+
+    @Column
+    private boolean paymentCompleted;
+
+
 }

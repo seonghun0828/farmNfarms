@@ -19,7 +19,7 @@ public class GetAllHistoryRes {
 
     // from AuctionResult
     private Long auctionedPrice;
-    private boolean dealCompleted;
     private Long auctionResultId;
 
+    private boolean dealCompleted;
 }
