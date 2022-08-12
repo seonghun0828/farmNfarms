@@ -1,25 +1,20 @@
 import axios from 'axios';
 import { OpenVidu } from 'openvidu-browser';
 import React, { useCallback, useEffect, useState } from 'react';
-import ChattingForm from '../Chat/ChattingForm';
-import ChattingList from '../Chat/ChattingList';
+import ChattingForm from '../chat/ChattingForm';
+import ChattingList from '../chat/ChattingList';
 import UserVideoComponent from './UserVideoComponent';
-import AuctionTimer from '../AuctionTimer/AuctionTimer';
+import AuctionTimer from '../auctiontimer/AuctionTimer';
 import send from './send';
-import { Person, PlayCircleFilled, Sell, Timer, ShutterSpeed } from '@mui/icons-material'
+import { Person, PlayCircleFilled, ExitToApp, Paid, Upload, Download, RequestQuote, Sell } from '@mui/icons-material'
 import { useNavigate } from "react-router-dom";
 import { Button } from '@mui/material';
 import logo from "../../assets/로고.svg";
 import './VideoRoomComponent.css';
 import styled from "styled-components";
 import { useLocation } from 'react-router-dom';
-import Loading from '../pages/Loading/Loading';
+import Loading from './Loading'
 import { useSelector } from 'react-redux';
-import UpButton from '../atoms/UpButton';
-import DownButton from '../atoms/DownButton';
-import SwipeButton from '../atoms/SwipeButton';
-import OnAirButton from '../atoms/OnAirButton';
-import LeaveButton from '../atoms/LeaveButton';
 
 const StyledDiv = styled.div`
   background: rgba(255, 255, 255, 0.2);
@@ -34,18 +29,11 @@ const StyledDiv = styled.div`
   text-align: center;
   font-weight: bold;
 `
-
 const WhiteDiv = styled.div`
   color: white;
 `
 
-const ButtonDiv = styled.div`
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  font-size: 16px;
-`
-
+// const OPENVIDU_SERVER_URL = 'https://' + window.location.hostname + ':4443';
 const OPENVIDU_SERVER_URL = 'https://i7b203.p.ssafy.io:8443';
 const OPENVIDU_SERVER_SECRET = 'MY_SECRET';
 
@@ -79,7 +67,6 @@ const VideoRoomComponent = () => {
   const [itemIndex, setItemIndex] = useState(0); // 물품 목록 인덱스
   const [chatDisplay, setChatDisplay] = useState(true); // 채팅창 보이기(초깃값: true) 
   const [isHost, setIsHost] = useState(false);
-  const [headerDisplay, setheaderDisplay] = useState(true); // 헤더 보이기(초깃값: true) 
 
   let OV = undefined;
 
@@ -152,64 +139,78 @@ const VideoRoomComponent = () => {
     });
   }
 
-  // 세션 아이디 설정
   useEffect(() => {
     setMySessionId(`Session${roomId}`)
   }, [])
 
   // 세션에 참여하기
   const joinSession = () => {
-    OV = new OpenVidu(); // --- 1) 오픈비두 오브젝트 생성 ---
+    // --- 1) 오픈비두 오브젝트 생성 ---
+    OV = new OpenVidu();
 
-    let mySession = OV.initSession() // --- 2) 세션을 시작 --
-
+    // --- 2) 세션을 시작 ---
+    let mySession = OV.initSession()
     setSession(mySession)
-
-    mySession.on('streamCreated', (event) => { // 스트림이 생길 때마다
-      const subscriber = mySession.subscribe(event.stream, 'publisher'); // 퍼블리셔를 구독자로 넣어줌
+    // 스트림이 생길 때마다
+    mySession.on('streamCreated', (event) => {
+      // 스트림 객체를 참가자에게 넘겨줌. 두번째 인자가 undefined이므로 HTML video를 스스로 생성하지 않음
+      // 퍼블리셔를 구독자로 넣어줌
+      const subscriber = mySession.subscribe(event.stream, 'publisher'); // undefined
+      // 참가자 배열을 최신화
+      // setSubscribers((preSubscribers) => { return [...preSubscribers, subscriber] })
       setSubscribers(subscriber)
+      // setPublisher(subscriber)
     });
 
-    mySession.on('streamDestroyed', (event) => { // 스트림을 종료할 때마다
-      deleteSubscriber(event.stream.streamManager); // 참가자 배열에서 스트림 객체를 제거함
+    // 스트림을 종료할 때마다
+    mySession.on('streamDestroyed', (event) => {
+      // 참가자 배열에서 스트림 객체를 제거함
+      deleteSubscriber(event.stream.streamManager);
     });
 
-    mySession.on('exception', (exception) => { // 예외 처리
+    // On every asynchronous exception...
+    mySession.on('exception', (exception) => {
       console.warn(exception);
     });
 
-    mySession.on('connectionCreated', (({ stream }) => { // 유저가 접속할 때마다 인원수를 += 1
+    // 유저가 접속할 때마다 인원수를 += 1
+    mySession.on('connectionCreated', (({ stream }) => {
       setTotalUsers((prevTotalUsers) => {
         return prevTotalUsers + 1
       })
     }))
 
-    mySession.on('connectionDestroyed', (({ stream }) => { // 유저가 접속을 끊을 때마다 -= 1
+    // 유저가 접속을 끊을 때마다 -= 1 (왜 안 돼 ~~)
+    mySession.on('connectionDestroyed', (({ stream }) => {
       setTotalUsers((prevTotalUsers) => {
         return prevTotalUsers - 1
       })
     }))
 
-    mySession.on("signal:chat", (event) => { // 채팅 신호 수신하여 메세지 리스트 업데이트
-      setMessageList((prevMessageList) => { 
+    // 채팅 신호 수신하여 메세지 리스트 업데이트
+    mySession.on("signal:chat", (event) => {
+      setMessageList((prevMessageList) => {
         return [...prevMessageList, event.data]
       })
     });
 
-    mySession.on("signal:auction", (event) => { // "auction"이라는 시그널을 받음(경매 시작)
+    // "auction"이라는 시그널을 받음(경매 시작)
+    mySession.on("signal:auction", (event) => {
       setToggleStart(event.data)
       setDisplayBidding(!displayBidding)
       setChatDisplay(false)
     });
 
-    mySession.on("signal:timer", (event) => { // "timer"라는 시그널을 받아서 시간을 초기 셋팅함
+    // "timer"라는 시그널을 받아서 시간을 30초로 셋팅함
+    mySession.on("signal:timer", (event) => {
       setSeconds(event.data) // 시간 세팅
       setSessionCount((prevCount) => { // 경매 세션 카운트 + 1
         return prevCount + 1
       })
     });
 
-    mySession.on("signal:bidding", (event) => { // "bidding"이라는 시그널을 받아서 최고 입찰가를 갱신함
+    // "bidding"이라는 시그널을 받아서 최고 입찰가를 갱신함
+    mySession.on("signal:bidding", (event) => {
       const tmp = event.data.split(" : ")
       const username = tmp[0]
       const newPrice = parseInt(tmp[1])
@@ -238,8 +239,8 @@ const VideoRoomComponent = () => {
             insertMode: 'APPEND', // How the video is inserted in the target element 'video-container'
             mirror: true, // Whether to mirror your local video or not
           });
-
-          mySession.publish(publisher); // --- 6) 자신의 화면을 송출 ---
+          // --- 6) 자신의 화면을 송출 ---Set the main video in the page to display our webcam and store our Publisher
+          mySession.publish(publisher);
           setPublisher(publisher) // 퍼블리셔(스트림 객체)를 담음
           setMainStreamManager(publisher) // 퍼블리셔(스트림 객체)를 담음
         })
@@ -249,8 +250,9 @@ const VideoRoomComponent = () => {
     });
   }
 
-  // 세선 떠나기 --- 7) disconnect함수를 호출하여 세션을 떠남
+  // 세선 떠나기
   const leaveSession = () => {
+    // --- 7) disconnect함수를 호출하여 세션을 떠남
     const mySession = session;
     if (mySession) {
       mySession.disconnect();
@@ -267,9 +269,11 @@ const VideoRoomComponent = () => {
     setMessageList([])
     setToggleStart(false)
     setChatDisplay(true)
-    setTotalUsers((prevTotalUsers) => { return 0 })
+    setTotalUsers((prevTotalUsers) => {
+      return 0
+    })
     setItemIndex(0) // 0으로 바꿔줘야 방을 파고 다시 들어왔을 때 목록을 0부터 시작할 수 있음
-    setSeconds(0) // 시간 초를 0초로 초기화
+    setSeconds(0)
     setIsHost(false) // isHost를 false로 설정함
   }
 
@@ -374,8 +378,8 @@ const VideoRoomComponent = () => {
     }
   }
 
-  // 경매 결과 백엔드 api 호출
   const sendAuctionResult = async() => {
+    // send함수를 호출해서 백엔드로 데이터를 보냄
     const payload = {
       auctionDetailId: items[itemIndex].id,
       sellerPhoneNumber: sellerPhoneNumber,
@@ -395,36 +399,19 @@ const VideoRoomComponent = () => {
     }
   }
 
-  // 로딩 페이지를 통한 방 입장
   const enterAuctionRoom = () => {
     joinSession()
   }
-
-  // 타이머 시작
-  const startTimer = () => {
-    // 시간이 다 됐을 때만 버튼이 작동 가능
-    if (seconds === 0 && sessionCount < 2) {
-      session
-        .signal({
-          data: 20,
-          type: "timer",
-        })
-        .then(() => {
-          console.log("timer ON!");
-        })
-        .catch((error) => {
-          console.error(error);
-        });
-    };
-  };
 
   return (
     <div className="container">
       {session === undefined && <Loading enterAuctionRoom={enterAuctionRoom}></Loading>}
       {session !== undefined ? (
         <div id="session">
+          {/* 화면 */}
           {mainStreamManager !== undefined ? (
             <div id="main-video">
+              {/* <UserVideoComponent streamManager={mainStreamManager} /> */}
               {isHost && <UserVideoComponent streamManager={publisher}></UserVideoComponent>}
               {!isHost && <UserVideoComponent streamManager={subscribers}></UserVideoComponent>}
             </div>
@@ -432,7 +419,7 @@ const VideoRoomComponent = () => {
           <div id="session-header">
             <div className="session-header2">
               <div className="img-tag">
-                <img className="profile-img" src={logo} alt="/"/>
+                <img className="profile-img" src={logo} />
                 <div style={{ color: 'white' }}>배추 아저씨</div>
               </div>
               <div>
@@ -440,9 +427,19 @@ const VideoRoomComponent = () => {
                   <div style={{ display: 'flex', justifyContent: 'base', alignItems: 'center' }}>
                     <Person style={{ color: 'red' }} /><span style={{ color: 'white' }}>{totalUsers}</span>
                   </div>
-                  <OnAirButton></OnAirButton>
+                  <Button variant="contained" style={{ backgroundColor: 'red', color: 'white', padding: '0px'}}>
+                    <span style={{ fontSize: 'x-small'}} >
+                      ●
+                    </span>
+                    <span style={{fontSize: 'medium', padding: '3px', fontWeight: 'bold', padding: '0px'}}>
+                      Live
+                    </span>
+                  </Button>
                 </div>
-                <LeaveButton leaveSession={leaveSession}></LeaveButton>
+                <Button className='mui-btn' onClick={leaveSession} variant="contained">
+                  나가기
+                  <ExitToApp />
+                </Button>
               </div>
             </div>
             <div className="session-header2">
@@ -450,19 +447,9 @@ const VideoRoomComponent = () => {
                 <Sell></Sell>
                 물품 목록
               </Button>
-              {!toggleStart && isHost && <Button className='mui-btn' variant="contained" onClick={startAuction}>
+              {!toggleStart && <Button className='mui-btn' variant="contained" onClick={startAuction}>
                 <PlayCircleFilled />
                 세션 시작
-              </Button>}
-              {toggleStart && isHost && <Button className='mui-btn' variant="contained" onClick={startTimer}>
-                {seconds === 0 && <ButtonDiv>
-                  <Timer></Timer>
-                  타이머 시작
-                </ButtonDiv>}
-                {seconds !== 0 && <ButtonDiv>
-                  <ShutterSpeed></ShutterSpeed>
-                  진행중
-                </ButtonDiv>}
               </Button>}
             </div>
           </div>
@@ -486,7 +473,7 @@ const VideoRoomComponent = () => {
                 maxIndex={items.length}
                 isHost={isHost}
               /></StyledDiv>
-            {/* <StyledDiv>
+            <StyledDiv>
               <span>
                 {items[itemIndex].productTitle}
                 {items[itemIndex].grade}
@@ -513,6 +500,14 @@ const VideoRoomComponent = () => {
                 {tempBestBidder && <p>{tempBestBidder}</p>}
               </WhiteDiv>
             </StyledDiv>
+            <Button
+              variant="contained"
+              style={{ background: '#0F9749', width: '350px', fontSize: '16px', fontWeight: 'bold' }}
+              onClick={biddingHandler}
+            >
+              <RequestQuote></RequestQuote>
+              응찰하기
+            </Button>
             <StyledDiv>
               <span>
                 내 응찰 가격
@@ -520,19 +515,27 @@ const VideoRoomComponent = () => {
               <WhiteDiv>
                 ￦{price.toLocaleString('ko-KR')}원
               </WhiteDiv>
-            </StyledDiv> */}
-            <StyledDiv style={{ width: '350px', display: 'flex', justifyContent: 'space-between' }}>
-              <div>
-                <div>
-                  <SwipeButton></SwipeButton>
-                  밀어서 경매입찰 버튼 활성화 후 입찰하기
-                </div>
-              </div>
-              <div style={{display: 'flex', flexDirection: 'column'}}>
-                <UpButton priceUpHandler={priceUpHandler}/>
-                <DownButton priceDownHandler={priceDownHandler}/>
-              </div>
             </StyledDiv>
+            <div style={{ width: '350px' }}>
+              <Button
+                variant='contained'
+                style={{ fontSize: '16px', fontWeight: 'bold', width: '175px' }}
+                onClick={priceDownHandler}
+              >
+                <Paid></Paid>
+                <Download></Download>
+                내리기
+              </Button>
+              <Button
+                variant='contained'
+                style={{ fontSize: '16px', fontWeight: 'bold', width: '175px' }}
+                onClick={priceUpHandler}
+              >
+                <Paid></Paid>
+                <Upload></Upload>
+                올리기
+              </Button>
+            </div>
           </div>}
           {chatDisplay && <div id="message-footer">
             <ChattingList messageList={messageList}></ChattingList>
