@@ -29,7 +29,6 @@ public class ProductContoller {
             @ApiResponse(code = 500, message = "서버 오류", response = BaseResponseBody.class)
     })
     public ResponseEntity<ProductGetRes> productMain() {
-
         return ResponseEntity.ok(ProductGetRes.of(200, "Success", productService.getMain()));
     }
 
