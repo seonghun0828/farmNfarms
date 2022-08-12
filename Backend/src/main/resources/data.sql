@@ -12,7 +12,7 @@ VALUES
 ('string', 'string9', 'string', 'string', 100);
 
 INSERT INTO user (account, address, name, password, phone, data_create, IMAGE_ID)
-VALUES ('110-342-143345', '충청남도 논산시 가야곡면 종연리 123-1', '홍길동', '1234','01000000001', now(), 1)
+VALUES ('110-342-143345', '충청남도 논산시 가야곡면 종연리 123-1', '홍길동', '1234','01000000001', now(), 1);
 
 
 INSERT INTO AUCTION_ROOM (created_at, auction_room_description, thumbnail_id, auction_room_title, auctioned, owner_id)
