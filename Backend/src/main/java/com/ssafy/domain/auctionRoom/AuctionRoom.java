@@ -1,18 +1,13 @@
 package com.ssafy.domain.auctionRoom;
 
 import com.ssafy.domain.BaseTimeEntity;
-import com.ssafy.domain.auctionDetail.AuctionDetail;
 import com.ssafy.domain.imgae.Image;
-import com.ssafy.domain.user.User;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
-import org.springframework.data.annotation.CreatedDate;
 
 import javax.persistence.*;
-import java.time.LocalDateTime;
-import java.time.ZonedDateTime;
 
 @Entity
 @Getter
@@ -39,10 +34,6 @@ public class AuctionRoom extends BaseTimeEntity {
 
     @Column
     private Long ownerId;
-
-    @CreatedDate
-    @Column
-    private LocalDateTime createdAt;
 
     public AuctionRoom(String auctionRoomTitle, String auctionRoomDescription, Long auctionRoomThumbnail, Long ownerId) {
         this.auctionRoomTitle = auctionRoomTitle;
