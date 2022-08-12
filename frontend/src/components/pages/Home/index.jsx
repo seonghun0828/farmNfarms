@@ -6,7 +6,7 @@ import SearchBar from '../../molecules/SearchBar';
 import Text from '../../atoms/Text';
 import Button from '../../atoms/Button';
 import Carousel from '../../molecules/Carousel';
-import { useNavigate } from 'react-router-dom';
+import { useNavigate, createSearchParams } from 'react-router-dom';
 import move from '../../../common/move'
 import MainPriceCard from '../../molecules/MainPriceCard';
 import main_price from './main_price'
@@ -88,6 +88,35 @@ const Home = () => {
     setPriceItems(await main_price());
   }
 
+
+// --검색------------------------------------
+  const [keyword, setKeyword] = useState('');
+  const [params, setParams] = useState(null);
+
+  const SearchKey = () => {
+    if(keyword) {
+      setParams({key: keyword,});
+    } else {
+      setParams({});
+    }
+  }
+
+  useEffect(() => {
+    if (params) {
+      navigate({
+        pathname: '/auctionrooms',
+        search: `${createSearchParams(params)}`,
+      },  
+      {// auctionrooms로 keyword랑 query 보내주기
+        state: {
+          keyword,
+          params
+        }
+      })
+    }
+  }, [params]);
+// ---------------------------------------
+
   useEffect(() => {
     getMainPrice();
     getRoomInfos();
@@ -101,7 +130,7 @@ const Home = () => {
       <Navbar url={logo} navigate={navigate} isLogin={isLogin} setIsLogin={setIsLogin} imgSize="xs" fontSize="sm" mode="graytext" />
       <FlexSearchArea>
         <SearchArea>
-          <SearchBar />
+          <SearchBar value={keyword} setKeyword={setKeyword} SearchKey={SearchKey}/>
         </SearchArea>
       </FlexSearchArea>
       <RoomCardArea>
