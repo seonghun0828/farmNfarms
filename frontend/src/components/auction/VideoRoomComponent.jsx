@@ -17,7 +17,7 @@ import Loading from './Loading'
 import { useSelector } from 'react-redux';
 
 const StyledDiv = styled.div`
-  background: rgba(255, 255, 255, 0.3);
+  background: rgba(255, 255, 255, 0.2);
   border-radius: 5px;
   width: 350px;
   margin-left: 5px;
