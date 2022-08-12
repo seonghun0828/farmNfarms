@@ -20,21 +20,15 @@ public class Product {
     private String direction;
     private String value;
     private String date;
-    private String price0;
-    private String price1;
-    private String price30;
-    private String price365;
+    private String price;
 
     @Builder
-    public Product(String name, String unit, String direction, String value, String date, String price0, String price1, String price30, String price365) {
+    public Product(String name, String unit, String direction, String value, String date, String price) {
         this.name = name;
         this.unit = unit;
         this.direction = direction;
         this.value = value;
         this.date = date;
-        this.price0 = price0;
-        this.price1 = price1;
-        this.price30 = price30;
-        this.price365 = price365;
+        this.price = price;
     }
 }
