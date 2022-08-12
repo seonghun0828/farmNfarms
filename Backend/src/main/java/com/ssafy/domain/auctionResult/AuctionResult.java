@@ -51,5 +51,4 @@ public class AuctionResult extends BaseTimeEntity implements Serializable {
     @Column
     private boolean paymentCompleted;
 
-
 }
