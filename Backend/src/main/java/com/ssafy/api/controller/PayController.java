@@ -60,7 +60,7 @@ public class PayController {
         ResponseEntity<PayApprovalRes> payApprovalRes = payService.paySuccess(payApprovalVO, pg_token);
         System.out.println(payApprovalRes.toString());
 
-        auctionResult.setDealCompleted(true);
+        auctionResult.setPaymentCompleted(true);
         auctionResultRepository.save(auctionResult);
         return payApprovalRes;
     }

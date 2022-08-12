@@ -34,6 +34,8 @@ public class CreateAuctionResultService {
                 .seller(seller)
                 .auctionedPrice(request.getAuctionedPrice())
                 .dealCompleted(false)
+                .deliveryCompleted(false)
+                .paymentCompleted(false)
                 .auctionDetail(auctionDetail)
                 .build();
 

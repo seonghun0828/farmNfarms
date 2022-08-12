@@ -22,5 +22,9 @@ public class GetSellHistoryDetailRes {
     private String buyerPhoneNumber;
     private String buyerAddress;
 
+    // 경매 정보
+    private boolean deliveryCompleted;
+    private boolean paymentCompleted;
+
 
 }
