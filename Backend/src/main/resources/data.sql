@@ -11,10 +11,6 @@ VALUES
 ('string', 'string9', 'string', 'string', 100),
 ('string', 'string9', 'string', 'string', 100);
 
-INSERT INTO user (account, address, name, password, phone, data_create, IMAGE_ID)
-VALUES ('110-342-143345', '충청남도 논산시 가야곡면 종연리 123-1', '홍길동', '1234','01000000001', now(), 1),
-('123-456-789011', '충청남도 논산시 중앙로345길', '홍홍홍', '1234','01000000000', now(), 1);
-
 
 INSERT INTO AUCTION_ROOM (created_at, auction_room_description, thumbnail_id, auction_room_title, auctioned, owner_id)
 VALUES
@@ -35,6 +31,7 @@ VALUES
 (10000, '중', '고구마', 1000000, 10000, 1),
 (10000, '중', '딸기', 1000000, 10000, 2),
 (10000, '상', '사과', 1000000, 10000, 2);
+
 
 INSERT INTO AUCTION_RESULT (created_at, auctioned_price, deal_completed, payment_completed, delivery_completed, auction_detail_id, seller_id, buyer_id)
 VALUES
