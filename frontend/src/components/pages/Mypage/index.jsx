@@ -61,6 +61,7 @@ const ItemInfoArea = styled.div`
 `;
 const Mypage = () => {
   const [name, setName] = useState(null);
+  const [img, setImg] = useState(null);
   const [isSalesHistory, setIsSalesHistory] = useState(true);
   const [isLogin, setIsLogin] = useState(localStorage.getItem('isLogin'));
   const navigate = useNavigate();
@@ -82,8 +83,9 @@ const Mypage = () => {
   }
 
   const updateName = async () => {
-    const { name } = await getMyInfo(phoneNumber);
+    const { name, picturePath } = await getMyInfo(phoneNumber);
     setName(name);
+    setImg(picturePath);
   }
 
   const { data, isLoading, isError } = useQuery(
@@ -106,11 +108,11 @@ const Mypage = () => {
     <StyledMypage>
         <Navbar url={logo} navigate={navigate} isLogin={isLogin} setIsLogin={setIsLogin} imgSize="xs" fontSize="sm" mode="graytext" />      <ProfileArea>
         <ProfileImageArea>
-          <Image src={logo} alt="profile" />
+          <Image src={img} alt="profile" isCircle />
         </ProfileImageArea>
         <ProfileButtonArea>
           <Button width="10rem" height="2rem" fontSize='lg'>
-            {name}
+            {name} 님
           </Button>
           <Button width="10rem" height="2rem" fontSize='lg' mode="highlight" onClick={moveToUpdate}>
             회원정보 수정

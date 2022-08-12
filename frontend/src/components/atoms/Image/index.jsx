@@ -9,15 +9,23 @@ const size = css`
         `
     }
 `
+const isCircle = css`
+    ${({isCircle}) => isCircle &&
+        css`
+            border-radius: 10rem;
+        `
+    }
+`
 const StyledImage = styled.img`
     width: 100%;
     height: 100%;
     ${size}
+    ${isCircle}
 `
 
-const Image = ({...rest}) => {
+const Image = ({isCircle, ...rest}) => {
     return(
-        <StyledImage {...rest} />
+        <StyledImage isCircle={isCircle} {...rest} />
     )
 }
 
