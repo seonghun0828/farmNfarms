@@ -437,8 +437,18 @@ const VideoRoomComponent = () => {
                 <div style={{ color: 'white' }}>배추 아저씨</div>
               </div>
               <div>
-                <div>
-                  <Person style={{ color: 'red' }} /><span style={{ color: 'white' }}>{totalUsers}</span>
+                <div style={{display: 'flex', justifyContent: 'space-between', margin: '5px'}}>
+                  <div style={{ display: 'flex', justifyContent: 'base', alignItems: 'center' }}>
+                    <Person style={{ color: 'red' }} /><span style={{ color: 'white' }}>{totalUsers}</span>
+                  </div>
+                  <Button variant="contained" style={{ backgroundColor: 'red', color: 'white', padding: '0px'}}>
+                    <span style={{ fontSize: 'x-small'}} >
+                      ●
+                    </span>
+                    <span style={{fontSize: 'medium', padding: '3px', fontWeight: 'bold', padding: '0px'}}>
+                      Live
+                    </span>
+                  </Button>
                 </div>
                 <Button className='mui-btn' onClick={leaveSession} variant="contained">
                   나가기
