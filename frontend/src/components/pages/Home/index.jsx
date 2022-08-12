@@ -13,27 +13,28 @@ import main_price from './main_price'
 import RoomCard from '../../molecules/RoomCard';
 import AutoCarousel from '../../molecules/AutoCarousel';
 import room_infos from './room_infos';
-import { AddCircle } from '@mui/icons-material';
-import ArrowForwardIosIcon from '@mui/icons-material/ArrowForwardIos';
+import theme from '../../../common/theme';
 
 const StyledHome = styled.div``;
 const FlexSearchArea = styled.div`
   ${({ theme }) => theme.flex.rowCenter}
-  height: 5rem;
+  height: 4.5rem;
 `;
 const SearchArea = styled.div`
   width: 90%;
 `;
 const RoomCardArea = styled.div`
+  height: 16rem;
 `;
+
 const MarketPriceArea = styled.div`
-  margin-top: 1rem;
+  height: 6rem;
 `;
 
 const SectionTitle = styled.div`
   display: flex;
   flex-direction: column;
-  margin: 0 0.5rem 0.5rem 0.5rem;
+  margin: 0.5rem 0.6rem 1rem 0.6rem;
 `
 
 const MoreInfo = styled.div`
@@ -47,7 +48,6 @@ const AddRoomArea = styled.div`
   right: 1rem;
   display: flex;
   justify-content: flex-end;
-  padding-right: 1rem;
 `;
 
 const Div = styled.div`
@@ -62,7 +62,18 @@ const Div = styled.div`
 `;
 
 const MoreButton = styled.div`
-
+  border-radius: 50%;
+  background-size: cover;
+  background: no-repeat;
+  background-size: 50%;
+  background-position: center;
+  background-image: url('/assets/video-camera.svg');
+  background-color: ${theme.colors.green3};
+  padding: 2rem;
+  width: 3rem;
+  height: 3rem;
+  box-shadow: 3px 3px 10px rgba(0, 0, 0, 0.5);
+  cursor: pointer;
 `
 
 const Home = () => {
@@ -127,60 +138,65 @@ const Home = () => {
 
   return (
     <StyledHome>
-      <Navbar url={logo} navigate={navigate} isLogin={isLogin} setIsLogin={setIsLogin} imgSize="xs" fontSize="sm" mode="graytext" />
+      <Navbar url={logo} navigate={navigate} isLogin={isLogin} setIsLogin={setIsLogin} imgSize="sm" fontSize="sm" mode="blacktext" />
       <FlexSearchArea>
         <SearchArea>
           <SearchBar value={keyword} setKeyword={setKeyword} SearchKey={SearchKey}/>
         </SearchArea>
       </FlexSearchArea>
+      <SectionTitle>
+        <Text fontSize="xxl" weight="bold">
+          빨리 들어와유
+        </Text>
+        <MoreInfo>
+          <Button mode="graytext" fontSize="md" fontWeight="normal" onClick={moveToAuctionRooms}>
+            전체보기
+          </Button>
+        </MoreInfo>
+      </SectionTitle>
       <RoomCardArea>
-        <SectionTitle>
-          <Text fontSize="xl" weight="bold">
-            빨리 들어와유
-          </Text>
-          <MoreInfo>
-            <Button mode="graytext" fontSize="md" fontWeight="" onClick={moveToAuctionRooms}>
-              더보기
-            </Button>
-          </MoreInfo>
-        </SectionTitle>
-        {roomInfos ?         
-        <Carousel>
-          {roomInfos.map((roominfo, index) => (
-            <Div pl={0.5} pr={0.5} key={index}>
-              <RoomCard {...roominfo}/>
-            </Div>))
-          }
-        </Carousel>
-         : <div>isLoading</div>} 
-        {/* isLoading 말고 좋은거 없나 시청자수 가져올 수 있는지 물어보기*/}
+      {roomInfos ?         
+      <Carousel>
+        {roomInfos.map((roominfo, index) => (
+          <Div pl={0.5} pr={0.5} key={index}>
+            <RoomCard {...roominfo}/>
+          </Div>))
+        }
+      </Carousel>
+        : <div>isLoading</div>} 
+      {/* isLoading 말고 좋은거 없나 시청자수 가져올 수 있는지 물어보기*/}
       </RoomCardArea>
+      <Div mt={3.5}/>
+      <SectionTitle>
+        <Text fontSize="xxl" weight="bold">
+          농산물 시세
+        </Text>
+        <MoreInfo>
+          <Button mode="graytext" fontSize="md" fontWeight="normal" onClick={moveToPrice}>
+            전체보기
+          </Button>
+        </MoreInfo>
+      </SectionTitle>
       <MarketPriceArea>
-        <SectionTitle>
-          <Text fontSize="xl" weight="bold">
-            농산물 시세
-          </Text>
-          <MoreInfo>
-            <Button mode="graytext" fontSize="md" onClick={moveToPrice}>
-              더보기
-            </Button>
-          </MoreInfo>
-        </SectionTitle>
         {priceItems ?         
-        <AutoCarousel slideLength={10}>
+        <AutoCarousel slideLength={20}>
           {priceItems.map((priceItem, index) => (
-            <MainPriceCard {...priceItem} key={index}></MainPriceCard>
+            <Div pl={1} key={index}>
+              <MainPriceCard {...priceItem} key={index}></MainPriceCard>
+            </Div>
           ))}            
         </AutoCarousel> : <div>isLoading</div>}
       </MarketPriceArea>
       <AddRoomArea>
-        <Button mode="graytext" fontSize="lg" onClick={() => window.alert(localStorage.getItem('isLogin'))}>
+        {/* <Button mode="graytext" fontSize="lg" onClick={() => window.alert(localStorage.getItem('isLogin'))}>
           로컬스토리지 테스트 버튼
         </Button>
         <Button mode="graytext" fontSize="titleSize" onClick={moveToCreate}>
           <AddCircle style={{height: '50px', width: '50px'}}/>
-        </Button>
+        </Button> */}
+        <MoreButton onClick={moveToCreate}/>
       </AddRoomArea>
+      <Div mt={3}></Div>
     </StyledHome>
   );
 };

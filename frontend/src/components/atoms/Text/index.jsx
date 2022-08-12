@@ -48,9 +48,9 @@ const Text = ({children, color, size, weight, ...rest}) => {
 }
 
 Text.defaultProps = {
-  color: theme.colors.black,
-  size: theme.fontSizes.md,
-  weight: theme.fontWeights.normal,
+  color: "black",
+  size: "md",
+  weight: "normal",
 };
 
 export default Text;

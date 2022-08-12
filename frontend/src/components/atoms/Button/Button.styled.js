@@ -8,6 +8,7 @@ const textColor = {
   highlight: theme.colors.black,
   graytext: theme.colors.gray2,
   whitetext: theme.colors.white,
+  blacktext: theme.colors.black,
 };
 
 const bgColor = {
@@ -16,7 +17,8 @@ const bgColor = {
   third: theme.colors.green5,
   highlight: theme.colors.green1,
   graytext: 'transparent',
-  whitetext: 'transparent'
+  whitetext: 'transparent',
+  blacktext: 'transparent',
 };
 
 const borderColor = {
@@ -25,7 +27,8 @@ const borderColor = {
   third: theme.colors.green5,
   highlight: theme.colors.green1,
   graytext: 'transparent',
-  whitetext: 'transparent'
+  whitetext: 'transparent',
+  blacktext: 'transparent',
 };
 
 export const StyledTextButton = styled.div`
@@ -33,7 +36,7 @@ export const StyledTextButton = styled.div`
 
   color: ${({mode}) => textColor[mode]};
 
-  font-weight: ${theme.fontWeights.bold};
+  font-weight: ${({fontWeight}) => theme.fontWeights[fontWeight]};
   font-size: ${({fontSize}) => theme.fontSizes[fontSize]};
   text-align: center;
   text-decoration: none;
