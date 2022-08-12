@@ -44,14 +44,30 @@ const InputText = styled.input`
   }
 `;
 
-const SearchBar = ({...rest}) => {
+const SearchBar = ({value, setKeyword, SearchKey, ...rest}) => {
+  const onChangeHandler = (e) => {
+    setKeyword(e.target.value);
+  }
+
+  const onKeyPressHandler = (e) => {
+    if (e.key === 'Enter') {
+      SearchKey();
+    }
+  }
+
   return (
     <InputBox {...rest}>
       <SearchIcon 
         style={{cursor: 'pointer'}}
         {...rest}
       />
-      <InputText placeholder="검색어를 입력하세요" {...rest}/>
+      <InputText 
+        placeholder="검색어를 입력하세요" 
+        value={value}
+        onChange={onChangeHandler}
+        onKeyPress={onKeyPressHandler}
+        {...rest}
+      />
     </InputBox>
   );
 }
