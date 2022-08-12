@@ -65,10 +65,10 @@ const productSuggestions = [
   '배추', '당근', '멜론', '수박', '오이', '감자', '고구마', '옥수수', '연근', '대파', '파', '감', '레몬', '오렌지',
   '사과', '토마토', '딸기', '양파', '양상추', '양배추', '햇감자', '햇고구마', '고추', '청양고추', '망고', '두리안',
   '파인애플', '감귤', '귤', '복숭아', '포도', '청포도', '아보카도', '키위', '골드키위', '코코넛', '배', '바나나',
-  '가지', '체리', '풋사과', '브로콜리', '표고버섯', '송이버섯', '노루궁뎅이버섯', '땅콩', '밤',
+  '가지', '체리', '풋사과', '브로콜리', '표고버섯', '송이버섯', '노루궁뎅이버섯', '땅콩', '밤', '마늘'
 ];
 
-const Autocomplete = () => {
+const Autocomplete = ({ items, name }) => {
   const [suggestions, setSuggestions] = useState(productSuggestions); // 자동완성 추천 목록
   const [itemIdx, setItemIdx] = useState(-1); // suggestion에 대한 아이템 인덱스
   const [inputText, setInputText] = useState(''); // 텍스트 입력값
@@ -93,11 +93,13 @@ const Autocomplete = () => {
   const textChangeHandler = (event) => {
     setInputText(event.target.value);
     setIsAutocompleting(true);
+    items[name] = event.target.value;
   };
 
   const selectSuggestion = (item) => {
     setInputText(item);
     setIsAutocompleting(false);
+    items[name] = item;
   };
 
   return (
