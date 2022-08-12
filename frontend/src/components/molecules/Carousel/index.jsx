@@ -1,9 +1,10 @@
 import { useRef } from 'react'
 import styled from 'styled-components'
 
+// container 높이 auto 였는데 박스 그림자가 잘려서 안보여서 룸카드에 맞춰줬음
 const Container = styled.div`
   width: 100%;
-  height: auto;
+  height: 17rem; 
   overflow: hidden;
 `
 
