@@ -61,6 +61,9 @@ public class ProductService {
                 Node nNode = nList.item(i);
                 if(nNode.getNodeType() == Node.ELEMENT_NODE) {
                     Element element = (Element) nNode;
+
+                    if(getTagValue("product_cls_name", element).equals("소매")) continue;
+
                     Product product = Product.builder()
                                             .name(getTagValue("item_name", element).split("/")[0])
                                             .unit(getTagValue("unit", element))
