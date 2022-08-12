@@ -16,9 +16,11 @@ const flexRow = css`
 const StyledNavbar = styled.div`
     ${flexRow}
     width: 100%;
-    background: ${({theme}) => css`${theme.colors['background']}`};
-    padding: 0.5rem 1rem;
+    background: ${({theme}) => css`${theme.colors['white']}`};
+    padding: 0.5rem 1rem 0.5rem 0.3rem;
     justify-content: space-between;
+    box-shadow: 1px 1px 8px rgba(0, 0, 0, 0.1);
+    height: 3.5rem;
 `
 
 const Buttons = styled.div`
