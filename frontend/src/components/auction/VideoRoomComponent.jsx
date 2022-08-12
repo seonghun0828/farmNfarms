@@ -33,17 +33,6 @@ const WhiteDiv = styled.div`
   color: white;
 `
 
-// const StyledDiv = styled.div`
-//   background: rgba(255, 255, 255, 0.3);
-//   width: 300px;
-//   margin-left: 5px;
-//   margin-right: 5px;
-//   position: absolute;
-//   top: 50%;
-//   left: 50%;
-//   transform: translate(-50%, -50%);
-// `
-
 // 추가하고픈 기능 => 채팅창이 스크롤 위인 상태에서 누군가 채팅을 쳤으면 새로운 메세지 보기가 뜨고 클릭하면 이동
 // 경매방 나가기 기능 정교화(요약 페이지를 보고 나가게 하기로 바꾸기?)
 
