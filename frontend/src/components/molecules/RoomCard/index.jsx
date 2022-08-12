@@ -3,17 +3,19 @@ import styled from 'styled-components';
 import roomDetail from './roomDetail';
 import RoomDetailModal from '../../molecules/RoomDetailModal';
 import TextEllipsis from '../../atoms/TextEllipsis';
+import LiveTag from '../../atoms/LiveTag';
 
 const Card = styled.div`
   position: relative;
   width: 10rem;
   height: 16rem;
   background-color: rgba(0, 0, 0, 0.3);
-  border-radius: 0.5rem;
+  border-radius: 1.2rem;
   background-image: url('${({thumbnail}) => thumbnail}');
   background-size: cover;
   background-repeat: no-repeat;
   background-position: center;
+  box-shadow: 4px 4px 4px rgba(0, 0, 0, 0.2);
 `
 
 const CardBottom = styled.div`
@@ -22,7 +24,7 @@ const CardBottom = styled.div`
   width: 100%;
   height: 4rem;
   background-color: rgba(0, 0, 0, 0.3);
-  border-radius: 0 0 0.5rem 0.5rem;
+  border-radius: 0 0 1.2rem 1.2rem;
   display: flex;
   justify-content: flex-start;
   align-items: center;
@@ -44,9 +46,20 @@ const OwnerPicture = styled.div`
 const ColoumFlex = styled.div`
   display: flex;
   flex-direction: column;
-  justify-content: center;
-  align-items: center;
+  justify-content: space-around;
+  height: 3rem;
 `
+
+const Div = styled.div`
+  margin-top: ${(props) => props.mt + 'rem'};
+  margin-bottom: ${(props) => props.mb + 'rem'};
+  margin-left: ${(props) => props.ml + 'rem'};
+  margin-right: ${(props) => props.mr + 'rem'};
+  padding-top: ${(props) => props.pt + 'rem'};
+  padding-bottom: ${(props) => props.pb + 'rem'};
+  padding-left: ${(props) => props.pl + 'rem'};
+  padding-right: ${(props) => props.pr + 'rem'};
+`;
 
 const RoomCard = ({ id, auctionRoomThumbnail, auctionRoomTitle, auctionRoomDescription, ownerName, ownerPicture, ownerPhoneNumber }) => {
   const [isOnModal, setIsOnModal] = useState(false);
@@ -79,13 +92,16 @@ const RoomCard = ({ id, auctionRoomThumbnail, auctionRoomTitle, auctionRoomDescr
         roomId={id}
         ownerPhone={ownerPhoneNumber}
       />}
+      <Div pt={0.5} pl={0.5}>
+        <LiveTag/>
+      </Div>
       <CardBottom>
         <OwnerPicture thumbnail={ownerPicture}/>
         <ColoumFlex>
-          <TextEllipsis color="white" width="100px">{ownerName}</TextEllipsis>
-          <TextEllipsis width="100px">
+          <TextEllipsis color="white" width="100px" weight="bold" fontSize="lg">
             {auctionRoomTitle}
           </TextEllipsis>
+          <TextEllipsis color="white" width="100px" fontSize="sm">{ownerName}</TextEllipsis>
         </ColoumFlex>
       </CardBottom> 
     </Card>

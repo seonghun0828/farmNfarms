@@ -8,11 +8,12 @@ const InputBox = styled.div`
   align-items: center;
 
   box-sizing: border-box;
-  height: 3rem;
+  height: 2.5rem;
   padding: 0 0.5rem;
 
-  border-radius: 5px;
+  border-radius: 1rem;
   background-color: ${theme.colors.gray1};
+  border: 2px solid white;
 
   color: ${theme.colors.gray2};
 
@@ -31,7 +32,7 @@ const InputText = styled.input`
   border: none;
   background: transparent;
   font-size: ${theme.fontSizes.md};
-  font-weight: ${theme.fontWeights.redular};
+  font-weight: ${theme.fontWeights.normal};
   color: ${theme.colors.black};
   transition: 0.3s;
 
