@@ -5,10 +5,7 @@ import com.ssafy.api.request.CreateAuctionRoomReq;
 import com.ssafy.api.response.AuctionRoomsInfoRes;
 import com.ssafy.api.response.CreateAuctionRoomRes;
 import com.ssafy.api.response.FileInfoRes;
-import com.ssafy.api.service.CreateAuctionRoomService;
-import com.ssafy.api.service.GetAuctionRoomInfoService;
-import com.ssafy.api.service.FileService;
-import com.ssafy.api.service.SessionService;
+import com.ssafy.api.service.*;
 import com.ssafy.api.dto.AuctionRoomDto;
 import com.ssafy.domain.auctionDetail.AuctionDetail;
 import io.swagger.annotations.Api;
@@ -47,6 +44,7 @@ public class SessionController {
 
     private final GetAuctionRoomInfoService getAuctionRoomInfoService;
 
+    private final DeleteAuctionRoomService deleteAuctionRoomService;
 
     @PostMapping("/create-room/{phoneNumber}")
     @ApiOperation(value = "방 생성", notes = "방 생성 정보를 받아 저장하고, kms 를 통해 token을 전달한다.")
@@ -116,6 +114,19 @@ public class SessionController {
     @ApiOperation(value = "방 상세 정보 조회", notes = "roomNumber에 해당하는 방의 상세정보를 조회합니다.")
     public ResponseEntity<List<AuctionDetail>> getAuctionDetailsInfo(@PathVariable Long roomNumber) {
         return ResponseEntity.ok(getAuctionRoomInfoService.getAuctionDetailsInfo(roomNumber));
+    }
+
+    @DeleteMapping("/{roomNumber}")
+    @ApiOperation(value = "경매방 삭제", notes = "auctionRoomId를 전달받아 경매방을 삭제합니다.")
+    public ResponseEntity<HashMap<String, Boolean>> deleteAuctionRoom(@PathVariable Long roomNumber) {
+
+        boolean isSuccess = deleteAuctionRoomService.deleteAuctionRoom(roomNumber);
+
+        HashMap<String, Boolean> jsonMap = new HashMap<>();
+        if(isSuccess) jsonMap.put("success", true);
+        else jsonMap.put("success", false);
+
+        return ResponseEntity.ok(jsonMap);
     }
 
 }
