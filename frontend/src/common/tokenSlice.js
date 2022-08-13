@@ -3,7 +3,9 @@ import { createSlice } from "@reduxjs/toolkit";
 const initialState = {
     value: {
         phone: '',
-        accessToken: ''
+        accessToken: '',
+        auctionResultId: '',
+        isSalesHistory: false,
     }
 }
 
@@ -12,7 +14,10 @@ export const tokenSlice = createSlice({
     initialState,
     reducers: {
         save: (state, token) => {
-            state.value = token.payload;
+            state.value = {
+                ...state.value,
+                ...token.payload
+            }
         }
     }
 })
