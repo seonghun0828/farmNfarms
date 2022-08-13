@@ -4,7 +4,7 @@ import React, { useCallback, useEffect, useState } from 'react';
 import ChattingForm from '../Chat/ChattingForm';
 import ChattingList from '../Chat/ChattingList';
 import UserVideoComponent from './UserVideoComponent';
-import AuctionTimer from '../AuctionTimer/AuctionTimer';
+import AuctionTimer from '../auctiontimer/AuctionTimer';
 import send from './send';
 import { Person, PlayCircleFilled, Sell, Timer, ShutterSpeed } from '@mui/icons-material'
 import { useNavigate } from "react-router-dom";

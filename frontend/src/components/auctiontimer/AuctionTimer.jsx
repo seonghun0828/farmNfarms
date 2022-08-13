@@ -1,6 +1,5 @@
 import React, { useEffect, useState } from "react";
 import styled from "styled-components";
-import { CountdownCircleTimer } from 'react-countdown-circle-timer';
 import TimeProgressBar from "./TimeProgressBar";
 
 const StyledDiv = styled.div`
