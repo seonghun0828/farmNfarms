@@ -2,7 +2,7 @@ import { BrowserRouter, Routes, Route, Redirect } from 'react-router-dom';
 import Home from './components/pages/Home';
 import Login from './components/pages/Login';
 import Join from './components/pages/Join';
-import VideoRoomComponent from './components/Auction/VideoRoomComponent';
+import VideoRoomComponent from './components/auction/VideoRoomComponent';
 import { ThemeProvider } from 'styled-components';
 import theme from './common/theme';
 import CreateAuctionRoom from './components/pages/CreateAuctionRoom';
