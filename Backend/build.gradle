@@ -45,7 +45,9 @@ dependencies {
     
     // JPA 의존
     implementation('org.springframework.boot:spring-boot-starter-data-jpa')
-    implementation('com.h2database:h2')
+    // implementation('com.h2database:h2')
+    implementation('mysql:mysql-connector-java')
+
 
     // 문자 메세지 JUnit 의존
     testImplementation 'org.assertj:assertj-core:3.6.1'

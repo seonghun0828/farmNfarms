@@ -12,13 +12,13 @@ import java.util.List;
 @AllArgsConstructor
 public class ProductGetRes extends BaseResponseBody {
 
-    List<Product> product;
+    List<Product> products;
 
     public static ProductGetRes of(Integer statusCode, String message, List<Product> products) {
         ProductGetRes res = new ProductGetRes();
         res.setStatusCode(statusCode);
         res.setMessage(message);
-        res.setProduct(products);
+        res.setProducts(products);
         return res;
     }
 
