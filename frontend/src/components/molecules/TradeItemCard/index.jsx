@@ -3,6 +3,7 @@ import styled from 'styled-components';
 import Text from '../../atoms/Text';
 import Button from '../../atoms/Button';
 import move from '../../../common/move';
+import { save } from '../../../common/tokenSlice';
 
 const StyledTradeItemCard = styled.div`
   width: 20rem;
@@ -42,19 +43,15 @@ const InfoContent = styled.div`
   padding-left: 0.5rem;
 `;
 
-const TradeItemCard = ({labels, navigate, ...rest}) => {
+const TradeItemCard = ({labels, clickHandler, ...rest}) => {
   const { auctionResultId, auctionedPrice, dealCompleted,
     grade, productTitle, quantity } = rest.item;
 
-  const btnMode = dealCompleted ? '' : 'primary';
+  const btnMode = dealCompleted === false ? 'primary' : '';
 
-  const clickHandler = () => {
-    console.log('click! auctionResultId: ', auctionResultId);
-    // 페이지 이동하면서 넘길 값 넘기기
-    // move(navigate, '/history');
-  }
+  console.log(rest.item);
   return (
-    <StyledTradeItemCard onClick={clickHandler}>
+    <StyledTradeItemCard onClick={() => clickHandler(auctionResultId)}>
       <ItemNav>
         <Text color="white" weight="bold" fontSize="lg">
           물품 정보
@@ -94,9 +91,12 @@ const TradeItemCard = ({labels, navigate, ...rest}) => {
           <InfoContent>{auctionedPrice}원</InfoContent>
         </Info>
         <FloatButton>
-          <Button mode={btnMode} width="6.5rem" height="3rem" fontSize="lg">
-            {dealCompleted ? '거래완료' : '거래 중'}
-          </Button>
+          {
+            dealCompleted === undefined ? null : 
+              <Button mode={btnMode} width="6.5rem" height="3rem" fontSize="lg">
+                {dealCompleted ? '거래완료' : '거래 중'}
+              </Button>
+          }
         </FloatButton>
       </ItemBody>
     </StyledTradeItemCard>

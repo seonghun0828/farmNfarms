@@ -16,6 +16,7 @@ import { useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import reissue from '../src/common/reissue'
 import TestPage from './components/pages/TestPage';
+import History from './components/pages/History';
 
 
 function App() {
@@ -44,6 +45,7 @@ function App() {
             <Route path="/mypage" element={<Mypage />} />
             <Route path="/price" element={<Price />} />
             <Route path="/mypage/update" element={<UpdateProfile />}/>
+            <Route path="/history" element={<History />}/>
             <Route path="/*" element={<NotFound />}/>
             <Route path="/test" element={<TestPage />}/>
           </Routes>
