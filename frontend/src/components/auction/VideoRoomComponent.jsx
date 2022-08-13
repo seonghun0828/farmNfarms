@@ -1,8 +1,8 @@
 import axios from 'axios';
 import { OpenVidu } from 'openvidu-browser';
 import React, { useCallback, useEffect, useState } from 'react';
-import ChattingForm from '../Chat/ChattingForm';
-import ChattingList from '../Chat/ChattingList';
+import ChattingForm from '../chat/ChattingForm';
+import ChattingList from '../chat/ChattingList';
 import UserVideoComponent from './UserVideoComponent';
 import AuctionTimer from '../auctiontimer/AuctionTimer';
 import send from './send';
