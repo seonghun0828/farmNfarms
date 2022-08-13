@@ -5,7 +5,7 @@ import temp_logo from '../../assets/로고.svg';
 
 const StyledChattingList = styled.div`
   height: 200px;
-  background: rgba(255, 255, 255, 0.2);
+  background: rgba(0, 0, 0, 0.2);
   text-align: left;
   overflow: scroll;
   padding-left:10px;
