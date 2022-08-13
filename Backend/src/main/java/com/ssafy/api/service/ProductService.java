@@ -1,5 +1,7 @@
 package com.ssafy.api.service;
 
+import com.ssafy.api.dto.DatePriceDto;
+import com.ssafy.api.request.DatePriceReq;
 import com.ssafy.domain.ProductPrice.Product;
 import com.ssafy.domain.ProductPrice.ProductRepository;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -11,10 +13,9 @@ import org.w3c.dom.NodeList;
 
 import javax.xml.parsers.DocumentBuilderFactory;
 import java.time.LocalDate;
+import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
-import java.util.HashSet;
 import java.util.List;
-import java.util.Set;
 
 @Service
 public class ProductService {
@@ -35,6 +36,59 @@ public class ProductService {
         }
 
         return products;
+    }
+
+    /**
+     * 특정 농산물 품목의 일주일간의 가격 데이터를 반환하는 비즈니스 메서드
+     */
+    public List<DatePriceDto> getDatePrice(DatePriceReq priceInfo) {
+        List<DatePriceDto> datePrices = new ArrayList<>();
+        LocalDate localDate = LocalDate.parse(priceInfo.getDate(), DateTimeFormatter.ISO_DATE);
+        try {
+            String apikey="049c22c2-a52d-46c8-a7b4-00b9b6379ffb";
+            String id="2632";
+            String url = "https://www.kamis.or.kr/service/price/xml.do?action=periodProductList" +
+                            "&p_productclscode=02" +
+                            "&p_startday="+localDate.minusDays(8).toString() +
+                            "&p_endday="+priceInfo.getDate() +
+                            "&p_itemcategorycode="+priceInfo.getProduct().split("")[0]+"00" +
+                            "&p_itemcode="+priceInfo.getProduct() +
+                            "&p_convert_kg_yn=Y" +
+                            "&p_cert_key="+apikey +
+                            "&p_cert_id="+id +
+                            "&p_returntype=xml";
+
+            System.out.println(url);
+
+            Document documentInfo = DocumentBuilderFactory.newInstance().newDocumentBuilder().parse(url);
+
+            // root tag
+            documentInfo.getDocumentElement().normalize();
+
+            // 파싱할 tag
+            NodeList nList = documentInfo.getElementsByTagName("item");
+
+            for(int i=1; i<nList.getLength(); i++) {
+                Node nNode = nList.item(i);
+                if(nNode.getNodeType() == Node.ELEMENT_NODE) {
+                    Element element = (Element) nNode;
+
+                    if(!getTagValue("countyname", element).equals("평균")) {
+                        continue;
+                    }
+
+                    DatePriceDto dateprice = DatePriceDto.builder()
+                                                        .day(getTagValue("regday", element))
+                                                        .price(getTagValue("price", element))
+                                                        .build();
+                    datePrices.add(dateprice);
+                }
+            }
+
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return datePrices;
     }
 
     /**
@@ -65,13 +119,13 @@ public class ProductService {
                     if(getTagValue("product_cls_name", element).equals("소매")) continue;
 
                     Product product = Product.builder()
-                                            .name(getTagValue("item_name", element).split("/")[0])
-                                            .unit(getTagValue("unit", element))
-                                            .direction(getTagValue("direction", element))
-                                            .value(getTagValue("value", element))
-                                            .date(getTagValue("lastest_day", element))
-                                            .price(getTagValue("dpr1", element))
-                                            .build();
+                                                .name(getTagValue("item_name", element).split("/")[0])
+                                                .unit(getTagValue("unit", element))
+                                                .direction(getTagValue("direction", element))
+                                                .value(getTagValue("value", element))
+                                                .date(getTagValue("lastest_day", element))
+                                                .price(getTagValue("dpr1", element))
+                                                .build();
                     // 배추, 오이, 토마토, 당근, 무, 감자 필터링 하면서 중복제거 : 추후 스트림으로 리팩토링 필요
                     String name=product.getName();
                     if(name.equals("배추")||name.equals("오이")||name.equals("토마토")
