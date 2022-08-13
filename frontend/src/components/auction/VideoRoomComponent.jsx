@@ -20,9 +20,11 @@ import DownButton from '../atoms/DownButton';
 import OnAirButton from '../atoms/OnAirButton';
 import LeaveButton from '../atoms/LeaveButton';
 import Swipeable from '../molecules/Swipeable';
+import _ from 'lodash';
+import nameList from '../../common/randomNickname';
 
 const StyledDiv = styled.div`
-  background: rgba(255, 255, 255, 0.2);
+  background: rgba(0, 0, 0, 0.2);
   border-radius: 5px;
   width: 350px;
   margin-left: 5px;
@@ -153,8 +155,8 @@ const VideoRoomComponent = () => {
 
   // 세션 아이디 설정
   useEffect(() => {
-    setMySessionId(`Session${roomId}`)
-  }, [])
+    setMySessionId(`Session${roomId}`);
+  }, []);
 
   // 세션에 참여하기
   const joinSession = () => {
@@ -218,7 +220,7 @@ const VideoRoomComponent = () => {
         setBestBidder(username);
         setBestBidderPhone(tmp[3]);
       }
-    })
+    });
 
     // --- 4) 유효한 토큰으로 세션에 접속하기 ---
     getToken().then((token) => {
@@ -272,10 +274,13 @@ const VideoRoomComponent = () => {
     setIsHost(false) // isHost를 false로 설정함
   }
 
-  // 호스트(방 생성자) 여부에 따른 isHost를 토글링함(created())
+  // 호스트(방 생성자) 여부에 따른 isHost를 토글링함(created()) + 호스트가 아닐 경우 유저의 이름을 바꿈
   useEffect(() => {
     setIsHost(localStorage.getItem("host") ? true : false)
-  }, [])
+    if (!isHost) {
+      setMyUserName(_.sample(nameList));
+    }
+  }, [isHost]);
 
   useEffect(() => {
     const onbeforeunload = (event) => {
@@ -285,7 +290,7 @@ const VideoRoomComponent = () => {
     return () => {
       window.removeEventListener('beforeunload', onbeforeunload);
     }
-  }, [leaveSession])
+  }, [leaveSession]);
 
   // 참가자를 배열에서 제거함 
   const deleteSubscriber = useCallback((streamManager) => {
@@ -295,7 +300,7 @@ const VideoRoomComponent = () => {
       tmp_subscribers.splice(index, 1);
       setSubscribers(tmp_subscribers) // 이거 안 되면 구조분해할당으로 업데이트 할 것
     }
-  }, [subscribers])
+  }, [subscribers]);
 
   // 메세지 보내기(Sender of the message (after 'session.connect'))
   const sendMsg = (msg, currentSession) => {
@@ -350,7 +355,7 @@ const VideoRoomComponent = () => {
         console.error(error)
       })
     }
-  }
+  };
 
   // 입찰가 증가 핸들러
   const priceUpHandler = () => {
@@ -359,7 +364,7 @@ const VideoRoomComponent = () => {
         return parseInt(prevPrice) + parseInt(items[itemIndex].bidIncrement)
       })
     }
-  }
+  };
 
   // 입찰가 하락 핸들러
   const priceDownHandler = () => {
@@ -371,7 +376,7 @@ const VideoRoomComponent = () => {
         return parseInt(prevPrice) - parseInt(items[itemIndex].bidIncrement)
       })
     }
-  }
+  };
 
   // 경매 결과 백엔드 api 호출
   const sendAuctionResult = async() => {
@@ -392,12 +397,12 @@ const VideoRoomComponent = () => {
       console.log('Send Data Failed!')
       }
     }
-  }
+  };
 
   // 로딩 페이지를 통한 방 입장
   const enterAuctionRoom = () => {
-    joinSession()
-  }
+    joinSession();
+  };
 
   // 타이머 시작
   const startTimer = () => {
@@ -511,18 +516,15 @@ const VideoRoomComponent = () => {
                 {tempHighestPrice !== 0 && <span>￦{tempHighestPrice}원</span>}
                 {tempBestBidder && <p>{tempBestBidder}</p>}
               </WhiteDiv>
-            </StyledDiv>
+            </StyledDiv> */}
             <StyledDiv>
-              <span>
-                내 응찰 가격
-              </span>
               <WhiteDiv>
                 ￦{price.toLocaleString('ko-KR')}원
               </WhiteDiv>
-            </StyledDiv> */}
+            </StyledDiv>
             <StyledDiv style={{ width: '350px', display: 'flex', justifyContent: 'space-between'}}>
               <div style={{ width: '250px', display: 'flex', justifyContent: 'start', alignItems: 'center', marginLeft: '10px'}} >
-                <Swipeable></Swipeable>
+                <Swipeable biddingHandler={biddingHandler}></Swipeable>
               </div>
               <div style={{display: 'flex', flexDirection: 'column'}}>
                 <UpButton priceUpHandler={priceUpHandler}/>
