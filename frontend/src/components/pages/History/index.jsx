@@ -70,8 +70,8 @@ const History = () => {
   if (isError) {
     alertError('Failed to fetch detail history');
   }
-  
-  const {auctionedPrice, deliveryCompleted, grade, paymentCompleted, productTitle, quantity,
+
+  const {auctionedPrice, deliveryCompleted, grade, paymentCompleted, productTitle, quantity, createAt,
     buyerName, buyerAddress, buyerPhoneNumber, sellerName, sellerPhoneNumber, sellerBank, sellerAccount
   } = data.data;
   
@@ -85,7 +85,6 @@ const History = () => {
   const partnerInfo = isSalesHistory ?
     [['구매자', buyerName], ['휴대폰번호', hyphenedPhoneNumber], ['주소', buyerAddress]] :
     [['판매자', sellerName], ['휴대폰번호', hyphenedPhoneNumber], ['은행', sellerBank], ['계좌번호', sellerAccount]]
-    
   return (
     <StyledHistory>
       <Navbar url={logo} navigate={navigate} isLogin={isLogin} setIsLogin={setIsLogin} imgSize="xs" fontSize="sm" mode="graytext" />
@@ -93,7 +92,7 @@ const History = () => {
         <LeftAlign>
             <Button fontSize='lg' mode='graytext' onClick={() => move(navigate, -1)}>뒤로 가기</Button>
         </LeftAlign>
-        <ProgressBox />
+        <ProgressBox progress={{isSalesHistory, deliveryCompleted, paymentCompleted, createAt}} />
         <TradeItemCard  item={item}  />
         <PartnerInfo>
           {
