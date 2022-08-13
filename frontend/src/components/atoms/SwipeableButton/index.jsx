@@ -36,8 +36,8 @@ const SwipeableButton = (props) => {
 
   const endDrag = (e) => {
     setMoving(false);
-    console.log(slideRight, containerWidth, containerWidth * 0.7)
-    if (slideRight > containerWidth * 0.7) {
+    // console.log(slideRight, containerWidth, containerWidth * 0.7)
+    if (slideRight > containerWidth * 0.75) {
       setSlideRight(containerWidth);
       if (props.onSuccess) {
         props.onSuccess();
@@ -66,7 +66,8 @@ const SwipeableButton = (props) => {
         return prevDone;
       })
       setSlideRight(0);
-      buttonRef.current.style.left = 50 + 'px'
+      buttonRef.current.style.left = 50 + 'px';
+      props.biddingHandler();
     }
   }
 
@@ -88,6 +89,11 @@ const SwipeableButton = (props) => {
             onTouchStart={startDrag}
             onTouchMove={onDrag}
             onTouchEnd={endDrag}
+            // 이 부분은 핸드폰에서 테스트를 하기 위해서 설정함
+            onMouseDown={startDrag}
+            onMouseUp={endDrag}
+            onMouseMove={onDrag}
+            ////////
             style={{ background: props.color }}
             >
             <span className='rsbcSliderText'>{getText()}</span>
