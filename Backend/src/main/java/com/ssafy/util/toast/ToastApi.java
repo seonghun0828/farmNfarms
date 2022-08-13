@@ -32,9 +32,17 @@ public class ToastApi {
 
     private final RestTemplate rest;
 
-    public void sendSms(SmsSendRequest request) {
 
-        String url = "https://api-sms.cloud.toast.com/sms/v3.0/appKeys/" + APP_KEY + "/sender/sms";
+    public void sendSms(SmsSendRequest request, String messageType) {
+
+        String url = "";
+
+        if(messageType.equals("mms")) {
+            url = "https://api-sms.cloud.toast.com/sms/v3.0/appKeys/" + APP_KEY + "/sender/mms";
+        } else {
+            url = "https://api-sms.cloud.toast.com/sms/v3.0/appKeys/" + APP_KEY + "/sender/sms";
+        }
+
 
         HttpHeaders httpHeaders = new HttpHeaders();
         httpHeaders.set("X-Secret-Key", SECRET_KEY);
