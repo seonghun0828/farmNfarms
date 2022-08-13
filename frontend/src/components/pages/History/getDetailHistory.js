@@ -5,15 +5,17 @@ import apiPath from '../../../common/apiPath';
 const getDetailHistory = async (auctionResultId, isSalesHistory) => {
   const path = isSalesHistory ? apiPath.result.sellDetail() : apiPath.result.buyDetail();
   try {
-    const { data } = await axios({
+    const result = await axios({
       method: 'GET',
       url: path,
       params: {
         auctionResultId,
       }
     });
-    console.log(data);
-    return data;
+    if (result.status !== 200)
+      throw new Error(result.statusText);
+
+    return result;
   } catch (error) {
     alertError(error);
   }
