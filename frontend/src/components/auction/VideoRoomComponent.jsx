@@ -123,8 +123,7 @@ const VideoRoomComponent = () => {
                 '"',
               )
             ) {
-              // window.location.assign(OPENVIDU_SERVER_URL + '/accept-certificate');
-              window.location.assign(OPENVIDU_SERVER_URL + '/openvidu/accept-certificate');
+              window.location.assign(OPENVIDU_SERVER_URL + '/openvidu/accept-certificate'); // window.location.assign(OPENVIDU_SERVER_URL + '/accept-certificate');
             }
           }
         });
