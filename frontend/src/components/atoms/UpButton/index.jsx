@@ -6,7 +6,7 @@ const UpButton = ({ priceUpHandler }) => {
   return (
     <Button
       variant='contained'
-      style={{ width: '50px', fontSize: '16px', fontWeight: 'bold', padding: '4px', marginTop: '4px', marginBottom: '4px', marginRight: '4px' }}
+      style={{ width: '50px', fontSize: '16px', fontWeight: 'bold', padding: '4px', marginTop: '4px', marginBottom: '4px', marginRight: '10px' }}
       onClick={priceUpHandler}
     >
       <Paid></Paid>

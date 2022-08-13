@@ -17,9 +17,9 @@ import Loading from '../pages/Loading/Loading';
 import { useSelector } from 'react-redux';
 import UpButton from '../atoms/UpButton';
 import DownButton from '../atoms/DownButton';
-import SwipeButton from '../atoms/SwipeButton';
 import OnAirButton from '../atoms/OnAirButton';
 import LeaveButton from '../atoms/LeaveButton';
+import Swipeable from '../molecules/Swipeable';
 
 const StyledDiv = styled.div`
   background: rgba(255, 255, 255, 0.2);
@@ -521,12 +521,9 @@ const VideoRoomComponent = () => {
                 ￦{price.toLocaleString('ko-KR')}원
               </WhiteDiv>
             </StyledDiv> */}
-            <StyledDiv style={{ width: '350px', display: 'flex', justifyContent: 'space-between' }}>
-              <div>
-                <div>
-                  <SwipeButton></SwipeButton>
-                  밀어서 경매입찰 버튼 활성화 후 입찰하기
-                </div>
+            <StyledDiv style={{ width: '350px', display: 'flex', justifyContent: 'space-between'}}>
+              <div style={{ width: '250px', display: 'flex', justifyContent: 'start', alignItems: 'center', marginLeft: '10px'}} >
+                <Swipeable></Swipeable>
               </div>
               <div style={{display: 'flex', flexDirection: 'column'}}>
                 <UpButton priceUpHandler={priceUpHandler}/>

@@ -1,6 +1,6 @@
 .ReactSwipeButton {
   float: left;
-  width: 100%;
+  width: 250px;
   height: 50px;
   position: absolute;
 }
@@ -24,10 +24,10 @@
 
 .rsbContainer {
   float: left;
-  width: 100%;
+  width: 250px;
   height: 100%;
   background: #eee;
-  border-radius: 50px;
+  border-radius: 15px; /* 50px */
   position: relative;
   /* box-shadow: inset 1px 1px 4px rgba(0,0,0,0.1); */
   overflow: hidden;
@@ -65,7 +65,7 @@
   left: 50px;
   margin-left: -100%;
   background: #333;
-  border-radius: 25px;
+  border-radius: 15px;
   z-index: 100;
   /* box-shadow: 1px 1px 5px rgba(0,0,0,0.3); */
   cursor: pointer;
@@ -108,7 +108,7 @@
   top: 0;
   height: 50px;
   width: 50px;
-  border-radius: 100%;
+  border-radius: 15px; /* 100%*/
 }
 
 .rsbcText {
