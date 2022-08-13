@@ -36,6 +36,7 @@ const SwipeableButton = (props) => {
 
   const endDrag = (e) => {
     setMoving(false);
+    console.log(slideRight, containerWidth, containerWidth * 0.7)
     if (slideRight > containerWidth * 0.7) {
       setSlideRight(containerWidth);
       if (props.onSuccess) {
@@ -43,7 +44,12 @@ const SwipeableButton = (props) => {
         onSuccess();
       }
     } else {
-      setSlideRight(0);
+      // 밀다가 도중에 다시 초기화하기 위해 setSlideRight를 동기적으로 사용
+      setSlideRight((prev) => {
+        buttonRef.current.style.left = 50 + 'px'
+        return 0;
+      });
+      
     }
     updateSliderStyle();
   }
