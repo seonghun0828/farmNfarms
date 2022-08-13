@@ -1,14 +1,15 @@
+import { Timer, ShutterSpeed } from "@mui/icons-material";
+import { Button } from "@mui/material";
 import React, { useEffect, useState } from "react";
 import styled from "styled-components";
-import TimeProgressBar from "./TimeProgressBar";
+import { CountdownCircleTimer } from 'react-countdown-circle-timer';
 
 const StyledDiv = styled.div`
-  color: white;
+  color: red;
   display: flex;
-  flex-direction: column;
   justify-content: center;
   align-items: center;
-  font-size: 28px;
+  font-size: 40px;
   font-weight: bold;  
 `
 
@@ -32,10 +33,27 @@ const AuctionTimer = (
     setItemIndex, setToggleStart, setChatDisplay, maxIndex, sendAuctionResult, 
     setTempHighestPrice, highestPrice, bestBidder, setTempBestBidder, isHost
   }) => {
+  
+  const [key, setKey] = useState(0); // 타이머를 재작동하기 위한 키
+  const [timerCount, setTimerCount] = useState(0); // 타이머를 세팅하기 위함(초기에 작동X)
+  
+  const getSeconds = () => {
+    return seconds;
+  };
+
+  const timerProps = {
+    size: 120,
+    strokeWidth: 8,
+    isPlaying: true,
+  };
 
   const startTimer = () => {
     // 시간이 다 됐을 때만 버튼이 작동 가능
     if (seconds === 0 && sessionCount < 2) {
+      setKey((prev) => {
+        return prev + 1;
+      });
+      setTimerCount(20);
       currentSession
         .signal({
           data: 20,
@@ -74,6 +92,7 @@ const AuctionTimer = (
       }
       if (seconds === 0) {
         clearInterval(countDown)
+        setTimerCount(0);
         setTempHighestPrice(highestPrice) // 현재 세션에서만 고정되어 보여줄 경매 최고가
         setTempBestBidder(bestBidder) // 현재 세션에서만 고정되어 보여줄 경매 최고 입찰자
         if (sessionCount === 2) {
@@ -102,8 +121,30 @@ const AuctionTimer = (
 
   return (
     <StyledDiv>
-      <TimeProgressBar seconds={seconds}></TimeProgressBar>
-      {seconds < 10 ? `00:0${seconds}초` : `00:${seconds}초`}
+      <CountdownCircleTimer
+        {...timerProps}
+        key={key}
+        duration={timerCount}
+        colors={['#004777', '#F7B801', '#A30000', '#A30000']}
+        colorsTime={[15, 10, 5, 0]}
+      >
+        {({ color }) => (
+          <StyledSpan style={{ color }}>
+            {getSeconds() < 10 ? `00:0${getSeconds()}초` : `00:${getSeconds()}초`}
+          </StyledSpan>
+        )}
+      </CountdownCircleTimer>
+      {/* {seconds < 10 ? `00:0${seconds}초` : `00:${seconds}초`} */}
+      {isHost && <Button variant="contained" onClick={startTimer}>
+        {seconds === 0 && <ButtonDiv>
+          <Timer></Timer>
+          지금 시작
+        </ButtonDiv>}
+        {seconds !== 0 && <ButtonDiv>
+          <ShutterSpeed></ShutterSpeed>
+          진행중
+        </ButtonDiv>}
+      </Button>}
     </StyledDiv>
   )
 }

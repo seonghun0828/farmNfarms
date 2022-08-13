@@ -17,22 +17,6 @@ import { useDispatch, useSelector } from 'react-redux';
 import reissue from '../src/common/reissue'
 import History from './components/pages/History';
 
-const DUMMIES = [
-  {
-    title: '감자',
-    grade: '특등',
-    quantity: 1000,
-    bid_increment: 2000,
-    starting_price: 10000,
-  },
-  {
-    title: '배추',
-    grade: '1등급',
-    quantity: 2000,
-    bid_increment: 1000,
-    starting_price: 15000,
-  },
-];
 
 function App() {
   const dispatch = useDispatch();
@@ -53,7 +37,7 @@ function App() {
             <Route path="/join" element={<Join />} />
             <Route
               path="/room"
-              element={<VideoRoomComponent items={DUMMIES} />}
+              element={<VideoRoomComponent />}
             />
             <Route path="/create" element={<CreateAuctionRoom />} />
             <Route path="/auctionrooms" element={<AuctionRooms />} />
