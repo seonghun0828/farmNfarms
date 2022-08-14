@@ -18,7 +18,8 @@ public interface AuctionRoomRepository extends JpaRepository<AuctionRoom, Long> 
             "r.auction_room_description auctionRoomDescription, " +
             "r.thumbnail_id thumbnailId," +
             "r.owner_id ownerId " +
-            "from auction_room r where r.auction_room_title like CONCAT('%', :title, '%')", nativeQuery = true)
+            "from auction_room r where r.auction_room_title like CONCAT('%', :title, '%')" +
+            "ORDER BY r.created_At DESC", nativeQuery = true)
     List<AuctionRoomDto> findAllByAuctionRoomTitle(@Param("title")String title);
 
     Page<AuctionRoom> findAllByAuctionedFalse(Pageable pageable);

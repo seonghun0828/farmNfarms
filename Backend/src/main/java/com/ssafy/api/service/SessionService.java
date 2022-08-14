@@ -1,9 +1,12 @@
 package com.ssafy.api.service;
 
 import com.ssafy.api.request.CreateAuctionRoomReq;
+import com.ssafy.api.response.AuctionRoomsInfoRes;
 import com.ssafy.domain.auctionDetail.AuctionDetailRepository;
 import com.ssafy.api.dto.AuctionRoomDto;
 import com.ssafy.domain.auctionRoom.AuctionRoomRepository;
+import com.ssafy.domain.imgae.ImageRepository;
+import com.ssafy.domain.user.User;
 import com.ssafy.domain.user.UserRepository;
 import io.openvidu.java.client.*;
 import org.json.simple.JSONObject;
@@ -29,6 +32,9 @@ public class SessionService {
     private AuctionRoomRepository auctionRoomRepository;
     @Autowired
     private UserRepository userRepository;
+
+    @Autowired
+    private ImageRepository imageRepository;
     @Autowired
     private AuctionDetailRepository auctionDetailRepository;
 /*    @Autowired
@@ -106,32 +112,41 @@ public class SessionService {
     // 품목 검색
     // 통합 검색
     // 농부 이름 검색
-    public Page<AuctionRoomDto> search(HashMap<String, String> params, Pageable pageable) {
-        int start = (int)pageable.getOffset();
+    public Page<AuctionRoomsInfoRes> search(HashMap<String, String> params, Pageable pageable) {
+        List<AuctionRoomDto> dtoList = new ArrayList<>();
+
         if(params.get("mode").equals("1")){
-
-            List<AuctionRoomDto> responseList = auctionRoomRepository.findAllByAuctionRoomTitle(params.get("key"));
-            int end = Math.min((start + pageable.getPageSize()), responseList.size());
-            return new PageImpl<>(responseList.subList(start, end), pageable, responseList.size());
-
+            dtoList = auctionRoomRepository.findAllByAuctionRoomTitle(params.get("key"));
         }else if(params.get("mode").equals("2")){
 
-            List<AuctionRoomDto> responseList = auctionDetailRepository.findAllByProduct(params.get("key"));
-            int end = Math.min((start + pageable.getPageSize()), responseList.size());
-            return new PageImpl<>(responseList.subList(start, end), pageable, responseList.size());
-
+            dtoList = auctionDetailRepository.findAllByProduct(params.get("key"));
         }else if(params.get("mode").equals("3")){
 
             List<AuctionRoomDto> titleList = auctionRoomRepository.findAllByAuctionRoomTitle(params.get("key"));
             List<AuctionRoomDto> productList = auctionDetailRepository.findAllByProduct(params.get("key"));
-            List<AuctionRoomDto> responseList = new ArrayList<>();
-            responseList.addAll(titleList);
-            responseList.addAll(productList);
 
-            int end = Math.min((start + pageable.getPageSize()), responseList.size());
-            return new PageImpl<>(responseList.subList(start, end), pageable, responseList.size());
+            dtoList.addAll(titleList);
+            dtoList.addAll(productList);
         }
 
-        throw new IllegalArgumentException();
+        List<AuctionRoomsInfoRes> responseList = new ArrayList<>();
+
+        for(AuctionRoomDto dto : dtoList){
+            User owner = userRepository.findById(dto.getOwnerId()).get();
+            AuctionRoomsInfoRes res = AuctionRoomsInfoRes.builder()
+                    .id(dto.getId())
+                    .ownerName(owner.getName())
+                    .ownerPhoneNumber(owner.getPhone())
+                    .ownerPicture(owner.getPicture().getFullPath())
+                    .auctionRoomThumbnail(imageRepository.findById(dto.getThumbnailId()).get().getFullPath())
+                    .auctionRoomTitle(dto.getAuctionRoomTitle())
+                    .auctionRoomDescription(dto.getAuctionRoomDescription()).build();
+
+            responseList.add(res);
+        }
+
+        int start = (int)pageable.getOffset();
+        int end = Math.min((start + pageable.getPageSize()), responseList.size());
+        return new PageImpl<>(responseList.subList(start, end), pageable, responseList.size());
     }
 }

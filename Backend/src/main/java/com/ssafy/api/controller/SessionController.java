@@ -81,7 +81,7 @@ public class SessionController {
 
     @GetMapping("/search")
     @ApiOperation(value = "경매 검색" , notes = "1 : 방제목, 2: 상품검색 , 3 : 통합검색")
-    public ResponseEntity<Page<AuctionRoomDto>> retrieveRoom(
+    public ResponseEntity<Page<AuctionRoomsInfoRes>> retrieveRoom(
             @ApiParam(name = "mode" , example = "1", value = "mode(검색방식)")
             @RequestParam(name="mode", required = false)
             String mode,

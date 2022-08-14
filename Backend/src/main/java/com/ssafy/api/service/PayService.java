@@ -76,7 +76,7 @@ public class PayService {
                 "partner_user_id=" + String.valueOf(auctionResult.getBuyer().getId()) + "&" +
                 "item_name=" + auctionResult.getAuctionDetail().getProductTitle() + "&" +
                 "quantity=" + auctionResult.getAuctionDetail().getQuantity() + "&" +
-                "total_amount=2200" + "&" +
+                "total_amount=" + String.valueOf(auctionResult.getAuctionedPrice())+ "&" +
                 //"total_amount=" + auctionResult.getAuctionDetail().getQuantity() * auctionResult.getAuctionedPrice() + "&" +//총 가격 -> 결제창에 보여지는 값.
                 "vat_amount=200&" + //세금?
                 "tax_free_amount=0&" + //비과세 금액인듯
