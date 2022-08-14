@@ -12,6 +12,7 @@ const PhoneVerification = ({ setIsVerificated, setPhone }) => {
   const { phone, validationNum } = inputs;
 
   const [verificationId, setVerificationId] = useState(null);
+  const [buttonMode, setButtonMode] = useState('secondary');
 
   const [errorType, setErrorType] = useState(null);
 
@@ -88,14 +89,14 @@ const PhoneVerification = ({ setIsVerificated, setPhone }) => {
       setStatus(status => ({
         ...status,
         phoneStatus: 'readOnly',
-        validationNumStatus: 'readOnly'
+        validationNumStatus: 'readOnly',
       }));
       setAlert(alert => ({
         ...alert,
         phoneAlert: '',
         validationNumAlert: '',
       }));
-
+      setButtonMode('readonly')
       setIsVerificated(true)
       setPhone(phone)
     }
@@ -120,6 +121,8 @@ const PhoneVerification = ({ setIsVerificated, setPhone }) => {
     setPhone(phone)
   }, [phone]);
 
+  console.log(buttonMode)
+  console.log(inputs)
   return (
     <>
     <InputButton 
@@ -127,7 +130,7 @@ const PhoneVerification = ({ setIsVerificated, setPhone }) => {
       placeholder="휴대전화 번호" 
       btnMsg="인증번호받기" 
       btnFontSize="md" 
-      mode="highlight"
+      mode={buttonMode} 
       name="phone"
       status={phoneStatus}
       helpMsg={phoneAlert}
@@ -139,7 +142,7 @@ const PhoneVerification = ({ setIsVerificated, setPhone }) => {
       placeholder="인증 번호" 
       btnMsg="확인" 
       btnFontSize="md" 
-      mode="highlight"
+      mode={buttonMode}
       name="validationNum"
       status={validationNumStatus}
       helpMsg={validationNumAlert}
