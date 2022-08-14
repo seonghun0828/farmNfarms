@@ -1,10 +1,10 @@
 import React from "react";
-import { ExitToApp } from '@mui/icons-material'
+import { PlayCircleFilled } from '@mui/icons-material'
 import styled from "styled-components";
 
 const StyledDiv = styled.div`
-  background: gray;
-  width: 100px;
+  background: #019267;
+  width: 120px;
   height: 40px;
   padding: 4px;
   margin: 4px 4px 4px 0px;
@@ -18,14 +18,13 @@ const StyledDiv = styled.div`
   box-shadow: 2px 2px 1px black;
 `
 
-
-const LeaveButton = ({leaveSession}) => {
+const SessionStartButton = ({ startAuction }) => {
   return (
-    <StyledDiv onClick={leaveSession}>
-      <ExitToApp />
-      나가기
+    <StyledDiv onClick={startAuction}>
+      <PlayCircleFilled />
+      세션 시작
     </StyledDiv>
   )
 }
 
-export default LeaveButton;
+export default SessionStartButton;

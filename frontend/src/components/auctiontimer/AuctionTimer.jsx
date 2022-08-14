@@ -1,4 +1,5 @@
 import React, { useEffect, useState } from "react";
+import { Timer, ShutterSpeed } from '@mui/icons-material';
 import styled from "styled-components";
 import TimeProgressBar from "./TimeProgressBar";
 
@@ -14,14 +15,24 @@ const StyledDiv = styled.div`
 
 const ButtonDiv = styled.div`
   display: flex;
-  justify-content: center;
+  justify-content: space-between;
   align-items: center;
-  font-size: 16px;
+  font-size: large;
   font-weight: bold;
 `
 
-const StyledSpan = styled.span`
-  font-size: 28px;
+const StyledButtonDiv = styled.div`
+  background: #019267;
+  width: 120px;
+  height: 40px;
+  padding: 4px;
+  margin: 4px 4px 4px 0px;
+  border-radius: 10px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  color: white;
+  box-shadow: 2px 2px 1px black;
 `
 
 // 두 가지 큰 버그 => 모바일 상에서는 localStroage가 없어서 isHost가 먹히질 않음
@@ -30,7 +41,8 @@ const StyledSpan = styled.span`
 const AuctionTimer = (
   { seconds, setSeconds, currentSession, sessionCount, setSessionCount, 
     setItemIndex, setToggleStart, setChatDisplay, maxIndex, sendAuctionResult, 
-    setTempHighestPrice, highestPrice, bestBidder, setTempBestBidder, isHost
+    setTempHighestPrice, highestPrice, bestBidder, setTempBestBidder, isHost, toggleStart,
+    setAuctionSessionList
   }) => {
 
   const startTimer = () => {
@@ -55,10 +67,6 @@ const AuctionTimer = (
   //   if (seconds === 0 && sessionCount < 2) {
   //     const autoStart = setTimeout(() => {
   //       startTimer();
-  //       setKey((prev) => {
-  //         return prev + 1;
-  //       });
-  //       setTimerCount(20);
   //     }, 20000)
   //     return () => clearTimeout(autoStart)
   //   }
@@ -80,19 +88,20 @@ const AuctionTimer = (
           sendAuctionResult() // 백엔드에 경매 결과 데이터를 보내는 함수를 호출함
           // 경매가 완전히 끝난 이후에도 20초를 대기함
           const endTimeOut = setTimeout(() => {
-            setSessionCount(0)
+            setSessionCount(0);
             setItemIndex((prevIndex) => {
               // props가 가진 items의 길이를 넘었을 때에 대한 예외처리필요
               if (prevIndex + 1 === maxIndex) {
                 return prevIndex
               }
               return prevIndex + 1
-            })
+            });
             setToggleStart((prevState) => {
               return !prevState
-            })
-            setChatDisplay(true) 
-          }, 20000)
+            });
+            setChatDisplay(true);
+            setAuctionSessionList([]);
+          }, 20000);
           // clearTimeout(endTimeOut); // clearTimeOut을 사용했을 경우 마지막에 제대로 동작하지 않음
         }
       }
@@ -104,6 +113,16 @@ const AuctionTimer = (
     <StyledDiv>
       <TimeProgressBar seconds={seconds}></TimeProgressBar>
       {seconds < 10 ? `00:0${seconds}초` : `00:${seconds}초`}
+      {toggleStart && isHost && <StyledButtonDiv className='mui-btn' variant="contained" onClick={startTimer}>
+        {seconds === 0 && <ButtonDiv>
+          <Timer></Timer>
+          지금 시작
+        </ButtonDiv>}
+        {seconds !== 0 && <ButtonDiv>
+          <ShutterSpeed></ShutterSpeed>
+          진행중
+        </ButtonDiv>}
+      </StyledButtonDiv>}
     </StyledDiv>
   )
 }
