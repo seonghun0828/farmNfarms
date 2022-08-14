@@ -1,5 +1,5 @@
 import axios from 'axios';
-import { alertError } from '../../../common/alertError';
+import { alertError } from '../../../../common/alertError';
 import apiPath from '../../../../common/apiPath';
 
 const paySuccess = async (pg_token) => {
