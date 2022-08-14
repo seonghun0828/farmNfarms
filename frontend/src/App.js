@@ -49,9 +49,9 @@ function App() {
             <Route path="/mypage/update" element={<UpdateProfile />}/>
             <Route path="/history" element={<History />}/>
             <Route path="/test" element={<TestPage />}/>
-            <Route path="/success" element={<Success />}/>
-            <Route path="/cancel" element={<Cancel />}/>
-            <Route path="/fail" element={<Fail />}/>
+            <Route path="/pay/success" element={<Success />}/>
+            <Route path="/pay/cancel" element={<Cancel />}/>
+            <Route path="/pay/fail" element={<Fail />}/>
             <Route path="/*" element={<NotFound />}/>
           </Routes>
         </BrowserRouter>
