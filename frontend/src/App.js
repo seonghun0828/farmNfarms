@@ -17,7 +17,9 @@ import { useDispatch, useSelector } from 'react-redux';
 import reissue from '../src/common/reissue'
 import History from './components/pages/History';
 import TestPage from './components/pages/TestPage/TestPage';
-
+import Success from './components/pages/PayResult/Success';
+import Cancel from './components/pages/PayResult/Cancel';
+import Fail from './components/pages/PayResult/Fail';
 
 function App() {
   const dispatch = useDispatch();
@@ -47,6 +49,9 @@ function App() {
             <Route path="/mypage/update" element={<UpdateProfile />}/>
             <Route path="/history" element={<History />}/>
             <Route path="/test" element={<TestPage />}/>
+            <Route path="/success" element={<Success />}/>
+            <Route path="/cancel" element={<Cancel />}/>
+            <Route path="/fail" element={<Fail />}/>
             <Route path="/*" element={<NotFound />}/>
           </Routes>
         </BrowserRouter>
