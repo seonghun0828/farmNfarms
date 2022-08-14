@@ -24,6 +24,7 @@ import Swipeable from '../molecules/Swipeable';
 import _ from 'lodash';
 import nameList from '../../common/randomNickname';
 import NotFound from '../pages/NotFound';
+import AuctionItemCard from "../molecules/AuctionItemCard/index";
 
 const StyledDiv = styled.div`
   background: rgba(0, 0, 0, 0.2);
@@ -58,6 +59,7 @@ const VideoRoomComponent = () => {
   const location = useLocation(); // 로케이션(이전 페이지에서 데이터를 받아옴)
   const roomId = (location.state !== null) ? location.state.id : null;
   const items = (location.state !== null) ? location.state.items : [{ startingPrice: 0 }];
+  const auctionRoomTitle = (location.state !== null) ? location.state.title : null;
   const sellerPhoneNumber = (location.state !== null) ? location.state.phone: null;
   const myPhoneNumber = useSelector((state) => state.token.value.phone); // RTK에서 핸드폰 번호를 불러옴
   
@@ -453,7 +455,7 @@ const VideoRoomComponent = () => {
             <div className="session-header2">
               <div className="img-tag">
                 <img className="profile-img" src={logo} alt="/"/>
-                <div style={{ color: 'white' }}>배추 아저씨</div>
+                <div style={{ color: 'white' }}>{auctionRoomTitle}</div>
               </div>
               <div>
                 <div style={{display: 'flex', justifyContent: 'space-between', margin: '5px'}}>
@@ -505,34 +507,16 @@ const VideoRoomComponent = () => {
                 setTempBestBidder={setTempBestBidder}
                 maxIndex={items.length}
                 isHost={isHost}
-              /></StyledDiv>
-            {/* <StyledDiv>
-              <span>
-                {items[itemIndex].productTitle}
-                {items[itemIndex].grade}
-                {items[itemIndex].quantity}Kg
-              </span>
+              />
             </StyledDiv>
-            <StyledDiv>
-              경매 시작가
-              <WhiteDiv>
-                ￦{items[itemIndex].startingPrice.toLocaleString('ko-KR')}원
-              </WhiteDiv>
-            </StyledDiv>
-            <StyledDiv>
-              경매 호가
-              <WhiteDiv>
-                ￦{items[itemIndex].bidIncrement.toLocaleString('ko-KR')}원
-              </WhiteDiv>
-            </StyledDiv>
-            <StyledDiv>
-              최고 입찰가
-              <WhiteDiv>
-                {tempHighestPrice === 0 && <span>가격 공개 전</span>}
-                {tempHighestPrice !== 0 && <span>￦{tempHighestPrice}원</span>}
-                {tempBestBidder && <p>{tempBestBidder}</p>}
-              </WhiteDiv>
-            </StyledDiv> */}
+            <AuctionItemCard
+              productTitle={items[itemIndex].productTitle}
+              grade={items[itemIndex].grade}
+              quantity={items[itemIndex].quantity}
+              startingPrice={items[itemIndex].startingPrice}
+              bidIncrement={items[itemIndex].bidIncrement}
+              tempHighestPrice={tempHighestPrice}
+            ></AuctionItemCard>
             <StyledDiv>
               <WhiteDiv>
                 ￦{price.toLocaleString('ko-KR')}원

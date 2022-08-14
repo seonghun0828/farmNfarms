@@ -113,7 +113,7 @@ const RoomDetailModal = ({ title, description, items, closeModal, roomId, ownerP
   const navigate = useNavigate();
 
   const enterRoomHandler = () => {
-    navigate("/room", { state: { id: roomId, items: items, phone: ownerPhone }})
+    navigate("/room", { state: { id: roomId, items: items, phone: ownerPhone, title: title }})
   }
 
   return (

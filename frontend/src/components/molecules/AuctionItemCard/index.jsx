@@ -54,8 +54,8 @@ const ItemTitleDiv = styled.div`
   display:flex;
   justify-content: space-between;
   align-items: center;
-  font-size: 18px;
-  margin: 2px 5px 0px 5px;
+  font-size: 14px;
+  margin: 5px 5px 0px 5px;
 `
 
 const ItemTag = styled.div`
@@ -73,29 +73,32 @@ const ItemContentsDiv = styled.div`
   margin: 2px 5px 2px 5px;
 `
 
-const AuctionItemCard = (props) => {
+const AuctionItemCard = ({ productTitle, grade, quantity, startingPrice, bidIncrement, tempHighestPrice }) => {
   return (
     <CardBackDiv>
       <CardDiv>
         <ImgBox>사진</ImgBox>
         <ContentsBox>
           <ItemTitleDiv>
-            <span>품명</span>
-            <span>등급</span>
-            <span>중량kg</span>
+            <span>{productTitle}</span>
+            <span>{grade}</span>
+            <span>{quantity}kg</span>
           </ItemTitleDiv>
           <div style={{marginBottom: '5px', marginTop: '5px'}}>
             <ContentDiv>
               <ItemTag>시작가</ItemTag>
-              <ItemContentsDiv style={{color: 'black'}}>1000원</ItemContentsDiv>
+              <ItemContentsDiv style={{ color: 'black' }}>￦{startingPrice.toLocaleString('ko-KR')}원</ItemContentsDiv>
             </ContentDiv>
             <ContentDiv>
               <ItemTag>입찰단위</ItemTag>
-              <ItemContentsDiv style={{color: 'black'}}>1000원</ItemContentsDiv>
+              <ItemContentsDiv style={{ color: 'black' }}>￦{bidIncrement.toLocaleString('ko-KR')}원</ItemContentsDiv>
             </ContentDiv>
             <ContentDiv>
               <ItemTag>최고가</ItemTag>
-              <ItemContentsDiv style={{color: 'black'}}>1000원</ItemContentsDiv>
+              <ItemContentsDiv style={{ color: 'black' }}>
+                {tempHighestPrice === 0 && <span>가격 공개 전</span>}
+                {tempHighestPrice !== 0 && <span style={{color: 'red'}}>￦{tempHighestPrice}원</span>}
+              </ItemContentsDiv>
             </ContentDiv>
           </div>
         </ContentsBox>
