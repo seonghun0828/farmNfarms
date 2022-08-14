@@ -5,7 +5,7 @@ import styled, {keyframes} from "styled-components";
 const StyledLoadingWrapper = styled.div`
   height: 100vh;
   width: 100vw;
-  background-color: rgba(44, 49, 60, 0.5);
+  background-color: rgba(104, 159, 56, 0.7);
   overflow: hidden;
   display: flex;
   flex-direction: column;
@@ -86,6 +86,8 @@ const loading = keyframes`
 `
 
 const LoadingMessageDiv = styled.div`
+  margin: 10px;
+
   ::after {
     content: "로고를 터치하여 계속하세요";
     position: absolute;

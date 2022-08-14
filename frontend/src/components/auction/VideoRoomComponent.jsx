@@ -7,9 +7,8 @@ import UserVideoComponent from './UserVideoComponent';
 import AuctionTimer from '../auctiontimer/AuctionTimer';
 import send from './send';
 import deleteRoom from './delete';
-import { Person, PlayCircleFilled, Sell, Timer, ShutterSpeed } from '@mui/icons-material';
+import { Person } from '@mui/icons-material';
 import { useNavigate } from "react-router-dom";
-import { Button } from '@mui/material';
 import logo from "../../assets/로고.svg";
 import './VideoRoomComponent.css';
 import styled from "styled-components";
@@ -25,6 +24,9 @@ import _ from 'lodash';
 import nameList from '../../common/randomNickname';
 import NotFound from '../pages/NotFound';
 import AuctionItemCard from "../molecules/AuctionItemCard/index";
+import AuctionSession from '../AuctionSession/AuctionSession';
+import SessionStartButton from '../atoms/SessionStartButton';
+import ItemShowButton from '../atoms/ItemShowButton';
 
 const StyledDiv = styled.div`
   background: rgba(0, 0, 0, 0.2);
@@ -32,12 +34,13 @@ const StyledDiv = styled.div`
   width: 350px;
   margin-left: 5px;
   margin-right: 5px;
-  margin-top: 1px;
+  margin-top: 2px;
   margin-bottom: 1px;
   left: 50%;
   font-size: 28px;
   text-align: center;
   font-weight: bold;
+  padding: 5px;
 `
 
 const WhiteDiv = styled.div`
@@ -70,6 +73,7 @@ const VideoRoomComponent = () => {
   const [publisher, setPublisher] = useState(undefined); // 자기 자신의 캠
   const [subscribers, setSubscribers] = useState([]); // 다른 유저의 스트림 정보를 저장할 배열
   const [messageList, setMessageList] = useState([]); // 메세지 정보를 담을 배열
+  const [auctionsessionList, setAuctionSessionList] = useState([]); // 입찰 메세지를 담을 배열
   const [totalUsers, setTotalUsers] = useState(0); // 총 유저수
   const [toggleStart, setToggleStart] = useState(false); // 스타트 버튼 토글
   const [seconds, setSeconds] = useState(0); // 타이머 시작 시간
@@ -85,7 +89,7 @@ const VideoRoomComponent = () => {
   const [itemIndex, setItemIndex] = useState(0); // 물품 목록 인덱스
   const [chatDisplay, setChatDisplay] = useState(true); // 채팅창 보이기(초깃값: true) 
   const [isHost, setIsHost] = useState(false);
-  const [headerDisplay, setheaderDisplay] = useState(true); // 헤더 보이기(초깃값: true) 
+  const [itemDisplay, setItemDisplay] = useState(false);
 
   let OV = undefined;
 
@@ -219,6 +223,9 @@ const VideoRoomComponent = () => {
       const username = tmp[0]
       const newPrice = parseInt(tmp[1])
       const currentHigh = parseInt(tmp[2]) // 세션 안에서 highPrice가 계속 0이어서 이렇게 처리했음
+      setAuctionSessionList((prevAuctionSessionList) => {
+        return [...prevAuctionSessionList, username]
+      })
       if (newPrice > currentHigh) {
         setHighestPrice(newPrice);
         setBestBidder(username);
@@ -421,24 +428,6 @@ const VideoRoomComponent = () => {
     joinSession();
   };
 
-  // 타이머 시작
-  const startTimer = () => {
-    // 시간이 다 됐을 때만 버튼이 작동 가능
-    if (seconds === 0 && sessionCount < 2) {
-      session
-        .signal({
-          data: 20,
-          type: "timer",
-        })
-        .then(() => {
-          console.log("timer ON!");
-        })
-        .catch((error) => {
-          console.error(error);
-        });
-    };
-  };
-
   return (
     <div className="container">
       {session === undefined && roomId !== null && <Loading enterAuctionRoom={enterAuctionRoom}></Loading>}
@@ -455,42 +444,36 @@ const VideoRoomComponent = () => {
             <div className="session-header2">
               <div className="img-tag">
                 <img className="profile-img" src={logo} alt="/"/>
-                <div style={{ color: 'white' }}>{auctionRoomTitle}</div>
+                <div style={{ color: 'white', fontSize: '20px', fontWeight: 'bold' }}>{auctionRoomTitle}</div>
               </div>
               <div>
                 <div style={{display: 'flex', justifyContent: 'space-between', margin: '5px'}}>
-                  <div style={{ display: 'flex', justifyContent: 'base', alignItems: 'center' }}>
+                  <div style={{ display: 'flex', justifyContent: 'base', alignItems: 'center', marginRight: '5px' }}>
                     <Person style={{ color: 'red' }} /><span style={{ color: 'white' }}>{totalUsers}</span>
                   </div>
                   <OnAirButton></OnAirButton>
                 </div>
-                <LeaveButton leaveSession={leaveSession}></LeaveButton>
               </div>
             </div>
             <div className="session-header2">
-              <Button className='mui-btn' variant="contained">
-                <Sell></Sell>
-                물품 목록
-              </Button>
-              {!toggleStart && isHost && <Button className='mui-btn' variant="contained" onClick={startAuction}>
-                <PlayCircleFilled />
-                세션 시작
-              </Button>}
-              {toggleStart && isHost && <Button className='mui-btn' variant="contained" onClick={startTimer}>
-                {seconds === 0 && <ButtonDiv>
-                  <Timer></Timer>
-                  타이머 시작
-                </ButtonDiv>}
-                {seconds !== 0 && <ButtonDiv>
-                  <ShutterSpeed></ShutterSpeed>
-                  진행중
-                </ButtonDiv>}
-              </Button>}
+              {!toggleStart && isHost && <SessionStartButton startAuction={startAuction}></SessionStartButton>}
+              {!toggleStart && <LeaveButton leaveSession={leaveSession}></LeaveButton>}
+              {toggleStart && <ItemShowButton setItemDisplay={setItemDisplay}>물품 보기</ItemShowButton>}
             </div>
           </div>
           {toggleStart && <div id="auction-screen">
+            {itemDisplay && <AuctionItemCard
+              productTitle={items[itemIndex].productTitle}
+              grade={items[itemIndex].grade}
+              quantity={items[itemIndex].quantity}
+              startingPrice={items[itemIndex].startingPrice}
+              bidIncrement={items[itemIndex].bidIncrement}
+              tempHighestPrice={tempHighestPrice}
+            ></AuctionItemCard>}
             <StyledDiv>
-              {sessionCount}회차 경매
+              <WhiteDiv>
+                {sessionCount}회차 경매
+              </WhiteDiv>
               <AuctionTimer
                 seconds={seconds}
                 setSeconds={setSeconds}
@@ -506,27 +489,18 @@ const VideoRoomComponent = () => {
                 bestBidder={bestBidder}
                 setTempBestBidder={setTempBestBidder}
                 maxIndex={items.length}
+                toggleStart={toggleStart}
                 isHost={isHost}
+                setAuctionSessionList={setAuctionSessionList}
               />
             </StyledDiv>
-            <AuctionItemCard
-              productTitle={items[itemIndex].productTitle}
-              grade={items[itemIndex].grade}
-              quantity={items[itemIndex].quantity}
-              startingPrice={items[itemIndex].startingPrice}
-              bidIncrement={items[itemIndex].bidIncrement}
-              tempHighestPrice={tempHighestPrice}
-            ></AuctionItemCard>
-            <StyledDiv>
-              <WhiteDiv>
-                ￦{price.toLocaleString('ko-KR')}원
-              </WhiteDiv>
-            </StyledDiv>
+
+            <AuctionSession auctionsessionList={auctionsessionList}></AuctionSession>
             <StyledDiv style={{ width: '350px', display: 'flex', justifyContent: 'space-between'}}>
-              <div style={{ width: '250px', display: 'flex', justifyContent: 'start', alignItems: 'center', marginLeft: '10px'}} >
-                <Swipeable biddingHandler={biddingHandler}></Swipeable>
+              <div style={{ width: '250px', display: 'flex', justifyContent: 'start', alignItems: 'center', marginLeft: '5px'}} >
+                <Swipeable biddingHandler={biddingHandler} price={price}></Swipeable>
               </div>
-              <div style={{display: 'flex', flexDirection: 'column'}}>
+              <div style={{display: 'flex', flexDirection: 'column', justifyContent: 'center', alignItems: 'center'}}>
                 <UpButton priceUpHandler={priceUpHandler}/>
                 <DownButton priceDownHandler={priceDownHandler}/>
               </div>

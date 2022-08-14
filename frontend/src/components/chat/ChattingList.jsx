@@ -4,7 +4,7 @@ import _ from 'lodash';
 import temp_logo from '../../assets/로고.svg';
 
 const StyledChattingList = styled.div`
-  height: 200px;
+  height: 240px;
   background: rgba(0, 0, 0, 0.2);
   text-align: left;
   overflow: scroll;
@@ -22,7 +22,7 @@ const ProfileDiv = styled.div`
   width: 50px;
   border-radius: 70%;
   overflow: hidden;
-  border: 1px solid;
+  border: 1px solid rgba(33, 33, 33);
 `
 
 const ProfileImg = styled.img`
@@ -30,9 +30,10 @@ const ProfileImg = styled.img`
   width: 100%;
   object-fit: cover;
 `
-
+//   color: rgba(100, 100, 100);
 const MessageSenderDiv = styled.div`
-  color: rgba(100, 100, 100);
+  color: rgba(210, 210, 210);
+  text-shadow: -1px 0 black, 0 1px black, 1px 0 black, 0 -1px black;
   font-weight: bold;
   font-size: large;
   margin-left: 5px;
@@ -44,7 +45,6 @@ const MessageContentDiv = styled.div`
   font-weight: bold;
   font-size: large;
   margin-left: 5px;
-  text-shadow: -1px 0 black, 0 1px black, 1px 0 black, 0 -1px black;
 `
 
 const ChattingList = (props) => {
