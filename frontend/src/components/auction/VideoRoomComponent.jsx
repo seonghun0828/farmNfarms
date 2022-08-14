@@ -6,7 +6,8 @@ import ChattingList from '../chat/ChattingList';
 import UserVideoComponent from './UserVideoComponent';
 import AuctionTimer from '../auctiontimer/AuctionTimer';
 import send from './send';
-import { Person, PlayCircleFilled, Sell, Timer, ShutterSpeed } from '@mui/icons-material'
+import deleteRoom from './delete';
+import { Person, PlayCircleFilled, Sell, Timer, ShutterSpeed } from '@mui/icons-material';
 import { useNavigate } from "react-router-dom";
 import { Button } from '@mui/material';
 import logo from "../../assets/로고.svg";
@@ -22,6 +23,7 @@ import LeaveButton from '../atoms/LeaveButton';
 import Swipeable from '../molecules/Swipeable';
 import _ from 'lodash';
 import nameList from '../../common/randomNickname';
+import NotFound from '../pages/NotFound';
 
 const StyledDiv = styled.div`
   background: rgba(0, 0, 0, 0.2);
@@ -54,10 +56,10 @@ const OPENVIDU_SERVER_SECRET = 'MY_SECRET';
 const VideoRoomComponent = () => {
   const navigate = useNavigate(); // 네비게이터(방 나갈 때 사용)
   const location = useLocation(); // 로케이션(이전 페이지에서 데이터를 받아옴)
-  const roomId = location.state.id;
-  const items = location.state.items;
-  const sellerPhoneNumber = location.state.phone;
-  const myPhoneNumber = useSelector((state) => state.token.value.phone);
+  const roomId = (location.state !== null) ? location.state.id : null;
+  const items = (location.state !== null) ? location.state.items : [{ startingPrice: 0 }];
+  const sellerPhoneNumber = (location.state !== null) ? location.state.phone: null;
+  const myPhoneNumber = useSelector((state) => state.token.value.phone); // RTK에서 핸드폰 번호를 불러옴
   
   const [mySessionId, setMySessionId] = useState('SessionA');
   const [myUserName, setMyUserName] = useState('Participant' + Math.floor(Math.random() * 100));
@@ -156,7 +158,7 @@ const VideoRoomComponent = () => {
   // 세션 아이디 설정
   useEffect(() => {
     setMySessionId(`Session${roomId}`);
-  }, []);
+  });
 
   // 세션에 참여하기
   const joinSession = () => {
@@ -250,6 +252,19 @@ const VideoRoomComponent = () => {
     });
   }
 
+  // 방 삭제 요청 api
+  const deleteRoomRequest = async() => {
+    if (isHost) {
+      setIsHost(false) // isHost를 false로 설정함
+      const reqeustResponse = await deleteRoom(roomId);
+      if (reqeustResponse) {
+        console.log('Room Deleted Successfully!');
+      } else {
+        console.log('Room Deleted Failed!')
+      }
+    }
+  }
+
   // 세선 떠나기 --- 7) disconnect함수를 호출하여 세션을 떠남
   const leaveSession = () => {
     const mySession = session;
@@ -271,7 +286,7 @@ const VideoRoomComponent = () => {
     setTotalUsers((prevTotalUsers) => { return 0 })
     setItemIndex(0) // 0으로 바꿔줘야 방을 파고 다시 들어왔을 때 목록을 0부터 시작할 수 있음
     setSeconds(0) // 시간 초를 0초로 초기화
-    setIsHost(false) // isHost를 false로 설정함
+    deleteRoomRequest(); // 방 삭제를 요청함
   }
 
   // 호스트(방 생성자) 여부에 따른 isHost를 토글링함(created()) + 호스트가 아닐 경우 유저의 이름을 바꿈
@@ -424,7 +439,8 @@ const VideoRoomComponent = () => {
 
   return (
     <div className="container">
-      {session === undefined && <Loading enterAuctionRoom={enterAuctionRoom}></Loading>}
+      {session === undefined && roomId !== null && <Loading enterAuctionRoom={enterAuctionRoom}></Loading>}
+      {roomId == null && <NotFound></NotFound>}
       {session !== undefined ? (
         <div id="session">
           {mainStreamManager !== undefined ? (

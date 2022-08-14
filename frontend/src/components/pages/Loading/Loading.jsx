@@ -60,7 +60,7 @@ const LogoImg = styled.img`
   position: absolute;
   z-index: 0;
   padding-bottom: 0px;
-  animation: ${logoMove} 1.2s linear infinite;
+  animation: ${logoMove} 1s linear infinite;
 `
 
 const loading = keyframes`
@@ -92,7 +92,7 @@ const LoadingMessageDiv = styled.div`
     color: white;
     text-align: center;
     transform: translate(-95px, 0px);
-    animation: ${loading} 1.5s linear;
+    animation: ${loading} 1s linear;
     font-size: 28px;
     font-weight: bold;
   }
