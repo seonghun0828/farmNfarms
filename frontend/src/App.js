@@ -17,6 +17,7 @@ import { useDispatch, useSelector } from 'react-redux';
 import reissue from '../src/common/reissue'
 import History from './components/pages/History';
 import TestPage from './components/pages/TestPage/TestPage';
+import apiPath from './common/apiPath';
 import Success from './components/pages/PayResult/Success';
 import Cancel from './components/pages/PayResult/Cancel';
 import Fail from './components/pages/PayResult/Fail';
@@ -29,7 +30,6 @@ function App() {
       reissue(dispatch);
     }
   }, [dispatch]);
-
   return (
     <div className="App">
       <ThemeProvider theme={theme}>
@@ -49,9 +49,9 @@ function App() {
             <Route path="/mypage/update" element={<UpdateProfile />}/>
             <Route path="/history" element={<History />}/>
             <Route path="/test" element={<TestPage />}/>
-            <Route path="/pay/success" element={<Success />}/>
-            <Route path="/pay/cancel" element={<Cancel />}/>
-            <Route path="/pay/fail" element={<Fail />}/>
+            <Route path="/api/v1/pay/success" element={<Success />}/>
+            <Route path="/api/v1/pay/cancel" element={<Cancel />}/>
+            <Route path="/api/v1/pay/fail" element={<Fail />}/>
             <Route path="/*" element={<NotFound />}/>
           </Routes>
         </BrowserRouter>
