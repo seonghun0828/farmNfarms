@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react";
-import { FlexBox, Label, HelpText } from '../Input/Input.styled';
+import { FlexBox } from '../Input/Input.styled';
 import styled from 'styled-components';
 
 const InputBox = styled.div`
@@ -69,7 +69,7 @@ const productSuggestions = [
   '깻잎'
 ];
 
-const Autocomplete = ({ items, name }) => {
+const Autocomplete = ({ name, items }) => {
   const [suggestions, setSuggestions] = useState(productSuggestions); // 자동완성 추천 목록
   const [itemIdx, setItemIdx] = useState(-1); // suggestion에 대한 아이템 인덱스
   const [inputText, setInputText] = useState(''); // 텍스트 입력값

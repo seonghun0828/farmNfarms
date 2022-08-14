@@ -1,10 +1,10 @@
 import React from "react";
-import { ExitToApp } from '@mui/icons-material'
+import { ShoppingCart } from '@mui/icons-material'
 import styled from "styled-components";
 
 const StyledDiv = styled.div`
-  background: gray;
-  width: 100px;
+  background: #019267;
+  width: 120px;
   height: 40px;
   padding: 4px;
   margin: 4px 4px 4px 0px;
@@ -18,14 +18,20 @@ const StyledDiv = styled.div`
   box-shadow: 2px 2px 1px black;
 `
 
+const ItemShowButton = ({ setItemDisplay }) => {
 
-const LeaveButton = ({leaveSession}) => {
+  const toggleDisplay = () => {
+    setItemDisplay((prevState) => {
+      return !prevState;
+    })
+  }
+
   return (
-    <StyledDiv onClick={leaveSession}>
-      <ExitToApp />
-      나가기
+    <StyledDiv onClick={toggleDisplay}>
+      <ShoppingCart />
+      물품 정보
     </StyledDiv>
   )
 }
 
-export default LeaveButton;
+export default ItemShowButton;
