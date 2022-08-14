@@ -57,7 +57,7 @@ const Mypage = () => {
   const navigate = useNavigate();
   const phoneNumber = useSelector((state) => state.token.value.phone);
   const dispatch = useDispatch();
-
+  console.log(phoneNumber); // 테스트 하고 지우기
   const leftBtn = isSalesHistory ? 'highlight' : 'blackbutton';
   const rightBtn = isSalesHistory ? 'blackbutton' : 'highlight';
 

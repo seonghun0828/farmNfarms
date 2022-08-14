@@ -56,36 +56,35 @@ const History = () => {
   const auctionResultId = useSelector((state) => state.token.value.auctionResultId);
   const isSalesHistory = useSelector((state) => state.token.value.isSalesHistory);
   
-  const { data: { data }, isLoading, isError} = useQuery(
+  const { data, isLoading, isError} = useQuery(
     ['detailHistory'],
     () => getDetailHistory(auctionResultId, isSalesHistory),
     {
 
     }
   )
+  if (isLoading) {
+    return <div>Loading...</div>
+  }
+  
+  if (isError) {
+    alertError('Failed to fetch detail history');
+  }
 
-  const {auctionedPrice, deliveryCompleted, grade, paymentCompleted, productTitle, quantity,
-        buyerName, buyerAddress, buyerPhoneNumber, sellerName, sellerPhoneNumber, sellerBank, sellerAccount
-  } = data;
-
+  const {auctionedPrice, deliveryCompleted, grade, paymentCompleted, productTitle, quantity, createAt,
+    buyerName, buyerAddress, buyerPhoneNumber, sellerName, sellerPhoneNumber, sellerBank, sellerAccount
+  } = data.data;
+  
   const item = {auctionedPrice, deliveryCompleted, grade, paymentCompleted, productTitle, quantity};
   
   const hyphenedPhoneNumber = buyerPhoneNumber ?
     buyerPhoneNumber.slice(0, 3) + '-' + buyerPhoneNumber.slice(3, 7) + '-' + buyerPhoneNumber.slice(7, buyerPhoneNumber.length) :
     sellerPhoneNumber.slice(0, 3) + '-' + sellerPhoneNumber.slice(3, 7) + '-' + sellerPhoneNumber.slice(7, sellerPhoneNumber.length);
-  // isSalesHistory 따라 처리하기
+    // isSalesHistory 따라 처리하기
 
   const partnerInfo = isSalesHistory ?
     [['구매자', buyerName], ['휴대폰번호', hyphenedPhoneNumber], ['주소', buyerAddress]] :
     [['판매자', sellerName], ['휴대폰번호', hyphenedPhoneNumber], ['은행', sellerBank], ['계좌번호', sellerAccount]]
-
-  if (isError) {
-    alertError('Failed to fetch detail history');
-  }
-  if (isLoading) {
-    return <div>Loading...</div>
-  }
-
   return (
     <StyledHistory>
       <Navbar url={logo} navigate={navigate} isLogin={isLogin} setIsLogin={setIsLogin} imgSize="xs" fontSize="sm" mode="graytext" />
@@ -93,7 +92,7 @@ const History = () => {
         <LeftAlign>
             <Button fontSize='lg' mode='graytext' onClick={() => move(navigate, -1)}>뒤로 가기</Button>
         </LeftAlign>
-        <ProgressBox />
+        <ProgressBox progress={{isSalesHistory, deliveryCompleted, paymentCompleted, createAt, auctionResultId}} />
         <TradeItemCard  item={item}  />
         <PartnerInfo>
           {
