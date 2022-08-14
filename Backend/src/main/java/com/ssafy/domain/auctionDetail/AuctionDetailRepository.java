@@ -14,7 +14,7 @@ public interface AuctionDetailRepository extends JpaRepository<AuctionDetail, Lo
             "r.auction_room_description auctionRoomDescription, " +
             "r.thumbnail_id thumbnailId," +
             "r.owner_id ownerId " +
-            "from auction_room r INNER JOIN Auction_Detail d ON d.AUCTION_ROOM_ID = r.ID where d.product_title like CONCAT('%', :product, '%')" +
+            "from auction_room r INNER JOIN auction_detail d ON d.AUCTION_ROOM_ID = r.ID where d.product_title like CONCAT('%', :product, '%')" +
             "ORDER BY r.created_At DESC", nativeQuery = true)
     List<AuctionRoomDto> findAllByProduct(@Param("product") String product);
 
