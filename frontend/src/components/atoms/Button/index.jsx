@@ -8,6 +8,7 @@ const MODE = {
   // THIRD: "third",
   // HIGHLIGHT: "highlight",
   BLACKTEXT: "blacktext",
+  GREENTEXT: "greentext",
   GRAYTEXT: "graytext",
   WHITETEXT: "whitetext",
   BLACKBUTTON: "blackbutton",
@@ -31,7 +32,7 @@ const Button = ({children, fontSize, fontWeight, mode, width, height, onClick, .
       );
   }
 
-  if (mode !== "graytext" && mode !== "whitetext" && mode !== "blacktext") {
+  if (mode !== "graytext" && mode !== "whitetext" && mode !== "blacktext" && mode !== 'greentext') {
     return (
     <StyledButton 
       fontSize={fontSize}
@@ -46,6 +47,7 @@ const Button = ({children, fontSize, fontWeight, mode, width, height, onClick, .
     </StyledButton>
     );
   }
+
   return (
     <StyledTextButton
       fontSize={fontSize}
