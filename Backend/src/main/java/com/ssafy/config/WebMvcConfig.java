@@ -19,6 +19,7 @@ public class WebMvcConfig implements WebMvcConfigurer {
     @Value("${app.upload.dir:${user.home}}")
     private String uploadPath;
 
+    /*
     @Bean
     public CorsConfigurationSource corsConfigurationSource() {
         CorsConfiguration configuration = new CorsConfiguration();
@@ -32,6 +33,7 @@ public class WebMvcConfig implements WebMvcConfigurer {
         source.registerCorsConfiguration("/**", configuration);
         return source;
     }
+    */
 
     @Override
     public void addResourceHandlers(ResourceHandlerRegistry registry) {
