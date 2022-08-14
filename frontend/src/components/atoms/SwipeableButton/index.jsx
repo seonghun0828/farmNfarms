@@ -72,7 +72,7 @@ const SwipeableButton = (props) => {
   }
 
   const getText = () => {
-    let text = props.text;
+    let text = "￦"+props.text.toLocaleString('ko-KR')+"원";
     if (done) {
       return (<span><TouchApp />입찰하기</span>);
     } else if (!done && slideRight > 0) {
@@ -100,7 +100,10 @@ const SwipeableButton = (props) => {
             <span className='rsbcSliderArrow'></span>
             <span className='rsbcSliderCircle' style={{ background: props.color }}></span>
           </div>
-          <div className='rsbcText'>{getText()}</div>
+          <div className='rsbcText'>
+            {getText()}
+            <div style={{fontSize: '12px', color: 'gray'}}>밀어서 입찰하기</div>
+          </div>
         </div>
       </div>
   )

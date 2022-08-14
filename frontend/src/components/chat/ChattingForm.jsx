@@ -31,10 +31,10 @@ const ChattingForm = (props) => {
         id="chat-input"
         value={message}
         onChange={inputChangeHandler}
-        style={{ width: '100%', background: 'rgba(255, 255, 255)', border: '1px solid rgba(177, 177, 177)', borderRadius: '5px'}}
+        style={{ width: '100%', background: 'rgba(255, 255, 255)', border: '1px solid rgba(177, 177, 177)', borderRadius: '5px', padding: '5px'}}
         ></Input>
       <Tooltip title="메세지 보내기">
-      <Button variant="contained" style={{ color: "#000000", background: '#d7e029'}} onClick={sendMessage}>
+        <Button variant="contained" style={{ color: "#000000", background: '#ffeb3b'}} onClick={sendMessage}>
           <Send></Send>
         </Button>
       </Tooltip>

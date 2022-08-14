@@ -1,17 +1,28 @@
 import React from "react";
-import { Paid, Upload} from '@mui/icons-material';
-import { Button } from '@mui/material';
+import { AttachMoney } from '@mui/icons-material';
+import styled from "styled-components";
+
+const StyledDiv = styled.div`
+  background: #448aff;
+  width: 60px;
+  padding: 4px;
+  margin: 4px 4px 4px 0px;
+  border-radius: 10px;
+  font-size: large;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  box-shadow: 2px 2px 1px black;
+`
 
 const UpButton = ({ priceUpHandler }) => {
   return (
-    <Button
-      variant='contained'
-      style={{ width: '50px', fontSize: '16px', fontWeight: 'bold', padding: '4px', marginTop: '4px', marginBottom: '4px', marginRight: '10px' }}
+    <StyledDiv
       onClick={priceUpHandler}
     >
-      <Paid></Paid>
-      <Upload></Upload>
-    </Button>
+      <AttachMoney style={{color: 'white', width: '30px', height: '30px'}}></AttachMoney>
+      <span style={{ color: 'white', width: '30px', height: '30px' }}>▲</span>
+    </StyledDiv>
   )
 }
 

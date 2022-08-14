@@ -26,11 +26,12 @@
   float: left;
   width: 250px;
   height: 100%;
-  background: #eee;
+  background: rgba(238, 238, 238, 0.7);/* background: #eee; */
   border-radius: 15px; /* 50px */
   position: relative;
   /* box-shadow: inset 1px 1px 4px rgba(0,0,0,0.1); */
   overflow: hidden;
+  box-shadow: 2px 2px 1px black
 }
 
 .rsbContainerUnlocked {
@@ -78,10 +79,10 @@
   right: 0;
   line-height: 50px;
   text-align: center;
-  font-family: 'Lucida Sans', 'Lucida Sans Regular', 'Lucida Grande', 'Lucida Sans Unicode', Geneva, Verdana, sans-serif;
+  /* font-family: 'Lucida Sans', 'Lucida Sans Regular', 'Lucida Grande', 'Lucida Sans Unicode', Geneva, Verdana, sans-serif; */
   letter-spacing: 2px;
   color: #fff;
-  font-size: 13px;
+  font-size: 16px;
 
 }
 
@@ -118,10 +119,12 @@
   left: 0;
   right: 0;
   height: 50px;
-  line-height: 50px;
+  /* line-height: 50px; */
   text-align: center;
-  font-family: 'Lucida Sans', 'Lucida Sans Regular', 'Lucida Grande', 'Lucida Sans Unicode', Geneva, Verdana, sans-serif;
+  /* font-family: 'Lucida Sans', 'Lucida Sans Regular', 'Lucida Grande', 'Lucida Sans Unicode', Geneva, Verdana, sans-serif; */
   letter-spacing: 2px;
-  font-size: 13px;
-  color: #aaa;
+  font-size: 20px;
+  font-weight: bold;
+  padding-left: 40px;
+  color: black;
 }

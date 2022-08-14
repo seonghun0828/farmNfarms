@@ -14,6 +14,7 @@ import PhotoCameraIcon from '@mui/icons-material/PhotoCamera';
 import uploadFile from '../../../common/uploadFile';
 import createAuctionRoom from './createAuctionRoom';
 import { useSelector } from 'react-redux';
+import { AddCircle } from '@mui/icons-material';
 
 const StyledCreateAuctionRoom = styled.div``;
 
@@ -196,7 +197,7 @@ const CreateAuctionRoom = () => {
           <ItemAddingAreaNav>
             <Space />
             <Text color='white' weight='bold' fontSize='lg' >농산물 항목</Text>
-            <Button mode='whitetext' width='1rem' height='1rem' fontSize='xxxl' color='white' onClick={addItem}>+</Button>
+            <Button mode='whitetext' width='1rem' height='1rem' fontSize='xxxl' color='white' onClick={addItem}><AddCircle /></Button>
           </ItemAddingAreaNav>
           <ItemAddingAreaBody>
             {
