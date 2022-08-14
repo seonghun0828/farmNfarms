@@ -30,7 +30,6 @@ function App() {
       reissue(dispatch);
     }
   }, [dispatch]);
-
   return (
     <div className="App">
       <ThemeProvider theme={theme}>
@@ -50,9 +49,9 @@ function App() {
             <Route path="/mypage/update" element={<UpdateProfile />}/>
             <Route path="/history" element={<History />}/>
             <Route path="/test" element={<TestPage />}/>
-            <Route path={apiPath.pay.pay() + "success"} element={<Success />}/>
-            <Route path={apiPath.pay.pay() + "cancel"} element={<Cancel />}/>
-            <Route path={apiPath.pay.pay() + "fail"} element={<Fail />}/>
+            <Route path="/api/v1/pay/success" element={<Success />}/>
+            <Route path="/api/v1/pay/cancel" element={<Cancel />}/>
+            <Route path="/api/v1/pay/fail" element={<Fail />}/>
             <Route path="/*" element={<NotFound />}/>
           </Routes>
         </BrowserRouter>
