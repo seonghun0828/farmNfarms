@@ -4,8 +4,9 @@ import { StyledButton, StyledTextButton } from './Button.styled';
 const MODE = {
   PRIMARY: "primary",
   SECONDARY: "secondary",
-  THIRD: "third",
-  HIGHLIGHT: "highlight",
+  READONLY: "readonly",
+  // THIRD: "third",
+  // HIGHLIGHT: "highlight",
   BLACKTEXT: "blacktext",
   GRAYTEXT: "graytext",
   WHITETEXT: "whitetext",
@@ -13,7 +14,23 @@ const MODE = {
   REDBUTTON: "redbutton"
 };
 
-const Button = ({children, fontSize, fontWeight, mode, width, height, ...rest}) => {
+const Button = ({children, fontSize, fontWeight, mode, width, height, onClick, ...rest}) => {
+
+  if (mode === "readonly") {
+    return (
+      <StyledButton 
+        fontSize={fontSize}
+        fontWeight={fontWeight}
+        mode={mode}
+        width={width}
+        height={height}
+        {...rest}
+      >
+        {children}
+      </StyledButton>
+      );
+  }
+
   if (mode !== "graytext" && mode !== "whitetext" && mode !== "blacktext") {
     return (
     <StyledButton 
@@ -22,6 +39,7 @@ const Button = ({children, fontSize, fontWeight, mode, width, height, ...rest}) 
       mode={mode}
       width={width}
       height={height}
+      onClick={onClick}
       {...rest}
     >
       {children}
@@ -33,6 +51,7 @@ const Button = ({children, fontSize, fontWeight, mode, width, height, ...rest}) 
       fontSize={fontSize}
       fontWeight={fontWeight}
       mode={mode}
+      onClick={onClick}
       {...rest}
     >
       {children}

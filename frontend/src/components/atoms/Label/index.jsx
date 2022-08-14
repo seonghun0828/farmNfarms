@@ -18,6 +18,7 @@ const fontSize = css`
 const StyledLabel = styled.label`
     ${colorStyle}
     ${fontSize}
+    font-family: 'Noto Sans KR';
 `
 const Label = ({children, htmlFor, ...rest}) => {
     return <StyledLabel htmlFor={htmlFor} {...rest}>{children}</StyledLabel>
