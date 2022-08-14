@@ -3,19 +3,17 @@ import { alertError } from '../../../common/alertError';
 import apiPath from '../../../common/apiPath';
 
 const payReady = async (auctionResultId) => {
+  console.log(auctionResultId);
   try {
-    const result = await axios({
+    const { data : { next_redirect_mobile_url }} = await axios({
       method: 'POST',
       url: apiPath.pay.pay(),
       data: {
         auctionResultId,
       }
     });
-    console.log(result);
-    // if (result.status !== 200)
-    //   throw new Error(result.statusText);
 
-    return result;
+    return next_redirect_mobile_url;
   } catch (error) {
     alertError(error);
   }

@@ -51,9 +51,9 @@ const ProgressBox = ({progress}) => {
       console.log('alert 띄우고, 구매 확정 api 보내고, mypage로 리다이렉트');
     }
   }
-  const clickPay = () => {
-    console.log('결제 진행 페이지 띄우기');
-    payReady(auctionResultId);
+  const clickPay = async () => {
+    const next_redirect_mobile_url = await payReady(auctionResultId);
+    window.location.href = next_redirect_mobile_url;
   }
   useEffect(() => {
     const interval = setInterval(() => {
