@@ -8,6 +8,7 @@ const textColor = {
   // third: theme.colors.white,
   // highlight: theme.colors.black,
   graytext: theme.colors.gray2,
+  greentext: theme.colors.green3,
   whitetext: theme.colors.white,
   blacktext: theme.colors.black,
 };
@@ -19,6 +20,7 @@ const bgColor = {
   // third: theme.colors.green5,
   // highlight: theme.colors.green1,
   graytext: 'transparent',
+  greentext: 'transparent',
   whitetext: 'transparent',
   blacktext: 'transparent',
 };
@@ -30,11 +32,13 @@ const borderColor = {
   // third: theme.colors.green5,
   // highlight: theme.colors.green1,
   graytext: 'transparent',
+  greentext: 'transparent',
   whitetext: 'transparent',
   blacktext: 'transparent',
 };
 
-export const StyledTextButton = styled.div`
+export const StyledTextButton = styled.button`
+  all: unset;
   display: inline-block;
 
   color: ${({mode}) => textColor[mode]};
