@@ -3,7 +3,6 @@ import { alertError } from '../../../common/alertError';
 import apiPath from '../../../common/apiPath';
 
 const payReady = async (auctionResultId) => {
-  console.log(auctionResultId);
   try {
     const { data : { next_redirect_mobile_url }} = await axios({
       method: 'POST',
