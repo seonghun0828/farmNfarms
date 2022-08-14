@@ -92,7 +92,7 @@ const History = () => {
         <LeftAlign>
             <Button fontSize='lg' mode='graytext' onClick={() => move(navigate, -1)}>뒤로 가기</Button>
         </LeftAlign>
-        <ProgressBox progress={{isSalesHistory, deliveryCompleted, paymentCompleted, createAt}} />
+        <ProgressBox progress={{isSalesHistory, deliveryCompleted, paymentCompleted, createAt, auctionResultId}} />
         <TradeItemCard  item={item}  />
         <PartnerInfo>
           {
