@@ -68,11 +68,17 @@ const deviceSizes = {
 
 const colors = {
   yellow : '#FFD557',
-  green1: '#D7E029',
-  green2: '#CBCC2C',
-  green3: '#0F9749',
-  green4: '#74AF50',
-  green5: '#508E47',
+  // green1: '#D7E029',
+  // green2: '#CBCC2C',
+  // green3: '#0F9749',
+  // green4: '#74AF50',
+  // green5: '#508E47',
+  // 초록색 통일하려고 하는데 일단 모든 컬러 색상 코드를 독같이 해놨스빈다 나중에 변수 이름 고치기~~
+  green1: '#019267',
+  green2: '#019267',
+  green3: '#019267',
+  green4: '#019267',
+  green5: '#019267',
   pink1: '#FCE0E5',
   pink2: '#F5CBD5',
   red: '#EC2029',
@@ -81,9 +87,12 @@ const colors = {
   brown1: '#8A603C',
   brown2: '#6A4126',
   gray1: '#F3F5F7',
-  gray2: '#ADA7A8',
-  gray3: '#E7E7E7',
-  black : '#324034',
+  // gray2: '#ADA7A8',
+  // gray3: '#E7E7E7',
+  gray2: '#767676',
+  gray3: '#E1E1E1',
+  // black : '#324034',
+  black: '#404040',
   white: '#FFFFFF',
   background: 'linear-gradient(35deg, #CBCC2C 25%, #508E47 90%)'
 };

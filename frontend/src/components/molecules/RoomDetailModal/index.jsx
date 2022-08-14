@@ -18,7 +18,6 @@ const slideOn = keyframes`
   }
 `
 
-// 위로 올라오듯이 css 효과 넣기
 const BackGround = styled.div`
   position: fixed;
   background-color: rgba(0, 0, 0, 0.4);

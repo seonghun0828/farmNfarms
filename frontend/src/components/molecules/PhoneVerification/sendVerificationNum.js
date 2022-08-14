@@ -18,9 +18,10 @@ const sendVerificationNum = async (confirmNumber, id, setErrorType) => {
       window.alert('인증에 성공했습니다!');
       return true;
     } else if (isSuccess === 401) {
+      window.alert('인증에 성공했습니다!'); // 일단 성공 회원가입할 떄 중복 체크 할 것
       setErrorType(1); // 중복 아이디
-      window.alert('중복된 아이디 입니다.'); // 나중에 setErrorType으로 error 띄워주기
-      return false;
+      // window.alert('중복된 아이디 입니다.'); // 나중에 setErrorType으로 error 띄워주기
+      return true;
     }
     else {
       setErrorType(2); // 나머지 오류
