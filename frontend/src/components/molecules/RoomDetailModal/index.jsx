@@ -121,8 +121,16 @@ const RoomDetailModal = ({ title, description, items, closeModal, roomId, ownerP
       <BackGround onClick={(e) => {
         closeModal();
         e.stopPropagation();
-      }}/>
-      <Content>
+      }}
+        onTouchStart={(e) => {e.stopPropagation();}} 
+        onTouchMove={(e) => {e.stopPropagation();}}  // 이렇게 밖에 못막나? 한번에 막는법 없나
+        onTouchEnd={(e) => {e.stopPropagation();}}
+      />
+      <Content  
+        onTouchStart={(e) => {e.stopPropagation();}} 
+        onTouchMove={(e) => {e.stopPropagation();}} 
+        onTouchEnd={(e) => {e.stopPropagation();}}
+      >
         <Header>
           <Div pl={1}>
             <Text color="white" size="xxl" weight="bold">방 상세 정보</Text>
