@@ -1,5 +1,5 @@
 import React from "react";
-import logo from '../../assets/로고.svg';
+import logo from '../../../assets/로고.svg';
 import styled, {keyframes} from "styled-components";
 
 const StyledLoadingWrapper = styled.div`
@@ -60,7 +60,7 @@ const LogoImg = styled.img`
   position: absolute;
   z-index: 0;
   padding-bottom: 0px;
-  animation: ${logoMove} 1.5s linear infinite;
+  animation: ${logoMove} 1.2s linear infinite;
 `
 
 const loading = keyframes`

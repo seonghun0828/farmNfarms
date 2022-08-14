@@ -5,25 +5,15 @@ import move from '../../../common/move';
 import styled from 'styled-components';
 import Navbar from '../../molecules/Navbar';
 import Image from '../../atoms/Image';
-// import Text from '../../atoms/Text';
 import Button from '../../atoms/Button';
 import TradeItemCard from '../../molecules/TradeItemCard';
 import { useQuery } from '@tanstack/react-query';
-import { useSelector } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 import getFullHistory from './getFullHistory';
 import { alertError } from '../../../common/alertError';
 import Text from '../../atoms/Text';
 import getMyInfo from './getMyInfo';
-// import Input from '../../atoms/Input';
-// import Textarea from '../../atoms/Textarea';
-// import CreateItemCard from '../../molecules/CreateItemCard';
-// import { useNavigate } from 'react-router-dom';
-// import move from '../../../common/move';
-// import SearchBar from '../../molecules/SearchBar';
-// import { useInfiniteQuery } from '@tanstack/react-query';
-// import getAuctionRooms from './getAuctionRooms';
-// import { useInView } from 'react-intersection-observer';
-// import RoomCard from '../../molecules/RoomCard';
+import { save } from '../../../common/tokenSlice';
 
 const StyledMypage = styled.div`
   ${({ theme }) => theme.flex.columnCenter}
@@ -66,7 +56,8 @@ const Mypage = () => {
   const [isLogin, setIsLogin] = useState(localStorage.getItem('isLogin'));
   const navigate = useNavigate();
   const phoneNumber = useSelector((state) => state.token.value.phone);
-
+  const dispatch = useDispatch();
+  console.log(phoneNumber); // 테스트 하고 지우기
   const leftBtn = isSalesHistory ? 'highlight' : 'blackbutton';
   const rightBtn = isSalesHistory ? 'blackbutton' : 'highlight';
 
@@ -77,6 +68,14 @@ const Mypage = () => {
       setIsSalesHistory((state) => !state);
     }
   };
+
+  const clickHandler = (auctionResultId) => {
+    dispatch(save({
+      auctionResultId,
+      isSalesHistory
+    }));
+    move(navigate, '/history');
+  }
 
   const moveToUpdate = () => {
     move(navigate, 'update');
@@ -131,7 +130,7 @@ const Mypage = () => {
         {
           isLoading ? <div>Loading...</div> :
             data.length > 0 ?
-              data.map((item, idx) => <TradeItemCard navigate={navigate} key={item + idx} item={item} />) :
+              data.map((item, idx) => <TradeItemCard key={item + idx} item={item} clickHandler={clickHandler} />) :
               <div>현재 진행중인 경매 물품이 없습니다.</div>
         }
       </ItemInfoArea>

@@ -29,7 +29,7 @@ const CreateItemCard = ({inputs, items, idx, setItems}) => {
     return (
         <StyledCreateItemCard>
             <InputArea> 
-                <Autocomplete name={inputs[0].name} items={items[idx]} onChange={(e) => changeInput(e)} key={inputs[0].text + 0}></Autocomplete>
+                <Autocomplete name={inputs[0].name} items={items[idx]} onChange={(e) => changeInput(e)} key={inputs[0].text + Math.floor(Math.random() * 100)}></Autocomplete>
                 {inputs.slice(1).map(({ text, name, type }, itemIdx) => <Input height='2' onChange={(e) => changeInput(e)} name={name} type={type} placeholder={text} key={text + itemIdx} />)}
             </InputArea>
         </StyledCreateItemCard>
