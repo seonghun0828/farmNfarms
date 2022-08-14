@@ -1,11 +1,22 @@
 import ModalPortal from "./ModalPortal";
-import styled from "styled-components"
+import styled, { keyframes} from "styled-components"
 import Text from "../../atoms/Text";
 import Button from "../../atoms/Button";
 import theme from "../../../common/theme"
 import CloseIcon from '@mui/icons-material/Close';
 import ReadItemCard from "../ReadItemCard";
 import { useNavigate } from "react-router-dom";
+
+
+const slideOn = keyframes`
+  from {
+    height: 0;
+  }
+
+  to {
+    height: 65vh;
+  }
+`
 
 // 위로 올라오듯이 css 효과 넣기
 const BackGround = styled.div`
@@ -28,6 +39,7 @@ const Content = styled.div`
   height: 65vh;
   border-radius: 1rem 1rem 0 0;
   box-shadow: 0 0 1rem 0.2rem rgba(0, 0, 0, 0.3);
+  animation: ${slideOn} 0.3s ease;
 `
 
 const Header = styled.div`
@@ -39,8 +51,6 @@ const Header = styled.div`
   justify-content: space-between; 
   align-items: center;
 `
-
-// 왜 알파벳은 개행 안되냐거~~
 const RoomDetailSection = styled.div`
   width: 100%;
   height: 82%;
@@ -49,7 +59,6 @@ const RoomDetailSection = styled.div`
   padding: 0 1rem 2rem 1rem;
 `
 
-// 개행이 됐었는데 안됐습니다
 const TitleSection = styled.div`
   display: flex;
   flex-direction: column;
