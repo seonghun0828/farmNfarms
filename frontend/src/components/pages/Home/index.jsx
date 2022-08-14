@@ -76,21 +76,6 @@ const MoreButton = styled.div`
   cursor: pointer;
 `
 
-const AAA = styled.div`
-  width: 100px;
-  height: 100px;
-  border: 1px solid ${theme.colors.gray1}
-`
-const BBB = styled.div`
-  width: 100px;
-  height: 100px;
-  border: 1px solid ${theme.colors.gray2}
-`
-const CCC = styled.div`
-  width: 100px;
-  height: 100px;
-  border: 1px solid ${theme.colors.gray3}
-`
 const Home = () => {
   const navigate = useNavigate();
 

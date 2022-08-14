@@ -12,7 +12,7 @@ const size = css`
 const isCircle = css`
     ${({isCircle}) => isCircle &&
         css`
-            border-radius: 10rem;
+            border-radius: 50%;
         `
     }
 `
