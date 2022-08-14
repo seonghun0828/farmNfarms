@@ -8,7 +8,7 @@ const main_price = async () => {
             method: 'get',
             url: apiPath.price.main()
         });
-        return data.product;
+        return data.products;
     } catch (e) {
         alertError(e);
         return null;
