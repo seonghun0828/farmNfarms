@@ -12,13 +12,13 @@ import logo from '../../../assets/로고.svg';
 // import Graph from './Graph';
 
 const EXAMPLE_OPTIONS = [
-  { value: "배추", name: "배추" },
-  { value: "무", name: "무" },
-  { value: "감자", name: "감자" },
-  { value: "고구마", name: "고구마" },
-  { value: "당근", name: "당근" },
-  { value: "오이", name: "오이" },
-  { value: "토마토", name: "토마토" },
+  { value: "211", name: "배추" },
+  { value: "231", name: "무" },
+  { value: "152", name: "감자" },
+  { value: "151", name: "고구마" },
+  { value: "232", name: "당근" },
+  { value: "223", name: "오이" },
+  { value: "225", name: "토마토" },
 ];
 
 const Price = () => {
@@ -32,7 +32,7 @@ const Price = () => {
     const dateFormat = dayjs(date).format("YYYY-MM-DD");
     console.log(dateFormat, pickedProduct.product);
     setPriceData(await get_price(dateFormat, pickedProduct.product));
-    console.log(priceData)
+    // console.log(priceData)
   }
 
   const [isLogin, setIsLogin] = useState(localStorage.getItem('isLogin'));
