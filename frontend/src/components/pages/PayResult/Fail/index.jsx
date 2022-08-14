@@ -9,4 +9,4 @@ const Fail = () => {
   );
 };
 
-export default CaFailncel;
+export default Fail;
