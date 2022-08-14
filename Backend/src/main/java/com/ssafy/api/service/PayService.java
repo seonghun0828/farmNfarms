@@ -24,7 +24,7 @@ public class PayService {
     private  static final String APPROVE_ADDR = HOST + "/v1/payment/approve";
     private static final String ADMIN = "7786e49abfcbd35314669d03d013869a";
     //private static final String DOMAIN = "https://localhost:8080/api/v1/pay";
-    private static final String DOMAIN = "https://i7b203.p.ssafy.io:9000";
+    private static final String DOMAIN = "https://i7b203.p.ssafy.io:3000";
 
 
     public PayReadyRes payReady(AuctionResult auctionResult){
@@ -80,9 +80,9 @@ public class PayService {
                 //"total_amount=" + auctionResult.getAuctionDetail().getQuantity() * auctionResult.getAuctionedPrice() + "&" +//총 가격 -> 결제창에 보여지는 값.
                 "vat_amount=200&" + //세금?
                 "tax_free_amount=0&" + //비과세 금액인듯
-                "approval_url=" + DOMAIN + "/success&" +
-                "cancel_url=" + DOMAIN+  "/cancel&" +
-                "fail_url=" + DOMAIN + "/fail";
+                "approval_url=" + DOMAIN + "/pay/success&" +
+                "cancel_url=" + DOMAIN+  "/pay/cancel&" +
+                "fail_url=" + DOMAIN + "/pay/fail";
     }
 
     public ResponseEntity<PayApprovalRes> paySuccess(PayApprovalVO payApprovalVO, String pg_token) {
