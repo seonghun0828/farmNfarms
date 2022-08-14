@@ -4,6 +4,7 @@ import Text from '../../atoms/Text';
 import Button from '../../atoms/Button';
 import getLeftTime from './getLeftTime';
 import Image from '../../atoms/Image';
+import payReady from './payReady';
 
 const StyledProgressBox = styled.div`
   width: 22rem;
@@ -41,7 +42,7 @@ const PayButton = styled.div`
 
 const ProgressBox = ({progress}) => {
   const [leftTime, setLeftTime] = useState('');
-  const {isSalesHistory, deliveryCompleted, paymentCompleted, createAt} = progress;
+  const {isSalesHistory, deliveryCompleted, paymentCompleted, createAt, auctionResultId} = progress;
   const browseDelivery = () => {
     console.log('배송 업체 알아보는 웹 사이트 뜨게 하기');
   }
@@ -52,6 +53,7 @@ const ProgressBox = ({progress}) => {
   }
   const clickPay = () => {
     console.log('결제 진행 페이지 띄우기');
+    payReady(auctionResultId);
   }
   useEffect(() => {
     const interval = setInterval(() => {
