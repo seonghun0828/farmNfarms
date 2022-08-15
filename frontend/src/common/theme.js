@@ -84,6 +84,7 @@ const colors = {
   red: '#EC2029',
   orange1: '#F89520',
   orange2: '#D5792B',
+  colar: '#E76857',
   brown1: '#8A603C',
   brown2: '#6A4126',
   gray1: '#F3F5F7',

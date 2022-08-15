@@ -10,7 +10,7 @@ import PostCode from "../../molecules/PostCode";
 import Select from "../../atoms/Select";
 import join from "./join";
 import logo from '../../../assets/로고.svg'
-import { StyledJoin, LeftAlign, CenterAlign, FormGapLayout, TextLayout, ButtonLayout, BankAccount, BankDiv } from "./Join.styled"
+import { StyledJoin, LeftAlign, CenterAlign, FormGapLayout, TextLayout, ButtonLayout, BankAccount, BankDiv, HeadGap } from "./Join.styled"
 const Join = () => {
 
 	const [phone, setPhone] = useState(null);
@@ -166,17 +166,19 @@ const Join = () => {
 	
 	return (
 		<StyledJoin>
-			<LeftAlign>
-				<Button mode="graytext" onClick={() => move(navigate, -1)}>
-					뒤로 가기
-				</Button>
-			</LeftAlign>
-			<CenterAlign>
-				<Image src={logo} alt="logo" size="xxl"></Image>
-			</CenterAlign>
-			<TextLayout>
-				<Text color="green3" weight="bold" size="xxxl">회원가입</Text>
-			</TextLayout>
+			<HeadGap>
+				<LeftAlign>
+					<Button mode="graytext" onClick={() => move(navigate, -1)}>
+						뒤로 가기
+					</Button>
+				</LeftAlign>
+				<CenterAlign>
+					<Image src={logo} alt="logo" size="xxl"></Image>
+				</CenterAlign>
+				<TextLayout>
+					<Text color="green3" weight="bold" size="xxxl">회원가입</Text>
+				</TextLayout>
+			</HeadGap>
 			<FormGapLayout>
 				<PhoneVerification setIsVerificated={setIsVerificated} setPhone={setPhone}/>
 				<Input

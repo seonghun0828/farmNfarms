@@ -40,3 +40,9 @@ export const BankDiv = styled.div`
   width: 60%;
   padding-bottom: 0.2rem;
 `
+
+export const HeadGap = styled.div`
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+`

@@ -150,7 +150,7 @@ const Mypage = () => {
       <Div mt={0.5}/>
       <ProfileArea>
         <ProfileButtonArea>
-          <Button width="10rem" height="2rem" fontSize='lg' mode="secondary" onClick={moveToUpdate}>
+          <Button width="9rem" height="2rem" fontSize='lg' mode="secondary" radius="1rem" onClick={moveToUpdate}>
             회원정보 수정
           </Button>
         </ProfileButtonArea>

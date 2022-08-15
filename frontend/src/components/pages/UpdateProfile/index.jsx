@@ -13,6 +13,7 @@ import userInfo from './userInfo';
 import updateUserInfo from './updateUserInfo';
 import uploadFile from '../../../common/uploadFile';
 import Swal from "sweetalert2";
+import theme from '../../../common/theme';
 
 const ImageArea = styled.div`
   width: 9rem;
@@ -200,6 +201,9 @@ const UpdateProfile = () => {
       Swal.fire({
         title: '에러!',
         text: '수정할 비밀번호를 올바르게 입력해주세요.',
+        imageUrl: '/assets/Swal_image/먹힌사과.png',
+        imageHeight: 150,
+        confirmButtonColor: theme.colors.green3, 
      })
     }
     else {

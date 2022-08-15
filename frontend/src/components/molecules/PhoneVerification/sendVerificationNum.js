@@ -2,6 +2,7 @@ import axios from 'axios';
 import apiPath from '../../../common/apiPath';
 import { alertError } from '../../../common/alertError';
 import Swal from "sweetalert2";
+import theme from '../../../common/theme';
 
 const sendVerificationNum = async (confirmNumber, id, setErrorType) => {
   try {
@@ -18,6 +19,9 @@ const sendVerificationNum = async (confirmNumber, id, setErrorType) => {
         title: '성공',
         text: '인증에 성공했습니다!',
         width: 300,
+        imageUrl: '/assets/Swal_image/corn.png',
+        imageHeight: 150,
+        confirmButtonColor: theme.colors.green3, 
       })
       return true;
     } else if (isSuccess === 401) {
@@ -26,6 +30,9 @@ const sendVerificationNum = async (confirmNumber, id, setErrorType) => {
         title: '성공',
         text: '인증에 성공했습니다!',
         width: 300,
+        imageUrl: '/assets/Swal_image/corn.png',
+        imageHeight: 150,
+        confirmButtonColor: theme.colors.green3, 
       })
       setErrorType(1); // 중복 아이디
       // window.alert('중복된 아이디 입니다.'); // 나중에 setErrorType으로 error 띄워주기

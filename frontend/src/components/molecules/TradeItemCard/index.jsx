@@ -95,7 +95,7 @@ const TradeItemCard = ({labels, clickHandler, ...rest}) => {
           <Text size="xxl" weight="bold">{productTitle}</Text>
           <Text size="xl" color="gray2">{grade} / {quantity}kg</Text>
         </ItemInfo>
-        <Text size="xxl">{auctionedPrice} 원</Text>
+        <Text size="xxl">{auctionedPrice.toLocaleString('ko-KR')} 원</Text>
       </TotalItemInfo>
     </Card>
   );

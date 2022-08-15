@@ -1,4 +1,5 @@
-import Swal from "sweetalert2"
+import Swal from "sweetalert2";
+import theme from "./theme";
 
 export const alertError = (error) => {
     console.log(error);
@@ -9,5 +10,6 @@ export const alertError = (error) => {
         width: 300,
         imageUrl: '/assets/Swal_image/터진수박.png',
         imageHeight: 150,
+        confirmButtonColor: theme.colors.green3, 
     })
 }

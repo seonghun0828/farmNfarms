@@ -2,6 +2,7 @@ import axios from 'axios';
 import { alertError } from '../../../common/alertError';
 import apiPath from '../../../common/apiPath';
 import Swal from "sweetalert2";
+import theme from '../../../common/theme';
 
 const join = async (payload) => {
   try {
@@ -18,6 +19,9 @@ const join = async (payload) => {
         title: '성공!',
         text: '회원가입에 성공하였습니다',
         width: 300,
+        imageUrl: '/assets/Swal_image/corn.png',
+        imageHeight: 150,
+        confirmButtonColor: theme.colors.green3, 
       })
       return true;
     }
@@ -28,6 +32,7 @@ const join = async (payload) => {
         title: '에러!',
         text: '이미 가입된 핸드폰 번호 입니다.',
         width: 300,
+        confirmButtonColor: theme.colors.green3, 
       })
       return false;
     }
