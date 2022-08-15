@@ -32,6 +32,8 @@ const join = async (payload) => {
         title: '에러!',
         text: '이미 가입된 핸드폰 번호 입니다.',
         width: 300,
+        imageUrl: '/assets/Swal_image/먹힌사과.png',
+        imageHeight: 150,
         confirmButtonColor: theme.colors.green3, 
       })
       return false;
