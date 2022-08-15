@@ -42,7 +42,7 @@ const AuctionTimer = (
   { seconds, setSeconds, currentSession, sessionCount, setSessionCount, 
     setItemIndex, toggleStart, setToggleStart, setChatDisplay, maxIndex, sendAuctionResult, 
     setTempHighestPrice, highestPrice, bestBidder, setTempBestBidder, isHost, 
-    setAuctionSessionList, items, setPrice
+    setAuctionSessionList, items, setPrice, setFinArr, setShowCelebration
   }) => {
 
   const startTimer = () => {
@@ -86,10 +86,23 @@ const AuctionTimer = (
         setTempBestBidder(bestBidder) // 현재 세션에서만 고정되어 보여줄 경매 최고 입찰자
         if (sessionCount === 2) {
           sendAuctionResult() // 백엔드에 경매 결과 데이터를 보내는 함수를 호출함
+          if (bestBidder !== undefined) {
+            // 최고 입찰자가 있으면 2초 뒤에 축하 메세지 토글링
+            const toggleCelebration = setTimeout(() => {
+              setShowCelebration(true);
+            }, 2000);
+          }
+
           // 경매가 완전히 끝난 이후에도 20초를 대기함
           const endTimeOut = setTimeout(() => {
             setSessionCount(0);
             setItemIndex((prevIndex) => {
+              // 경매 종료를 확인하기 위한 배열 업데이트
+              setFinArr((prevArr) => {
+                let newArr = [...prevArr]
+                newArr[prevIndex] = 1;
+                return newArr;
+              })
               // props가 가진 items의 길이를 넘었을 때에 대한 예외처리필요
               if (prevIndex + 1 === maxIndex) {
                 setPrice(items[prevIndex].startingPrice)
@@ -103,6 +116,7 @@ const AuctionTimer = (
             });
             setChatDisplay(true);
             setAuctionSessionList([]);
+            setShowCelebration(false);
           }, 20000);
           // clearTimeout(endTimeOut); // clearTimeOut을 사용했을 경우 마지막에 제대로 동작하지 않음
         }
