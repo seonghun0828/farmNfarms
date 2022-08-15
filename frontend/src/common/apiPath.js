@@ -35,7 +35,7 @@ const apiPath = {
   },
   // 아래부터 임시
   price: {
-    all: () => HOST + PRICE,
+    all: () => HOST + PRICE + 'date/',
     main: () => HOST + PRICE + 'main/',
   },
   pay: {
