@@ -1,5 +1,4 @@
 import React, { useState } from 'react';
-import logo from '../../../assets/로고.svg';
 import styled from 'styled-components';
 import Navbar from '../../molecules/Navbar';
 import Text from '../../atoms/Text';
@@ -106,6 +105,7 @@ const CreateAuctionRoom = () => {
       }
     }, {})
   ]);
+  const [isLogin, setIsLogin] = useState(localStorage.getItem('isLogin'));
   const [url, setUrl] = useState(null);
   const [emptyInput, setEmptyInput] = useState(true);
   const phone = useSelector((state) => state.token.value.phone);
@@ -170,7 +170,7 @@ const CreateAuctionRoom = () => {
   }
   return (
     <StyledCreateAuctionRoom>
-      <Navbar url={logo} isLogin imgSize="xs" fontSize="sm" mode="graytext" />
+      <Navbar navigate={navigate} isLogin={isLogin} setIsLogin={setIsLogin} />
       <PageBody>
         <Text weight='bold' fontSize='xxxl'>경매방 생성 페이지</Text>
         <FixedInputArea>
