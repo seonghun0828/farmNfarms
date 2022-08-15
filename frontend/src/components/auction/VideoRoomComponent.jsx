@@ -6,10 +6,12 @@ import ChattingList from '../chat/ChattingList';
 import UserVideoComponent from './UserVideoComponent';
 import AuctionTimer from '../auctiontimer/AuctionTimer';
 import send from './send';
+import getMyInfo from '../pages/Mypage/getMyInfo';
 import deleteRoom from './delete';
 import { Person } from '@mui/icons-material';
 import { useNavigate } from "react-router-dom";
 import logo from "../../assets/로고.svg";
+import basicImg from "../../assets/defaultImg.png";
 import './VideoRoomComponent.css';
 import styled from "styled-components";
 import { useLocation } from 'react-router-dom';
@@ -29,6 +31,7 @@ import SessionStartButton from '../atoms/SessionStartButton';
 import ItemShowButton from '../atoms/ItemShowButton';
 import { changeStatus } from '../../common/hostSlice';
 import { useDispatch } from 'react-redux/es/exports';
+import Congratuation from '../AuctionSession/Congratuation';
 
 const StyledDiv = styled.div`
   background: rgba(0, 0, 0, 0.2);
@@ -88,12 +91,14 @@ const VideoRoomComponent = () => {
   const [bestBidder, setBestBidder] = useState(undefined); // 최고 입찰자
   const [bestBidderPhone, setBestBidderPhone] = useState(undefined); // 최고 입찰자의 핸드폰 번호
   const [tempBestBidder, setTempBestBidder] = useState(undefined); // 현재 세션에만 보여줄 최고 입찰자
-  // const [auctionCount, setAuctionCount] = useState(0) // 경매 회수(props의 길이와 같아지면 경매방 종료)
+  const [finArr, setFinArr] = useState(new Array(items.length).fill(0)); // 경매 회수(props의 길이와 같아지면 경매방 종료)
   const [sessionCount, setSessionCount] = useState(0); // 현재 경매의 세션 횟수(초깃값은 0, max는 2까지)
   const [itemIndex, setItemIndex] = useState(0); // 물품 목록 인덱스
   const [chatDisplay, setChatDisplay] = useState(true); // 채팅창 보이기(초깃값: true) 
   // const [isHost, setIsHost] = useState(false);
-  const [itemDisplay, setItemDisplay] = useState(false);
+  const [itemDisplay, setItemDisplay] = useState(false); // 물품 목록을 확인할 수 있는 변수
+  const [showCelebration, setShowCelebration] = useState(false); // 축하 메세지 토글링 변수
+  const [profileImg, setProfileImg] = useState(basicImg);
 
   let OV = undefined;
 
@@ -223,13 +228,13 @@ const VideoRoomComponent = () => {
     });
 
     mySession.on("signal:bidding", (event) => { // "bidding"이라는 시그널을 받아서 최고 입찰가를 갱신함
-      const tmp = event.data.split(" : ")
-      const username = tmp[0]
-      const newPrice = parseInt(tmp[1])
-      const currentHigh = parseInt(tmp[2]) // 세션 안에서 highPrice가 계속 0이어서 이렇게 처리했음
+      const tmp = event.data.split(" : ");
+      const username = tmp[0];
+      const newPrice = parseInt(tmp[1]);
+      const currentHigh = parseInt(tmp[2]); // 세션 안에서 highPrice가 계속 0이어서 이렇게 처리했음
       setAuctionSessionList((prevAuctionSessionList) => {
         return [...prevAuctionSessionList, username]
-      })
+      });
       if (newPrice > currentHigh) {
         setHighestPrice(newPrice);
         setBestBidder(username);
@@ -306,9 +311,10 @@ const VideoRoomComponent = () => {
   // 호스트(방 생성자) 여부에 따른 isHost를 토글링함(created()) + 호스트가 아닐 경우 유저의 이름을 바꿈
   useEffect(() => {
     // setIsHost(localStorage.getItem("host") ? true : false)
-    if (!isHost) {
-      setMyUserName(_.sample(nameList));
-    }
+    // if (!isHost) {
+    //   setMyUserName(_.sample(nameList));
+    // }
+    setMyUserName(_.sample(nameList));
   }, [isHost]);
 
   useEffect(() => {
@@ -428,10 +434,16 @@ const VideoRoomComponent = () => {
     }
   };
 
+  // 유저 이미지를 가져옴(이미지 뿐만 아니라 다른 것도 가져와도 됨)
+  const getUserInfo = async() => {
+    const res = await getMyInfo(myPhoneNumber);
+    const picturePath = res.picturePath;
+    setProfileImg(picturePath);
+  };
+
   // 로딩 페이지를 통한 방 입장
   const enterAuctionRoom = () => {
     joinSession();
-    alert(isHost);
   };
 
   return (
@@ -461,11 +473,15 @@ const VideoRoomComponent = () => {
                 </div>
               </div>
             </div>
-            <div className="session-header2">
+            {finArr[items.length - 1] !== 1 && <div className="session-header2">
               {!toggleStart && isHost && <SessionStartButton startAuction={startAuction}></SessionStartButton>}
               {!toggleStart && <LeaveButton leaveSession={leaveSession}></LeaveButton>}
               {toggleStart && <ItemShowButton setItemDisplay={setItemDisplay}>물품 보기</ItemShowButton>}
-            </div>
+            </div>}
+            {finArr[items.length - 1] === 1 && <div className="session-header2">
+              <WhiteDiv style={{fontSize: '18px', fontWeight: 'bold'}}>경매가 종료되었습니다</WhiteDiv>
+              <LeaveButton leaveSession={leaveSession}></LeaveButton>
+            </div>}
           </div>
           {toggleStart && <div id="auction-screen">
             {itemDisplay && <AuctionItemCard
@@ -500,10 +516,12 @@ const VideoRoomComponent = () => {
                 setAuctionSessionList={setAuctionSessionList}
                 items={items}
                 setPrice={setPrice}
+                setFinArr={setFinArr}
+                setShowCelebration={setShowCelebration}
               />
             </StyledDiv>
-            {sessionCount} {seconds} {bestBidder}
-            <AuctionSession auctionsessionList={auctionsessionList}></AuctionSession>
+            {showCelebration && <Congratuation bestBidder={bestBidder}></Congratuation>}
+            {!showCelebration && <AuctionSession auctionsessionList={auctionsessionList}></AuctionSession>}
             <StyledDiv style={{ width: '350px', display: 'flex', justifyContent: 'space-between'}}>
               <div style={{ width: '250px', display: 'flex', justifyContent: 'start', alignItems: 'center', marginLeft: '5px'}} >
                 <Swipeable biddingHandler={biddingHandler} price={price}></Swipeable>
