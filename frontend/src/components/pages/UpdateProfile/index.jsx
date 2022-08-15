@@ -12,11 +12,13 @@ import { useSelector } from 'react-redux';
 import userInfo from './userInfo';
 import updateUserInfo from './updateUserInfo';
 import uploadFile from '../../../common/uploadFile';
+import Swal from "sweetalert2";
 
 const ImageArea = styled.div`
   width: 9rem;
   height: 9rem;
   position: relative;
+  margin: 1rem 0;
 `
 
 const StyledImage = styled.div`
@@ -37,9 +39,51 @@ const CameraImage = styled.div`
   right: 0;
 `
 
-export const CenterAlign = styled.div`
+const CenterAlign = styled.div`
   display: flex;
   justify-content: center;
+`
+
+const LeftAlign = styled.div`
+  display: flex;
+  justify-content: flex-start;
+`
+
+const Div = styled.div`
+  margin-top: ${(props) => props.mt + 'rem'};
+  margin-bottom: ${(props) => props.mb + 'rem'};
+  margin-left: ${(props) => props.ml + 'rem'};
+  margin-right: ${(props) => props.mr + 'rem'};
+  padding-top: ${(props) => props.pt + 'rem'};
+  padding-bottom: ${(props) => props.pb + 'rem'};
+  padding-left: ${(props) => props.pl + 'rem'};
+  padding-right: ${(props) => props.pr + 'rem'};
+`;
+
+const Layout = styled.div`
+  display: flex;
+  flex-direction: column;
+  padding: 2rem 1.5rem 0 1.5rem;
+  height: 90vh;
+  overflow-y: auto;
+  ::-webkit-scrollbar {
+    display: none;
+  }
+`
+
+const ButtonArea = styled.div`
+  width: 100%;
+  margin: 1rem 0;
+`
+
+const BankAccount = styled.div`
+  display: flex;
+  align-items: flex-end;
+`
+
+const BankDiv = styled.div`
+  width: 60%;
+  padding-bottom: 0.2rem;
 `
 
 const UpdateProfile = () => {
@@ -150,62 +194,82 @@ const UpdateProfile = () => {
       picture: inputs.picture,
       zipCode: postCode.zonecode,
     }
-    const isSuccess = await updateUserInfo(payload);
-    if (isSuccess) {
-      console.log('회원정보 수정 성공');
-      move(navigate, '/mypage');
-    } else {
-      console.log('실패');
+    console.log(payload)
+    if (payload.newPassword !== payload.newPasswordAgain) {
+      // window.alert('수정할 비밀번호를 올바르게 입력해주세요.')
+      Swal.fire({
+        title: '에러!',
+        text: '수정할 비밀번호를 올바르게 입력해주세요.',
+     })
+    }
+    else {
+      const isSuccess = await updateUserInfo(payload);
+      if (isSuccess) {
+        console.log('회원정보 수정 성공');
+        move(navigate, '/mypage');
+      } else {
+        console.log('실패');
+      }
     }
   }
 
   return (
     <>
       <Navbar navigate={navigate} isLogin={isLogin} setIsLogin={setIsLogin} />
-      <Button mode="graytext" onClick={() => move(navigate, -1)}>
-        뒤로 가기
-      </Button>
-      <CenterAlign>
-      <ImageArea  onClick={clickHandler}>
-        <input type='file' hidden id='file-uploader' onChange={uploadImage} />
-        <StyledImage thumbnail={url}/>
-        <CameraImage>
-          <PhotoCameraIcon fontSize="large"/>
-        </CameraImage>
-      </ImageArea>
-      </CenterAlign>
-      <Input label="아이디" status="readOnly" value={originData.phone}/>
-      <Input label="이름" status="readOnly" value={originData.name}/>
-      <Input 
-        label="비밀번호" 
-        placeholder="비밀번호를 입력해주세요" 
-        type="password"
-        name="password"
-        setValue={setInputs}
-      />
-      <Input 
-        label="수정 비밀번호"
-        placeholder="수정할 비밀번호를 입력해주세요" 
-        type="password"
-        name="newPassword"
-        setValue={setInputs}
-      />
-      <Input 
-        label="수정 비밀번호 확인"
-        placeholder="수정할 비밀번호를 다시 입력해주세요" 
-        type="password"
-        name="newPasswordAgain"
-        setValue={setInputs}
-      />
-      <Select options={BANK_OPTIONS} name="bank" setValue={setInputs} selectedvalue={inputs.bank} defaultValue="은행 선택"/>
-      <Input 
-        label="계좌번호"  
-        value={inputs.account}
-        placeholder="계좌번호를 입력해주세요" 
-        name="account" 
-        setValue={setInputs}/>
-      <PostCode setPostCode={getPostCode} defaultValue={postCode}/>
-      <Button width="100%" onClick={onClickHandler}>수정하기</Button>
+      <Layout>
+        <LeftAlign>
+          <Button mode="graytext" onClick={() => move(navigate, -1)}>
+            뒤로 가기
+          </Button>
+        </LeftAlign>
+        <CenterAlign>
+        <ImageArea  onClick={clickHandler}>
+          <input type='file' hidden id='file-uploader' onChange={uploadImage} />
+          <StyledImage thumbnail={url}/>
+          <CameraImage>
+            <PhotoCameraIcon fontSize="large"/>
+          </CameraImage>
+        </ImageArea>
+        </CenterAlign>
+        <Input label="아이디" status="readOnly" value={originData.phone}/>
+        <Input label="이름" status="readOnly" value={originData.name}/>
+        <Input 
+          label="비밀번호" 
+          placeholder="비밀번호를 입력해주세요" 
+          type="password"
+          name="password"
+          setValue={setInputs}
+        />
+        <Input 
+          label="수정 비밀번호"
+          placeholder="수정할 비밀번호를 입력해주세요" 
+          type="password"
+          name="newPassword"
+          setValue={setInputs}
+        />
+        <Input 
+          label="수정 비밀번호 확인"
+          placeholder="수정할 비밀번호를 다시 입력해주세요" 
+          type="password"
+          name="newPasswordAgain"
+          setValue={setInputs}
+        />
+        <BankAccount>
+          <Input 
+            label="계좌번호"  
+            value={inputs.account}
+            placeholder="계좌번호를 입력해주세요" 
+            name="account" 
+            setValue={setInputs}/>
+          <BankDiv>
+            <Select options={BANK_OPTIONS} name="bank" setValue={setInputs} selectedvalue={inputs.bank} defaultValue="은행 선택"/>
+          </BankDiv>
+        </BankAccount>
+        <PostCode setPostCode={getPostCode} defaultValue={postCode}/>
+        <ButtonArea>
+          <Button width="100%" onClick={onClickHandler}>수정하기</Button>
+        </ButtonArea>
+      </Layout>
     </>
   );
 }

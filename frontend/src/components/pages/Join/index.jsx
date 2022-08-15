@@ -10,7 +10,7 @@ import PostCode from "../../molecules/PostCode";
 import Select from "../../atoms/Select";
 import join from "./join";
 import logo from '../../../assets/로고.svg'
-import { StyledJoin, LeftAlign, CenterAlign, FormGapLayout, TextLayout, ButtonLayout } from "./Join.styled"
+import { StyledJoin, LeftAlign, CenterAlign, FormGapLayout, TextLayout, ButtonLayout, BankAccount, BankDiv } from "./Join.styled"
 const Join = () => {
 
 	const [phone, setPhone] = useState(null);
@@ -66,9 +66,9 @@ const Join = () => {
 
 	const passwordValidate = () => {
 
-		const trimmedPassword = password.replaceAll(' ', '').replaceAll('-', '');
+		const trimmedPassword = password.replaceAll(' ', '');
 		// 비밀번호 4자 이상인지 체크
-		const trimmedPassword2 = password2.replaceAll(' ', '').replaceAll('-', '');
+		const trimmedPassword2 = password2.replaceAll(' ', '');
 
 		if (trimmedPassword.length < 4)
 			return 1;
@@ -127,6 +127,8 @@ const Join = () => {
 					password2Alert: '',
 				}))
 
+				console.log(isVerificated, name, bank, account, zonecode, fullAddress, detailAddress)
+
 				if (isVerificated && name && bank && account && zonecode && fullAddress && detailAddress) {
 					const payload = {
 						phone,
@@ -144,11 +146,14 @@ const Join = () => {
 						move(navigate, '/login');
 					}
 					else {
-						console.log('회원가입실패 경우가 지금 모가있지')
+						console.log('회원가입실패')
 					}
 				}
+				else if (!isVerificated) {
+					console.log('휴대폰 인증을 완료해주세요.')
+				}
 				else {
-					console.log('다른거 필요해~')
+					console.log('값이 비어있음')
 				}
 				break;
 			default:
@@ -198,8 +203,12 @@ const Join = () => {
 					name="password2" 
 					setValue={setPasswords}
 				/>
-					<Select options={BANK_OPTIONS} name="bank" setValue={setInputs} defaultValue="은행 선택"></Select>
+				<BankAccount>
 					<Input label="계좌번호" placeholder="계좌번호" name="account" setValue={setInputs}/>
+					<BankDiv>
+						<Select options={BANK_OPTIONS} name="bank" setValue={setInputs} defaultValue="은행 선택"></Select>
+					</BankDiv>
+				</BankAccount>
 				<PostCode setPostCode={getPostCode}/>
 			</FormGapLayout>
 

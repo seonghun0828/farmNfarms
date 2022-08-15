@@ -1,6 +1,7 @@
 import axios from 'axios';
 import { alertError } from '../../../common/alertError';
 import apiPath from '../../../common/apiPath';
+import Swal from "sweetalert2";
 
 const get_price = async (date, product) => {
     try {
@@ -16,7 +17,11 @@ const get_price = async (date, product) => {
     } 
     catch (e) {
         if (e.response.status === 404) {
-            alert('정확한 입력 값을 넣어주십시오');
+            Swal.fire({
+                title: '에러!',
+                text: '정확한 입력 값을 넣어주십시오.',
+                width: 300,
+            })
         }
         else {
             alertError(e);   

@@ -57,7 +57,7 @@ const PostCode = ({setPostCode, defaultValue}) => {
       <InputButton 
         onClick={handleClick}
         label="주소"
-        mode="readonly"
+        mode="secondary"
         placeholder="우편번호"
         btnFontSize="md"
         btnMsg="주소검색"
@@ -68,7 +68,7 @@ const PostCode = ({setPostCode, defaultValue}) => {
       </InputButton>
       <Input 
         placeholder="주소"
-        status="primary"
+        status="readOnly"
         name="address"
         value={fullAddress}
       />

@@ -30,3 +30,13 @@ export const TextLayout = styled.div`
 export const ButtonLayout = styled.div`
   margin-top: 1.5rem;
 `
+
+export const BankAccount = styled.div`
+  display: flex;
+  align-items: flex-end;
+`
+
+export const BankDiv = styled.div`
+  width: 60%;
+  padding-bottom: 0.2rem;
+`
