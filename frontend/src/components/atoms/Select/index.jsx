@@ -10,8 +10,10 @@ const StyledSelect = styled.select`
   padding: 0.5rem 0.5rem;
   font-size: inherit;
   line-height: inherit;
+  text-align: center;
   color: inherit;
   border: 2px solid ${theme.colors.gray2}
+  border-radius: 1rem;
   &:focus {
     border: 2px solid ${theme.colors.green3};
   }

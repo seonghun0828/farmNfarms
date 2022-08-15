@@ -2,58 +2,122 @@ import { useState } from 'react'
 import { useNavigate } from "react-router-dom";
 import DatePicker from "../../molecules/DatePicker";
 import Button from "../../atoms/Button";
-import dayjs from "dayjs";
-import Select from '../../atoms/Select';
 import get_price from './get_price';
 import Navbar from '../../molecules/Navbar';
-import Table from './Table'
+import Table from './Table';
+import styled from 'styled-components';
 import Text from '../../atoms/Text';
 import logo from '../../../assets/로고.svg';
-// import Graph from './Graph';
+import Chart from './Chart';
+import SelectBox from '../../atoms/SelectBox';
+import moment from 'moment';
+import theme from '../../../common/theme';
 
-const EXAMPLE_OPTIONS = [
-  { value: "배추", name: "배추" },
-  { value: "무", name: "무" },
-  { value: "감자", name: "감자" },
-  { value: "고구마", name: "고구마" },
-  { value: "당근", name: "당근" },
-  { value: "오이", name: "오이" },
-  { value: "토마토", name: "토마토" },
-];
+const SELECT_OPTIONS = [
+  '배추', '무', '감자', '고구마', '당근', '오이', '토마토'
+]
+
+const PRODUCT_OPTIONS = {
+  "배추" : "211",
+  "무" : "231",
+  "감자" : "152",
+  "고구마" :"151",
+  "당근" : "232",
+  "오이" : "223",
+  "토마토" : "225",
+}
+
+const Div = styled.div`
+  margin-top: ${(props) => props.mt + 'rem'};
+  margin-bottom: ${(props) => props.mb + 'rem'};
+  margin-left: ${(props) => props.ml + 'rem'};
+  margin-right: ${(props) => props.mr + 'rem'};
+  padding-top: ${(props) => props.pt + 'rem'};
+  padding-bottom: ${(props) => props.pb + 'rem'};
+  padding-left: ${(props) => props.pl + 'rem'};
+  padding-right: ${(props) => props.pr + 'rem'};
+`;
+
+const SearchBtn = styled.button`
+  all: unset;
+  cursor: pointer;
+  background-color: ${theme.colors.green3};
+  color: white;
+  width: 40%;
+  height: 2.5rem;
+  text-align: center;
+  font-size: ${theme.fontSizes.xl};
+  font-weight: ${theme.fontWeights.bold};
+  border-radius: 1rem;
+`
+
+const Layout = styled.div`
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+`
+
+const SelectArea = styled.div`
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  width: 100%;
+  padding: 1rem 1.5rem;
+  gap: 1rem;
+`
+
+const ChartArea = styled.div`
+  display: flex;
+  flex-direction: column;
+  justify-content: space-evenly;
+  align-items: center;
+  width: 100%;
+  height: 100%;
+  padding: 2rem 0.2rem;
+  background-color: white;
+  box-shadow: 1px 1px 10px rgba(0, 0, 0, 0.1);
+  gap: 2rem;
+`
 
 const Price = () => {
-  const [date, setDate] = useState(Date);
-  const [pickedProduct, setPickedProduct] = useState({'product':''});
-  // Select가 앞에서 여러 input의 상태관리로 쓰여서 object로 만들어줘야함 흠...
-
+  
   const [priceData, setPriceData] = useState(null);
+  
+  const [date, setDate] = useState(moment().format("YYYY-MM-DD"));
+  const [pickedProduct, setPickedProduct] = useState('-- 농산물 선택 --');
+
+  const [productName, setProductName] = useState('')
 
   const searchPrice = async () => {
-    const dateFormat = dayjs(date).format("YYYY-MM-DD");
-    console.log(dateFormat, pickedProduct.product);
-    setPriceData(await get_price(dateFormat, pickedProduct.product));
-    console.log(priceData)
+    console.log(date, pickedProduct);
+    setPriceData(await get_price(date, PRODUCT_OPTIONS[pickedProduct]));
+    setProductName(pickedProduct);
   }
 
   const [isLogin, setIsLogin] = useState(localStorage.getItem('isLogin'));
   const navigate = useNavigate();
   
   return (
-    <div>
-      <Navbar url={logo} navigate={navigate} isLogin={isLogin} setIsLogin={setIsLogin} imgSize="xs" fontSize="sm" mode="graytext" />
-      <DatePicker date={date} setDate={setDate} />
-      <Select defaultValue={pickedProduct.product ? pickedProduct.product : '농산물 선택'} options={EXAMPLE_OPTIONS} setValue={setPickedProduct} name="product"/>
-      <Button onClick={searchPrice}>검색</Button>
+    <>    
+    <Navbar url={logo} navigate={navigate} isLogin={isLogin} setIsLogin={setIsLogin} imgSize="xs" fontSize="sm" mode="graytext" />
+    <Layout>
+      
+      <DatePicker setValue={setDate}></DatePicker>
+      <SelectArea>
+        <SelectBox options={SELECT_OPTIONS} labelText={pickedProduct} setValue={setPickedProduct}/>
+        <SearchBtn onClick={searchPrice}>조회</SearchBtn>
+      </SelectArea>
       
       {priceData ? 
-      <div>
-        <Text size="lg" weight="bold">{priceData.product}의 최근 가격 추이</Text>
-        <Table price={priceData.price}/>
-        <div style={{width: '100%', height: '50vh'}}>
-          {/* <Graph priceData={priceData}/> */}
-        </div>
-      </div> : <div>선택된 정보가 없습니다</div>}
-    </div>
+        <ChartArea>
+          <Text size="lg" weight="bold">{productName} 의 이전 일주일 간 평균가 변화 그래프</Text>
+          {/* <Table price={priceData.price}/> */}
+          <Chart priceData={priceData} product={productName}></Chart>
+        </ChartArea> 
+        : <ChartArea>선택된 정보가 없습니다</ChartArea>}   
+    </Layout>
+    </>
   );
 }
 
