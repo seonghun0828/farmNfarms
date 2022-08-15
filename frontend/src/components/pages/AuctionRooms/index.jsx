@@ -94,7 +94,7 @@ const AuctionRooms = () => {
 
   return (
     <StyledAuctionRooms>
-      <Navbar url={logo} navigate={navigate} isLogin={isLogin} setIsLogin={setIsLogin} imgSize="xs" fontSize="sm" mode="graytext" />
+      <Navbar navigate={navigate} isLogin={isLogin} setIsLogin={setIsLogin} />
       <FlexSearchArea>
         <SearchArea>
           <SearchBar value={keyword} setKeyword={setKeyword} SearchKey={SearchKey}/>
