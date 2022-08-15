@@ -223,13 +223,13 @@ const VideoRoomComponent = () => {
     });
 
     mySession.on("signal:bidding", (event) => { // "bidding"이라는 시그널을 받아서 최고 입찰가를 갱신함
-      const tmp = event.data.split(" : ")
-      const username = tmp[0]
-      const newPrice = parseInt(tmp[1])
-      const currentHigh = parseInt(tmp[2]) // 세션 안에서 highPrice가 계속 0이어서 이렇게 처리했음
+      const tmp = event.data.split(" : ");
+      const username = tmp[0];
+      const newPrice = parseInt(tmp[1]);
+      const currentHigh = parseInt(tmp[2]); // 세션 안에서 highPrice가 계속 0이어서 이렇게 처리했음
       setAuctionSessionList((prevAuctionSessionList) => {
         return [...prevAuctionSessionList, username]
-      })
+      });
       if (newPrice > currentHigh) {
         setHighestPrice(newPrice);
         setBestBidder(username);
@@ -431,7 +431,6 @@ const VideoRoomComponent = () => {
   // 로딩 페이지를 통한 방 입장
   const enterAuctionRoom = () => {
     joinSession();
-    alert(isHost);
   };
 
   return (
