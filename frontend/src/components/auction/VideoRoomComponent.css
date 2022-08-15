@@ -1,0 +1,76 @@
+.container{
+  height: 100vh;
+}
+
+#auction-screen{
+  left: 50%;
+  width: 300px;
+  position: fixed;
+  bottom: 0px;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  transform: translate(-50%, 0);
+}
+
+#session{
+  height: 100vh;
+}
+
+#session-header{
+  background: rgba(0, 0, 0, 0.2);
+  width: 100%;
+  position: absolute;
+  top: 0;
+}
+
+#main-video{
+  height: 100%;
+  position: relative;
+  top: 0px;
+  left: 0px;
+}
+
+.session-header2{
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-top: 5px;
+  margin-bottom: 5px;
+  padding: 5px;
+}
+
+#message-footer{
+  position: fixed;
+  left:0px; 
+  bottom:0px;
+  width:100%;
+}
+
+.MuiButton-root.mui-btn {
+  margin-left: 5px;
+  margin-right: 5px;
+  margin-top: 1px;
+  margin-bottom: 1px;
+}
+
+.bidding-form {
+  position: relative;
+  top: 200px;
+  left: 50%;
+  transform: translate(-50%, 50%);
+}
+
+.img-tag{
+  display: flex;
+  /* width: 100%; */
+  height: 100%;
+  justify-content: start;
+  align-items: center;
+}
+
+.profile-img{
+  width: 100px;
+  height: 50px;
+}
