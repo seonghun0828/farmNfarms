@@ -8,7 +8,6 @@ const StyledSelect = styled.div`
   width: 100%;
   height: auto;
   cursor: pointer;
-  padding: 1rem;
 `
 
 const Label = styled.button`
@@ -28,7 +27,7 @@ const StyledUl = styled.ul`
   all: unset;
   position: absolute;
   top: 2.5rem;
-  left: -0.1rem;
+  left: -0.12rem;
   display: flex;
   flex-direction: column;
   background-color: ${theme.colors.gray1};
@@ -103,7 +102,7 @@ const SelectBox = ({options, labelText, setValue}) => {
         </Div>
         <Div pr={1}>
           {isOpen ? 
-            <Text>△</Text> : <Text>▽</Text>
+            <Text>△</Text> : <Text>▼</Text>
           }
           
         </Div>

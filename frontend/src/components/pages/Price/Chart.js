@@ -91,5 +91,5 @@ export default function Chart({priceData, product}) {
     ],
   };
 
-  return <Line options={options} data={data} />;
+  return <Line style={{width: '100%', height: '100%'}} options={options} data={data} />;
 }
