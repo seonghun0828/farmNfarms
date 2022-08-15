@@ -4,6 +4,7 @@ import com.ssafy.api.request.CreateAuctionRoomReq;
 import com.ssafy.api.response.AuctionRoomsInfoRes;
 import com.ssafy.domain.auctionDetail.AuctionDetailRepository;
 import com.ssafy.api.dto.AuctionRoomDto;
+import com.ssafy.domain.auctionRoom.AuctionRoom;
 import com.ssafy.domain.auctionRoom.AuctionRoomRepository;
 import com.ssafy.domain.imgae.ImageRepository;
 import com.ssafy.domain.user.User;
@@ -19,10 +20,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 import org.springframework.data.domain.Pageable;
 
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 import java.util.concurrent.ConcurrentHashMap;
 
 @Service
@@ -113,36 +111,60 @@ public class SessionService {
     // 통합 검색
     // 농부 이름 검색
     public Page<AuctionRoomsInfoRes> search(HashMap<String, String> params, Pageable pageable) {
+
         List<AuctionRoomDto> dtoList = new ArrayList<>();
-
-        if(params.get("mode").equals("1")){
-            dtoList = auctionRoomRepository.findAllByAuctionRoomTitle(params.get("key"));
-        }else if(params.get("mode").equals("2")){
-
-            dtoList = auctionDetailRepository.findAllByProduct(params.get("key"));
-        }else if(params.get("mode").equals("3")){
-
-            List<AuctionRoomDto> titleList = auctionRoomRepository.findAllByAuctionRoomTitle(params.get("key"));
-            List<AuctionRoomDto> productList = auctionDetailRepository.findAllByProduct(params.get("key"));
-
-            dtoList.addAll(titleList);
-            dtoList.addAll(productList);
-        }
-
         List<AuctionRoomsInfoRes> responseList = new ArrayList<>();
 
-        for(AuctionRoomDto dto : dtoList){
-            User owner = userRepository.findById(dto.getOwnerId()).get();
-            AuctionRoomsInfoRes res = AuctionRoomsInfoRes.builder()
-                    .id(dto.getId())
-                    .ownerName(owner.getName())
-                    .ownerPhoneNumber(owner.getPhone())
-                    .ownerPicture(owner.getPicture().getFullPath())
-                    .auctionRoomThumbnail(imageRepository.findById(dto.getThumbnailId()).get().getFullPath())
-                    .auctionRoomTitle(dto.getAuctionRoomTitle())
-                    .auctionRoomDescription(dto.getAuctionRoomDescription()).build();
+        if(params.get("key") == null || params.get("key").equals("")){
+            List<AuctionRoom> foundList = auctionRoomRepository.findAllByAuctionedFalseOrderByCreatedAtDesc();
 
-            responseList.add(res);
+            for(AuctionRoom room : foundList) {
+
+                Optional<User> foundUser = userRepository.findById(room.getOwnerId());
+
+//            System.out.println(foundUser.get().toString());
+                AuctionRoomsInfoRes auctionRoomsInfoRes = AuctionRoomsInfoRes.builder()
+                        .id(room.getId())
+                        .ownerName(foundUser.get().getName())
+                        .ownerPhoneNumber(foundUser.get().getPhone())
+                        .ownerPicture(foundUser.get().getPicture().getFullPath())
+                        .auctionRoomThumbnail(room.getImage().getFullPath())
+                        .auctionRoomTitle(room.getAuctionRoomTitle())
+                        .auctionRoomDescription(room.getAuctionRoomDescription())
+                        .build();
+
+                responseList.add(auctionRoomsInfoRes);
+            }
+        }
+        else{
+
+            if(params.get("mode").equals("1")){
+                dtoList = auctionRoomRepository.findAllByAuctionRoomTitle(params.get("key"));
+            }else if(params.get("mode").equals("2")){
+
+                dtoList = auctionDetailRepository.findAllByProduct(params.get("key"));
+            }else if(params.get("mode").equals("3")){
+
+                List<AuctionRoomDto> titleList = auctionRoomRepository.findAllByAuctionRoomTitle(params.get("key"));
+                List<AuctionRoomDto> productList = auctionDetailRepository.findAllByProduct(params.get("key"));
+
+                dtoList.addAll(titleList);
+                dtoList.addAll(productList);
+            }
+
+            for(AuctionRoomDto dto : dtoList){
+                User owner = userRepository.findById(dto.getOwnerId()).get();
+                AuctionRoomsInfoRes res = AuctionRoomsInfoRes.builder()
+                        .id(dto.getId())
+                        .ownerName(owner.getName())
+                        .ownerPhoneNumber(owner.getPhone())
+                        .ownerPicture(owner.getPicture().getFullPath())
+                        .auctionRoomThumbnail(imageRepository.findById(dto.getThumbnailId()).get().getFullPath())
+                        .auctionRoomTitle(dto.getAuctionRoomTitle())
+                        .auctionRoomDescription(dto.getAuctionRoomDescription()).build();
+
+                responseList.add(res);
+            }
         }
 
         int start = (int)pageable.getOffset();
