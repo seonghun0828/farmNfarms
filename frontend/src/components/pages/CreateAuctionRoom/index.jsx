@@ -15,6 +15,7 @@ import uploadFile from '../../../common/uploadFile';
 import createAuctionRoom from './createAuctionRoom';
 import { useSelector } from 'react-redux';
 import { AddCircle } from '@mui/icons-material';
+import { useDispatch } from 'react-redux/es/exports';
 
 const StyledCreateAuctionRoom = styled.div``;
 
@@ -118,6 +119,7 @@ const CreateAuctionRoom = () => {
   }
 
   const navigate = useNavigate();
+  const dispatch = useDispatch();
 
   const addItem = () => {
     setItems(items => [...items, 
@@ -159,9 +161,10 @@ const CreateAuctionRoom = () => {
       thumbnailIdx = await uploadFile(formData);
     }
 
-    const roomId = await createAuctionRoom(title, description, thumbnailIdx, items, phone)
+    const roomId = await createAuctionRoom(title, description, thumbnailIdx, items, phone, dispatch)
     if (roomId !== false) {
       console.log('경매방 생성 성공');
+
       navigate('/room', { state: { id: roomId, items: items, phone: phone, title: title} })
     }
   }

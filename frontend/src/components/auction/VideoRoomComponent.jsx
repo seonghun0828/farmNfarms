@@ -27,6 +27,8 @@ import AuctionItemCard from "../molecules/AuctionItemCard/index";
 import AuctionSession from '../AuctionSession/AuctionSession';
 import SessionStartButton from '../atoms/SessionStartButton';
 import ItemShowButton from '../atoms/ItemShowButton';
+import { changeStatus } from '../../common/hostSlice';
+import { useDispatch } from 'react-redux/es/exports';
 
 const StyledDiv = styled.div`
   background: rgba(0, 0, 0, 0.2);
@@ -59,13 +61,15 @@ const OPENVIDU_SERVER_SECRET = 'MY_SECRET';
 
 const VideoRoomComponent = () => {
   const navigate = useNavigate(); // 네비게이터(방 나갈 때 사용)
+  const dispatch = useDispatch();
   const location = useLocation(); // 로케이션(이전 페이지에서 데이터를 받아옴)
   const roomId = (location.state !== null) ? location.state.id : null;
   const items = (location.state !== null) ? location.state.items : [{ startingPrice: 0 }];
   const auctionRoomTitle = (location.state !== null) ? location.state.title : null;
   const sellerPhoneNumber = (location.state !== null) ? location.state.phone: null;
   const myPhoneNumber = useSelector((state) => state.token.value.phone); // RTK에서 핸드폰 번호를 불러옴
-
+  const isHost = useSelector((state) => state.hostStatus.value.host); // console.log(useSelector((state) => state.hostStatus.value.host));
+  
   const [mySessionId, setMySessionId] = useState('SessionA');
   const [myUserName, setMyUserName] = useState('Participant' + Math.floor(Math.random() * 100));
   const [session, setSession] = useState(undefined);
@@ -88,7 +92,7 @@ const VideoRoomComponent = () => {
   const [sessionCount, setSessionCount] = useState(0); // 현재 경매의 세션 횟수(초깃값은 0, max는 2까지)
   const [itemIndex, setItemIndex] = useState(0); // 물품 목록 인덱스
   const [chatDisplay, setChatDisplay] = useState(true); // 채팅창 보이기(초깃값: true) 
-  const [isHost, setIsHost] = useState(false);
+  // const [isHost, setIsHost] = useState(false);
   const [itemDisplay, setItemDisplay] = useState(false);
 
   let OV = undefined;
@@ -164,7 +168,7 @@ const VideoRoomComponent = () => {
   // 세션 아이디 설정
   useEffect(() => {
     setMySessionId(`Session${roomId}`);
-  });
+  }, []);
 
   // 세션에 참여하기
   const joinSession = () => {
@@ -264,7 +268,8 @@ const VideoRoomComponent = () => {
   // 방 삭제 요청 api
   const deleteRoomRequest = async() => {
     if (isHost) {
-      setIsHost(false) // isHost를 false로 설정함
+      dispatch(changeStatus(false));
+      // setIsHost(false) // isHost를 false로 설정함
       const reqeustResponse = await deleteRoom(roomId);
       if (reqeustResponse) {
         console.log('Room Deleted Successfully!');
@@ -300,7 +305,7 @@ const VideoRoomComponent = () => {
 
   // 호스트(방 생성자) 여부에 따른 isHost를 토글링함(created()) + 호스트가 아닐 경우 유저의 이름을 바꿈
   useEffect(() => {
-    setIsHost(localStorage.getItem("host") ? true : false)
+    // setIsHost(localStorage.getItem("host") ? true : false)
     if (!isHost) {
       setMyUserName(_.sample(nameList));
     }
@@ -426,6 +431,7 @@ const VideoRoomComponent = () => {
   // 로딩 페이지를 통한 방 입장
   const enterAuctionRoom = () => {
     joinSession();
+    alert(isHost);
   };
 
   return (
