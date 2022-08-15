@@ -15,7 +15,6 @@ const logout = async () => {
             Swal.fire({
                 title: '성공!',
                 text: '성공적으로 로그아웃 되었습니다.',
-                icon: 'success',
                 width: 300,
                 imageUrl: '/assets/Swal_image/corn.png',
                 imageHeight: 150,
