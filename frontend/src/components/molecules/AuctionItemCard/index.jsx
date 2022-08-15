@@ -80,16 +80,16 @@ const AuctionItemCard = ({ productTitle, grade, quantity, startingPrice, bidIncr
           <ItemTitleDiv>
             <span>{productTitle}</span>
             <span>{grade}</span>
-            <span>{quantity.toLocaleString('ko-KR')}kg</span>
+            <span>{parseInt(quantity).toLocaleString('ko-KR')}kg</span>
           </ItemTitleDiv>
           <div style={{marginBottom: '5px', marginTop: '5px'}}>
             <ContentDiv>
               <ItemTag>시작가</ItemTag>
-              <ItemContentsDiv style={{ color: 'black' }}>￦{startingPrice.toLocaleString('ko-KR')}원</ItemContentsDiv>
+              <ItemContentsDiv style={{ color: 'black' }}>￦{parseInt(startingPrice).toLocaleString('ko-KR')}원</ItemContentsDiv>
             </ContentDiv>
             <ContentDiv>
               <ItemTag>입찰단위</ItemTag>
-              <ItemContentsDiv style={{ color: 'black' }}>￦{bidIncrement.toLocaleString('ko-KR')}원</ItemContentsDiv>
+              <ItemContentsDiv style={{ color: 'black' }}>￦{parseInt(bidIncrement).toLocaleString('ko-KR')}원</ItemContentsDiv>
             </ContentDiv>
             <ContentDiv>
               <ItemTag>최고가</ItemTag>

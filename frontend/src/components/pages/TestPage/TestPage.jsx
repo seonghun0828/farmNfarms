@@ -1,11 +1,11 @@
 // 테스트 목적의 페이지
 import React from "react";
-import AuctionItemCard from "../../molecules/AuctionItemCard/index";
+import Congratuation from "../../AuctionSession/Congratuation";
 
 const TestPage = () => {
  return (
   <div>
-    <AuctionItemCard></AuctionItemCard>
+     <Congratuation></Congratuation>
   </div>
  ) 
 }

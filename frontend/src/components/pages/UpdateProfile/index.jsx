@@ -8,7 +8,6 @@ import PostCode from '../../molecules/PostCode';
 import Select from '../../atoms/Select';
 import Button from '../../atoms/Button';
 import Navbar from '../../molecules/Navbar';
-import logo from '../../../assets/로고.svg';
 import { useSelector } from 'react-redux';
 import userInfo from './userInfo';
 import updateUserInfo from './updateUserInfo';
@@ -162,7 +161,7 @@ const UpdateProfile = () => {
 
   return (
     <>
-      <Navbar url={logo} navigate={navigate} isLogin={isLogin} setIsLogin={setIsLogin} imgSize="xs" fontSize="sm" mode="graytext" />
+      <Navbar navigate={navigate} isLogin={isLogin} setIsLogin={setIsLogin} />
       <Button mode="graytext" onClick={() => move(navigate, -1)}>
         뒤로 가기
       </Button>

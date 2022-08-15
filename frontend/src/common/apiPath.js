@@ -30,8 +30,8 @@ const apiPath = {
     detail: (roomNumber) => HOST + ROOMS + 'details/' + `${roomNumber}/`,
     saveImg: () => HOST + ROOMS + 'save/img',
     loadImg: () => HOST + ROOMS + 'load/img',
-    createRoom: (phone) => HOST + ROOMS + 'create-room/' + phone,
-    deleteRoom: (roomNumber) => HOST + ROOMS + `${roomNumber}`
+    createRoom: (phone) => HOST + ROOMS + 'create-room/' + `${phone}/`,
+    deleteRoom: (roomNumber) => HOST + ROOMS + `${roomNumber}/`
   },
   // 아래부터 임시
   price: {
