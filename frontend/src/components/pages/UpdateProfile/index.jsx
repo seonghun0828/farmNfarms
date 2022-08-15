@@ -98,12 +98,12 @@ const UpdateProfile = () => {
     setPostCode(data)
   }
 
-  const BANK_OPTIONS = [
-		{ value: "woori", name: "우리은행" },
-		{ value: "kookmin", name: "국민은행" },
-		{ value: "shinhan", name: "신한은행" },
-		{ value: "hana", name: "하나은행" },
-		{ value: "kakao", name: "카카오뱅크" },
+	const BANK_OPTIONS = [
+		{ value: "우리은행", name: "우리은행" },
+		{ value: "국민은행", name: "국민은행" },
+		{ value: "신한은행", name: "신한은행" },
+		{ value: "하나은행", name: "하나은행" },
+		{ value: "카카오뱅크", name: "카카오뱅크" },
 	]
 
   const getOriginData = async () => {

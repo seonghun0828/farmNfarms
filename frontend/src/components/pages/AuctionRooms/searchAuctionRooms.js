@@ -12,7 +12,7 @@ const searchAuctionRooms = async (key, pageParam) => {
       url: apiPath.room.search(),
       params: {
         key: key,
-        mode: '1', // 일단 통합검색(제목 + 상품명)으로 통일
+        mode: '3', // 일단 통합검색(제목 + 상품명)으로 통일
         page: pageParam,
       }
     });

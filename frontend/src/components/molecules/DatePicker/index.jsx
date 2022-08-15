@@ -1,27 +1,139 @@
-import { useState } from 'react';
-import TextField from '@mui/material/TextField';
-import { AdapterDateFns } from '@mui/x-date-pickers/AdapterDateFns';
-import { LocalizationProvider } from '@mui/x-date-pickers/LocalizationProvider';
-import { MobileDatePicker } from '@mui/x-date-pickers/MobileDatePicker';
+import {useState, useEffect} from 'react';
+import buildWeek from './buildWeek'
+import moment from 'moment';
+import styled, {css} from 'styled-components';
+import Text from '../../atoms/Text';
+import Date from './Date';
+import theme from '../../../common/theme';
 
-const DatePicker = ({ date, setDate }) => {
-  const [value, setValue] = useState(date ? date : null);
+const StyledDatePicker = styled.div`
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  width: 100%;
+  background-color: white;
+  margin-top: 0.5rem;
+  padding 1rem 1.5rem;
+  box-shadow: 1px 1px 10px rgba(0, 0, 0, 0.1);
+  gap: 1rem;
+`
 
-  const onChangeHandler = (newValue) => {
-    setValue(newValue);
-    setDate(newValue);
+const HeadContainer = styled.div`
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 1rem;
+`
+
+const DateContainer = styled.div`
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  border: 1px solid ${theme.colors.gray2};
+  border-radius: 1rem;
+  overflow: hidden;
+  width: 100%;
+`
+
+const Day = styled.div`
+  width: 100%;
+  padding: 1rem 0;
+  text-align: center;
+  cursor: pointer;
+  color: ${({value}) => {
+    if (value.day() === 0 || value.day() === 6) {
+      return `${theme.colors.red};`
+    } else {
+      return `${theme.colors.black};`
+    }
+  }}}
+
+  ${({value, selectedDate}) => {
+    if (value.format("YYYY-MM-DD") === selectedDate) {
+      return css`
+        background-color: ${theme.colors.green3};
+        color: ${theme.colors.white};
+      `
+    }
+  }}
+
+  ${({value}) => {
+    if (!value.isBefore(moment())) {
+      return css`
+        color: ${theme.colors.gray3};
+      `
+    }
+  }}
+`
+
+const DayContainer = styled.div`
+  display: flex;
+  flex-direction: column;
+  flex-grow: 1;
+`
+
+const Button = styled.button`
+  all: unset;
+  padding: 1rem;
+  border: 1px solid ${theme.colors.green3};
+  color: ${theme.colors.white};
+  border-radius: 1rem;
+  cursor: pointer;
+  background-color: ${theme.colors.green3};
+`
+const DatePicker = ({setValue}) => {
+
+  const [centerDate, setCenterDate] = useState(moment());
+  const [Week, setWeek] = useState([]);
+  const [selectedDate, setSelectedDate] = useState(moment().format("YYYY-MM-DD"));
+ 
+  useEffect(() => {
+    setWeek(buildWeek(centerDate));
+  }, [centerDate])
+
+  const Next = () => {
+    setCenterDate((p) => p.clone().add(1, "week"))
   }
+
+  const Prev = () => {
+    setCenterDate((p) => p.clone().subtract(1, "week"))
+  }
+
+  const ClickedDay = (day) => {
+    if (day.isBefore(moment())) {
+      setValue(day.format("YYYY-MM-DD"));
+      setSelectedDate(day.format("YYYY-MM-DD"));
+    }
+  }
+
+  console.log(selectedDate);
+
   return (
-    <div>
-      <LocalizationProvider dateAdapter={AdapterDateFns}>
-        <MobileDatePicker
-          value={value}
-          onChange={onChangeHandler}
-          inputFormat={"yyyy-MM-dd"}
-          renderInput={(params) => <TextField {...params} />}
-        />
-      </LocalizationProvider>
-    </div>
+    <StyledDatePicker>
+      <HeadContainer>
+        <Button onClick={Prev}>◀</Button>
+        <Text size="xxxl" weight="bold">{centerDate.format("YYYY")}년 {centerDate.format("MM")}월</Text>
+        <Button onClick={Next}>▶</Button>
+      </HeadContainer>
+      <DateContainer>
+        {
+          Week.map((day, index) => {
+            return (
+              <DayContainer key={index}>
+                <Date value={day}/>
+                <Day 
+                  onClick={(e) => ClickedDay(day, e)}
+                  value={day}
+                  selectedDate={selectedDate}
+                >
+                  {day.format("DD")}
+                </Day>
+              </DayContainer>
+            );
+          })
+        }
+      </DateContainer>
+    </StyledDatePicker>
   );
 }
 
