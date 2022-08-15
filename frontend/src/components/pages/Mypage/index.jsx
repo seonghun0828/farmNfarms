@@ -1,5 +1,4 @@
 import React, { useEffect, useState } from 'react';
-import logo from '../../../assets/로고.svg';
 import { useNavigate } from "react-router-dom";
 import move from '../../../common/move';
 import styled from 'styled-components';
@@ -147,7 +146,7 @@ const Mypage = () => {
 
   return (
     <StyledMypage>
-      <Navbar url={logo} navigate={navigate} isLogin={isLogin} setIsLogin={setIsLogin} imgSize="xs" fontSize="sm" mode="graytext" />      
+      <Navbar navigate={navigate} isLogin={isLogin} setIsLogin={setIsLogin} />      
       <Div mt={0.5}/>
       <ProfileArea>
         <ProfileButtonArea>
