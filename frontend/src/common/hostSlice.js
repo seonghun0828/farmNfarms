@@ -11,7 +11,7 @@ export const hostStatusSlice = createSlice({
   initialState,
   reducers: {
     changeStatus: (state, status) => {
-      state.value.host = status;
+      state.value.host = status.payload;
     }
   }
 })

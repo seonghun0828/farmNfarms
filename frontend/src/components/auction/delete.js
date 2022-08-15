@@ -5,10 +5,7 @@ const deleteRoom = async (roomId) => {
   try {
     const { data: { success } } = await axios({
       method: 'delete',
-      url: apiPath.room.deleteRoom(),
-      data: {
-        roomId
-      }
+      url: apiPath.room.deleteRoom(roomId),
     });
     if (success === true) {
       return true;
