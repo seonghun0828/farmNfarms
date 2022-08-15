@@ -69,7 +69,7 @@ const productSuggestions = [
   '깻잎'
 ];
 
-const Autocomplete = ({ name, items }) => {
+const Autocomplete = ({ name, changeInput }) => {
   const [suggestions, setSuggestions] = useState(productSuggestions); // 자동완성 추천 목록
   const [itemIdx, setItemIdx] = useState(-1); // suggestion에 대한 아이템 인덱스
   const [inputText, setInputText] = useState(''); // 텍스트 입력값
@@ -92,15 +92,15 @@ const Autocomplete = ({ name, items }) => {
   }, [inputText]);
 
   const textChangeHandler = (event) => {
+    changeInput(event);
     setInputText(event.target.value);
     setIsAutocompleting(true);
-    items[name] = event.target.value;
   };
 
-  const selectSuggestion = (item) => {
+  const selectSuggestion = (event, item) => {
+    changeInput(event, item, name);
     setInputText(item);
     setIsAutocompleting(false);
-    items[name] = item;
   };
 
   return (
@@ -109,6 +109,7 @@ const Autocomplete = ({ name, items }) => {
         <InputBox>
           <AutoStyledInput
             value={inputText}
+            name={name}
             type="text"
             placeholder="품목"
             onChange={textChangeHandler}
@@ -120,11 +121,11 @@ const Autocomplete = ({ name, items }) => {
             {suggestions.length === 0 && <RecommendItems>추천하는 품목이 없습니다</RecommendItems>}
             {suggestions.map((item, i) => {
               return (
-                <StyledDiv>
+                <StyledDiv key={item + i}>
                   <RecommendItems
-                    key={i}
-                    onClick={() => {
-                      selectSuggestion(item)
+                    key={item + i}
+                    onClick={(event) => {
+                      selectSuggestion(event, item)
                       setItemIdx(i)
                     }}
                     onMouseOver={() => setItemIdx(i)}
@@ -145,4 +146,4 @@ const Autocomplete = ({ name, items }) => {
 
 }
 
-export default Autocomplete;
+export default React.memo(Autocomplete);
