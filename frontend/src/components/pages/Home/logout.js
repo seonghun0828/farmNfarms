@@ -1,6 +1,8 @@
 import axios from 'axios';
 import apiPath from '../../../common/apiPath';
 import { alertError } from '../../../common/alertError';
+import theme from '../../../common/theme';
+import Swal from "sweetalert2";
 
 const logout = async () => {
     try {
@@ -10,9 +12,19 @@ const logout = async () => {
             withCredentials: true
         });
         if (statusCode === 200) {
-            localStorage.removeItem('isLogin');
-            window.alert('로그아웃 되었습니다.');
-            window.location.href = '/';
+            Swal.fire({
+                title: '성공!',
+                text: '성공적으로 로그아웃 되었습니다.',
+                icon: 'success',
+                width: 300,
+                imageUrl: '/assets/Swal_image/corn.png',
+                imageHeight: 150,
+                confirmButtonColor: theme.colors.green3, 
+              })
+              .then(() => {
+                  localStorage.removeItem('isLogin');
+                  window.location.href = '/';
+              })
         }
         else {
             throw new Error(message);

@@ -33,7 +33,6 @@ const apiPath = {
     createRoom: (phone) => HOST + ROOMS + 'create-room/' + `${phone}/`,
     deleteRoom: (roomNumber) => HOST + ROOMS + `${roomNumber}/`
   },
-  // 아래부터 임시
   price: {
     all: () => HOST + PRICE + 'date/',
     main: () => HOST + PRICE + 'main/',

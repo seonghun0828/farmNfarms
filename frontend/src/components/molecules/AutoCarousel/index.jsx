@@ -31,7 +31,7 @@ const AutoCarousel = ({children, slideLength}) => {
         flag.current = true;
         setCount(0);
       }
-    }, flag.current ? 100 : 4000); // 0으로 주면 모바일에서 동작을 제대로 안해서 적당히 100으로 넣어줬음.. 모지..
+    }, flag.current ? 100 : 3000); // 0으로 주면 모바일에서 동작을 제대로 안해서 적당히 100으로 넣어줬음.. 모지..
 
     return () => {
       clearInterval(timer);

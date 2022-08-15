@@ -102,7 +102,6 @@ const Price = () => {
     <>    
     <Navbar navigate={navigate} isLogin={isLogin} setIsLogin={setIsLogin} />
     <Layout>
-      
       <DatePicker setValue={setDate}></DatePicker>
       <SelectArea>
         <SelectBox options={SELECT_OPTIONS} labelText={pickedProduct} setValue={setPickedProduct}/>

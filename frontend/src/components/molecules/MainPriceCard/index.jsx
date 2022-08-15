@@ -124,7 +124,7 @@ const MainPriceCard = ({name, price, unit, direction, value}) => {
       <TotalInfoFlex> 
         <Text size="xxl" weight="bold">{name}</Text>
         <PriceInfoFlex>
-          <Text size="xxl">{price} 원 / {unit}</Text>
+          <Text size="xxl">{price.toLocaleString('ko-KR')} 원 / {unit}</Text>
           <RowFlex>
             {directionIcon(direction)}
             <Text size="lg">({value}%)</Text>

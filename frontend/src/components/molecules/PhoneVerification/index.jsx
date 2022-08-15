@@ -121,8 +121,6 @@ const PhoneVerification = ({ setIsVerificated, setPhone }) => {
     setPhone(phone)
   }, [phone]);
 
-  console.log(buttonMode)
-  console.log(inputs)
   return (
     <>
     <InputButton 
@@ -136,6 +134,7 @@ const PhoneVerification = ({ setIsVerificated, setPhone }) => {
       helpMsg={phoneAlert}
       setValue={setInputs}
       btnClick={clickVerificationBtn}
+      value={phone}
     />
     <InputButton 
       label="인증번호" 
