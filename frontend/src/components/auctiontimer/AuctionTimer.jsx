@@ -40,9 +40,9 @@ const StyledButtonDiv = styled.div`
 // 소켓 내에서 공유되는 요소가 아니라서 그런듯
 const AuctionTimer = (
   { seconds, setSeconds, currentSession, sessionCount, setSessionCount, 
-    setItemIndex, setToggleStart, setChatDisplay, maxIndex, sendAuctionResult, 
-    setTempHighestPrice, highestPrice, bestBidder, setTempBestBidder, isHost, toggleStart,
-    setAuctionSessionList
+    setItemIndex, toggleStart, setToggleStart, setChatDisplay, maxIndex, sendAuctionResult, 
+    setTempHighestPrice, highestPrice, bestBidder, setTempBestBidder, isHost, 
+    setAuctionSessionList, items, setPrice
   }) => {
 
   const startTimer = () => {
@@ -63,14 +63,14 @@ const AuctionTimer = (
   };
 
   // 20초 후 startTimer 자동 시작(테스트 단계에선 2초로 세팅해서 테스트함)
-  // useEffect(() => {
-  //   if (seconds === 0 && sessionCount < 2) {
-  //     const autoStart = setTimeout(() => {
-  //       startTimer();
-  //     }, 20000)
-  //     return () => clearTimeout(autoStart)
-  //   }
-  // }, [seconds])
+  useEffect(() => {
+    if (seconds === 0 && sessionCount < 2) {
+      const autoStart = setTimeout(() => {
+        startTimer();
+      }, 20000)
+      return () => clearTimeout(autoStart)
+    }
+  }, [seconds])
 
   // 타이머
   useEffect(() => {
@@ -92,8 +92,10 @@ const AuctionTimer = (
             setItemIndex((prevIndex) => {
               // props가 가진 items의 길이를 넘었을 때에 대한 예외처리필요
               if (prevIndex + 1 === maxIndex) {
+                setPrice(items[prevIndex].startingPrice)
                 return prevIndex
               }
+              setPrice(items[prevIndex + 1].startingPrice)
               return prevIndex + 1
             });
             setToggleStart((prevState) => {
