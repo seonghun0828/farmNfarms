@@ -51,7 +51,7 @@ const Day = styled.div`
   ${({value, selectedDate}) => {
     if (value.format("YYYY-MM-DD") === selectedDate) {
       return css`
-        background-color: ${theme.colors.green3};
+        background-color: ${theme.colors.colar};
         color: ${theme.colors.white};
       `
     }

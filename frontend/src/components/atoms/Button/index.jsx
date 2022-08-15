@@ -15,7 +15,7 @@ const MODE = {
   REDBUTTON: "redbutton"
 };
 
-const Button = ({children, fontSize, fontWeight, mode, width, height, onClick, ...rest}) => {
+const Button = ({children, fontSize, fontWeight, mode, width, height, onClick, radius, ...rest}) => {
 
   if (mode === "readonly") {
     return (
@@ -25,6 +25,7 @@ const Button = ({children, fontSize, fontWeight, mode, width, height, onClick, .
         mode={mode}
         width={width}
         height={height}
+        radius={radius}
         {...rest}
       >
         {children}
@@ -41,6 +42,7 @@ const Button = ({children, fontSize, fontWeight, mode, width, height, onClick, .
       width={width}
       height={height}
       onClick={onClick}
+      radius={radius}
       {...rest}
     >
       {children}
@@ -66,6 +68,7 @@ Button.defaultProps = {
   fontSize: 'xl',
   height: '3rem',
   fontWeight: 'bold',
+  radius: '5px',
 };
 
 export default Button;

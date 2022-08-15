@@ -57,7 +57,7 @@ export const StyledButton = styled.button`
   height: ${(height) => height};
   padding: 0 1rem;
 
-  border-radius: 5px;
+  border-radius: ${({radius}) => radius};;
   border: 2px solid ${({mode}) => borderColor[mode]};
   background-color: ${({mode}) => bgColor[mode]};
 

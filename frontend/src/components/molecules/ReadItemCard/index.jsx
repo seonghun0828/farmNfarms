@@ -21,7 +21,7 @@ const ReadItemCard = ({productTitle, quantity, grade, startingPrice, width}) => 
             </InfoFlexBox>
             <InfoFlexBox>
               <Text color="gray2" size="lg" weight="bold">경매시작가</Text>
-              <Text size="md" weight="bold">{startingPrice}원</Text>
+              <Text size="md" weight="bold">{startingPrice.toLocaleString('ko-KR')}원</Text>
             </InfoFlexBox>
           </InfosFlexBox>
         </ItemInfoFlexBox>

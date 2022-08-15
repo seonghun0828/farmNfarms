@@ -17,6 +17,8 @@ const StyledSelect = styled.select`
   &:focus {
     border: 2px solid ${theme.colors.green3};
   }
+  height: 3rem;
+  border-radius: 5px;
 `;
 
 const Select = ({defaultValue, options, setValue, name, selectedvalue}) => {

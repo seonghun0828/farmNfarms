@@ -1,5 +1,4 @@
 import React, { useEffect, useState } from 'react';
-import logo from '../../../assets/로고.svg';
 import styled from 'styled-components';
 import Navbar from '../../molecules/Navbar';
 import SearchBar from '../../molecules/SearchBar';
@@ -24,7 +23,13 @@ const SearchArea = styled.div`
   width: 90%;
 `;
 const RoomCardArea = styled.div`
-  height: 16rem;
+  height: 19rem;
+  padding-top: 1rem;
+  background-color: white;
+  margin: 1rem 0;
+  display: flex;
+  align-items: center;
+  box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
 `;
 
 const MarketPriceArea = styled.div`
@@ -138,7 +143,7 @@ const Home = () => {
 
   return (
     <StyledHome>
-      <Navbar url={logo} navigate={navigate} isLogin={isLogin} setIsLogin={setIsLogin} imgSize="sm" fontSize="sm" mode="blacktext" />
+      <Navbar navigate={navigate} isLogin={isLogin} setIsLogin={setIsLogin} />
       <FlexSearchArea>
         <SearchArea>
           <SearchBar value={keyword} setKeyword={setKeyword} SearchKey={SearchKey}/>
@@ -166,7 +171,7 @@ const Home = () => {
         : <div>isLoading</div>} 
       {/* isLoading 말고 좋은거 없나 시청자수 가져올 수 있는지 물어보기*/}
       </RoomCardArea>
-      <Div mt={3.5}/>
+      <Div mt={3}/>
       <SectionTitle>
         <Text fontSize="xxl" weight="bold">
           농산물 시세
