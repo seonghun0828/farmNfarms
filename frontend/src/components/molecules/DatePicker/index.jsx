@@ -1,5 +1,5 @@
 import {useState, useEffect} from 'react';
-import buildWeek from '../../pages/Price/buildWeek'
+import buildWeek from './buildWeek'
 import moment from 'moment';
 import styled, {css} from 'styled-components';
 import Text from '../../atoms/Text';
