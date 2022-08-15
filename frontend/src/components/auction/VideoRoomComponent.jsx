@@ -65,7 +65,7 @@ const VideoRoomComponent = () => {
   const auctionRoomTitle = (location.state !== null) ? location.state.title : null;
   const sellerPhoneNumber = (location.state !== null) ? location.state.phone: null;
   const myPhoneNumber = useSelector((state) => state.token.value.phone); // RTK에서 핸드폰 번호를 불러옴
-  
+
   const [mySessionId, setMySessionId] = useState('SessionA');
   const [myUserName, setMyUserName] = useState('Participant' + Math.floor(Math.random() * 100));
   const [session, setSession] = useState(undefined);
@@ -409,7 +409,7 @@ const VideoRoomComponent = () => {
       sellerPhoneNumber: sellerPhoneNumber,
       buyerPhoneNumber: bestBidderPhone,
       auctionedPrice: highestPrice,
-      grade: items[itemIndex].grade,
+      grade: items[itemIndex].gradeTitle, // items[itemIndex].grade
       productTitle: items[itemIndex].productTitle,
       quantity: items[itemIndex].quantity
     }
@@ -464,7 +464,7 @@ const VideoRoomComponent = () => {
           {toggleStart && <div id="auction-screen">
             {itemDisplay && <AuctionItemCard
               productTitle={items[itemIndex].productTitle}
-              grade={items[itemIndex].grade}
+              grade={items[itemIndex].gradeTitle} // // items[itemIndex].grade
               quantity={items[itemIndex].quantity}
               startingPrice={items[itemIndex].startingPrice}
               bidIncrement={items[itemIndex].bidIncrement}
@@ -479,22 +479,24 @@ const VideoRoomComponent = () => {
                 setSeconds={setSeconds}
                 currentSession={session}
                 sessionCount={sessionCount}
+                setSessionCount={setSessionCount}
                 setItemIndex={setItemIndex}
+                toggleStart={toggleStart}
                 setToggleStart={setToggleStart}
                 setChatDisplay={setChatDisplay}
-                setSessionCount={setSessionCount}
+                maxIndex={items.length}
                 sendAuctionResult={sendAuctionResult}
-                highestPrice={highestPrice}
                 setTempHighestPrice={setTempHighestPrice}
+                highestPrice={highestPrice}
                 bestBidder={bestBidder}
                 setTempBestBidder={setTempBestBidder}
-                maxIndex={items.length}
-                toggleStart={toggleStart}
                 isHost={isHost}
                 setAuctionSessionList={setAuctionSessionList}
+                items={items}
+                setPrice={setPrice}
               />
             </StyledDiv>
-
+            {sessionCount} {seconds} {bestBidder}
             <AuctionSession auctionsessionList={auctionsessionList}></AuctionSession>
             <StyledDiv style={{ width: '350px', display: 'flex', justifyContent: 'space-between'}}>
               <div style={{ width: '250px', display: 'flex', justifyContent: 'start', alignItems: 'center', marginLeft: '5px'}} >

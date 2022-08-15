@@ -3,6 +3,7 @@ import apiPath from '../../common/apiPath';
 
 const send = async (payload) => {
   try {
+    console.log(payload)
     const { data: { success } } = await axios({
       method: 'post',
       url: apiPath.result.create(),

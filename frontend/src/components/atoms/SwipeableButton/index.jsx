@@ -72,7 +72,7 @@ const SwipeableButton = (props) => {
   }
 
   const getText = () => {
-    let text = "￦"+props.text.toLocaleString('ko-KR')+"원";
+    let text = "￦"+parseInt(props.text).toLocaleString('ko-KR')+"원";
     if (done) {
       return (<span><TouchApp />입찰하기</span>);
     } else if (!done && slideRight > 0) {
