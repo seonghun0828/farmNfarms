@@ -70,6 +70,7 @@ public class HistoryService {
                 .buyerName(auctionResult.getBuyer().getName())
                 .buyerPhoneNumber(auctionResult.getBuyer().getPhone())
                 .buyerAddress(auctionResult.getBuyer().getAddress())
+                .buyerDetailAddress(auctionResult.getBuyer().getDetailAddress())
                 .deliveryCompleted(auctionResult.isDeliveryCompleted())
                 .paymentCompleted(auctionResult.isPaymentCompleted())
                 .build();

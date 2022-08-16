@@ -58,11 +58,10 @@ public class CreateAuctionRoomService {
 
             AuctionDetail auctionDetail = AuctionDetail.builder()
                     .productTitle(detail.getProductTitle())
-                    .grade(detail.getGradeTitle())
+                    .grade(detail.getGrade())
                     .quantity(detail.getQuantity())
                     .startingPrice(detail.getStartingPrice())
                     .bidIncrement(detail.getBidIncrement())
-//                    .auctionedPrice(detail.getAuctionedPrice())
                     .auctionRoom(savedAuctionRoom)
                     .build();
 
