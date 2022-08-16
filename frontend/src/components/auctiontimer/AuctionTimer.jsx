@@ -83,7 +83,7 @@ const AuctionTimer = (
       if (seconds === 0) {
         if (sessionCount < 2) {
           setSessionCount((prevCount) => { // 경매 세션 카운트 + 1
-            if (prevCount + 1 === 2) {
+            if (prevCount + 1 === 3) {
               return prevCount;
             }
             return prevCount + 1;
