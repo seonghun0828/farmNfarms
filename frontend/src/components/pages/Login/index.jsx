@@ -18,8 +18,11 @@ const StyledLogin = styled.div`
     height:80vh;
 `
 const StyledLogo = styled.div`
+    display: flex;
+    justify-content: center;
     width: 18rem;
     hieght: 18rem;
+    padding: 1rem;
 `
 
 const LoginInput = styled.div`

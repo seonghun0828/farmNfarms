@@ -4,7 +4,8 @@ import Image from '../../atoms/Image'
 import Button from '../../atoms/Button'
 import move from "../../../common/move";
 import logout from "../../pages/Home/logout";
-
+import Swal from "sweetalert2";
+import theme from "../../../common/theme";
 
 const flexRow = css`
     ${({theme}) => css`
@@ -30,10 +31,24 @@ const Buttons = styled.div`
 const Navbar = ({navigate, isLogin, setIsLogin, imgSize, fontSize, mode, ...rest}) => {
     const text = isLogin ? '로그아웃' : '로그인';
     const confirmLogout = () => {
-        if (window.confirm('로그아웃 하시겠습니까?')) {
-            setIsLogin(false);
-            logout();
-        }
+        Swal.fire({
+            text: "로그아웃 하시겠습니까?",
+            showCancelButton: true,
+            confirmButtonColor: theme.colors.green3,
+            cancelButtonColor: theme.colors.gray2,
+            cancelButtonText: '취소',
+            confirmButtonText: '확인',
+            width: 300,
+          }).then((result) => {
+            if (result.isConfirmed) {
+              setIsLogin(false);
+              logout();
+            }
+          })
+        // if (window.confirm('로그아웃 하시겠습니까?')) {
+        //     setIsLogin(false);
+        //     logout();
+        // }
     }
     const clickHandler = () => {
         isLogin ? confirmLogout() : move(navigate, '/login')
@@ -57,7 +72,7 @@ const Navbar = ({navigate, isLogin, setIsLogin, imgSize, fontSize, mode, ...rest
 }
 
 Navbar.defaultProps = {
-    imgSize: "sm",
+    imgSize: "md",
     fontSize: "sm",
     mode: "blacktext"
 }

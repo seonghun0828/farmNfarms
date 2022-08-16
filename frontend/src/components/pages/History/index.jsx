@@ -87,7 +87,7 @@ const History = () => {
     [['판매자', sellerName], ['휴대폰번호', hyphenedPhoneNumber], ['은행', sellerBank], ['계좌번호', sellerAccount]]
   return (
     <StyledHistory>
-      <Navbar url={logo} navigate={navigate} isLogin={isLogin} setIsLogin={setIsLogin} imgSize="xs" fontSize="sm" mode="graytext" />
+      <Navbar navigate={navigate} isLogin={isLogin} setIsLogin={setIsLogin} />
       <PageBody>
         <LeftAlign>
             <Button fontSize='lg' mode='graytext' onClick={() => move(navigate, -1)}>뒤로 가기</Button>
