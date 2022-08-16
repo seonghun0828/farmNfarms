@@ -481,11 +481,13 @@ const VideoRoomComponent = () => {
       quantity: items[itemIndex].quantity
     }
     if (bestBidderPhone !== "" && bestBidderPhone !== undefined) {
-      const sendResponse = await send({...payload});
-      if (sendResponse) {
-        console.log('Send Data Successfully!');
-      } else {
-      console.log('Send Data Failed!')
+      if (myPhoneNumber === bestBidderPhone) { // 내 번호와 최고 입찰자 번호가 같을 때만 api호출함
+        const sendResponse = await send({...payload});
+        if (sendResponse) {
+          console.log('Send Data Successfully!');
+        } else {
+        console.log('Send Data Failed!')
+        }
       }
     }
   };
@@ -501,17 +503,6 @@ const VideoRoomComponent = () => {
   useEffect(() => {
     getUserInfo();
   }, [])
-
-  // useEffect(() => {
-    // if (seconds === 0 && sessionCount < 2) {
-    //   setSessionCount((prevCount) => { // 경매 세션 카운트 + 1
-    //     if (prevCount + 1 === 2) {
-    //       return prevCount;
-    //     }
-    //     return prevCount + 1;
-    //   });
-    // }
-  // }, [sessionCount])
 
   // 로딩 페이지를 통한 방 입장
   const enterAuctionRoom = () => {
@@ -570,9 +561,7 @@ const VideoRoomComponent = () => {
               tempHighestPrice={tempHighestPrice}
             ></AuctionItemCard>}
             <StyledDiv>
-              <WhiteDiv>
-                {sessionCount}회차 경매
-              </WhiteDiv>
+              {seconds > 0 && <WhiteDiv>{sessionCount}회차 경매</WhiteDiv>}
               <AuctionTimer
                 seconds={seconds}
                 setSeconds={setSeconds}
