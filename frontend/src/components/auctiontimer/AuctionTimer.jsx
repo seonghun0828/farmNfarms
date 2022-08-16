@@ -93,6 +93,7 @@ const AuctionTimer = (
 
         if (sessionCount === 2) {
           sendAuctionResult() // 백엔드에 경매 결과 데이터를 보내는 함수를 호출함(호스트가 한번만 보냄)
+          console.log("is Work?")
           if (bestBidder !== undefined) {
             // 최고 입찰자가 있으면 2초 뒤에 축하 메세지 토글링
             const toggleCelebration = setTimeout(() => {
