@@ -124,6 +124,7 @@ const Mypage = () => {
   }
 
   const updateName = async () => {
+    console.log('phoneNumber : ' + phoneNumber);
     const { name, picturePath } = await getMyInfo(phoneNumber);
     setName(name);
     setImg(picturePath);
@@ -141,7 +142,8 @@ const Mypage = () => {
       await reissue(dispatch);
       setIsRefresh(false);
     }
-    await updateName();
+    else
+      updateName();
   }
   useEffect(() => {
     refresh(dispatch);
