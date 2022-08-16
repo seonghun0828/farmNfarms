@@ -7,17 +7,18 @@ import RemoveIcon from '@mui/icons-material/Remove';
 
 const RowFlex = styled.div`
   display: flex;
+  align-items: center;
 `
 
-const PriceInfoFlex = styled.div`
+const TopInfo = styled.div`
   display: flex;
-  flex-direction: column;
-  align-items: flex-end;
-  gap: 0.5rem;
+  justify-content: space-between;
+  align-items: center;
 `
 
 const TotalInfoFlex = styled.div`
   display: flex;
+  flex-direction: column;
   width: 70%;
   justify-content: space-between;
 `
@@ -90,14 +91,17 @@ const MainPriceCard = ({name, price, unit, direction, value}) => {
     <Card style={{flexShrink: 0}}>
       <ImageBox product={name}/>
       <TotalInfoFlex> 
-        <Text size="xxl" weight="bold">{name}</Text>
-        <PriceInfoFlex>
-          <Text size="xxl">{price.toLocaleString('ko-KR')} 원 / {unit}</Text>
+        <TopInfo>
+          <Text size="xxl" weight="bold">{name}</Text>
           <RowFlex>
             {directionIcon(direction)}
             <Text size="lg">({value}%)</Text>
           </RowFlex>
-        </PriceInfoFlex>
+        </TopInfo>
+        <RowFlex>
+          <Text size="xxl" weight="bold">{price.toLocaleString('ko-KR')} 원 </Text>
+          <Text size="xxl" color="green3" weight="bold"> /{unit.toLocaleString('ko-KR')}</Text>
+        </RowFlex>
       </TotalInfoFlex>
     </Card>
   );

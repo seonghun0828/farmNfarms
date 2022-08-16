@@ -51,15 +51,6 @@ const PartnerHeader = styled.div`
 const PartnerCard = styled.div`
   width: 100%;
 `
-const InfoLabel = styled.div`
-  width: 8rem;
-  text-align: center;
-  padding-left: 1rem;
-`;
-const InfoValue = styled.div`
-  width: 14rem;
-  padding-left: 0.5rem;
-`;
 
 const NamePhone = styled.div`
   display: flex;
@@ -123,7 +114,7 @@ const History = () => {
           </PartnerHeader>
           <PartnerInfo>
             <NamePhone>
-              <Text size="xl">{partnerInfo[0][1]}</Text>
+              <Text size="xl" weight="bold">{partnerInfo[0][1]}</Text>
               <Text size="xl">{partnerInfo[1][1]}</Text>
             </NamePhone>
             <ColumnFlex>

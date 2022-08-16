@@ -4,7 +4,7 @@ import CheckIcon from '@mui/icons-material/Check';
 import theme from '../../../common/theme';
 
 const Circle = styled.div`
-  width: ${({ width }) => width};
+  padding: ${({ padding }) => padding};
   height: 100%;
   border-radius: 50%;
   display: flex;
@@ -26,8 +26,8 @@ const Circle = styled.div`
 `
 
 const Line = styled.div`
-  width: 1px;
-  height: 100%;
+  height: 1px;
+  width: 100%;
   ${({isCheck}) => {
     if (isCheck) {
       return css`
@@ -42,14 +42,14 @@ const Line = styled.div`
 `
 
 const Container = styled.div`
+  width: 100%;
   height: 100%;
   display: flex;
-  flex-direction: column;
   justify-content: center;
   align-items: center;
 `
 
-const ProgressBar = ({width, height, phase}) => {
+const ProgressBar = ({padding, phase}) => {
 
   const [phaseNum, setPhaseNum] 
   = useState({
@@ -97,15 +97,15 @@ const ProgressBar = ({width, height, phase}) => {
 
   return (
     <Container>
-      <Circle width={width} height={height} isCheck={first}>
+      <Circle padding={padding} isCheck={first}>
         <CheckIcon fontSize="large"></CheckIcon>
       </Circle>
       <Line isCheck={second}/>
-      <Circle width={width} height={height} isCheck={second}>
+      <Circle padding={padding} isCheck={second}>
         <CheckIcon fontSize="large"></CheckIcon>
       </Circle>
       <Line isCheck={third}/>
-      <Circle width={width} height={height} isCheck={third}>
+      <Circle padding={padding} isCheck={third}>
         <CheckIcon fontSize="large"></CheckIcon>
       </Circle>
     </Container>
@@ -113,8 +113,7 @@ const ProgressBar = ({width, height, phase}) => {
 }
 
 ProgressBar.defaultProps = {
-  width: '3rem',
-  height: '3rem',
+  padding: '0.3rem',
   phase: 0,
 }
 

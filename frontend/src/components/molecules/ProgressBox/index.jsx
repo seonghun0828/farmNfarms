@@ -10,49 +10,48 @@ import ProgressBar from '../../molecules/ProgressBar';
 const StyledProgressBox = styled.div`
   border: 1px solid ${({ theme }) => theme.colors.green3};
   border-radius: 1rem;
-  padding: 1rem 2rem;
   background-color: white;
   color: ${({ theme }) => theme.colors.gray2};
+  height: 10rem;
   width: 100%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
 `;
 
-const ProgressBody = styled.div`
-`
 const Phase1 = styled.div`
   ${({ theme }) => theme.flex.columnCenter}
-  justify-content: space-between;
-  gap: 1.5rem;
+  justify-content: space-around;
   padding: 0.5rem 0;
+  height: 100%;
 `
 const Phase2 = styled.div`
   ${({ theme }) => theme.flex.columnCenter}
-  justify-content: space-between;
-  gap: 1.5rem;
+  justify-content: space-around;
   padding: 0.5rem 0;
+  height: 100%;
 `
 const Phase3 = styled.div`
   ${({ theme }) => theme.flex.columnCenter}
+  height: 100%;
 `
 const PayButton = styled.div`
 `
 
-const ProgressBoxContainer = styled.div`
-  display: flex;
-  flex-direction: column;
-  justify-content: center;
-  align-items: center;
-  gap: 1rem;
-  width: 100%;
-  height: 100%;
-`
-
 const ProgressContainer = styled.div`
   display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  align-items: center;
+  height: 100%;
+  width: 100%;
+  gap: 1rem;
+`
+
+const TimeBox = styled.div`
+  display: flex;
   justify-content: center;
   align-items: center;
-  height: 14rem;
-  width: 100%;
-  gap: 2rem;
 `
 
 const ProgressBox = ({progress}) => {
@@ -79,60 +78,59 @@ const ProgressBox = ({progress}) => {
   
   return (
     <ProgressContainer>
+      <Text size="xxxl" weight="bold">현재 진행 상황</Text>
       {
         !paymentCompleted && !deliveryCompleted ?
           <ProgressBar phase={1}/> : paymentCompleted && !deliveryCompleted ?
           <ProgressBar phase={2}/> : <ProgressBar phase={3}/>
       }
-      <ProgressBoxContainer>
-        <Text size="xxl" weight="bold">현재 진행 상황</Text>
-        <StyledProgressBox>
-          <ProgressBody>
-            {
-              !paymentCompleted && !deliveryCompleted ?
-                <Phase1>
-                  {
-                    isSalesHistory ?
-                      <>
-                        <Text color="gray" weight="bold" fontSize="xl">낙찰 완료</Text>
-                        <Text color="gray" weight="bold" fontSize="xl">구매자 결제 중</Text>
-                      </> :
-                      <>
-                        <Text color="gray" weight="bold" fontSize="xl">결제가 필요합니다!</Text>
-                        <Text color="gray" weight="bold" fontSize="xl">남은 시간 : {leftTime}</Text>
-                        <PayButton>
-                          <Image src='/assets/kakaopay_icon_md.png' onClick={clickPay} />
-                        </PayButton>
-                      </>
-                  }
-                </Phase1> :
-              paymentCompleted && !deliveryCompleted ?
-                <Phase2>
-                  {
-                    isSalesHistory ?
-                      <>
-                        <Text weight="bold" fontSize="xl">결제 완료</Text>
-                        <Text weight="bold" fontSize="xl">신속한 배송 부탁드려요!</Text>
-                        <Button width="13rem" height="2rem" fontSize='lg' mode="highlight" onClick={browseDelivery}>
-                          배송 업체 알아보기
-                        </Button>
-                      </> :
-                      <>
-                        <Text weight="bold" fontSize="xl">결제 완료</Text>
-                        <Text weight="bold" fontSize="xl">판매자 배송 중</Text>
-                        <Button width="13rem" height="2rem" fontSize='lg' mode="highlight" onClick={confirmPurchase}>
-                          구매 확정 하기
-                        </Button>
-                      </>
-                  }
-                </Phase2> :
-                <Phase3>
-                  <Text color="gray2" weight="bold" fontSize="xxxl">거래가 완료되었습니다</Text>
-                </Phase3>
-            }
-          </ProgressBody>
-        </StyledProgressBox>
-      </ProgressBoxContainer>
+      <StyledProgressBox>
+        {
+          !paymentCompleted && !deliveryCompleted ?
+            <Phase1>
+              {
+                isSalesHistory ?
+                  <>
+                    <Text color="gray" weight="bold" fontSize="xl">낙찰 완료</Text>
+                    <Text color="gray" weight="bold" fontSize="xl">구매자 결제 중</Text>
+                  </> :
+                  <>
+                    <Text color="gray" weight="bold" fontSize="xl">결제가 필요합니다!</Text>
+                    <TimeBox>
+                      <Text color="gray" weight="bold" fontSize="xl">{'남은 시간 : '}</Text>
+                      <Text color="gray" weight="bold" fontSize="xl">{leftTime}</Text>
+                    </TimeBox>
+                    <PayButton>
+                      <Image src='/assets/kakaopay_icon_md.png' onClick={clickPay} />
+                    </PayButton>
+                  </>
+              }
+            </Phase1> :
+          paymentCompleted && !deliveryCompleted ?
+            <Phase2>
+              {
+                isSalesHistory ?
+                  <>
+                    <Text weight="bold" fontSize="xl">결제 완료</Text>
+                    <Text weight="bold" fontSize="xl">신속한 배송 부탁드려요!</Text>
+                    <Button width="13rem" height="2rem" fontSize='lg' mode="highlight" onClick={browseDelivery}>
+                      배송 업체 알아보기
+                    </Button>
+                  </> :
+                  <>
+                    <Text weight="bold" fontSize="xl">결제 완료</Text>
+                    <Text weight="bold" fontSize="xl">판매자 배송 중</Text>
+                    <Button width="13rem" height="2rem" fontSize='lg' mode="highlight" onClick={confirmPurchase}>
+                      구매 확정 하기
+                    </Button>
+                  </>
+              }
+            </Phase2> :
+            <Phase3>
+              <Text color="gray2" weight="bold" fontSize="xxxl">거래가 완료되었습니다</Text>
+            </Phase3>
+        }
+      </StyledProgressBox>
     </ProgressContainer>
   );
 };
