@@ -105,7 +105,6 @@ const SellArea = styled.div`
     }
   }}
 `
-
 const BuyArea = styled.div`
   box-sizing: content-box;
   width: 100%;
@@ -121,7 +120,6 @@ const BuyArea = styled.div`
     }
   }}
 `
-
 const Mypage = () => {
   const [name, setName] = useState(null);
   const [img, setImg] = useState(null);
@@ -148,8 +146,8 @@ const Mypage = () => {
       auctionResultId,
       isSalesHistory
     }));
-    localStorage.setItem(auctionResultId, auctionResultId);
-    localStorage.setItem(isSalesHistory, isSalesHistory);
+    localStorage.setItem('auctionResultId', auctionResultId);
+    localStorage.setItem('isSalesHistory', isSalesHistory);
     move(navigate, '/history');
   }
 
@@ -158,7 +156,6 @@ const Mypage = () => {
   }
 
   const updateName = async () => {
-    console.log('phoneNumber : ' + phoneNumber);
     const { name, picturePath } = await getMyInfo(phoneNumber);
     setName(name);
     setImg(picturePath);
@@ -167,9 +164,7 @@ const Mypage = () => {
   const { data, isLoading, isError } = useQuery(
     ['fullHistory'+isSalesHistory],
     () => getFullHistory(phoneNumber, isSalesHistory),
-    { 
-      // enabled: false,
-    }
+    {}
   )
   const refresh = async (dispatch) => {
     if (isRefresh) {
