@@ -52,6 +52,9 @@ const AuctionTimer = (
         })
         .then(() => {
           console.log("timer ON!");
+          setSessionCount((prevCount) => { // 경매 세션 카운트 + 1
+            return prevCount + 1
+          });
         })
         .catch((error) => {
           console.error(error);
