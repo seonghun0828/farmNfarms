@@ -8,6 +8,7 @@ import com.ssafy.util.toast.dto.SmsSendRequest;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Component;
 
+import java.sql.Timestamp;
 import java.text.SimpleDateFormat;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
@@ -55,7 +56,7 @@ public class SmsSender {
 
             SimpleDateFormat simpleDateFormat = new SimpleDateFormat("yyyy년 MM월 dd일 a hh시 mm분", Locale.KOREA);
 
-            Date date = java.sql.Timestamp.valueOf(expire);
+            Date date = Timestamp.valueOf(expire);
 
             String expireStr = simpleDateFormat.format(date);
 
@@ -93,7 +94,47 @@ public class SmsSender {
     }
 
     //결제기한 1시간 전 보내는 문자
-    public void sendRemindMessage(String buyerPhoneNumber) {
+    public void sendRemindMessage(AuctionResult auctionResult) {
+
+        try{
+
+            String name = auctionResult.getBuyer().getName();
+            LocalDateTime expire = auctionResult.getCreatedAt().plusMinutes(3);
+
+            SimpleDateFormat simpleDateFormat = new SimpleDateFormat("yyyy-MM-dd HH:mm",Locale.KOREA);
+
+            Date date = Timestamp.valueOf(expire);
+            String requestDate = simpleDateFormat.format(date);
+
+            StringBuilder sb = new StringBuilder();
+            sb.append(name + "님! \n결제 기한이 1시간 남았어요! \n")
+              .append("결제 기한은 낙찰 후 24시간 내에 이루어져야하고 기한을 넘길 시 다음 경매에 불이익이 생길 수 있다는 점" +
+                      "알려드립니다.\n")
+              .append("\n")
+              .append("결제를 포함한 자세한 정보는 팜앤팜스 홈페이지에서 확인하실 수 있습니다.");
+
+            String body = sb.toString();
+            List<Recipient> recipients = new ArrayList<>();
+            Recipient recipient = new Recipient(auctionResult.getBuyer().getPhone());
+            recipients.add(recipient);
+
+            SmsSendRequest request = new SmsSendRequest();
+            request.setSendNo("01050279681");
+            request.setRecipientList(recipients);
+            request.setBody(body);
+            request.setTitle("팜앤팜스");
+            request.setRequestDate(requestDate);
+
+            String messageType = "mms";
+
+            toastApi.sendSms(request, messageType);
+
+            System.out.println(request);
+
+        } catch(Exception e) {
+            e.printStackTrace();
+        }
+
 
     }
 

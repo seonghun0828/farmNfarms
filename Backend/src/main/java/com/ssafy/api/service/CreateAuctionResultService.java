@@ -44,8 +44,11 @@ public class CreateAuctionResultService {
 
         AuctionResult savedAuctionResult = auctionResultRepository.save(auctionResult);
 
-        // 결제 정보 문자 전송 -> 나중에 주석 풀 예정
+        // 경매 완료 후 결제 정보 바로 전송 -> 나중에 주석 풀 예정
 //        smsSender.sendPaymentMessage(savedAuctionResult);
+
+        // 결제 기한 1시간 전에 전송 -> 나중에 주석 풀 예정
+//        smsSender.sendRemindMessage(savedAuctionResult);
 
         return true;
 
