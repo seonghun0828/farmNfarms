@@ -58,7 +58,7 @@ const ProgressBox = ({progress}) => {
   const [leftTime, setLeftTime] = useState('');
   const {isSalesHistory, deliveryCompleted, paymentCompleted, createAt, auctionResultId} = progress;
   const browseDelivery = () => {
-    console.log('배송 업체 알아보는 웹 사이트 뜨게 하기');
+    window.open('https://korea24call.com:447/new/index.html');
   }
   const confirmPurchase = () => {
     if (window.confirm('구매를 확정하시겠습니까?')) {
