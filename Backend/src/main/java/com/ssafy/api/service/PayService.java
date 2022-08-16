@@ -70,11 +70,11 @@ public class PayService {
         return null;
     }
 
-    private String makePayQuery(AuctionResult auctionResult) {
+    private String makePayQuery(AuctionResult auctionResult) throws UnsupportedEncodingException {
         return "cid=TC0ONETIME&" +
                 "partner_order_id="+ String.valueOf(auctionResult.getId()) + "&" +
                 "partner_user_id=" + String.valueOf(auctionResult.getBuyer().getId()) + "&" +
-                "item_name=" + auctionResult.getAuctionDetail().getProductTitle() + "&" +
+                "item_name=" + URLEncoder.encode(auctionResult.getAuctionDetail().getProductTitle(), "UTF-8") + "&" +
                 "quantity=" + auctionResult.getAuctionDetail().getQuantity() + "&" +
                 "total_amount=" + String.valueOf(auctionResult.getAuctionedPrice())+ "&" +
                 //"total_amount=" + auctionResult.getAuctionDetail().getQuantity() * auctionResult.getAuctionedPrice() + "&" +//총 가격 -> 결제창에 보여지는 값.
