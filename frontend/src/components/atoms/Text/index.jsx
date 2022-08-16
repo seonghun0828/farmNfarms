@@ -31,14 +31,16 @@ const StyledText = styled.div`
   ${colorStyle}
   ${fontSize}
   ${fontWeight}
+  font-family: ${({font}) => font}
 `
 
-const Text = ({children, color, size, weight, ...rest}) => {
+const Text = ({children, color, size, weight, font, ...rest}) => {
   return (
     <StyledText
       color={color}
       fontSize={size}
       weight={weight}
+      font={font}
       {...rest}
     >
       {children}
@@ -50,6 +52,7 @@ Text.defaultProps = {
   color: "black",
   size: "md",
   weight: "normal",
+  font: ""
 };
 
 export default Text;

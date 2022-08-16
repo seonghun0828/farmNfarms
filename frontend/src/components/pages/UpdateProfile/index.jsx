@@ -32,6 +32,7 @@ const StyledImage = styled.div`
   background-repeat: no-repeat;
   background-position: center;
   background-size: cover;
+  border: 1px solid ${theme.colors.gray2}
 `
 
 const CameraImage = styled.div`
@@ -65,16 +66,14 @@ const Layout = styled.div`
   display: flex;
   flex-direction: column;
   padding: 2rem 1.5rem 0 1.5rem;
+  gap: 0.5rem;
   height: 90vh;
-  overflow-y: auto;
-  ::-webkit-scrollbar {
-    display: none;
-  }
 `
 
 const ButtonArea = styled.div`
   width: 100%;
-  margin: 1rem 0;
+  margin: 1rem 0 1rem;
+  padding-bottom: 1.5rem;
 `
 
 const BankAccount = styled.div`
