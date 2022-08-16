@@ -281,9 +281,9 @@ const VideoRoomComponent = () => {
 
     mySession.on("signal:timer", (event) => { // "timer"라는 시그널을 받아서 시간을 초기 셋팅함
       setSeconds(event.data) // 시간 세팅
-      setSessionCount((prevCount) => { // 경매 세션 카운트 + 1
-        return prevCount + 1
-      })
+      // setSessionCount((prevCount) => { // 경매 세션 카운트 + 1
+      //   return prevCount + 1
+      // })
     });
 
     mySession.on("signal:bidding", (event) => { // "bidding"이라는 시그널을 받아서 최고 입찰가를 갱신함
