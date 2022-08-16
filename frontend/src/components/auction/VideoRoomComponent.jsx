@@ -502,16 +502,16 @@ const VideoRoomComponent = () => {
     getUserInfo();
   }, [])
 
-  useEffect(() => {
-    if (seconds === 0 && sessionCount < 2) {
-      setSessionCount((prevCount) => { // 경매 세션 카운트 + 1
-        if (prevCount + 1 === 2) {
-          return prevCount;
-        }
-        return prevCount + 1;
-      });
-    }
-  }, [sessionCount])
+  // useEffect(() => {
+    // if (seconds === 0 && sessionCount < 2) {
+    //   setSessionCount((prevCount) => { // 경매 세션 카운트 + 1
+    //     if (prevCount + 1 === 2) {
+    //       return prevCount;
+    //     }
+    //     return prevCount + 1;
+    //   });
+    // }
+  // }, [sessionCount])
 
   // 로딩 페이지를 통한 방 입장
   const enterAuctionRoom = () => {

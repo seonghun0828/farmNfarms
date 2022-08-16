@@ -81,9 +81,14 @@ const AuctionTimer = (
         })
       }
       if (seconds === 0) {
-        // setSessionCount((prevCount) => { // 경매 세션 카운트 + 1
-        //   return prevCount + 1;
-        // });
+        if (sessionCount < 2) {
+          setSessionCount((prevCount) => { // 경매 세션 카운트 + 1
+            if (prevCount + 1 === 2) {
+              return prevCount;
+            }
+            return prevCount + 1;
+          });
+        }
         clearInterval(countDown)
         setTempHighestPrice(highestPrice) // 현재 세션에서만 고정되어 보여줄 경매 최고가
         setTempBestBidder(bestBidder) // 현재 세션에서만 고정되어 보여줄 경매 최고 입찰자
