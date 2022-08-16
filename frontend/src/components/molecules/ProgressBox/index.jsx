@@ -5,39 +5,53 @@ import Button from '../../atoms/Button';
 import getLeftTime from './getLeftTime';
 import Image from '../../atoms/Image';
 import payReady from './payReady';
+import ProgressBar from '../../molecules/ProgressBar';
 
 const StyledProgressBox = styled.div`
-  width: 22rem;
-  height: 13rem;
-  border: 2px solid ${({ theme }) => theme.colors.green3};
-  border-radius: 5px;
+  border: 1px solid ${({ theme }) => theme.colors.green3};
+  border-radius: 1rem;
+  background-color: white;
+  color: ${({ theme }) => theme.colors.gray2};
+  height: 10rem;
+  width: 100%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
 `;
-const ProgressNav = styled.div`
-  ${({ theme }) => theme.flex.rowCenter}
-  justify-content: space-around;
-  height: 2rem;
-  background-color: ${({ theme }) => theme.colors.green3};
-  border-radius: 5px 5px 0 0;
-`;
-const ProgressBody = styled.div`
-`
+
 const Phase1 = styled.div`
   ${({ theme }) => theme.flex.columnCenter}
-  justify-content: space-evenly;
-  height: 11rem;
+  justify-content: space-around;
   padding: 0.5rem 0;
+  height: 100%;
 `
 const Phase2 = styled.div`
   ${({ theme }) => theme.flex.columnCenter}
-  justify-content: space-evenly;
-  height: 11rem;
+  justify-content: space-around;
   padding: 0.5rem 0;
+  height: 100%;
 `
 const Phase3 = styled.div`
   ${({ theme }) => theme.flex.columnCenter}
-  height: 11rem;
+  height: 100%;
 `
 const PayButton = styled.div`
+`
+
+const ProgressContainer = styled.div`
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  align-items: center;
+  height: 100%;
+  width: 100%;
+  gap: 1rem;
+`
+
+const TimeBox = styled.div`
+  display: flex;
+  justify-content: center;
+  align-items: center;
 `
 
 const ProgressBox = ({progress}) => {
@@ -63,13 +77,14 @@ const ProgressBox = ({progress}) => {
   })
   
   return (
-    <StyledProgressBox>
-      <ProgressNav>
-        <Text color="white" weight="bold" fontSize="lg">
-          현재 진행 상황
-        </Text>
-      </ProgressNav>
-      <ProgressBody>
+    <ProgressContainer>
+      <Text size="xxxl" weight="bold">현재 진행 상황</Text>
+      {
+        !paymentCompleted && !deliveryCompleted ?
+          <ProgressBar phase={1}/> : paymentCompleted && !deliveryCompleted ?
+          <ProgressBar phase={2}/> : <ProgressBar phase={3}/>
+      }
+      <StyledProgressBox>
         {
           !paymentCompleted && !deliveryCompleted ?
             <Phase1>
@@ -81,9 +96,12 @@ const ProgressBox = ({progress}) => {
                   </> :
                   <>
                     <Text color="gray" weight="bold" fontSize="xl">결제가 필요합니다!</Text>
-                    <Text color="gray" weight="bold" fontSize="xl">남은 시간 : {leftTime}</Text>
+                    <TimeBox>
+                      <Text color="red" weight="bold" fontSize="xl">남은 시간 :&nbsp;</Text>
+                      <Text color="gray" weight="bold" fontSize="xl">{leftTime}</Text>
+                    </TimeBox>
                     <PayButton>
-                      <Image src='/assets/kakaopay_icon_md.png' onClick={clickPay} />
+                      <Image src='/assets/payment_icon_yellow_small.png' onClick={clickPay} />
                     </PayButton>
                   </>
               }
@@ -112,8 +130,8 @@ const ProgressBox = ({progress}) => {
               <Text color="gray2" weight="bold" fontSize="xxxl">거래가 완료되었습니다</Text>
             </Phase3>
         }
-      </ProgressBody>
-    </StyledProgressBox>
+      </StyledProgressBox>
+    </ProgressContainer>
   );
 };
 

@@ -15,6 +15,7 @@ const getDetailHistory = async (auctionResultId, isSalesHistory) => {
     if (result.status !== 200)
       throw new Error(result.statusText);
 
+    console.log('ss',result)
     return result;
   } catch (error) {
     alertError(error);
