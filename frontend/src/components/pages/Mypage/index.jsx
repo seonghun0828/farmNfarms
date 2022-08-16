@@ -22,7 +22,8 @@ const StyledMypage = styled.div`
 const ProfileArea = styled.div`
   ${({ theme }) => theme.flex.columnCenter};
   width: 100%;
-  justify-content: space-evenly;
+  justify-content: space-between;
+  padding: 0.2rem 0;
   gap: 0.8rem;
   background-color: ${({ theme }) => theme.colors.white};
   box-shadow: 0 1px 1px rgba(0, 0, 0, 0.1);

@@ -15,7 +15,7 @@ const StyledDatePicker = styled.div`
   width: 100%;
   background-color: white;
   margin-top: 0.5rem;
-  padding 1rem 1.5rem;
+  padding 1rem 1.5rem 1.5rem 1.5rem;
   box-shadow: 1px 1px 10px rgba(0, 0, 0, 0.1);
   gap: 1rem;
 `
@@ -112,6 +112,7 @@ const DatePicker = ({setValue}) => {
 
   return (
     <StyledDatePicker>
+      <Text size="titleSize" weight="bold">농산물 가격 정보</Text>
       <HeadContainer>
         <Button onClick={Prev}>
           이전

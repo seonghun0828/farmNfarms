@@ -97,11 +97,11 @@ const ProgressBox = ({progress}) => {
                   <>
                     <Text color="gray" weight="bold" fontSize="xl">결제가 필요합니다!</Text>
                     <TimeBox>
-                      <Text color="gray" weight="bold" fontSize="xl">{'남은 시간 : '}</Text>
+                      <Text color="red" weight="bold" fontSize="xl">남은 시간 :&nbsp;</Text>
                       <Text color="gray" weight="bold" fontSize="xl">{leftTime}</Text>
                     </TimeBox>
                     <PayButton>
-                      <Image src='/assets/kakaopay_icon_md.png' onClick={clickPay} />
+                      <Image src='/assets/payment_icon_yellow_small.png' onClick={clickPay} />
                     </PayButton>
                   </>
               }

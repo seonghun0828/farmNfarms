@@ -80,6 +80,14 @@ const ChartArea = styled.div`
   gap: 2rem;
 `
 
+const TitleDiv = styled.div`
+  width: 100%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  margin: 0.5rem 0;
+`
+
 const Price = () => {
   
   const [priceData, setPriceData] = useState(null);
