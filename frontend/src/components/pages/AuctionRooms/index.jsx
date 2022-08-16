@@ -11,6 +11,8 @@ import RoomCard from '../../molecules/RoomCard';
 import { LocalRecorder } from 'openvidu-browser';
 import searchAuctionRooms from './searchAuctionRooms';
 import Text from '../../atoms/Text';
+import { useDispatch } from 'react-redux';
+import reissue from '../../../common/reissue';
 
 const StyledAuctionRooms = styled.div`
   display: flex;
@@ -38,6 +40,7 @@ const AuctionRooms = () => {
 
 // 검색하면 quert 바꾸는 애들-----------------------
   const navigate = useNavigate();
+  const dispatch = useDispatch();
   const {pathname, state} = useLocation();
   const [searchParams] = useSearchParams();
   
@@ -70,14 +73,6 @@ const AuctionRooms = () => {
   const [isLogin, setIsLogin] = useState(localStorage.getItem('isLogin'));
 
   const [ref, inView] = useInView();
-  // const { data, status, fetchNextPage, isFetchingNextPage } = useInfiniteQuery(
-  //   ['auctionRooms'],
-  //   ({ pageParam = 0 }) => getAuctionRooms(pageParam),
-  //   {
-  //     getNextPageParam: (lastPage) =>
-  //       !lastPage.last ? lastPage.nextPage : undefined,
-  //   }
-  // );
 
   const { data, status, fetchNextPage, isFetchingNextPage } = useInfiniteQuery(
     [query],
@@ -91,6 +86,12 @@ const AuctionRooms = () => {
   useEffect(() => {
     if (inView) fetchNextPage();
   }, [inView]);
+
+  useEffect(() => {
+    if (localStorage.getItem('isLogin')) {
+      reissue(dispatch);
+    }
+  }, [dispatch]);
 
   if (status === 'loading') return <div>대기중이에용</div>;
   if (status === 'error') return <div>에러에용</div>;

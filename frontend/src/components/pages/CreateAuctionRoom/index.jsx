@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import styled from 'styled-components';
 import Navbar from '../../molecules/Navbar';
 import Text from '../../atoms/Text';
@@ -15,6 +15,7 @@ import createAuctionRoom from './createAuctionRoom';
 import { useSelector } from 'react-redux';
 import { AddCircle } from '@mui/icons-material';
 import { useDispatch } from 'react-redux/es/exports';
+import reissue from '../../../common/reissue'
 
 const StyledCreateAuctionRoom = styled.div``;
 
@@ -169,6 +170,13 @@ const CreateAuctionRoom = () => {
       navigate('/room', { state: { id: roomId, items: items, phone: phone, title: title} })
     }
   }
+
+  useEffect(() => {
+    if (localStorage.getItem('isLogin')) {
+      reissue(dispatch);
+    }
+  }, [dispatch]);
+
   return (
     <StyledCreateAuctionRoom>
       <Navbar navigate={navigate} isLogin={isLogin} setIsLogin={setIsLogin} />
