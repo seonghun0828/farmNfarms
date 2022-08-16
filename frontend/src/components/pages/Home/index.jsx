@@ -15,6 +15,7 @@ import room_infos from './room_infos';
 import theme from '../../../common/theme';
 import reissue from '../../../common/reissue';
 import { useDispatch } from 'react-redux';
+import Image from '../../atoms/Image';
 
 const StyledHome = styled.div``;
 const FlexSearchArea = styled.div`
@@ -72,9 +73,9 @@ const MoreButton = styled.div`
   border-radius: 50%;
   background-size: cover;
   background: no-repeat;
-  background-size: 50%;
+  background-size: 60%;
   background-position: center;
-  background-image: url('/assets/video-camera.svg');
+  background-image: url('/assets/transCamera.png');
   background-color: ${theme.colors.green3};
   padding: 2rem;
   width: 3rem;

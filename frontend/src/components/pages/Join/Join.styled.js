@@ -20,7 +20,7 @@ export const CenterAlign = styled.div`
 export const FormGapLayout = styled.div`
   display: flex;
   flex-direction: column;
-  gap: 0.2rem;
+  gap: 0.5rem;
 `
 
 export const TextLayout = styled.div`
@@ -44,5 +44,5 @@ export const BankDiv = styled.div`
 export const HeadGap = styled.div`
   display: flex;
   flex-direction: column;
-  gap: 1rem;
+  gap: 1.5rem;
 `

@@ -15,7 +15,7 @@ import reissue from "../../../common/reissue";
 const StyledLogin = styled.div`
     ${({theme}) => theme.flex.columnCenter};
     justify-content: space-around;
-    height:80vh;
+    height:90vh;
 `
 const StyledLogo = styled.div`
     display: flex;
@@ -160,7 +160,7 @@ const Login = () => {
 
     return <StyledLogin>
         <LeftAlign>
-            <Button fontSize='lg' mode='graytext' onClick={() => move(navigate, -1)}>뒤로 가기</Button>
+            <Button mode='graytext' onClick={() => move(navigate, -1)}>뒤로 가기</Button>
         </LeftAlign>
         <StyledLogo>
             <Image src={logo} alt='logo'/>
