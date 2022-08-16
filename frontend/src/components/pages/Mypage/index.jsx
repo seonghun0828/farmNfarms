@@ -97,7 +97,7 @@ const Mypage = () => {
   const [isLogin, setIsLogin] = useState(localStorage.getItem('isLogin'));
   const navigate = useNavigate();
   const phoneNumber = useSelector((state) => state.token.value.phone);
-  const [isRefresh, setIsRefresh] = useState(phoneNumber === undefined);
+  const [isRefresh, setIsRefresh] = useState(phoneNumber === '');
   const dispatch = useDispatch();
 
   const leftBtn = isSalesHistory ? 'greentext' : 'graytext';
