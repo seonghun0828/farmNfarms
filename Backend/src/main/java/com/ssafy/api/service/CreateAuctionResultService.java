@@ -9,6 +9,7 @@ import com.ssafy.domain.auctionResult.AuctionResult;
 import com.ssafy.domain.auctionResult.AuctionResultRepository;
 import com.ssafy.domain.user.User;
 import com.ssafy.domain.user.UserRepository;
+import com.ssafy.util.SmsSender;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
@@ -21,6 +22,8 @@ public class CreateAuctionResultService {
     private final AuctionDetailRepository auctionDetailRepository;
 
     private final UserRepository userRepository;
+
+    private final SmsSender smsSender;
 
     public boolean createAuctionResult(CreateAuctionResultReq request) {
 
@@ -39,7 +42,14 @@ public class CreateAuctionResultService {
                 .auctionDetail(auctionDetail)
                 .build();
 
-        auctionResultRepository.save(auctionResult);
+        AuctionResult savedAuctionResult = auctionResultRepository.save(auctionResult);
+
+        // 경매 완료 후 결제 정보 바로 전송 -> 나중에 주석 풀 예정
+//        smsSender.sendPaymentMessage(savedAuctionResult);
+
+        // 결제 기한 1시간 전에 전송 -> 나중에 주석 풀 예정
+//        smsSender.sendRemindMessage(savedAuctionResult);
+
         return true;
 
         } catch(Exception e) {

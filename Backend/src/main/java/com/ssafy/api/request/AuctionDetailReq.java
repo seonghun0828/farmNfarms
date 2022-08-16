@@ -18,5 +18,5 @@ public class AuctionDetailReq {
     //Product
     private String productTitle;
     // Grade
-    private String gradeTitle;
+    private String grade;
 }
