@@ -6,11 +6,9 @@ import ChattingList from '../chat/ChattingList';
 import UserVideoComponent from './UserVideoComponent';
 import AuctionTimer from '../auctiontimer/AuctionTimer';
 import send from './send';
-import getMyInfo from '../pages/Mypage/getMyInfo';
 import deleteRoom from './delete';
 import { Person } from '@mui/icons-material';
 import { useNavigate, useLocation } from "react-router-dom";
-import basicImg from "../../assets/defaultImg.png";
 import styled from "styled-components";
 import Loading from '../pages/Loading/Loading';
 import { useSelector } from 'react-redux';
@@ -29,6 +27,8 @@ import ItemShowButton from '../atoms/ItemShowButton';
 import { changeStatus } from '../../common/hostSlice';
 import { useDispatch } from 'react-redux/es/exports';
 import Congratuation from '../AuctionSession/Congratuation';
+import getMyInfo from '../pages/Mypage/getMyInfo';
+import basicImg from "../../assets/defaultImg.png";
 
 const ContainerDiv = styled.div`
   height: 100vh;
@@ -86,7 +86,7 @@ const Img = styled.img`
 
 const AuctionRoomTitle = styled.div`
   color: white;
-  font-size: 20px;
+  font-size: 24px;
   font-weight: bold;
   margin: 5px;
 `
@@ -157,6 +157,7 @@ const VideoRoomComponent = () => {
   const [itemDisplay, setItemDisplay] = useState(false); // 물품 목록을 확인할 수 있는 변수
   const [showCelebration, setShowCelebration] = useState(false); // 축하 메세지 토글링 변수
   const [profileImg, setProfileImg] = useState(basicImg);
+  const [hostName, setHostName] = useState(undefined);
 
   let OV = undefined;
 
@@ -293,7 +294,7 @@ const VideoRoomComponent = () => {
       setAuctionSessionList((prevAuctionSessionList) => {
         return [...prevAuctionSessionList, username]
       });
-      if (newPrice > currentHigh && !isHost) { // 판매자는 비딩을 하지 못하도록 !isHost를 조건에 추가
+      if (newPrice > currentHigh) { // 판매자는 비딩을 하지 못하도록 !isHost를 조건에 추가
         setHighestPrice(newPrice);
         setBestBidder(username);
         setBestBidderPhone(tmp[3]);
@@ -369,12 +370,13 @@ const VideoRoomComponent = () => {
   // 호스트(방 생성자) 여부에 따른 isHost를 토글링함(created()) + 호스트가 아닐 경우 유저의 이름을 바꿈
   useEffect(() => {
     // setIsHost(localStorage.getItem("host") ? true : false)
-    // if (!isHost) {
-    //   setMyUserName(_.sample(nameList));
-    // }
-    setMyUserName(_.sample(nameList));
-    getUserInfo();
-  }, [isHost]);
+    if (!isHost) {
+      setMyUserName(_.sample(nameList));
+    } else {
+
+      setMyUserName()
+    }
+  });
 
   useEffect(() => {
     const onbeforeunload = (event) => {
@@ -483,7 +485,7 @@ const VideoRoomComponent = () => {
       productTitle: items[itemIndex].productTitle,
       quantity: items[itemIndex].quantity
     }
-    if (bestBidderPhone !== "" && bestBidderPhone !== undefined && !isHost) {
+    if (bestBidderPhone !== "" && bestBidderPhone !== undefined) {
       const sendResponse = await send({...payload});
       if (sendResponse) {
         console.log('Send Data Successfully!');
@@ -493,12 +495,17 @@ const VideoRoomComponent = () => {
     }
   };
 
-  // 유저 이미지를 가져옴(이미지 뿐만 아니라 다른 것도 가져와도 됨)
-  const getUserInfo = async() => {
-    const res = await getMyInfo(myPhoneNumber);
-    const picturePath = res.picturePath;
-    setProfileImg(picturePath);
+  const getUserInfo = async () => {
+    const res1 = await getMyInfo(sellerPhoneNumber);
+    const ownerPicturePath = res1.picturePath;
+    const ownerName = res1.name;
+    setProfileImg(ownerPicturePath);
+    setHostName(ownerName);
   };
+
+  useEffect(() => {
+    getUserInfo();
+  })
 
   // 로딩 페이지를 통한 방 입장
   const enterAuctionRoom = () => {
@@ -515,18 +522,17 @@ const VideoRoomComponent = () => {
             <MainVideoDiv>
               {isHost && <UserVideoComponent streamManager={publisher}></UserVideoComponent>}
               {!isHost && <UserVideoComponent streamManager={subscribers}></UserVideoComponent>}
-              {!isHost && !subscribers && <div>뜨냐?</div>}
             </MainVideoDiv>
           ) : null}
           <SessionHeaderDiv1>
             <SessionHeaderDiv2>
-              <div style={{display: 'flex'}}>
+              <div style={{display: 'flex', alignItems: 'center'}}>
                 <ProfileDiv>
                   <Img src={profileImg} alt="/"/>
                 </ProfileDiv>
-                <div style={{display: 'flex', flexDirection: 'column'}}>
+                <div style={{display: 'flex', flexDirection: 'column', justifyContent: 'left'}}>
                   <AuctionRoomTitle>{auctionRoomTitle}</AuctionRoomTitle>
-                  <WhiteDiv style={{marginLeft: '5px'}}>{myUserName}</WhiteDiv>
+                  <WhiteDiv style={{margin: '5px'}}>{hostName}</WhiteDiv>
                 </div>
               </div>
               <div>

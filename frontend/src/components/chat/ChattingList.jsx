@@ -83,7 +83,6 @@ const ChattingList = (props) => {
           <div key={i}>
             <ChatDiv>
               <ProfileDiv>
-                {/* props.logo나 랜덤 이미지로 변경 */}
                 <ProfileImg src={temp_logo}></ProfileImg>
               </ProfileDiv>
               <div>
