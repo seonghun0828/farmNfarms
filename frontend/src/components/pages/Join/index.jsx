@@ -176,7 +176,7 @@ const Join = () => {
 					<Image src={logo} alt="logo" size="xxl"></Image>
 				</CenterAlign>
 				<TextLayout>
-					<Text color="green3" weight="bold" size="xxxl">회원가입</Text>
+					<Text font="Jua" color="green3" weight="" size="titleSize">회원가입</Text>
 				</TextLayout>
 			</HeadGap>
 			<FormGapLayout>

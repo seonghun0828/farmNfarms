@@ -15,7 +15,7 @@ const MODE = {
   REDBUTTON: "redbutton"
 };
 
-const Button = ({children, fontSize, fontWeight, mode, width, height, onClick, radius, ...rest}) => {
+const Button = ({children, fontSize, fontWeight, mode, width, height, onClick, radius, font, ...rest}) => {
 
   if (mode === "readonly") {
     return (
@@ -26,6 +26,7 @@ const Button = ({children, fontSize, fontWeight, mode, width, height, onClick, r
         width={width}
         height={height}
         radius={radius}
+        font={font}
         {...rest}
       >
         {children}
@@ -43,6 +44,7 @@ const Button = ({children, fontSize, fontWeight, mode, width, height, onClick, r
       height={height}
       onClick={onClick}
       radius={radius}
+      font={font}
       {...rest}
     >
       {children}
@@ -56,6 +58,7 @@ const Button = ({children, fontSize, fontWeight, mode, width, height, onClick, r
       fontWeight={fontWeight}
       mode={mode}
       onClick={onClick}
+      font={font}
       {...rest}
     >
       {children}

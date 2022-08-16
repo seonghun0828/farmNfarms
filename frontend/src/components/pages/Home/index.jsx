@@ -83,7 +83,6 @@ const MoreButton = styled.div`
 
 const TitleDiv = styled.div`
   display: inline;
-  border: 1px solid black
 `
 
 const Home = () => {
@@ -156,7 +155,7 @@ const Home = () => {
       </FlexSearchArea>
       <SectionTitle>
         <TitleDiv>
-          <Text fontSize="xxl" weight="bold">
+          <Text font="Jua" fontSize="xxxl" weight="">
             빨리 들어와유
           </Text>
         </TitleDiv>
@@ -178,9 +177,9 @@ const Home = () => {
         : <div>isLoading</div>} 
       {/* isLoading 말고 좋은거 없나 시청자수 가져올 수 있는지 물어보기*/}
       </RoomCardArea>
-      <Div mt={3}/>
+      <Div mt={2.5}/>
       <SectionTitle>
-        <Text fontSize="xxl" weight="bold">
+        <Text font="Jua" fontSize="xxxl" weight="">
           농산물 시세
         </Text>
         <MoreInfo>

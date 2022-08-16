@@ -28,7 +28,7 @@ const Buttons = styled.div`
     justify-content: space-between;
     gap: 1rem;
 `
-const Navbar = ({navigate, isLogin, setIsLogin, imgSize, fontSize, mode, ...rest}) => {
+const Navbar = ({navigate, isLogin, setIsLogin, imgSize, fontSize, mode, fontWeight, ...rest}) => {
     const text = isLogin ? '로그아웃' : '로그인';
     const confirmLogout = () => {
         Swal.fire({
@@ -64,17 +64,18 @@ const Navbar = ({navigate, isLogin, setIsLogin, imgSize, fontSize, mode, ...rest
         <Image src='/assets/로고.svg' alt='logo' size={imgSize} onClick={moveToHome}/>
         <Buttons>
             {
-                isLogin ? <Button fontSize={fontSize} mode={mode} onClick={moveToMypage} {...rest}>마이페이지</Button> : null
+                isLogin ? <Button fontWeight={fontWeight} fontSize={fontSize} mode={mode} onClick={moveToMypage} font="Jua" {...rest}>마이페이지</Button> : null
             }
-            <Button fontSize={fontSize} mode={mode} onClick={clickHandler} {...rest}>{text}</Button>
+            <Button fontWeight={fontWeight} fontSize={fontSize} mode={mode} onClick={clickHandler} font="Jua" {...rest}>{text}</Button>
         </Buttons>
     </StyledNavbar>
 }
 
 Navbar.defaultProps = {
     imgSize: "xs",
-    fontSize: "sm",
-    mode: "blacktext"
+    fontSize: "md",
+    mode: "blacktext",
+    fontWeight: "regular"
 }
 
 export default Navbar;

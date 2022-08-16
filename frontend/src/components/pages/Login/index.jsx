@@ -166,7 +166,7 @@ const Login = () => {
             <Image src={logo} alt='logo'/>
         </StyledLogo>
         <LeftAlign>
-            <Text color='green5' weight='bold' fontSize='xxxl'>로그인</Text>
+            <Text font="Jua" color='green5' weight='' fontSize='titleSize'>로그인</Text>
         </LeftAlign>
         <LoginInput>
             <Input status={phoneStatus} helpMsg={phoneAlert} label="휴대전화 번호" name='phone' value={phone} setValue={setInputs} />
