@@ -5,54 +5,22 @@ import KeyboardArrowUpIcon from '@mui/icons-material/KeyboardArrowUp';
 import KeyboardArrowDownIcon from '@mui/icons-material/KeyboardArrowDown';
 import RemoveIcon from '@mui/icons-material/Remove';
 
-const CardTop = styled.div`
-  width: 10rem;
-  height: 8rem;
-  border: 1px solid ${theme.colors.gray2};
-  border-radius: 0.5rem 0.5rem 0 0;
-  background-image: url('/assets/농산물그림/${({product}) => product}.png');
-  background-size: 50%;
-  background-position: center;
-  padding:1rem;
-  background-repeat: no-repeat;
-`
-
-const CardBottom = styled.div`
-  width: 10rem;
-  height: auto;
-  border: 1px solid ${theme.colors.gray2};
-  border-radius: 0 0 0.5rem 0.5rem;
-  background-color: rgba(0, 0, 0, 0.3);
-  display: flex;
-  flex-direction: column;
-  justify-content: center;
-  align-items: center;
-`
-
-const NameBox = styled.div`
-  display: inline-flex;
-  padding: 0.2rem 0.5rem 0.2rem 0.5rem;
-  background-color: ${theme.colors.yellow};
-  border-radius: 0.8rem;
-  justify-content: center;
-  align-items: center;
-`
-
 const RowFlex = styled.div`
   display: flex;
+  align-items: center;
 `
 
-const PriceInfoFlex = styled.div`
+const TopInfo = styled.div`
   display: flex;
-  flex-direction: column;
-  align-items: flex-end;
-  gap: 0.5rem;
+  justify-content: space-between;
+  align-items: center;
 `
 
 const TotalInfoFlex = styled.div`
   display: flex;
+  flex-direction: column;
   width: 70%;
-  justify-content: space-around;
+  justify-content: space-between;
 `
 
 const ImageBox = styled.div`
@@ -68,11 +36,12 @@ const Card = styled.div`
   width: 20rem;
   height: auto;
   display: flex;
-  justify-content: center;
+  justify-content: space-between;
   align-items: center;
   background-color: white;
   border: 1px solid ${theme.colors.gray3};
   border-radius: 0.5rem;
+  padding: 0 1rem 0 0;
 `
 
 const directionIcon = (direction) => {
@@ -122,14 +91,17 @@ const MainPriceCard = ({name, price, unit, direction, value}) => {
     <Card style={{flexShrink: 0}}>
       <ImageBox product={name}/>
       <TotalInfoFlex> 
-        <Text size="xxl" weight="bold">{name}</Text>
-        <PriceInfoFlex>
-          <Text size="xxl">{price.toLocaleString('ko-KR')} 원 / {unit}</Text>
+        <TopInfo>
+          <Text size="xxl" weight="bold">{name}</Text>
           <RowFlex>
             {directionIcon(direction)}
             <Text size="lg">({value}%)</Text>
           </RowFlex>
-        </PriceInfoFlex>
+        </TopInfo>
+        <RowFlex>
+          <Text size="xxl" weight="bold">{price.toLocaleString('ko-KR')} 원 </Text>
+          <Text size="xxl" color="green3" weight="bold"> /{unit.toLocaleString('ko-KR')}</Text>
+        </RowFlex>
       </TotalInfoFlex>
     </Card>
   );

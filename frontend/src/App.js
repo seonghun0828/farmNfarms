@@ -1,4 +1,4 @@
-import { BrowserRouter, Routes, Route, Redirect } from 'react-router-dom';
+import { BrowserRouter, Routes, Route } from 'react-router-dom';
 import Home from './components/pages/Home';
 import Login from './components/pages/Login';
 import Join from './components/pages/Join';
@@ -11,25 +11,13 @@ import Mypage from './components/pages/Mypage';
 import Price from "./components/pages/Price"
 import NotFound from "./components/pages/NotFound"
 import UpdateProfile from './components/pages/UpdateProfile';
-import axios from 'axios';
-import { useEffect, useState } from 'react';
-import { useDispatch, useSelector } from 'react-redux';
-import reissue from '../src/common/reissue'
 import History from './components/pages/History';
 import TestPage from './components/pages/TestPage/TestPage';
-import apiPath from './common/apiPath';
 import Success from './components/pages/PayResult/Success';
 import Cancel from './components/pages/PayResult/Cancel';
 import Fail from './components/pages/PayResult/Fail';
 
 function App() {
-  const dispatch = useDispatch();
-  useEffect(() => {
-    if (localStorage.getItem('isLogin')) {
-      console.log('로그인 돼있네유');
-      reissue(dispatch);
-    }
-  }, [dispatch]);
   return (
     <div className="App">
       <ThemeProvider theme={theme}>

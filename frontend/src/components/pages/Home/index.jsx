@@ -13,6 +13,8 @@ import RoomCard from '../../molecules/RoomCard';
 import AutoCarousel from '../../molecules/AutoCarousel';
 import room_infos from './room_infos';
 import theme from '../../../common/theme';
+import reissue from '../../../common/reissue';
+import { useDispatch } from 'react-redux';
 
 const StyledHome = styled.div``;
 const FlexSearchArea = styled.div`
@@ -39,7 +41,7 @@ const MarketPriceArea = styled.div`
 const SectionTitle = styled.div`
   display: flex;
   flex-direction: column;
-  margin: 0.5rem 0.6rem 1rem 0.6rem;
+  margin: 0 0.6rem 1rem 0.6rem;
 `
 
 const MoreInfo = styled.div`
@@ -81,8 +83,14 @@ const MoreButton = styled.div`
   cursor: pointer;
 `
 
+const TitleDiv = styled.div`
+  display: inline;
+  border: 1px solid black
+`
+
 const Home = () => {
   const navigate = useNavigate();
+  const dispatch = useDispatch();
 
   const moveToCreate = () => {
     move(navigate, 'create');
@@ -137,7 +145,11 @@ const Home = () => {
     getMainPrice();
     getRoomInfos();
     console.log(roomInfos);
-  }, []);
+    
+    if (localStorage.getItem('isLogin')) {
+      reissue(dispatch);
+    }
+  }, [dispatch]);
 
   const [isLogin, setIsLogin] = useState(localStorage.getItem('isLogin'));
 
@@ -150,9 +162,11 @@ const Home = () => {
         </SearchArea>
       </FlexSearchArea>
       <SectionTitle>
-        <Text fontSize="xxl" weight="bold">
-          빨리 들어와유
-        </Text>
+        <TitleDiv>
+          <Text fontSize="xxl" weight="bold">
+            빨리 들어와유
+          </Text>
+        </TitleDiv>
         <MoreInfo>
           <Button mode="graytext" fontSize="md" fontWeight="normal" onClick={moveToAuctionRooms}>
             전체보기

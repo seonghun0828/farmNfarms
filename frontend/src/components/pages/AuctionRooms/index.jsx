@@ -10,16 +10,23 @@ import { useInView } from 'react-intersection-observer';
 import RoomCard from '../../molecules/RoomCard';
 import { LocalRecorder } from 'openvidu-browser';
 import searchAuctionRooms from './searchAuctionRooms';
+import Text from '../../atoms/Text';
+import { useDispatch } from 'react-redux';
+import reissue from '../../../common/reissue';
 
 const StyledAuctionRooms = styled.div`
-  // overflow-y: auto;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-evenly;
+  align-items: center;
+  width: 100%;
+  margin: 1rem 0;
+  gap: 1.5rem;
 `;
-const FlexSearchArea = styled.div`
-  ${({ theme }) => theme.flex.rowCenter}
-  height: 5rem;
-`;
+
 const SearchArea = styled.div`
-  width: 90%;
+  width: 100%;
+  padding: 0 1.5rem;
 `;
 const CardArea = styled.div`
   ${({ theme }) => theme.flex.rowCenter}
@@ -34,6 +41,7 @@ const AuctionRooms = () => {
 
 // 검색하면 quert 바꾸는 애들-----------------------
   const navigate = useNavigate();
+  const dispatch = useDispatch();
   const {pathname, state} = useLocation();
   const [searchParams] = useSearchParams();
   
@@ -66,14 +74,6 @@ const AuctionRooms = () => {
   const [isLogin, setIsLogin] = useState(localStorage.getItem('isLogin'));
 
   const [ref, inView] = useInView();
-  // const { data, status, fetchNextPage, isFetchingNextPage } = useInfiniteQuery(
-  //   ['auctionRooms'],
-  //   ({ pageParam = 0 }) => getAuctionRooms(pageParam),
-  //   {
-  //     getNextPageParam: (lastPage) =>
-  //       !lastPage.last ? lastPage.nextPage : undefined,
-  //   }
-  // );
 
   const { data, status, fetchNextPage, isFetchingNextPage } = useInfiniteQuery(
     [query],
@@ -88,18 +88,24 @@ const AuctionRooms = () => {
     if (inView) fetchNextPage();
   }, [inView]);
 
+  useEffect(() => {
+    if (localStorage.getItem('isLogin')) {
+      reissue(dispatch);
+    }
+  }, [dispatch]);
+
   if (status === 'loading') return <div>대기중이에용</div>;
   if (status === 'error') return <div>에러에용</div>;
   const { pages } = data;
 
   return (
+    <>
+    <Navbar navigate={navigate} isLogin={isLogin} setIsLogin={setIsLogin} />
     <StyledAuctionRooms>
-      <Navbar navigate={navigate} isLogin={isLogin} setIsLogin={setIsLogin} />
-      <FlexSearchArea>
-        <SearchArea>
-          <SearchBar value={keyword} setKeyword={setKeyword} SearchKey={SearchKey}/>
-        </SearchArea>
-      </FlexSearchArea>
+      <Text size="titleSize" weight="bold">경매방 전체 조회</Text>
+      <SearchArea>
+        <SearchBar value={keyword} setKeyword={setKeyword} SearchKey={SearchKey}/>
+      </SearchArea>
       <CardArea>
         {pages.map(({ content }, idx1) =>
           content.map((data, idx2) => {
@@ -129,6 +135,7 @@ const AuctionRooms = () => {
       </CardArea>
       {isFetchingNextPage ? <div>Loading...</div> : <div ref={ref}></div>}
     </StyledAuctionRooms>
+    </>
   );
 };
 

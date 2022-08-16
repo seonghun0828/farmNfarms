@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import styled from 'styled-components';
 import Navbar from '../../molecules/Navbar';
 import Text from '../../atoms/Text';
@@ -15,6 +15,7 @@ import createAuctionRoom from './createAuctionRoom';
 import { useSelector } from 'react-redux';
 import { AddCircle } from '@mui/icons-material';
 import { useDispatch } from 'react-redux/es/exports';
+import reissue from '../../../common/reissue'
 
 const StyledCreateAuctionRoom = styled.div``;
 
@@ -41,7 +42,8 @@ const ImageButton = styled.div`
   ${({theme}) => theme.flex.rowCenter}
   width: 7.5rem;
   height: 10.5rem;
-  background-color: ${({theme}) => theme.colors.gray2};
+  border: 3px dashed ${({theme}) => theme.colors.gray2};
+  background-color: ${({theme}) => theme.colors.gray3};
   border-radius: 0.5rem;
 `
 const TextInputs = styled.div`
@@ -92,7 +94,7 @@ const FooterButtons = styled.div`
   gap: 2rem;
   justify-content: space-around;
 `
-const cardInputs=[{text: '품목명', name: 'productTitle', type: 'text'}, {text: '수량', name: 'quantity', type: 'number'}, {text: '등급', name: 'gradeTitle', type: 'text'}, {text: '금액증가폭', name: 'bidIncrement', type: 'number'}, {text: '경매시작가', name: 'startingPrice', type: 'number'}];
+const cardInputs=[{text: '품목명', name: 'productTitle', type: 'text'}, {text: '수량', name: 'quantity', type: 'number'}, {text: '등급', name: 'grade', type: 'text'}, {text: '금액증가폭', name: 'bidIncrement', type: 'number'}, {text: '경매시작가', name: 'startingPrice', type: 'number'}];
 
 const CreateAuctionRoom = () => {
   const [title, setTitle] = useState('');
@@ -168,11 +170,18 @@ const CreateAuctionRoom = () => {
       navigate('/room', { state: { id: roomId, items: items, phone: phone, title: title} })
     }
   }
+
+  useEffect(() => {
+    if (localStorage.getItem('isLogin')) {
+      reissue(dispatch);
+    }
+  }, [dispatch]);
+
   return (
     <StyledCreateAuctionRoom>
       <Navbar navigate={navigate} isLogin={isLogin} setIsLogin={setIsLogin} />
       <PageBody>
-        <Text weight='bold' fontSize='xxxl'>경매방 생성 페이지</Text>
+        <Text weight='bold' fontSize='xxxl'>경매방 생성</Text>
         <FixedInputArea>
           <ImageArea>
             <input type='file' hidden id='file-uploader' onChange={changeImage} />

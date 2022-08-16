@@ -5,6 +5,8 @@ import styled, {css} from 'styled-components';
 import Text from '../../atoms/Text';
 import Date from './Date';
 import theme from '../../../common/theme';
+import ArrowBackIosIcon from '@mui/icons-material/ArrowBackIos';
+import ArrowForwardIosIcon from '@mui/icons-material/ArrowForwardIos';
 
 const StyledDatePicker = styled.div`
   display: flex;
@@ -13,7 +15,7 @@ const StyledDatePicker = styled.div`
   width: 100%;
   background-color: white;
   margin-top: 0.5rem;
-  padding 1rem 1.5rem;
+  padding 1rem 1.5rem 1.5rem 1.5rem;
   box-shadow: 1px 1px 10px rgba(0, 0, 0, 0.1);
   gap: 1rem;
 `
@@ -74,12 +76,12 @@ const DayContainer = styled.div`
 
 const Button = styled.button`
   all: unset;
-  padding: 1rem;
+  padding: 0.6rem 1rem;
   border: 1px solid ${theme.colors.green3};
-  color: ${theme.colors.white};
+  color: ${theme.colors.green3};
   border-radius: 1rem;
   cursor: pointer;
-  background-color: ${theme.colors.green3};
+  background-color: ${theme.colors.white};
 `
 const DatePicker = ({setValue}) => {
 
@@ -110,10 +112,15 @@ const DatePicker = ({setValue}) => {
 
   return (
     <StyledDatePicker>
+      <Text size="titleSize" weight="bold">농산물 가격 정보</Text>
       <HeadContainer>
-        <Button onClick={Prev}>◀</Button>
+        <Button onClick={Prev}>
+          이전
+        </Button>
         <Text size="xxxl" weight="bold">{centerDate.format("YYYY")}년 {centerDate.format("MM")}월</Text>
-        <Button onClick={Next}>▶</Button>
+        <Button onClick={Next}>
+          다음
+        </Button>
       </HeadContainer>
       <DateContainer>
         {

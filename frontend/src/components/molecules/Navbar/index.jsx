@@ -72,7 +72,7 @@ const Navbar = ({navigate, isLogin, setIsLogin, imgSize, fontSize, mode, ...rest
 }
 
 Navbar.defaultProps = {
-    imgSize: "md",
+    imgSize: "xs",
     fontSize: "sm",
     mode: "blacktext"
 }

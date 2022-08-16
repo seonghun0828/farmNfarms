@@ -1,4 +1,4 @@
-import { useState } from 'react'
+import { useEffect, useState } from 'react'
 import { useNavigate } from "react-router-dom";
 import DatePicker from "../../molecules/DatePicker";
 import Button from "../../atoms/Button";
@@ -12,6 +12,8 @@ import Chart from './Chart';
 import SelectBox from '../../atoms/SelectBox';
 import moment from 'moment';
 import theme from '../../../common/theme';
+import { useDispatch } from 'react-redux';
+import reissue from '../../../common/reissue';
 
 const SELECT_OPTIONS = [
   '배추', '무', '감자', '고구마', '당근', '오이', '토마토'
@@ -80,6 +82,14 @@ const ChartArea = styled.div`
   gap: 2rem;
 `
 
+const TitleDiv = styled.div`
+  width: 100%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  margin: 0.5rem 0;
+`
+
 const Price = () => {
   
   const [priceData, setPriceData] = useState(null);
@@ -97,6 +107,13 @@ const Price = () => {
 
   const [isLogin, setIsLogin] = useState(localStorage.getItem('isLogin'));
   const navigate = useNavigate();
+  const dispatch = useDispatch();
+
+  useEffect(() => {
+    if (localStorage.getItem('isLogin')) {
+      reissue(dispatch);
+    }
+  }, [dispatch]);
   
   return (
     <>    
@@ -110,7 +127,7 @@ const Price = () => {
       
       {priceData ? 
         <ChartArea>
-          <Text size="lg" weight="bold">{productName} 의 이전 일주일 간 평균가 변화 그래프</Text>
+          <Text size="lg" weight="bold">[{productName}] 일주일 간 평균가 변화</Text>
           {/* <Table price={priceData.price}/> */}
           <Chart priceData={priceData} product={productName}></Chart>
         </ChartArea> 
