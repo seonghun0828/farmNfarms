@@ -5,7 +5,7 @@ import styled, {keyframes} from "styled-components";
 const StyledLoadingWrapper = styled.div`
   height: 100vh;
   width: 100vw;
-  background-color: rgba(104, 159, 56, 0.7);
+  background-color: white;
   overflow: hidden;
   display: flex;
   flex-direction: column;
@@ -28,7 +28,7 @@ const CircleDiv = styled.div`
   height: 200px;
   width: 200px;
   border-radius: 50%;
-  border: 3px solid white;
+  border: 5px solid #019267;
 `
 
 const logoMove = keyframes`
@@ -91,7 +91,7 @@ const LoadingMessageDiv = styled.div`
   ::after {
     content: "로고를 터치하여 계속하세요";
     position: absolute;
-    color: white;
+    color: #019267;
     text-align: center;
     transform: translate(-95px, 0px);
     animation: ${loading} 1s linear;
