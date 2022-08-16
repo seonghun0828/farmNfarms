@@ -112,7 +112,6 @@ const DatePicker = ({setValue}) => {
 
   return (
     <StyledDatePicker>
-      <Text size="titleSize" weight="bold">농산물 가격 정보</Text>
       <HeadContainer>
         <Button onClick={Prev}>
           이전

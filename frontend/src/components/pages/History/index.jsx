@@ -95,7 +95,7 @@ const History = () => {
   }
 
   const {auctionedPrice, deliveryCompleted, grade, paymentCompleted, productTitle, quantity, createAt,
-    buyerName, buyerAddress, buyerPhoneNumber, sellerName, sellerPhoneNumber, sellerBank, sellerAccount
+    buyerName, buyerAddress, buyerDetailAddress, buyerPhoneNumber, sellerName, sellerPhoneNumber, sellerBank, sellerAccount
   } = data.data;
   
   const item = {auctionedPrice, deliveryCompleted, grade, paymentCompleted, productTitle, quantity};
@@ -106,7 +106,7 @@ const History = () => {
     // isSalesHistory 따라 처리하기
 
   const partnerInfo = isSalesHistory ?
-    [['구매자', buyerName], ['휴대폰번호', hyphenedPhoneNumber], ['주소', buyerAddress], ['상세주소', '임시상세주소']] :
+    [['구매자', buyerName], ['휴대폰번호', hyphenedPhoneNumber], ['주소', buyerAddress], ['상세주소', buyerDetailAddress]] :
     [['판매자', sellerName], ['휴대폰번호', hyphenedPhoneNumber], ['은행', sellerBank], ['계좌번호', sellerAccount]]
 
   return (

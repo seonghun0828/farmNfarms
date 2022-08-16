@@ -18,15 +18,14 @@ const StyledAuctionRooms = styled.div`
   display: flex;
   flex-direction: column;
   justify-content: space-evenly;
-  align-items: center;
   width: 100%;
   margin: 1rem 0;
   gap: 1.5rem;
 `;
 
 const SearchArea = styled.div`
-  width: 100%;
-  padding: 0 1.5rem;
+  width: 95%;
+  padding-left: 5%;
 `;
 const CardArea = styled.div`
   ${({ theme }) => theme.flex.rowCenter}
@@ -102,7 +101,6 @@ const AuctionRooms = () => {
     <>
     <Navbar navigate={navigate} isLogin={isLogin} setIsLogin={setIsLogin} />
     <StyledAuctionRooms>
-      <Text size="titleSize" weight="bold">경매방 전체 조회</Text>
       <SearchArea>
         <SearchBar value={keyword} setKeyword={setKeyword} SearchKey={SearchKey}/>
       </SearchArea>

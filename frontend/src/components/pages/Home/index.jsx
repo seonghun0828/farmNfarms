@@ -15,6 +15,7 @@ import room_infos from './room_infos';
 import theme from '../../../common/theme';
 import reissue from '../../../common/reissue';
 import { useDispatch } from 'react-redux';
+import Image from '../../atoms/Image';
 
 const StyledHome = styled.div``;
 const FlexSearchArea = styled.div`
@@ -72,9 +73,9 @@ const MoreButton = styled.div`
   border-radius: 50%;
   background-size: cover;
   background: no-repeat;
-  background-size: 50%;
+  background-size: 60%;
   background-position: center;
-  background-image: url('/assets/video-camera.svg');
+  background-image: url('/assets/transCamera.png');
   background-color: ${theme.colors.green3};
   padding: 2rem;
   width: 3rem;
@@ -85,7 +86,6 @@ const MoreButton = styled.div`
 
 const TitleDiv = styled.div`
   display: inline;
-  border: 1px solid black
 `
 
 const Home = () => {
@@ -163,7 +163,7 @@ const Home = () => {
       </FlexSearchArea>
       <SectionTitle>
         <TitleDiv>
-          <Text fontSize="xxl" weight="bold">
+          <Text font="Jua" fontSize="xxxl" weight="">
             빨리 들어와유
           </Text>
         </TitleDiv>
@@ -185,9 +185,9 @@ const Home = () => {
         : <div>isLoading</div>} 
       {/* isLoading 말고 좋은거 없나 시청자수 가져올 수 있는지 물어보기*/}
       </RoomCardArea>
-      <Div mt={3}/>
+      <Div mt={2.5}/>
       <SectionTitle>
-        <Text fontSize="xxl" weight="bold">
+        <Text font="Jua" fontSize="xxxl" weight="">
           농산물 시세
         </Text>
         <MoreInfo>

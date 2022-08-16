@@ -45,6 +45,7 @@ export const StyledTextButton = styled.button`
 
   font-weight: ${({fontWeight}) => theme.fontWeights[fontWeight]};
   font-size: ${({fontSize}) => theme.fontSizes[fontSize]};
+  font-family: ${({font}) => font};
   text-align: center;
   text-decoration: none;
 
@@ -65,6 +66,7 @@ export const StyledButton = styled.button`
 
   font-weight: ${theme.fontWeights.bold};
   font-size: ${({fontSize}) => theme.fontSizes[fontSize]};
+  font-family: ${({font}) => font};
   text-align: center;
   text-decoration: none;
 

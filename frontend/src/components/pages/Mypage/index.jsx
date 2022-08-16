@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import { useNavigate } from "react-router-dom";
 import move from '../../../common/move';
-import styled from 'styled-components';
+import styled, { css } from 'styled-components';
 import Navbar from '../../molecules/Navbar';
 import Image from '../../atoms/Image';
 import Button from '../../atoms/Button';
@@ -14,6 +14,7 @@ import Text from '../../atoms/Text';
 import getMyInfo from './getMyInfo';
 import { save } from '../../../common/tokenSlice';
 import reissue from '../../../common/reissue';
+import EditIcon from '@mui/icons-material/Edit';
 
 const StyledMypage = styled.div`
   ${({ theme }) => theme.flex.columnCenter}
@@ -23,24 +24,30 @@ const StyledMypage = styled.div`
 const ProfileArea = styled.div`
   ${({ theme }) => theme.flex.columnCenter};
   width: 100%;
-  justify-content: space-between;
-  padding: 0.2rem 0;
-  gap: 0.8rem;
+  gap: 1rem;
   background-color: ${({ theme }) => theme.colors.white};
   box-shadow: 0 1px 1px rgba(0, 0, 0, 0.1);
   height: 35vh;
 `;
 const ProfileImageArea = styled.div`
-  border-radius: 10rem;
+  position: relative;
+  border-radius: 50%;
   width: 10rem;
   height: 10rem;
-  border: 1px solid gray;
+  cursor: pointer;
+  border: 1px solid ${({theme}) => theme.colors.gray2}
 `;
-const ProfileButtonArea = styled.div`
-  margin-top: 1rem;
-  align-self: flex-end;
-  padding: 0 1rem;
-`;
+
+const EditImage = styled.div`
+  position: absolute;
+  bottom: 0;
+  right: 0;
+  padding: 0.1rem;
+  border-radius: 50%;
+  background-color: rgba(0, 0, 0, 0.5);
+  color: white;
+`
+
 const ToggleButtonArea = styled.div`
   ${({ theme }) => theme.flex.rowCenter};
   background-color: ${({ theme }) => theme.colors.white};
@@ -72,13 +79,6 @@ const ItemCardArea = styled.div`
   }
 `
 
-const NameTag = styled.div`
-  padding: 0.2rem 2rem;
-  background-color: ${({ theme }) => theme.colors.green3};
-  border-radius: 1rem;
-  margin-bottom: 1rem;
-`
-
 const Div = styled.div`
   margin-top: ${(props) => props.mt + 'rem'};
   margin-bottom: ${(props) => props.mb + 'rem'};
@@ -88,6 +88,38 @@ const Div = styled.div`
   padding-bottom: ${(props) => props.pb + 'rem'};
   padding-left: ${(props) => props.pl + 'rem'};
   padding-right: ${(props) => props.pr + 'rem'};
+`
+
+const SellArea = styled.div`
+  box-sizing: content-box;
+  width: 100%;
+  height: 8vh;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  ${({status}) => {
+    if (status) {
+      return css`
+        border-bottom: 2px solid ${({ theme }) => theme.colors.green3};
+      `
+    }
+  }}
+`
+
+const BuyArea = styled.div`
+  box-sizing: content-box;
+  width: 100%;
+  height: 8vh;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  ${({status}) => {
+    if (!status) {
+      return css`
+        border-bottom: 2px solid ${({ theme }) => theme.colors.green3};
+      `
+    }
+  }}
 `
 
 const Mypage = () => {
@@ -158,28 +190,28 @@ const Mypage = () => {
       <Navbar navigate={navigate} isLogin={isLogin} setIsLogin={setIsLogin} />      
       <Div mt={0.5}/>
       <ProfileArea>
-        <ProfileButtonArea>
-          <Button width="9rem" height="2rem" fontSize='lg' mode="secondary" radius="1rem" onClick={moveToUpdate}>
-            회원정보 수정
-          </Button>
-        </ProfileButtonArea>
-        <ProfileImageArea>
+        <ProfileImageArea onClick={moveToUpdate}>
           <Image src={img} alt="profile" isCircle />
+          <EditImage>
+            <EditIcon color="white" fontSize='large'/>
+          </EditImage>
         </ProfileImageArea>
-        <NameTag>
-          <Text size='xxl' weight="bold" color="white">
-            {name} 님
-          </Text>
-        </NameTag>
+        <Text size='xxl' weight="bold" color="black">
+          {name} 님
+        </Text>
       </ProfileArea>
       <Div mt={0.5}/>
       <ToggleButtonArea>
-        <Button name="salesHistory" mode={leftBtn} onClick={toggleBtn}>
-          판매내역
-        </Button>
-        <Button name="purchaseHistory" mode={rightBtn} onClick={toggleBtn}>
-          구매내역
-        </Button>
+        <SellArea status={isSalesHistory}>
+          <Button name="salesHistory" mode={leftBtn} onClick={toggleBtn}>
+            판매내역
+          </Button>
+        </SellArea>
+        <BuyArea status={isSalesHistory}>
+          <Button name="purchaseHistory" mode={rightBtn} onClick={toggleBtn}>
+            구매내역
+          </Button>
+        </BuyArea>
       </ToggleButtonArea>
       <Div mt={0.5}/>
       <ItemInfoArea>
