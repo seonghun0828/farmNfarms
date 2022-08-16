@@ -5,44 +5,6 @@ import Button from '../../atoms/Button';
 import move from '../../../common/move';
 import { save } from '../../../common/tokenSlice';
 
-const StyledTradeItemCard = styled.div`
-  width: 20rem;
-  height: 13rem;
-  border: 2px solid ${({ theme }) => theme.colors.green3};
-  border-radius: 5px;
-`;
-const ItemNav = styled.div`
-  ${({ theme }) => theme.flex.rowCenter}
-  justify-content: space-around;
-  height: 2rem;
-  background-color: ${({ theme }) => theme.colors.green3};
-  border-radius: 5px 5px 0 0;
-`;
-const ItemBody = styled.div`
-  ${({ theme }) => theme.flex.columnCenter}
-  justify-content: space-evenly;
-  position: relative;
-  height: 11rem;
-  padding: 0.5rem 0;
-  gap: 1rem;
-`;
-const FloatButton = styled.div`
-  position: absolute;
-  top: 1rem;
-  right: 1rem;
-`;
-const Info = styled.div`
-  ${({ theme }) => theme.flex.rowCenter}
-`;
-const InfoName = styled.div`
-  width: 5rem;
-  text-align: center;
-`;
-const InfoContent = styled.div`
-  width: 15rem;
-  padding-left: 0.5rem;
-`;
-
 const Card = styled.div`
   position: relative;
   width: 100%;
@@ -50,6 +12,7 @@ const Card = styled.div`
   border: 1px solid ${({ theme }) => theme.colors.green3};
   padding: 1rem 1.5rem;
   border-radius: 1.5rem;
+  background-color: white;
 `
 const ItemInfo = styled.div`
   display: flex;
@@ -93,7 +56,7 @@ const TradeItemCard = ({labels, clickHandler, ...rest}) => {
       <TotalItemInfo>
         <ItemInfo>
           <Text size="xxl" weight="bold">{productTitle}</Text>
-          <Text size="xl" color="gray2">{grade} / {quantity}kg</Text>
+          <Text size="xl" color="gray2">{grade} / {quantity.toLocaleString('ko-KR')}kg</Text>
         </ItemInfo>
         <Text size="xxl">{auctionedPrice.toLocaleString('ko-KR')} 원</Text>
       </TotalItemInfo>

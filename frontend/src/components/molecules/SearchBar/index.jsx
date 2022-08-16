@@ -13,7 +13,7 @@ const InputBox = styled.div`
 
   border-radius: 1rem;
   background-color: ${theme.colors.gray1};
-  border: 2px solid white;
+  border: 2px solid ${theme.colors.gray2};
 
   color: ${theme.colors.gray2};
 
