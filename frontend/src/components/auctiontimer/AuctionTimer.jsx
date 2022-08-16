@@ -86,7 +86,6 @@ const AuctionTimer = (
         if (sessionCount < 2) {
           setSessionCount((prevCount) => { // 경매 세션 카운트 + 1
             if (prevCount + 1 === 3) {
-              setOnTimer(false);
               return prevCount;
             }
             return prevCount + 1;
@@ -94,6 +93,7 @@ const AuctionTimer = (
         }
 
         if (sessionCount === 2) {
+          setOnTimer(false);
           if (isHost) {
             sendAuctionResult() // 백엔드에 경매 결과 데이터를 보내는 함수를 호출함(호스트가 한번만 보냄)
             console.log("is Working?")
