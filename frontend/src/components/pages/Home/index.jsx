@@ -39,7 +39,7 @@ const MarketPriceArea = styled.div`
 const SectionTitle = styled.div`
   display: flex;
   flex-direction: column;
-  margin: 0.5rem 0.6rem 1rem 0.6rem;
+  margin: 0 0.6rem 1rem 0.6rem;
 `
 
 const MoreInfo = styled.div`
@@ -79,6 +79,11 @@ const MoreButton = styled.div`
   height: 3rem;
   box-shadow: 3px 3px 10px rgba(0, 0, 0, 0.5);
   cursor: pointer;
+`
+
+const TitleDiv = styled.div`
+  display: inline;
+  border: 1px solid black
 `
 
 const Home = () => {
@@ -150,9 +155,11 @@ const Home = () => {
         </SearchArea>
       </FlexSearchArea>
       <SectionTitle>
-        <Text fontSize="xxl" weight="bold">
-          빨리 들어와유
-        </Text>
+        <TitleDiv>
+          <Text fontSize="xxl" weight="bold">
+            빨리 들어와유
+          </Text>
+        </TitleDiv>
         <MoreInfo>
           <Button mode="graytext" fontSize="md" fontWeight="normal" onClick={moveToAuctionRooms}>
             전체보기
