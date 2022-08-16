@@ -370,13 +370,8 @@ const VideoRoomComponent = () => {
   // 호스트(방 생성자) 여부에 따른 isHost를 토글링함(created()) + 호스트가 아닐 경우 유저의 이름을 바꿈
   useEffect(() => {
     // setIsHost(localStorage.getItem("host") ? true : false)
-    if (!isHost) {
-      setMyUserName(_.sample(nameList));
-    } else {
-
-      setMyUserName()
-    }
-  });
+    setMyUserName(_.sample(nameList));
+  }, []);
 
   useEffect(() => {
     const onbeforeunload = (event) => {
@@ -505,7 +500,7 @@ const VideoRoomComponent = () => {
 
   useEffect(() => {
     getUserInfo();
-  })
+  }, [])
 
   // 로딩 페이지를 통한 방 입장
   const enterAuctionRoom = () => {
