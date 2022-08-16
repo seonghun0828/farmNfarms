@@ -110,6 +110,7 @@ const CreateAuctionRoom = () => {
   const [isLogin, setIsLogin] = useState(localStorage.getItem('isLogin'));
   const [url, setUrl] = useState(null);
   const [emptyInput, setEmptyInput] = useState(true);
+
   const phone = useSelector((state) => state.token.value.phone);
   const clickHandler = () => {
       const fileUploader = document.querySelector('#file-uploader');
@@ -167,7 +168,7 @@ const CreateAuctionRoom = () => {
     if (roomId !== false) {
       console.log('경매방 생성 성공');
 
-      navigate('/room', { state: { id: roomId, items: items, phone: phone, title: title} })
+      navigate('/room', { state: { id: roomId, items: items, phone: phone, title: title } })
     }
   }
 

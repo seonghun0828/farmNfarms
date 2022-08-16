@@ -127,8 +127,11 @@ const AuctionTimer = (
 
   return (
     <StyledDiv>
-      <TimeProgressBar seconds={seconds}></TimeProgressBar>
-      {seconds < 10 ? `00:0${seconds}초` : `00:${seconds}초`}
+      {seconds > 0 && <div>
+          <TimeProgressBar seconds={seconds}></TimeProgressBar>
+          <span>{seconds < 10 ? `00:0${seconds}초` : `00:${seconds}초`}</span>
+        </div>}
+      {seconds === 0 && <div style={{fontSize: '28px'}}>대기중(20초)</div>}
       {toggleStart && isHost && <StyledButtonDiv className='mui-btn' variant="contained" onClick={startTimer}>
         {seconds === 0 && <ButtonDiv>
           <Timer></Timer>
