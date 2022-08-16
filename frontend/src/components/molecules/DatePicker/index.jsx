@@ -5,6 +5,8 @@ import styled, {css} from 'styled-components';
 import Text from '../../atoms/Text';
 import Date from './Date';
 import theme from '../../../common/theme';
+import ArrowBackIosIcon from '@mui/icons-material/ArrowBackIos';
+import ArrowForwardIosIcon from '@mui/icons-material/ArrowForwardIos';
 
 const StyledDatePicker = styled.div`
   display: flex;
@@ -74,12 +76,12 @@ const DayContainer = styled.div`
 
 const Button = styled.button`
   all: unset;
-  padding: 1rem;
+  padding: 0.6rem 1rem;
   border: 1px solid ${theme.colors.green3};
-  color: ${theme.colors.white};
+  color: ${theme.colors.green3};
   border-radius: 1rem;
   cursor: pointer;
-  background-color: ${theme.colors.green3};
+  background-color: ${theme.colors.white};
 `
 const DatePicker = ({setValue}) => {
 
@@ -111,9 +113,13 @@ const DatePicker = ({setValue}) => {
   return (
     <StyledDatePicker>
       <HeadContainer>
-        <Button onClick={Prev}>◀</Button>
+        <Button onClick={Prev}>
+          이전
+        </Button>
         <Text size="xxxl" weight="bold">{centerDate.format("YYYY")}년 {centerDate.format("MM")}월</Text>
-        <Button onClick={Next}>▶</Button>
+        <Button onClick={Next}>
+          다음
+        </Button>
       </HeadContainer>
       <DateContainer>
         {

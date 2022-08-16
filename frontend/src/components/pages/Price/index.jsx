@@ -110,7 +110,7 @@ const Price = () => {
       
       {priceData ? 
         <ChartArea>
-          <Text size="lg" weight="bold">{productName} 의 이전 일주일 간 평균가 변화 그래프</Text>
+          <Text size="lg" weight="bold">[{productName}] 일주일 간 평균가 변화</Text>
           {/* <Table price={priceData.price}/> */}
           <Chart priceData={priceData} product={productName}></Chart>
         </ChartArea> 
