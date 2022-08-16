@@ -11,8 +11,6 @@ import RoomCard from '../../molecules/RoomCard';
 import { LocalRecorder } from 'openvidu-browser';
 import searchAuctionRooms from './searchAuctionRooms';
 import Text from '../../atoms/Text';
-import { useDispatch } from 'react-redux';
-import reissue from '../../../common/reissue'
 
 const StyledAuctionRooms = styled.div`
   display: flex;
