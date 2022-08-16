@@ -10,18 +10,23 @@ import { useInView } from 'react-intersection-observer';
 import RoomCard from '../../molecules/RoomCard';
 import { LocalRecorder } from 'openvidu-browser';
 import searchAuctionRooms from './searchAuctionRooms';
+import Text from '../../atoms/Text';
 import { useDispatch } from 'react-redux';
 import reissue from '../../../common/reissue'
 
 const StyledAuctionRooms = styled.div`
-  // overflow-y: auto;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-evenly;
+  align-items: center;
+  width: 100%;
+  margin: 1rem 0;
+  gap: 1.5rem;
 `;
-const FlexSearchArea = styled.div`
-  ${({ theme }) => theme.flex.rowCenter}
-  height: 5rem;
-`;
+
 const SearchArea = styled.div`
-  width: 90%;
+  width: 100%;
+  padding: 0 1.5rem;
 `;
 const CardArea = styled.div`
   ${({ theme }) => theme.flex.rowCenter}
@@ -94,13 +99,13 @@ const AuctionRooms = () => {
   const { pages } = data;
 
   return (
+    <>
+    <Navbar navigate={navigate} isLogin={isLogin} setIsLogin={setIsLogin} />
     <StyledAuctionRooms>
-      <Navbar navigate={navigate} isLogin={isLogin} setIsLogin={setIsLogin} />
-      <FlexSearchArea>
-        <SearchArea>
-          <SearchBar value={keyword} setKeyword={setKeyword} SearchKey={SearchKey}/>
-        </SearchArea>
-      </FlexSearchArea>
+      <Text size="titleSize" weight="bold">경매방 전체 조회</Text>
+      <SearchArea>
+        <SearchBar value={keyword} setKeyword={setKeyword} SearchKey={SearchKey}/>
+      </SearchArea>
       <CardArea>
         {pages.map(({ content }, idx1) =>
           content.map((data, idx2) => {
@@ -130,6 +135,7 @@ const AuctionRooms = () => {
       </CardArea>
       {isFetchingNextPage ? <div>Loading...</div> : <div ref={ref}></div>}
     </StyledAuctionRooms>
+    </>
   );
 };
 
