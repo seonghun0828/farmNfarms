@@ -148,6 +148,8 @@ const Mypage = () => {
       auctionResultId,
       isSalesHistory
     }));
+    localStorage.setItem(auctionResultId, auctionResultId);
+    localStorage.setItem(isSalesHistory, isSalesHistory);
     move(navigate, '/history');
   }
 
