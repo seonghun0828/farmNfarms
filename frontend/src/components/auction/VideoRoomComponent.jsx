@@ -9,12 +9,9 @@ import send from './send';
 import getMyInfo from '../pages/Mypage/getMyInfo';
 import deleteRoom from './delete';
 import { Person } from '@mui/icons-material';
-import { useNavigate } from "react-router-dom";
-import logo from "../../assets/로고.svg";
+import { useNavigate, useLocation } from "react-router-dom";
 import basicImg from "../../assets/defaultImg.png";
-import './VideoRoomComponent.css';
 import styled from "styled-components";
-import { useLocation } from 'react-router-dom';
 import Loading from '../pages/Loading/Loading';
 import { useSelector } from 'react-redux';
 import UpButton from '../atoms/UpButton';
@@ -32,6 +29,26 @@ import ItemShowButton from '../atoms/ItemShowButton';
 import { changeStatus } from '../../common/hostSlice';
 import { useDispatch } from 'react-redux/es/exports';
 import Congratuation from '../AuctionSession/Congratuation';
+
+const ContainerDiv = styled.div`
+  height: 100vh;
+`
+
+const SessionHeaderDiv1 = styled.div`
+  background: rgba(0, 0, 0, 0.2);
+  width: 100%;
+  position: absolute;
+  top: 0;
+`
+
+const SessionHeaderDiv2 = styled.div`
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-top: 2px;
+  margin-bottom: 2px;
+  padding: 5px;
+`
 
 const StyledDiv = styled.div`
   background: rgba(0, 0, 0, 0.2);
@@ -52,11 +69,52 @@ const WhiteDiv = styled.div`
   color: white;
 `
 
-const ButtonDiv = styled.div`
+const ProfileDiv = styled.div`
+  height: 80px;
+  width: 80px;
+  border-radius: 70%;
+  overflow: hidden;
+  border: 1px solid rgba(33, 33, 33);
+  margin: 5px;
+`
+
+const Img = styled.img`
+  height: 100%;
+  width: 100%;
+  object-fit: cover;
+`
+
+const AuctionRoomTitle = styled.div`
+  color: white;
+  font-size: 20px;
+  font-weight: bold;
+  margin: 5px;
+`
+
+const MessageDiv = styled.div`
+  position: fixed;
+  left: 0px; 
+  bottom: 0px;
+  width: 100%;
+`
+
+const MainVideoDiv = styled.div`
+  height: 100%;
+  position: relative;
+  top: 0px;
+  left: 0px;
+`
+
+const AuctionScreenDiv = styled.div`
+  left: 50%;
+  width: 300px;
+  position: fixed;
+  bottom: 0px;
   display: flex;
+  flex-direction: column;
   justify-content: center;
   align-items: center;
-  font-size: 16px;
+  transform: translate(-50%, 0);
 `
 
 const OPENVIDU_SERVER_URL = 'https://i7b203.p.ssafy.io:8443';
@@ -235,7 +293,7 @@ const VideoRoomComponent = () => {
       setAuctionSessionList((prevAuctionSessionList) => {
         return [...prevAuctionSessionList, username]
       });
-      if (newPrice > currentHigh) {
+      if (newPrice > currentHigh && !isHost) { // 판매자는 비딩을 하지 못하도록 !isHost를 조건에 추가
         setHighestPrice(newPrice);
         setBestBidder(username);
         setBestBidderPhone(tmp[3]);
@@ -315,6 +373,7 @@ const VideoRoomComponent = () => {
     //   setMyUserName(_.sample(nameList));
     // }
     setMyUserName(_.sample(nameList));
+    getUserInfo();
   }, [isHost]);
 
   useEffect(() => {
@@ -420,11 +479,11 @@ const VideoRoomComponent = () => {
       sellerPhoneNumber: sellerPhoneNumber,
       buyerPhoneNumber: bestBidderPhone,
       auctionedPrice: highestPrice,
-      grade: items[itemIndex].gradeTitle, // items[itemIndex].grade
+      grade: items[itemIndex].grade,
       productTitle: items[itemIndex].productTitle,
       quantity: items[itemIndex].quantity
     }
-    if (bestBidderPhone !== "" && bestBidderPhone !== undefined) {
+    if (bestBidderPhone !== "" && bestBidderPhone !== undefined && !isHost) {
       const sendResponse = await send({...payload});
       if (sendResponse) {
         console.log('Send Data Successfully!');
@@ -447,22 +506,28 @@ const VideoRoomComponent = () => {
   };
 
   return (
-    <div className="container">
+    <ContainerDiv>
       {session === undefined && roomId !== null && <Loading enterAuctionRoom={enterAuctionRoom}></Loading>}
       {roomId == null && <NotFound></NotFound>}
       {session !== undefined ? (
-        <div id="session">
+        <ContainerDiv>
           {mainStreamManager !== undefined ? (
-            <div id="main-video">
+            <MainVideoDiv>
               {isHost && <UserVideoComponent streamManager={publisher}></UserVideoComponent>}
               {!isHost && <UserVideoComponent streamManager={subscribers}></UserVideoComponent>}
-            </div>
+              {!isHost && !subscribers && <div>뜨냐?</div>}
+            </MainVideoDiv>
           ) : null}
-          <div id="session-header">
-            <div className="session-header2">
-              <div className="img-tag">
-                <img className="profile-img" src={logo} alt="/"/>
-                <div style={{ color: 'white', fontSize: '20px', fontWeight: 'bold' }}>{auctionRoomTitle}</div>
+          <SessionHeaderDiv1>
+            <SessionHeaderDiv2>
+              <div style={{display: 'flex'}}>
+                <ProfileDiv>
+                  <Img src={profileImg} alt="/"/>
+                </ProfileDiv>
+                <div style={{display: 'flex', flexDirection: 'column'}}>
+                  <AuctionRoomTitle>{auctionRoomTitle}</AuctionRoomTitle>
+                  <WhiteDiv style={{marginLeft: '5px'}}>{myUserName}</WhiteDiv>
+                </div>
               </div>
               <div>
                 <div style={{display: 'flex', justifyContent: 'space-between', margin: '5px'}}>
@@ -472,21 +537,21 @@ const VideoRoomComponent = () => {
                   <OnAirButton></OnAirButton>
                 </div>
               </div>
-            </div>
-            {finArr[items.length - 1] !== 1 && <div className="session-header2">
+            </SessionHeaderDiv2>
+            {finArr[items.length - 1] !== 1 && <SessionHeaderDiv2>
               {!toggleStart && isHost && <SessionStartButton startAuction={startAuction}></SessionStartButton>}
               {!toggleStart && <LeaveButton leaveSession={leaveSession}></LeaveButton>}
               {toggleStart && <ItemShowButton setItemDisplay={setItemDisplay}>물품 보기</ItemShowButton>}
-            </div>}
-            {finArr[items.length - 1] === 1 && <div className="session-header2">
-              <WhiteDiv style={{fontSize: '18px', fontWeight: 'bold'}}>경매가 종료되었습니다</WhiteDiv>
+            </SessionHeaderDiv2>}
+            {finArr[items.length - 1] === 1 && <SessionHeaderDiv2>
+              <WhiteDiv style={{fontSize: '18px', fontWeight: 'bold', marginLeft: '5px'}}>경매가 종료되었습니다</WhiteDiv>
               <LeaveButton leaveSession={leaveSession}></LeaveButton>
-            </div>}
-          </div>
-          {toggleStart && <div id="auction-screen">
+            </SessionHeaderDiv2>}
+          </SessionHeaderDiv1>
+          {toggleStart && <AuctionScreenDiv>
             {itemDisplay && <AuctionItemCard
               productTitle={items[itemIndex].productTitle}
-              grade={items[itemIndex].gradeTitle} // // items[itemIndex].grade
+              grade={items[itemIndex].grade}
               quantity={items[itemIndex].quantity}
               startingPrice={items[itemIndex].startingPrice}
               bidIncrement={items[itemIndex].bidIncrement}
@@ -531,14 +596,14 @@ const VideoRoomComponent = () => {
                 <DownButton priceDownHandler={priceDownHandler}/>
               </div>
             </StyledDiv>
-          </div>}
-          {chatDisplay && <div id="message-footer">
+          </AuctionScreenDiv>}
+          {chatDisplay && <MessageDiv>
             <ChattingList messageList={messageList}></ChattingList>
             <ChattingForm myUserName={myUserName} onMessage={sendMsg} currentSession={session}></ChattingForm>
-          </div>}
-        </div>
+          </MessageDiv>}
+        </ContainerDiv>
       ) : null}
-    </div>
+    </ContainerDiv>
   );
 }
 
