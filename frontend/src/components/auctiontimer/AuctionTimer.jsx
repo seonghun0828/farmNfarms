@@ -43,23 +43,25 @@ const AuctionTimer = (
   }) => {
 
   const startTimer = () => {
-    // 시간이 다 됐을 때만 버튼이 작동 가능
-    if (seconds === 0 && sessionCount < 2) {
-      currentSession
-        .signal({
-          data: 20,
-          type: "timer",
-        })
-        .then(() => {
-          console.log("timer ON!");
-          setSessionCount((prevCount) => { // 경매 세션 카운트 + 1
-            return prevCount + 1
+    if (isHost) { // 호스트일 경우에만 시간 컨트롤을 보낼 수 있음
+      // 시간이 다 됐을 때만 버튼이 작동 가능
+      if (seconds === 0 && sessionCount < 2) {
+        currentSession
+          .signal({
+            data: 20,
+            type: "timer",
+          })
+          .then(() => {
+            console.log("timer ON!");
+            setSessionCount((prevCount) => { // 경매 세션 카운트 + 1
+              return prevCount + 1;
+            });
+          })
+          .catch((error) => {
+            console.error(error);
           });
-        })
-        .catch((error) => {
-          console.error(error);
-        });
-    };
+      };
+    }
   };
 
   // 20초 후 startTimer 자동 시작(테스트 단계에선 2초로 세팅해서 테스트함)
