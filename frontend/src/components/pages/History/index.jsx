@@ -69,21 +69,17 @@ const History = () => {
   const [isLogin, setIsLogin] = useState(localStorage.getItem('isLogin'));
   const navigate = useNavigate();
   const dispatch = useDispatch();
-  const auctionResultId = useSelector((state) => state.token.value.auctionResultId);
-  const isSalesHistory = useSelector((state) => state.token.value.isSalesHistory);
+  const auctionResultId = localStorage.getItem(auctionResultId);
+  const isSalesHistory = localStorage.getItem(isSalesHistory);
   
   const { data, isLoading, isError} = useQuery(
     ['detailHistory'],
     () => getDetailHistory(auctionResultId, isSalesHistory),
-    {
-
-    }
+    {}
   )
 
   useEffect(() => {
-    if (localStorage.getItem('isLogin')) {
-      reissue(dispatch);
-    }
+    reissue(dispatch);
   }, [dispatch]);
 
   if (isLoading) {
