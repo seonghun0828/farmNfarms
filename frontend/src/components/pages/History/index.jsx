@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import logo from '../../../assets/로고.svg';
 import { useNavigate } from "react-router-dom";
 import move from '../../../common/move';
@@ -7,12 +7,13 @@ import Navbar from '../../molecules/Navbar';
 import Image from '../../atoms/Image';
 import Text from '../../atoms/Text';
 import Button from '../../atoms/Button';
-import { useSelector } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 import { useQuery } from '@tanstack/react-query';
 import getDetailHistory from './getDetailHistory';
 import { alertError } from '../../../common/alertError';
 import TradeItemCard from '../../molecules/TradeItemCard';
 import ProgressBox from '../../molecules/ProgressBox';
+import reissue from '../../../common/reissue';
 
 const StyledHistory = styled.div`
   ${({ theme }) => theme.flex.columnCenter}
@@ -53,6 +54,7 @@ const InfoValue = styled.div`
 const History = () => {
   const [isLogin, setIsLogin] = useState(localStorage.getItem('isLogin'));
   const navigate = useNavigate();
+  const dispatch = useDispatch();
   const auctionResultId = useSelector((state) => state.token.value.auctionResultId);
   const isSalesHistory = useSelector((state) => state.token.value.isSalesHistory);
   
@@ -63,6 +65,13 @@ const History = () => {
 
     }
   )
+
+  useEffect(() => {
+    if (localStorage.getItem('isLogin')) {
+      reissue(dispatch);
+    }
+  }, [dispatch]);
+
   if (isLoading) {
     return <div>Loading...</div>
   }
@@ -85,6 +94,7 @@ const History = () => {
   const partnerInfo = isSalesHistory ?
     [['구매자', buyerName], ['휴대폰번호', hyphenedPhoneNumber], ['주소', buyerAddress]] :
     [['판매자', sellerName], ['휴대폰번호', hyphenedPhoneNumber], ['은행', sellerBank], ['계좌번호', sellerAccount]]
+
   return (
     <StyledHistory>
       <Navbar navigate={navigate} isLogin={isLogin} setIsLogin={setIsLogin} />

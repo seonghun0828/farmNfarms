@@ -13,6 +13,8 @@ import RoomCard from '../../molecules/RoomCard';
 import AutoCarousel from '../../molecules/AutoCarousel';
 import room_infos from './room_infos';
 import theme from '../../../common/theme';
+import reissue from '../../../common/reissue';
+import { useDispatch } from 'react-redux';
 
 const StyledHome = styled.div``;
 const FlexSearchArea = styled.div`
@@ -83,6 +85,7 @@ const MoreButton = styled.div`
 
 const Home = () => {
   const navigate = useNavigate();
+  const dispatch = useDispatch();
 
   const moveToCreate = () => {
     move(navigate, 'create');
@@ -137,7 +140,11 @@ const Home = () => {
     getMainPrice();
     getRoomInfos();
     console.log(roomInfos);
-  }, []);
+    
+    if (localStorage.getItem('isLogin')) {
+      reissue(dispatch);
+    }
+  }, [dispatch]);
 
   const [isLogin, setIsLogin] = useState(localStorage.getItem('isLogin'));
 

@@ -1,4 +1,4 @@
-import { useState } from 'react'
+import { useEffect, useState } from 'react'
 import { useNavigate } from "react-router-dom";
 import DatePicker from "../../molecules/DatePicker";
 import Button from "../../atoms/Button";
@@ -12,6 +12,8 @@ import Chart from './Chart';
 import SelectBox from '../../atoms/SelectBox';
 import moment from 'moment';
 import theme from '../../../common/theme';
+import { useDispatch } from 'react-redux';
+import reissue from '../../../common/reissue';
 
 const SELECT_OPTIONS = [
   '배추', '무', '감자', '고구마', '당근', '오이', '토마토'
@@ -97,6 +99,13 @@ const Price = () => {
 
   const [isLogin, setIsLogin] = useState(localStorage.getItem('isLogin'));
   const navigate = useNavigate();
+  const dispatch = useDispatch();
+
+  useEffect(() => {
+    if (localStorage.getItem('isLogin')) {
+      reissue(dispatch);
+    }
+  }, [dispatch]);
   
   return (
     <>    
