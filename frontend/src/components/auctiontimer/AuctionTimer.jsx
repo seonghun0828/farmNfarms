@@ -35,9 +35,6 @@ const StyledButtonDiv = styled.div`
   box-shadow: 2px 2px 1px black;
 `
 
-// 두 가지 큰 버그 => 모바일 상에서는 localStroage가 없어서 isHost가 먹히질 않음
-// 타이머 동작이 본인 카메라에서는 정상작동하나 상대방 화면에서는 제대로 동작하지 않음 아마 키와 타이머 카운트가
-// 소켓 내에서 공유되는 요소가 아니라서 그런듯
 const AuctionTimer = (
   { seconds, setSeconds, currentSession, sessionCount, setSessionCount, 
     setItemIndex, toggleStart, setToggleStart, setChatDisplay, maxIndex, sendAuctionResult, 
@@ -55,6 +52,9 @@ const AuctionTimer = (
         })
         .then(() => {
           console.log("timer ON!");
+          setSessionCount((prevCount) => { // 경매 세션 카운트 + 1
+            return prevCount + 1
+          });
         })
         .catch((error) => {
           console.error(error);
@@ -127,8 +127,11 @@ const AuctionTimer = (
 
   return (
     <StyledDiv>
-      <TimeProgressBar seconds={seconds}></TimeProgressBar>
-      {seconds < 10 ? `00:0${seconds}초` : `00:${seconds}초`}
+      {seconds > 0 && <div>
+          <TimeProgressBar seconds={seconds}></TimeProgressBar>
+          <span>{seconds < 10 ? `00:0${seconds}초` : `00:${seconds}초`}</span>
+        </div>}
+      {seconds === 0 && <div style={{fontSize: '28px'}}>대기중(20초)</div>}
       {toggleStart && isHost && <StyledButtonDiv className='mui-btn' variant="contained" onClick={startTimer}>
         {seconds === 0 && <ButtonDiv>
           <Timer></Timer>
