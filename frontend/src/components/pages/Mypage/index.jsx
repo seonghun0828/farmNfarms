@@ -13,6 +13,7 @@ import { alertError } from '../../../common/alertError';
 import Text from '../../atoms/Text';
 import getMyInfo from './getMyInfo';
 import { save } from '../../../common/tokenSlice';
+import reissue from '../../../common/reissue';
 
 const StyledMypage = styled.div`
   ${({ theme }) => theme.flex.columnCenter}
@@ -96,14 +97,13 @@ const Mypage = () => {
   const [isLogin, setIsLogin] = useState(localStorage.getItem('isLogin'));
   const navigate = useNavigate();
   const phoneNumber = useSelector((state) => state.token.value.phone);
+  const [isRefresh, setIsRefresh] = useState(phoneNumber === undefined);
   const dispatch = useDispatch();
-  console.log(phoneNumber); // 테스트 하고 지우기
+
   const leftBtn = isSalesHistory ? 'greentext' : 'graytext';
   const rightBtn = isSalesHistory ? 'graytext' : 'greentext';
 
   const toggleBtn = (e) => {
-    console.log(e.target, isSalesHistory)
-    console.log(e.target.name)
     if (e.target.name === 'salesHistory' && !isSalesHistory) {
       setIsSalesHistory((state) => !state);
     } else if (e.target.name === 'purchaseHistory' && isSalesHistory) {
@@ -136,10 +136,16 @@ const Mypage = () => {
       // enabled: false,
     }
   )
-
+  const refresh = async (dispatch) => {
+    if (isRefresh) {
+      await reissue(dispatch);
+      setIsRefresh(false);
+    }
+    await updateName();
+  }
   useEffect(() => {
-    updateName();
-  }, []);
+    refresh(dispatch);
+  }, [dispatch, isRefresh]);
 
   if (isError) {
     alertError('Failed to fetch full history');
