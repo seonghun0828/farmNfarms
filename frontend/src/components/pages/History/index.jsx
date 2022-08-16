@@ -69,8 +69,8 @@ const History = () => {
   const [isLogin, setIsLogin] = useState(localStorage.getItem('isLogin'));
   const navigate = useNavigate();
   const dispatch = useDispatch();
-  const auctionResultId = localStorage.getItem(auctionResultId);
-  const isSalesHistory = localStorage.getItem(isSalesHistory);
+  const auctionResultId = localStorage.getItem('auctionResultId');
+  const isSalesHistory = localStorage.getItem('isSalesHistory');
   
   const { data, isLoading, isError} = useQuery(
     ['detailHistory'],
