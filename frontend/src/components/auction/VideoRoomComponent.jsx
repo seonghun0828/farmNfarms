@@ -415,7 +415,7 @@ const VideoRoomComponent = () => {
     const mySession = session
     // 현재 경매 세션의 출발 가격을 초기화함
     setPrice(items[itemIndex].startingPrice)
-    setSessionCount(0) // 현재 경매 세션의 카운트를 0으로 초기화함
+    setSessionCount(1) // 현재 경매 세션의 카운트를 0으로 초기화함
     setHighestPrice(0) // 경매 최고 낙찰가를 0으로 초기화함
     setBestBidder(undefined) // 경매 최고 낙찰자를 undefined로 초기화함
     setTempHighestPrice(0) // 현재 세션에서 보여줄 임시 경매 최고 낙찰가를 0으로 함
