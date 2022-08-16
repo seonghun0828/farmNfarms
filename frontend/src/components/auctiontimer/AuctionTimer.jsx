@@ -43,25 +43,23 @@ const AuctionTimer = (
   }) => {
 
   const startTimer = () => {
-    if (isHost) { // 호스트일 경우에만 시간 컨트롤을 보낼 수 있음
-      // 시간이 다 됐을 때만 버튼이 작동 가능
-      if (seconds === 0 && sessionCount < 2) {
-        currentSession
-          .signal({
-            data: 20,
-            type: "timer",
-          })
-          .then(() => {
-            console.log("timer ON!");
-            setSessionCount((prevCount) => { // 경매 세션 카운트 + 1
-              return prevCount + 1;
-            });
-          })
-          .catch((error) => {
-            console.error(error);
+    // 시간이 다 됐을 때만 버튼이 작동 가능
+    if (seconds === 0 && sessionCount < 2) {
+      currentSession
+        .signal({
+          data: 20,
+          type: "timer",
+        })
+        .then(() => {
+          console.log("timer ON!");
+          setSessionCount((prevCount) => { // 경매 세션 카운트 + 1
+            return prevCount + 1;
           });
+        })
+        .catch((error) => {
+          console.error(error);
+        });
       };
-    }
   };
 
   // 20초 후 startTimer 자동 시작(테스트 단계에선 2초로 세팅해서 테스트함)
@@ -87,7 +85,9 @@ const AuctionTimer = (
         setTempHighestPrice(highestPrice) // 현재 세션에서만 고정되어 보여줄 경매 최고가
         setTempBestBidder(bestBidder) // 현재 세션에서만 고정되어 보여줄 경매 최고 입찰자
         if (sessionCount === 2) {
-          sendAuctionResult() // 백엔드에 경매 결과 데이터를 보내는 함수를 호출함
+          if (isHost) {
+            sendAuctionResult() // 백엔드에 경매 결과 데이터를 보내는 함수를 호출함(호스트가 한번만 보냄)
+          }
           if (bestBidder !== undefined) {
             // 최고 입찰자가 있으면 2초 뒤에 축하 메세지 토글링
             const toggleCelebration = setTimeout(() => {
