@@ -491,6 +491,10 @@ const VideoRoomComponent = () => {
         }
       }
     }
+    setHighestPrice(0)
+    setBestBidder(undefined)
+    setTempHighestPrice(0)
+    setTempBestBidder(undefined)
   };
 
   const getUserInfo = async () => {
@@ -585,7 +589,6 @@ const VideoRoomComponent = () => {
                 setPrice={setPrice}
                 setFinArr={setFinArr}
                 setShowCelebration={setShowCelebration}
-                itemIndex={itemIndex}
               />
             </StyledDiv>
             {showCelebration && <Congratuation bestBidder={bestBidder}></Congratuation>}
