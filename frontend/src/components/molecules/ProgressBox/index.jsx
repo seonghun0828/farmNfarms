@@ -81,6 +81,8 @@ const ProgressBox = ({progress}) => {
           imageUrl: '/assets/Swal_image/corn.png',
           imageHeight: 150,
           confirmButtonColor: theme.colors.green3, 
+        }).then(() => {
+          window.location.href = '/';
         })
       }
     })
