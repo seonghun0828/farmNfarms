@@ -62,14 +62,18 @@ public class UserService {
 
         User user = userRepository.findByPhone(phone);
         System.out.println(user.getPicture());
-        return new UserInfoGetRes(user.getPhone(), user.getAccount(), user.getAddress(), user.getName(),
-                                    user.getBank(), user.getZipCode(), user.getDetailAddress(), user.getPicture().getFullPath(), user.getPicture().getId());
 
-//        return UserInfoGetRes.builder()
-//                .phone(user.getPhone())
-//                .account(user.getAccount())
-//                .address(user.getAddress())
-//                .build();
+        return UserInfoGetRes.builder()
+                .phone(user.getPhone())
+                .account(user.getAccount())
+                .address(user.getAddress())
+                .name(user.getName())
+                .bank(user.getBank())
+                .zipCode(user.getZipCode())
+                .detailAddress(user.getDetailAddress())
+                .picturePath(user.getPicture().getFullPath())
+                .pictureIdx(user.getPicture().getId())
+                .build();
     }
 
     //
@@ -86,7 +90,6 @@ public class UserService {
                 user.setAccount(request.getAccount());
                 user.setAddress(request.getAddress());
                 user.setName(request.getName());    //상의 필요
-//                user.setAbout_me(request.getAboutMe());
                 user.setBank(request.getBank());
                 user.setDetailAddress(request.getDetailAddress());
                 user.setZipCode(request.getZipCode());

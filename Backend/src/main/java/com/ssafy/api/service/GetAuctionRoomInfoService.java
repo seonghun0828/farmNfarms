@@ -37,7 +37,7 @@ public class GetAuctionRoomInfoService {
 
     public List<AuctionDetail> getAuctionDetailsInfo(Long auctionRoomId) {
 
-        return auctionDetailRepository.findAllByAuctionRoomId(auctionRoomId);
+        return auctionDetailRepository.findAllByAuctionRoomIdOrderByIdAsc(auctionRoomId);
     }
 
 
