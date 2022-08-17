@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from "react";
 import { Timer, ShutterSpeed } from '@mui/icons-material';
-import styled from "styled-components";
+import styled, { keyframes } from "styled-components";
 import TimeProgressBar from "./TimeProgressBar";
 
 const StyledDiv = styled.div`
@@ -33,6 +33,33 @@ const StyledButtonDiv = styled.div`
   align-items: center;
   color: white;
   box-shadow: 2px 2px 1px black;
+`
+
+const waiting = keyframes`
+  0% {
+    content: "대기중";
+  }
+
+  33% {
+    content: "대기중.";
+  }
+
+  66% {
+    content: "대기중..";
+  }
+
+  100% {
+    content: "대기중...";
+  }
+`
+
+const WaitingMessageDiv = styled.div`
+  font-size: 28px;
+
+  ::after {
+    content: "대기중";
+    animation: ${waiting} 2s linear infinite;
+  }
 `
 
 const AuctionTimer = (
@@ -141,11 +168,11 @@ const AuctionTimer = (
           <TimeProgressBar seconds={seconds}></TimeProgressBar>
           <span>{seconds < 10 ? `00:0${seconds}초` : `00:${seconds}초`}</span>
         </div>}
-      {seconds === 0 && <div style={{fontSize: '28px'}}>대기중</div>}
-      {toggleStart && isHost && <StyledButtonDiv onClick={startTimer}>
+      {seconds === 0 && <WaitingMessageDiv></WaitingMessageDiv>}
+      {toggleStart && isHost && sessionCount <= 1 && <StyledButtonDiv onClick={startTimer}>
         {seconds === 0 && <ButtonDiv>
           <Timer></Timer>
-          지금 시작
+          바로 시작
         </ButtonDiv>}
         {seconds !== 0 && <ButtonDiv>
           <ShutterSpeed></ShutterSpeed>
