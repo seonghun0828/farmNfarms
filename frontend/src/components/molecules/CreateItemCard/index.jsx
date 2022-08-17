@@ -5,9 +5,10 @@ import Input from "../../atoms/Input"
 
 const StyledCreateItemCard = styled.div`
     ${({theme}) => theme.flex.rowCenter}
-    width: 20rem;
+    width: 17rem;
     padding: 0.7rem;
     background-color: ${({theme}) => theme.colors.gray1};
+    border: 1px solid ${({theme}) => theme.colors.gray1};
     border-radius: 0.5rem;
     gap: 0.5rem;
 `

@@ -7,6 +7,8 @@ import Image from '../../atoms/Image';
 import payReady from './payReady';
 import ProgressBar from '../../molecules/ProgressBar';
 import requestConfirmPurchase from './requestConfirmPurchase';
+import Swal from "sweetalert2";
+import theme from "../../../common/theme";
 
 const StyledProgressBox = styled.div`
   border: 1px solid ${({ theme }) => theme.colors.green3};
@@ -62,9 +64,29 @@ const ProgressBox = ({progress}) => {
     window.open('https://korea24call.com:447/new/index.html');
   }
   const confirmPurchase = () => {
-    if (window.confirm('구매를 확정하시겠습니까?') && requestConfirmPurchase(auctionResultId)) {
-      window.alert('구매가 확정되었습니다!')
-    }
+    Swal.fire({
+      text: "구매를 확정하시겠습니까?",
+      showCancelButton: true,
+      confirmButtonColor: theme.colors.green3,
+      cancelButtonColor: theme.colors.gray2,
+      cancelButtonText: '취소',
+      confirmButtonText: '확인',
+      width: 300,
+    }).then((result) => {
+      if (result.isConfirmed && requestConfirmPurchase(auctionResultId)) {
+        Swal.fire({
+          title: '성공!',
+          text: '구매가 확정되었습니다!',
+          width: 300,
+          imageUrl: '/assets/Swal_image/corn.png',
+          imageHeight: 150,
+          confirmButtonColor: theme.colors.green3, 
+        })
+      }
+    })
+    // if (window.confirm('구매를 확정하시겠습니까?') && requestConfirmPurchase(auctionResultId)) {
+    //   window.alert('구매가 확정되었습니다!')
+    // }
   }
   const clickPay = async () => {
     const next_redirect_mobile_url = await payReady(auctionResultId);
