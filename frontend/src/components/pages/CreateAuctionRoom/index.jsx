@@ -32,6 +32,7 @@ const FixedInputArea = styled.div`
 const ImageArea = styled.div`
     width: 7.5rem;
     height: 10.5rem;
+    cursor: pointer;
     `
 const StyledImage = styled.div`
   width: 7.5rem;

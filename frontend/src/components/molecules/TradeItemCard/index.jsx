@@ -4,15 +4,20 @@ import Text from '../../atoms/Text';
 import Button from '../../atoms/Button';
 import move from '../../../common/move';
 import { save } from '../../../common/tokenSlice';
+import ArrowForwardIosIcon from '@mui/icons-material/ArrowForwardIos';
 
 const Card = styled.div`
-  position: relative;
   width: 100%;
   height: auto;
   border: 1px solid ${({ theme }) => theme.colors.green3};
-  padding: 1rem 1.5rem;
+  padding: 1rem 0.3rem 1rem 1.5rem;
   border-radius: 1.5rem;
   background-color: white;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 0.6rem;
+  cursor: pointer;
 `
 const ItemInfo = styled.div`
   display: flex;
@@ -24,6 +29,7 @@ const TotalItemInfo = styled.div`
   display: flex;
   justify-content: space-between;
   align-items: center;
+  width: 100%;
 `
 
 const CompleteBox = styled.div`
@@ -37,6 +43,16 @@ const CompleteBox = styled.div`
   display: flex;
   justify-content: center;
   align-items: center;
+`
+
+const RowFlex = styled.div`
+  display: flex;
+  gap: 0.1rem;
+`
+
+const ColorDiv = styled.div`
+  all: unset;
+  color: ${({ theme }) => theme.colors.green3};
 `
 
 const TradeItemCard = ({labels, clickHandler, ...rest}) => {
@@ -58,7 +74,12 @@ const TradeItemCard = ({labels, clickHandler, ...rest}) => {
           <Text size="xxl" weight="bold">{productTitle}</Text>
           <Text size="xl" color="gray2">{grade} / {quantity.toLocaleString('ko-KR')}kg</Text>
         </ItemInfo>
-        <Text size="xxl">{auctionedPrice.toLocaleString('ko-KR')} 원</Text>
+        <RowFlex>
+          <Text size="xxl">{auctionedPrice.toLocaleString('ko-KR')}원</Text>
+          <ColorDiv>
+            <ArrowForwardIosIcon fontSize="large"/>
+          </ColorDiv>
+        </RowFlex>
       </TotalItemInfo>
     </Card>
   );
