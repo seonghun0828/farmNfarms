@@ -8,6 +8,7 @@ const roomDetail = async (roomNumber) => {
       method: 'get',
       url: apiPath.room.detail(roomNumber),
     });
+    console.log(data)
     return(data)
   } catch (e) {
     alertError();

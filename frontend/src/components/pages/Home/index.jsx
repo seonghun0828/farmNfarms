@@ -31,12 +31,17 @@ const RoomCardArea = styled.div`
   background-color: white;
   margin: 1rem 0;
   display: flex;
+  justify-content: center;
   align-items: center;
   box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
 `;
 
 const MarketPriceArea = styled.div`
   height: 6rem;
+  width: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
 `;
 
 const SectionTitle = styled.div`
@@ -169,7 +174,7 @@ const Home = () => {
         </TitleDiv>
         <MoreInfo>
           <Button mode="graytext" fontSize="md" fontWeight="normal" onClick={moveToAuctionRooms}>
-            전체보기
+            더보기
           </Button>
         </MoreInfo>
       </SectionTitle>
@@ -182,7 +187,7 @@ const Home = () => {
           </Div>))
         }
       </Carousel>
-        : <div>isLoading</div>} 
+        : <Text font="Jua" fontSize="xxxl">isLoading</Text>} 
       {/* isLoading 말고 좋은거 없나 시청자수 가져올 수 있는지 물어보기*/}
       </RoomCardArea>
       <Div mt={2.5}/>
@@ -192,7 +197,7 @@ const Home = () => {
         </Text>
         <MoreInfo>
           <Button mode="graytext" fontSize="md" fontWeight="normal" onClick={moveToPrice}>
-            전체보기
+            더보기
           </Button>
         </MoreInfo>
       </SectionTitle>
@@ -204,7 +209,7 @@ const Home = () => {
               <MainPriceCard {...priceItem} key={index}></MainPriceCard>
             </Div>
           ))}            
-        </AutoCarousel> : <div>isLoading</div>}
+        </AutoCarousel> : <Text font="Jua" fontSize="xxxl">isLoading</Text>}
       </MarketPriceArea>
       <AddRoomArea>
         {/* <Button mode="graytext" fontSize="lg" onClick={() => window.alert(localStorage.getItem('isLogin'))}>
