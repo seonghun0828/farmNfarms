@@ -70,7 +70,7 @@ const History = () => {
   const navigate = useNavigate();
   const dispatch = useDispatch();
   const auctionResultId = localStorage.getItem('auctionResultId');
-  const isSalesHistory = localStorage.getItem('isSalesHistory');
+  const isSalesHistory = localStorage.getItem('isSalesHistory') === 'true';
   
   const { data, isLoading, isError} = useQuery(
     ['detailHistory'],
