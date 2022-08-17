@@ -39,7 +39,7 @@ const AuctionTimer = (
   { seconds, setSeconds, currentSession, sessionCount, setSessionCount, 
     setItemIndex, toggleStart, setToggleStart, setChatDisplay, maxIndex, sendAuctionResult, 
     setTempHighestPrice, highestPrice, bestBidder, setTempBestBidder, isHost, 
-    setAuctionSessionList, items, setPrice, setFinArr, setShowCelebration, itemIndex
+    setAuctionSessionList, items, setPrice, setFinArr, setShowCelebration
   }) => {
 
   const startTimer = () => {
@@ -117,11 +117,9 @@ const AuctionTimer = (
               setPrice(items[prevIndex + 1].startingPrice)
               return prevIndex + 1;
             });
-            console.log(itemIndex)
             setToggleStart((prevState) => {
               return !prevState;
             });
-            
             setChatDisplay(true);
             setAuctionSessionList([]);
             setShowCelebration(false);
