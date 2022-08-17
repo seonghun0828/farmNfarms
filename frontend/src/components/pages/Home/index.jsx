@@ -213,7 +213,10 @@ const Home = () => {
         <Button mode="graytext" fontSize="titleSize" onClick={moveToCreate}>
           <AddCircle style={{height: '50px', width: '50px'}}/>
         </Button> */}
-        <MoreButton onClick={moveToCreate}/>
+        {
+          isLogin ? <MoreButton onClick={moveToCreate}/> : null
+        }
+        {/* <MoreButton onClick={moveToCreate}/> */}
       </AddRoomArea>
       <Div mt={3}></Div>
     </StyledHome>
