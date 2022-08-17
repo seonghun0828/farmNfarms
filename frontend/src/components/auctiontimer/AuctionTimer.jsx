@@ -91,8 +91,7 @@ const AuctionTimer = (
         }
 
         if (sessionCount === 2) {
-          setSessionCount(0);
-          sendAuctionResult() // 백엔드에 경매 결과 데이터를 보내는 함수를 호출함(호스트가 한번만 보냄)
+          sendAuctionResult(); // 백엔드에 경매 결과 데이터를 보내는 함수를 호출함(호스트가 한번만 보냄)
           if (bestBidder !== undefined) {
             // 최고 입찰자가 있으면 2초 뒤에 축하 메세지 토글링
             const toggleCelebration = setTimeout(() => {
@@ -120,6 +119,7 @@ const AuctionTimer = (
             setToggleStart((prevState) => {
               return !prevState;
             });
+            setSessionCount(0);
             setChatDisplay(true);
             setAuctionSessionList([]);
             setShowCelebration(false);
@@ -127,7 +127,7 @@ const AuctionTimer = (
             setBestBidder(undefined);
             setTempHighestPrice(0);
             setTempBestBidder(undefined);
-          }, 20000);
+          }, 10000);
           // clearTimeout(endTimeOut); // clearTimeOut을 사용했을 경우 마지막에 제대로 동작하지 않음
         }
       }
@@ -141,8 +141,8 @@ const AuctionTimer = (
           <TimeProgressBar seconds={seconds}></TimeProgressBar>
           <span>{seconds < 10 ? `00:0${seconds}초` : `00:${seconds}초`}</span>
         </div>}
-      {seconds === 0 && <div style={{fontSize: '28px'}}>대기중(20초)</div>}
-      {toggleStart && isHost && <StyledButtonDiv className='mui-btn' variant="contained" onClick={startTimer}>
+      {seconds === 0 && <div style={{fontSize: '28px'}}>대기중</div>}
+      {toggleStart && isHost && <StyledButtonDiv onClick={startTimer}>
         {seconds === 0 && <ButtonDiv>
           <Timer></Timer>
           지금 시작
