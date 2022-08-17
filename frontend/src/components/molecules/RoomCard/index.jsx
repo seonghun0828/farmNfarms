@@ -16,6 +16,7 @@ const Card = styled.div`
   background-repeat: no-repeat;
   background-position: center;
   box-shadow: 4px 4px 4px rgba(0, 0, 0, 0.2);
+  cursor: pointer;
 `
 
 const CardBottom = styled.div`
