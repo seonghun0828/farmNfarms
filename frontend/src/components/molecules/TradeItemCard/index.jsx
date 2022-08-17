@@ -59,7 +59,6 @@ const TradeItemCard = ({labels, clickHandler, ...rest}) => {
   const { auctionResultId, auctionedPrice, dealCompleted,
     grade, productTitle, quantity } = rest.item;
 
-  console.log(rest.item);
   return (
     <Card onClick={() => clickHandler(auctionResultId)}>
       {
