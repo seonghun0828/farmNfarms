@@ -39,7 +39,7 @@ const AuctionTimer = (
   { seconds, setSeconds, currentSession, sessionCount, setSessionCount, 
     setItemIndex, toggleStart, setToggleStart, setChatDisplay, maxIndex, sendAuctionResult, 
     setTempHighestPrice, highestPrice, bestBidder, setTempBestBidder, isHost, 
-    setAuctionSessionList, items, setPrice, setFinArr, setShowCelebration, itemIndex
+    setAuctionSessionList, items, setPrice, setFinArr, setShowCelebration, setBestBidder, setHighestPrice
   }) => {
 
   const startTimer = () => {
@@ -117,14 +117,16 @@ const AuctionTimer = (
               setPrice(items[prevIndex + 1].startingPrice)
               return prevIndex + 1;
             });
-            console.log(itemIndex)
             setToggleStart((prevState) => {
               return !prevState;
             });
-            
             setChatDisplay(true);
             setAuctionSessionList([]);
             setShowCelebration(false);
+            setHighestPrice(0);
+            setBestBidder(undefined);
+            setTempHighestPrice(0);
+            setTempBestBidder(undefined);
           }, 20000);
           // clearTimeout(endTimeOut); // clearTimeOut을 사용했을 경우 마지막에 제대로 동작하지 않음
         }

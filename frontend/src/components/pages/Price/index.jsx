@@ -16,7 +16,7 @@ import { useDispatch } from 'react-redux';
 import reissue from '../../../common/reissue';
 
 const SELECT_OPTIONS = [
-  '배추', '무', '감자', '고구마', '당근', '오이', '토마토'
+  '배추', '무', '감자', '고구마', '당근', '오이', '토마토',
 ]
 
 const PRODUCT_OPTIONS = {
