@@ -7,6 +7,7 @@ import { save } from '../../../common/tokenSlice';
 import ArrowForwardIosIcon from '@mui/icons-material/ArrowForwardIos';
 
 const Card = styled.div`
+  position: relative;
   width: 100%;
   height: auto;
   border: 1px solid ${({ theme }) => theme.colors.green3};
