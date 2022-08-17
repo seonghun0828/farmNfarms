@@ -7,8 +7,8 @@ const bgColor = {
 };
 
 const borderColor = {
-  default: theme.colors.gray2,
-  readOnly: theme.colors.gray2,
+  default: theme.colors.gray3,
+  readOnly: theme.colors.gray3,
   error: theme.colors.red,
 };
 

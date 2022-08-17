@@ -15,7 +15,7 @@ const textColor = {
 
 const bgColor = {
   primary: theme.colors.green3,
-  secondary: theme.colors.gray1,
+  secondary: theme.colors.white,
   readonly: theme.colors.gray3,
   // third: theme.colors.green5,
   // highlight: theme.colors.green1,

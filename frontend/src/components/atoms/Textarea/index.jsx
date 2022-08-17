@@ -4,8 +4,8 @@ import styled from 'styled-components';
 const StyledTextarea = styled.textarea`
     width: 100%;
     height: ${({height}) => height}rem;
-    padding: 0 0.5rem;
-    border: 2px solid ${({theme}) => theme.colors.gray2};
+    padding: 0.5rem 0.5rem;
+    border: 2px solid ${({theme}) => theme.colors.gray3};
     border-radius: 5px;
     font-size: ${({theme}) => theme.fontSizes.md};
     font-weight: ${({theme}) => theme.fontWeights.normal};

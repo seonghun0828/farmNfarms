@@ -20,6 +20,7 @@ const ImageArea = styled.div`
   height: 9rem;
   position: relative;
   margin: 1rem 0;
+  cursor: pointer;
 `
 
 const StyledImage = styled.div`
