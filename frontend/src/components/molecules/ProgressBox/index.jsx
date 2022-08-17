@@ -6,6 +6,7 @@ import getLeftTime from './getLeftTime';
 import Image from '../../atoms/Image';
 import payReady from './payReady';
 import ProgressBar from '../../molecules/ProgressBar';
+import requestConfirmPurchase from './requestConfirmPurchase';
 
 const StyledProgressBox = styled.div`
   border: 1px solid ${({ theme }) => theme.colors.green3};
@@ -61,8 +62,8 @@ const ProgressBox = ({progress}) => {
     window.open('https://korea24call.com:447/new/index.html');
   }
   const confirmPurchase = () => {
-    if (window.confirm('구매를 확정하시겠습니까?')) {
-      console.log('alert 띄우고, 구매 확정 api 보내고, mypage로 리다이렉트');
+    if (window.confirm('구매를 확정하시겠습니까?') && requestConfirmPurchase(auctionResultId)) {
+      window.alert('구매가 확정되었습니다!')
     }
   }
   const clickPay = async () => {
