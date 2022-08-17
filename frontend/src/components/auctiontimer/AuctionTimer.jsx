@@ -91,7 +91,7 @@ const AuctionTimer = (
     if (seconds === 0 && sessionCount < 2) {
       const autoStart = setTimeout(() => {
         startTimer();
-      }, 20000)
+      }, 15000)
       return () => clearTimeout(autoStart)
     }
   }, [seconds])
