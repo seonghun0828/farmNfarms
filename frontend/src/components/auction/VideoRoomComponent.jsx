@@ -259,13 +259,13 @@ const VideoRoomComponent = () => {
       setTotalUsers((prevTotalUsers) => {
         return prevTotalUsers + 1
       })
-    }))
+    }));
 
     mySession.on('connectionDestroyed', (({ stream }) => { // 유저가 접속을 끊을 때마다 -= 1
       setTotalUsers((prevTotalUsers) => {
         return prevTotalUsers - 1
       })
-    }))
+    }));
 
     mySession.on("signal:chat", (event) => { // 채팅 신호 수신하여 메세지 리스트 업데이트
       setMessageList((prevMessageList) => { 
@@ -277,14 +277,10 @@ const VideoRoomComponent = () => {
       setToggleStart(event.data)
       setDisplayBidding(!displayBidding)
       setChatDisplay(false)
-      console.log(items)
     });
 
     mySession.on("signal:timer", (event) => { // "timer"라는 시그널을 받아서 시간을 초기 셋팅함
       setSeconds(event.data) // 시간 세팅
-      // setSessionCount((prevCount) => { // 경매 세션 카운트 + 1
-      //   return prevCount + 1
-      // })
     });
 
     mySession.on("signal:bidding", (event) => { // "bidding"이라는 시그널을 받아서 최고 입찰가를 갱신함
@@ -314,7 +310,7 @@ const VideoRoomComponent = () => {
             videoSource: videoDevices[0].deviceId, // The source of video. If undefined default webcam
             publishAudio: true, // Whether you want to start publishing with your audio unmuted or not
             publishVideo: true, // Whether you want to start publishing with your video enabled or not
-            resolution: '450x720', // The resolution of your video
+            resolution: '1280x720', // The resolution of your video '450x720'
             frameRate: 30, // The frame rate of your video
             insertMode: 'APPEND', // How the video is inserted in the target element 'video-container'
             mirror: true, // Whether to mirror your local video or not
