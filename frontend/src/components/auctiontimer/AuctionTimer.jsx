@@ -44,7 +44,7 @@ const AuctionTimer = (
 
   const startTimer = () => {
     // 시간이 다 됐을 때만 버튼이 작동 가능
-    if (seconds === 0 && sessionCount !== 0) {
+    if (seconds === 0 && sessionCount < 2) {
       currentSession
         .signal({
           data: 20,
@@ -93,7 +93,6 @@ const AuctionTimer = (
         if (sessionCount === 2) {
           setSessionCount(0);
           sendAuctionResult() // 백엔드에 경매 결과 데이터를 보내는 함수를 호출함(호스트가 한번만 보냄)
-          console.log("is Send Once?")
           if (bestBidder !== undefined) {
             // 최고 입찰자가 있으면 2초 뒤에 축하 메세지 토글링
             const toggleCelebration = setTimeout(() => {
@@ -113,13 +112,13 @@ const AuctionTimer = (
               // props가 가진 items의 길이를 넘었을 때에 대한 예외처리필요
               if (prevIndex + 1 === maxIndex) {
                 setPrice(items[prevIndex].startingPrice)
-                return prevIndex
+                return prevIndex;
               }
               setPrice(items[prevIndex + 1].startingPrice)
-              return prevIndex + 1
+              return prevIndex + 1;
             });
             setToggleStart((prevState) => {
-              return !prevState
+              return !prevState;
             });
             
             setChatDisplay(true);
