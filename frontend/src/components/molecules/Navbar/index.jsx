@@ -61,7 +61,7 @@ const Navbar = ({navigate, isLogin, setIsLogin, imgSize, fontSize, mode, fontWei
         move(navigate, '/');
     }
     return <StyledNavbar {...rest}>
-        <Image src='/assets/로고.svg' alt='logo' size={imgSize} onClick={moveToHome}/>
+        <Image src='/assets/로고.svg' alt='logo' size={imgSize} onClick={moveToHome} style={{cursor: 'pointer'}}/>
         <Buttons>
             {
                 isLogin ? <Button fontWeight={fontWeight} fontSize={fontSize} mode={mode} onClick={moveToMypage} font="Jua" {...rest}>마이페이지</Button> : null

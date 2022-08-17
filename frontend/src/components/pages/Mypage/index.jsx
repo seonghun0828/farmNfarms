@@ -36,6 +36,7 @@ const ProfileImageArea = styled.div`
   height: 10rem;
   cursor: pointer;
   border: 1px solid ${({theme}) => theme.colors.gray2}
+  cursor: pointer;
 `;
 
 const EditImage = styled.div`
