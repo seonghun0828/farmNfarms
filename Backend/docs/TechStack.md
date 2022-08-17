@@ -28,7 +28,7 @@ FrontEnd|HTML5|
 &nbsp;|chartjs||4.3.1
 &nbsp;|IDE|Visual Studio Code|1.70.1
 
-### How To Run in Local environment
+### How To Run in Local
 >- Frontend
 >```
 >npm install
@@ -36,16 +36,85 @@ FrontEnd|HTML5|
 >npm start
 >```
 >- Backend
->```
->gradlew build
->
->nohup java jar build/libs/Backend-1.0-SNAPSHOW.jar
->```
+>>- 사용하는 IDE 로 import 후 src/main/java/com/ssafy/Application.java 실행
 
 ### How To Run in EC2
 >- 개요
->>- 팜앤팜스 서비스는 Jenkins Pipeline 을 이용한 CI/CD 자동화 환경으로 구성되어 있어 팀 구성원 각자 작성한 코드를 Gitlab 에 푸쉬하면 Webhook 을 통해 Jenkins 에 Pipeline 작성한 대로 CI/CD 흐름이 진행됩니다
+>>- 팜앤팜스 서비스는 Jenkins 를 이용한 CI/CD 자동화 환경으로 구성하여 팀 구성원 각자 작성한 코드를 Gitlab 에 푸쉬하면 Webhook 을 통해 Jenkins 의 Pipeline Script 에 작성한 대로 CI/CD 흐름이 진행됩니다
 >>- MSA 로 아키텍처를 구성하여 Frontend 와 Backend 각각 다른 브랜치에서 개발하고 Pipeline 을 구분하여 배포 환경을 구성하였습니다
+>- EC2 배포 환경 구성 순서
+>>1. ufw (uncomplicated firewall) 방화벽 포트 개방
+>>2. Openvidu 설치, 설정, Openvidu ssl 발급
+>>3. 도커 설치
+>>4. Jenkins 도커 이미지 설치 및 컨테이너 실행 및 설정
+>>5. Mysql 도커 이미지 설치 및 컨테이너 실행 및 설정
+>>6. frontend 폴더의 Dockerfile 을 이용하여 도커 이미지 생성 및 컨테이너 실행
+>>7. backend 폴더의 Dockerfile 을 이용하여 도커 이미지 생성 및 컨테이너 실행
+>>8. Nginx 설치 및 설정
+>- ufw  (uncomplicated firewall) 방화벽 포트 개방
+>```
+># ufw 명령 도움말
+>sudo ufw -help
+>
+># ufw 상태 확인
+>sudo ufw status
+>
+># ufw 포트 허용
+>sudo ufw allow portnumber
+>```
+>- Openvidu 설치, 설정, Openvidu ssl 발급
+>>- https://docs.openvidu.io/en/stable/deployment/ce/on-premises/ 공식 문서를 참고하여 진행하는것을 추천함
+>- Jenkins 도커 이미지 설치 및 컨테이너 실행 및 설정
+>```
+># jenkins 이미지 가져오기
+>docker pull jenkins/jenkins:lts
+>
+># jenkins 컨테이너 실행
+>docker run -d --name jenkins [옵션은 자유롭게]
+>```
+>- Mysql 도커 이미지 설치 및 컨테이너 실행 및 설정
+>```
+># mysql 이미지 가져오기
+>docker pull mysql
+>
+># mysql 컨테이너 실행
+>docker run -d -p 3306:3306 mysql [옵션은 자유롭게]
+>```
+>- frontend 폴더의 Dockerfile 을 이용하여 도커 이미지 생성 및 컨테이너 실행
+>```
+># git repo 가져오기
+>git pull [주소]
+>
+># React 빌드
+>npm install -g yarn
+>yarn install
+>yarn build
+>
+># Docker 이미지 생성
+>docker build [이미지 이름]
+>
+># Docker Container 실행
+>docker run -d [이미지 이름]
+>```
+>- backend 폴더의 Dockerfile 을 이용하여 도커 이미지 생성 및 컨테이너 실행
+>```
+># git repo 가져오기
+>git pull [주소]
+>
+># SpringBoot 빌드
+>gradlew build
+>
+># SpringBoot 이미지 생성
+>docker build [이미지 이름]
+>
+># Docker Container 실행
+>docker run -d [이미지 이름]
+>```
+>- Nginx 설치 및 설정
+>```
+># Nginx 설치
+>sudo apt-get install nginx
+>``` 
 >- ec2 nginx
 >```conf
 ># /etc/nginx/sites-available/default
@@ -242,7 +311,7 @@ FrontEnd|HTML5|
 >>```
 
 ### Port Number
->각각의 구성요소는 모두 Docker container 로 격리
+>각각의 구성요소는 Docker container 로 격리하였습니다
 >Port|이름
 >:--|:--
 >80|HTTP => 443(HTTPS)로 리다이렉트
@@ -266,8 +335,8 @@ FrontEnd|HTML5|
 >
 >sudo letsencrypt certonly --standalone -d 도메인
 >
-># 발급 확인
+># 발급 경로
 >cd /etc/letsencrypt/live/도메인/
->
+># 발급 확인
 >ls
 >```
