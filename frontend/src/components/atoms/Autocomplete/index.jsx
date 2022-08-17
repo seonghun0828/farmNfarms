@@ -4,7 +4,7 @@ import styled from 'styled-components';
 
 const InputBox = styled.div`
   display:flex;
-  border: 2px solid #ADA7A8;
+  border: 2px solid ${({theme}) => theme.colors.gray3};
   z-index: 3;
   &:focus-within {
     box-shadow: #0F9749;

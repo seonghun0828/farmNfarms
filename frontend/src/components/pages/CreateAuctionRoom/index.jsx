@@ -16,65 +16,64 @@ import { useSelector } from 'react-redux';
 import { AddCircle } from '@mui/icons-material';
 import { useDispatch } from 'react-redux/es/exports';
 import reissue from '../../../common/reissue'
+import ArrowBackIosNewIcon from '@mui/icons-material/ArrowBackIosNew';
 
 const StyledCreateAuctionRoom = styled.div``;
 
 const PageBody = styled.div`
   ${({theme}) => theme.flex.columnCenter}
     padding: 1.2rem;
-    height: 46rem;
+    height: auto;
+    gap: 0.7rem;
 `;
 const FixedInputArea = styled.div`
   ${({theme}) => theme.flex.rowCenter}
   justify-content: space-between;
-  gap: 0.8rem;
+  gap: 0.7rem;
 `
 const ImageArea = styled.div`
     width: 7.5rem;
-    height: 10.5rem;
+    height: 12rem;
     cursor: pointer;
     `
 const StyledImage = styled.div`
   width: 7.5rem;
-  height: 10.5rem;
-  border-radius: 0.5rem;
+  height: 12rem;
+  border-radius: 1rem;
 `
 const ImageButton = styled.div`
   ${({theme}) => theme.flex.rowCenter}
   width: 7.5rem;
-  height: 10.5rem;
-  border: 3px dashed ${({theme}) => theme.colors.gray2};
+  height: 12rem;
   background-color: ${({theme}) => theme.colors.gray3};
-  border-radius: 0.5rem;
+  border-radius: 1.2rem;
 `
 const TextInputs = styled.div`
     ${({theme}) => theme.flex.columnCenter}
-    justify-content: space-around;
+    justify-content: space-between;
     height: 12rem;
 `
 const StyledInput = styled.div`
-    width: 14rem;
+    width: 12rem;
 `
 const StyledTextarea = styled.div`
-    width: 14rem;
+    width: 12rem;
     `;
 const ItemAddingArea = styled.div`
-    width: 22rem;
-    height: 25rem;
-    border: 2px solid ${({theme}) => theme.colors.gray2};
+    width: 20rem;
+    height: 26rem;
+    border: 2px solid ${({theme}) => theme.colors.gray3};
+    background-color: ${({theme}) => theme.colors.white};
     border-radius: 5px;
 `
-const Space = styled.div`
-  visibility: hidden;
-  width: 1rem;
-  height: 1rem;
-`
+
 const ItemAddingAreaNav = styled.div`
   ${({theme}) => theme.flex.rowCenter}
-  justify-content: space-around;
-  height: 2rem;
-  background-color: ${({theme}) => theme.colors.green3};
+  justify-content: space-between;
+  padding: 0.5rem 1rem;
+  background-color: ${({theme}) => theme.colors.white};
   border-radius: 5px 5px 0 0;
+  border-bottom: solid ${({theme}) => theme.colors.gray3};
 `
 const ItemAddingAreaBody = styled.div`
   ${({theme}) => theme.flex.columnCenter}
@@ -86,7 +85,7 @@ const ItemAddingAreaBody = styled.div`
 `
 const Footer = styled.div`
   ${({theme}) => theme.flex.columnCenter}
-  padding-top: 2rem;
+  padding-top: 1rem;
   gap: 1rem;
 `
 const FooterButtons = styled.div`
@@ -95,6 +94,15 @@ const FooterButtons = styled.div`
   gap: 2rem;
   justify-content: space-around;
 `
+
+const TextAlign = styled.div`
+  align-self: flex-start;
+`
+
+const TextDiv = styled.div`
+  width: 20rem;
+`
+
 const cardInputs=[{text: '품목명', name: 'productTitle', type: 'text'}, {text: '수량', name: 'quantity', type: 'number'}, {text: '등급', name: 'grade', type: 'text'}, {text: '금액증가폭', name: 'bidIncrement', type: 'number'}, {text: '경매시작가', name: 'startingPrice', type: 'number'}];
 
 const CreateAuctionRoom = () => {
@@ -183,7 +191,11 @@ const CreateAuctionRoom = () => {
     <StyledCreateAuctionRoom>
       <Navbar navigate={navigate} isLogin={isLogin} setIsLogin={setIsLogin} />
       <PageBody>
-        <Text weight='bold' fontSize='xxxl'>경매방 생성</Text>
+        <TextDiv>
+          <TextAlign>
+            <Text weight='bold' fontSize='xl'>경매방 생성</Text>
+          </TextAlign>
+        </TextDiv>
         <FixedInputArea>
           <ImageArea>
             <input type='file' hidden id='file-uploader' onChange={changeImage} />
@@ -200,18 +212,17 @@ const CreateAuctionRoom = () => {
           </ImageArea>
           <TextInputs>
               <StyledInput>
-                  <Input height='2' placeholder='제목을 입력하세요' onChange={(e) => onChange(e, setTitle)} />
+                  <Input height='2.5' placeholder='제목을 입력하세요' onChange={(e) => onChange(e, setTitle)} />
               </StyledInput>
               <StyledTextarea>
-                  <Textarea height='7' placeholder='내용을 입력하세요' onChange={(e) => onChange(e, setDescription)} />
+                  <Textarea height='8.5' placeholder='내용을 입력하세요' onChange={(e) => onChange(e, setDescription)} />
               </StyledTextarea>
           </TextInputs>
         </FixedInputArea>
         <ItemAddingArea>
           <ItemAddingAreaNav>
-            <Space />
-            <Text color='white' weight='bold' fontSize='lg' >농산물 항목</Text>
-            <Button mode='whitetext' width='1rem' height='1rem' fontSize='xxxl' color='white' onClick={addItem}><AddCircle /></Button>
+            <Text weight='bold' fontSize='lg' >농산물 항목</Text>
+            <Button mode='secondary' width="7.5rem" height="2rem" radius="2rem" color='white' fontSize="md" onClick={addItem}>항목추가 +</Button>
           </ItemAddingAreaNav>
           <ItemAddingAreaBody>
             {

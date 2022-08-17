@@ -20,10 +20,10 @@ import Image from '../../atoms/Image';
 const StyledHome = styled.div``;
 const FlexSearchArea = styled.div`
   ${({ theme }) => theme.flex.rowCenter}
-  height: 4.5rem;
+  padding: 2rem 1rem;
 `;
 const SearchArea = styled.div`
-  width: 90%;
+  width: 100%;
 `;
 const RoomCardArea = styled.div`
   height: 19rem;
@@ -169,7 +169,7 @@ const Home = () => {
       <SectionTitle>
         <TitleDiv>
           <Text font="Jua" fontSize="xxxl" weight="">
-            빨리 들어와유
+            바로 지금! 경매 진행 중
           </Text>
         </TitleDiv>
         <MoreInfo>
@@ -193,7 +193,7 @@ const Home = () => {
       <Div mt={2.5}/>
       <SectionTitle>
         <Text font="Jua" fontSize="xxxl" weight="">
-          농산물 시세
+          오늘의 시세
         </Text>
         <MoreInfo>
           <Button mode="graytext" fontSize="md" fontWeight="normal" onClick={moveToPrice}>

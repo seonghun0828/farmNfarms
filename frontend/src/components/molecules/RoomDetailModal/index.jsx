@@ -6,7 +6,7 @@ import theme from "../../../common/theme"
 import CloseIcon from '@mui/icons-material/Close';
 import ReadItemCard from "../ReadItemCard";
 import { useNavigate } from "react-router-dom";
-
+import Swal from "sweetalert2";
 
 const slideOn = keyframes`
   from {
@@ -122,7 +122,15 @@ const RoomDetailModal = ({ title, description, items, closeModal, roomId, ownerP
 
   const enterRoomHandler = () => {
     if (!isLogin) {
-      window.alert('로그인이 필요한 서비스입니다.')
+      Swal.fire({
+        title: '경고!',
+        text: '로그인이 필요한 서비스입니다.',
+        width: 300,
+        imageUrl: '/assets/Swal_image/lemon.png',
+        imageHeight: 150,
+        confirmButtonColor: theme.colors.green3, 
+      })
+      // window.alert('로그인이 필요한 서비스입니다.')
       return;
     }
     navigate("/room", { state: { id: roomId, items: items, phone: ownerPhone, title: title }})
