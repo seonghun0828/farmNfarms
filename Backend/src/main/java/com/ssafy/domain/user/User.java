@@ -34,8 +34,7 @@ public class User {
     private String address;
     @Column(nullable = false)
     private String account;
-//    @Column(nullable = false)
-//    private String about_me;
+
     @Column(nullable = false)
     private LocalDateTime data_create;
 
@@ -62,7 +61,6 @@ public class User {
                 String name,
                 String address,
                 String account,
-//                String about_me,
                 LocalDateTime data_create,
                 AuctionRoom auctionRoom,
                 String bank,

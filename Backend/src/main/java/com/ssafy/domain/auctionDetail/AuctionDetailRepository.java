@@ -18,8 +18,8 @@ public interface AuctionDetailRepository extends JpaRepository<AuctionDetail, Lo
             "ORDER BY r.created_At DESC", nativeQuery = true)
     List<AuctionRoomDto> findAllByProduct(@Param("product") String product);
 
-    @Query(value = "select * from auction_detail d where auction_room_id = :id", nativeQuery = true)
-    List<AuctionDetail> findAllByAuctionRoomId(@Param("id") Long id);
+    @Query(value = "select * from auction_detail d where auction_room_id = :id order by id asc", nativeQuery = true)
+    List<AuctionDetail> findAllByAuctionRoomIdOrderByIdAsc(@Param("id") Long id);
 
 
 
