@@ -57,7 +57,7 @@ export const options = {
           family: 'Noto Sans KR',
           weight: 700,
         },
-        text: '단위: 원',
+        text: '단위: 원 / kg',
       },
     }
   }
