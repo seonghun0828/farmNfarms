@@ -117,6 +117,7 @@ const AuctionTimer = (
               setPrice(items[prevIndex + 1].startingPrice)
               return prevIndex + 1;
             });
+            console.log(itemIndex)
             setToggleStart((prevState) => {
               return !prevState;
             });
