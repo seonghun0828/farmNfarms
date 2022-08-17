@@ -39,7 +39,7 @@ const AuctionTimer = (
   { seconds, setSeconds, currentSession, sessionCount, setSessionCount, 
     setItemIndex, toggleStart, setToggleStart, setChatDisplay, maxIndex, sendAuctionResult, 
     setTempHighestPrice, highestPrice, bestBidder, setTempBestBidder, isHost, 
-    setAuctionSessionList, items, setPrice, setFinArr, setShowCelebration
+    setAuctionSessionList, items, setPrice, setFinArr, setShowCelebration, itemIndex
   }) => {
 
   const startTimer = () => {
