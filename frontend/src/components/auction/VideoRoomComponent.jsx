@@ -277,6 +277,7 @@ const VideoRoomComponent = () => {
       setToggleStart(event.data)
       setDisplayBidding(!displayBidding)
       setChatDisplay(false)
+      console.log(items)
     });
 
     mySession.on("signal:timer", (event) => { // "timer"라는 시그널을 받아서 시간을 초기 셋팅함
