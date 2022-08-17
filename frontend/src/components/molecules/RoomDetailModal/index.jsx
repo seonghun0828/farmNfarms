@@ -117,10 +117,14 @@ const Div = styled.div`
 `
 
 const RoomDetailModal = ({ title, description, items, closeModal, roomId, ownerPhone }) => {
-
+  const isLogin = localStorage.getItem('isLogin');
   const navigate = useNavigate();
 
   const enterRoomHandler = () => {
+    if (!isLogin) {
+      window.alert('로그인이 필요한 서비스입니다.')
+      return;
+    }
     navigate("/room", { state: { id: roomId, items: items, phone: ownerPhone, title: title }})
   }
 
