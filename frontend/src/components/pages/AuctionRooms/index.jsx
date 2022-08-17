@@ -111,6 +111,7 @@ const AuctionRooms = () => {
               id,
               ownerName,
               ownerPicture,
+              ownerPhoneNumber,
               auctionRoomTitle,
               auctionRoomThumbnail,
               auctionRoomDescription
@@ -119,9 +120,11 @@ const AuctionRooms = () => {
               id,
               ownerName,
               ownerPicture,
+              ownerPhoneNumber,
               auctionRoomTitle,
               auctionRoomThumbnail,
               auctionRoomDescription
+
             };
             return (
               <EachCard key={auctionRoomTitle + idx1 + idx2}>
