@@ -585,7 +585,8 @@ const VideoRoomComponent = () => {
                 setPrice={setPrice}
                 setFinArr={setFinArr}
                 setShowCelebration={setShowCelebration}
-                itemIndex={itemIndex}
+                setBestBidder={setBestBidder}
+                setHighestPrice={setHighestPrice}
               />
             </StyledDiv>
             {showCelebration && <Congratuation bestBidder={bestBidder}></Congratuation>}
