@@ -1,0 +1,140 @@
+package com.ssafy.util;
+
+import com.ssafy.domain.auctionResult.AuctionResult;
+import com.ssafy.domain.auctionResult.AuctionResultRepository;
+import com.ssafy.util.toast.ToastApi;
+import com.ssafy.util.toast.dto.Recipient;
+import com.ssafy.util.toast.dto.SmsSendRequest;
+import lombok.RequiredArgsConstructor;
+import org.springframework.stereotype.Component;
+
+import java.sql.Timestamp;
+import java.text.SimpleDateFormat;
+import java.time.LocalDateTime;
+import java.util.ArrayList;
+import java.util.Date;
+import java.util.List;
+import java.util.Locale;
+
+@Component
+@RequiredArgsConstructor
+public class SmsSender {
+    private final ToastApi toastApi;
+
+
+    public void sendVerificationMessage(String phoneNumber, String confirmNumber) {
+        try {
+
+            List<Recipient> recipients = createRecipientsList(phoneNumber);
+
+            SmsSendRequest request = createRequest(recipients, confirmNumber, false);
+
+            String messageType = "sms";
+
+            toastApi.sendSms(request, messageType);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
+
+    //경매 완료 후 바로 보내는 문자
+    public void sendPaymentMessage(AuctionResult auctionResult) {
+        try {
+            Long id = auctionResult.getId();
+            String sellerName = auctionResult.getSeller().getName();
+            String productTitle = auctionResult.getAuctionDetail().getProductTitle();
+            String grade = auctionResult.getAuctionDetail().getGrade();
+            int quantity = auctionResult.getAuctionDetail().getQuantity();
+            Long auctionedPrice = auctionResult.getAuctionedPrice();
+            LocalDateTime expire = auctionResult.getCreatedAt().plusDays(1);
+
+
+            SimpleDateFormat simpleDateFormat = new SimpleDateFormat("yyyy년 MM월 dd일 a hh시 mm분", Locale.KOREA);
+
+            Date date = Timestamp.valueOf(expire);
+
+            String expireStr = simpleDateFormat.format(date);
+
+            StringBuilder sb = new StringBuilder();
+            sb.append("팜앤팜스를 이용해주셔서 감사합니다! \n")
+              .append(expireStr+ "안으로 결제해주시기 바랍니다. \n")
+              .append("주문 번호: " + id + "\n")
+              .append("판매자: " + sellerName + "\n")
+              .append("품목: " + productTitle + "\n")
+              .append("등급: " + grade + "\n")
+              .append("수량: " + quantity + "\n")
+              .append("금액: " + auctionedPrice + "\n")
+              .append("결제를 포함한 자세한 정보는 팜앤팜스 홈페이지에서 확인하실 수 있습니다.");
+
+            String body = sb.toString();
+            String phoneNumber = auctionResult.getBuyer().getPhone();
+            List<Recipient> recipients = createRecipientsList(phoneNumber);
+            SmsSendRequest request = createRequest(recipients, body, true);
+
+            String messageType = "mms";
+
+            toastApi.sendSms(request, messageType);
+
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
+
+    //결제기한 1시간 전 보내는 문자
+    public void sendRemindMessage(AuctionResult auctionResult) {
+
+        try{
+
+            String name = auctionResult.getBuyer().getName();
+            LocalDateTime expire = auctionResult.getCreatedAt().plusSeconds(10);
+
+            SimpleDateFormat simpleDateFormat = new SimpleDateFormat("yyyy-MM-dd HH:mm",Locale.KOREA);
+
+            Date date = Timestamp.valueOf(expire);
+            String requestDate = simpleDateFormat.format(date);
+
+            StringBuilder sb = new StringBuilder();
+            sb.append(name + "님! \n결제 기한이 1시간 남았어요! \n")
+              .append("결제 기한은 낙찰 후 24시간 내에 이루어져야하고 기한을 넘길 시 다음 경매에 불이익이 생길 수 있다는 점" +
+                      "알려드립니다.\n")
+              .append("\n")
+              .append("결제를 포함한 자세한 정보는 팜앤팜스 홈페이지에서 확인하실 수 있습니다.");
+
+            String body = sb.toString();
+            String phoneNumber = auctionResult.getBuyer().getPhone();
+            List<Recipient> recipients = createRecipientsList(phoneNumber);
+
+            SmsSendRequest request = createRequest(recipients, body, true);
+            request.setRequestDate(requestDate);
+
+            String messageType = "mms";
+
+            toastApi.sendSms(request, messageType);
+
+        } catch(Exception e) {
+            e.printStackTrace();
+        }
+
+
+    }
+
+    public SmsSendRequest createRequest(List<Recipient> recipients, String body, boolean isMms) {
+        SmsSendRequest request = new SmsSendRequest();
+        request.setSendNo("01050279681");
+        request.setRecipientList(recipients);
+        request.setBody(body);
+        if(isMms) request.setTitle("팜앤팜스");
+
+        return request;
+    }
+
+    public List<Recipient> createRecipientsList(String phoneNumber) {
+        List<Recipient> recipients = new ArrayList<>();
+        Recipient recipient = new Recipient(phoneNumber);
+        recipients.add(recipient);
+
+        return recipients;
+    }
+
+
+}
