@@ -14,12 +14,13 @@ import updateUserInfo from './updateUserInfo';
 import uploadFile from '../../../common/uploadFile';
 import Swal from "sweetalert2";
 import theme from '../../../common/theme';
+import Text from '../../atoms/Text';
 
 const ImageArea = styled.div`
   width: 9rem;
   height: 9rem;
   position: relative;
-  margin: 1rem 0;
+  margin: 1rem 0 0 0;
   cursor: pointer;
 `
 
@@ -44,7 +45,11 @@ const CameraImage = styled.div`
 
 const CenterAlign = styled.div`
   display: flex;
+  flex-direction: column;
   justify-content: center;
+  align-items: center;
+  gap: 0.5rem;
+  margin-bottom: 1rem;
 `
 
 const LeftAlign = styled.div`
@@ -234,6 +239,7 @@ const UpdateProfile = () => {
             <PhotoCameraIcon fontSize="large"/>
           </CameraImage>
         </ImageArea>
+        <Text color="gray2">1MB 이하의 사진을 올려주세요</Text>
         </CenterAlign>
         <Input label="아이디" status="readOnly" value={originData.phone}/>
         <Input label="이름" status="readOnly" value={originData.name}/>
