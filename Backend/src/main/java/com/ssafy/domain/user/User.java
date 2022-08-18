@@ -72,7 +72,6 @@ public class User {
         this.name = name;
         this.address = address;
         this.account = account;
-//        this.about_me = about_me;
         this.data_create = data_create;
         this.auctionRoom = auctionRoom;
         this.bank = bank;

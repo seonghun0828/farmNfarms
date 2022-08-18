@@ -26,8 +26,6 @@ public class UserInfoChangePutReq {
 
     private String name;
 
-    private String aboutMe;
-
     private String bank;
 
     private String zipCode;

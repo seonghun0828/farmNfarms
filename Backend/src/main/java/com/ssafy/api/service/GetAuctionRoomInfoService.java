@@ -9,10 +9,8 @@ import com.ssafy.domain.auctionRoom.AuctionRoomRepository;
 import com.ssafy.domain.user.User;
 import com.ssafy.domain.user.UserRepository;
 import lombok.RequiredArgsConstructor;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageImpl;
-import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
@@ -30,10 +28,6 @@ public class GetAuctionRoomInfoService {
 
     private final AuctionDetailRepository auctionDetailRepository;
 
-   /* public Page<AuctionRoom> getAuctionRoomsInfo(Pageable pageable) {
-
-        return auctionRoomRepository.findAllByAuctionedFalse(pageable);
-    }*/
 
     public List<AuctionDetail> getAuctionDetailsInfo(Long auctionRoomId) {
 
@@ -49,7 +43,6 @@ public class GetAuctionRoomInfoService {
 
             Optional<User> foundUser = userRepository.findById(room.getOwnerId());
 
-//            System.out.println(foundUser.get().toString());
             AuctionRoomsInfoRes auctionRoomsInfoRes = AuctionRoomsInfoRes.builder()
                     .id(room.getId())
                     .ownerName(foundUser.get().getName())

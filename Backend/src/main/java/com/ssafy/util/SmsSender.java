@@ -25,14 +25,9 @@ public class SmsSender {
     public void sendVerificationMessage(String phoneNumber, String confirmNumber) {
         try {
 
-            List<Recipient> list = new ArrayList<>();
-            Recipient recipient = new Recipient(phoneNumber);
-            list.add(recipient);
+            List<Recipient> recipients = createRecipientsList(phoneNumber);
 
-            SmsSendRequest request = new SmsSendRequest();
-            request.setSendNo("01050279681");
-            request.setBody(confirmNumber);
-            request.setRecipientList(list);
+            SmsSendRequest request = createRequest(recipients, confirmNumber, false);
 
             String messageType = "sms";
 
@@ -72,21 +67,13 @@ public class SmsSender {
               .append("결제를 포함한 자세한 정보는 팜앤팜스 홈페이지에서 확인하실 수 있습니다.");
 
             String body = sb.toString();
-            List<Recipient> recipients = new ArrayList<>();
-            Recipient recipient = new Recipient(auctionResult.getBuyer().getPhone());
-            recipients.add(recipient);
-
-            SmsSendRequest request = new SmsSendRequest();
-            request.setSendNo("01050279681");
-            request.setRecipientList(recipients);
-            request.setBody(body);
-            request.setTitle("팜앤팜스");
+            String phoneNumber = auctionResult.getBuyer().getPhone();
+            List<Recipient> recipients = createRecipientsList(phoneNumber);
+            SmsSendRequest request = createRequest(recipients, body, true);
 
             String messageType = "mms";
 
             toastApi.sendSms(request, messageType);
-
-            System.out.println(request);
 
         } catch (Exception e) {
             e.printStackTrace();
@@ -99,7 +86,7 @@ public class SmsSender {
         try{
 
             String name = auctionResult.getBuyer().getName();
-            LocalDateTime expire = auctionResult.getCreatedAt().plusMinutes(3);
+            LocalDateTime expire = auctionResult.getCreatedAt().plusSeconds(5);
 
             SimpleDateFormat simpleDateFormat = new SimpleDateFormat("yyyy-MM-dd HH:mm",Locale.KOREA);
 
@@ -114,22 +101,15 @@ public class SmsSender {
               .append("결제를 포함한 자세한 정보는 팜앤팜스 홈페이지에서 확인하실 수 있습니다.");
 
             String body = sb.toString();
-            List<Recipient> recipients = new ArrayList<>();
-            Recipient recipient = new Recipient(auctionResult.getBuyer().getPhone());
-            recipients.add(recipient);
+            String phoneNumber = auctionResult.getBuyer().getPhone();
+            List<Recipient> recipients = createRecipientsList(phoneNumber);
 
-            SmsSendRequest request = new SmsSendRequest();
-            request.setSendNo("01050279681");
-            request.setRecipientList(recipients);
-            request.setBody(body);
-            request.setTitle("팜앤팜스");
+            SmsSendRequest request = createRequest(recipients, body, true);
             request.setRequestDate(requestDate);
 
             String messageType = "mms";
 
             toastApi.sendSms(request, messageType);
-
-            System.out.println(request);
 
         } catch(Exception e) {
             e.printStackTrace();
@@ -137,5 +117,24 @@ public class SmsSender {
 
 
     }
+
+    public SmsSendRequest createRequest(List<Recipient> recipients, String body, boolean isMms) {
+        SmsSendRequest request = new SmsSendRequest();
+        request.setSendNo("01050279681");
+        request.setRecipientList(recipients);
+        request.setBody(body);
+        if(isMms) request.setTitle("팜앤팜스");
+
+        return request;
+    }
+
+    public List<Recipient> createRecipientsList(String phoneNumber) {
+        List<Recipient> recipients = new ArrayList<>();
+        Recipient recipient = new Recipient(phoneNumber);
+        recipients.add(recipient);
+
+        return recipients;
+    }
+
 
 }

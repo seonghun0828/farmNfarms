@@ -23,7 +23,6 @@ public class CreateAuctionRoomService {
     private final ImageRepository imageRepository;
 
     public Long createBy(String phoneNumber, CreateAuctionRoomReq request) {
-//        CreateAuctionRoomRes response = new CreateAuctionRoomRes();
 
         try {
             Long foundUserId = getUserBy(phoneNumber).getId();

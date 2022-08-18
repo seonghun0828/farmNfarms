@@ -35,7 +35,6 @@ public class UserService {
         user.setAddress(userRegisterInfo.getAddress());
         user.setBank(userRegisterInfo.getBank());
         user.setAccount(userRegisterInfo.getAccount());
-//        user.setAbout_me(userRegisterInfo.getAboutMe());
         user.setZipCode(userRegisterInfo.getZipCode());
         user.setDetailAddress(userRegisterInfo.getDetailAddress());
         user.setPicture(imageRepository.findById(userRegisterInfo.getPicture()).get());
@@ -82,14 +81,17 @@ public class UserService {
             User user = userRepository.findByPhone(phone);
             if (request.getPassword() != null && passwordEncoder.matches(request.getPassword(), user.getPassword())) {
                 if (request.getNewPassword() != null && request.getNewPasswordAgain() != null) {
-                    user.setPassword(passwordEncoder.encode(request.getNewPassword()));
-
+                    if(request.getNewPassword().equals(request.getNewPasswordAgain())) {
+                        user.setPassword(passwordEncoder.encode(request.getNewPassword()));
+                    }else {
+                        return false;
+                    }
                 } else {
                     user.setPassword(user.getPassword());
                 }
                 user.setAccount(request.getAccount());
                 user.setAddress(request.getAddress());
-                user.setName(request.getName());    //상의 필요
+                user.setName(request.getName());
                 user.setBank(request.getBank());
                 user.setDetailAddress(request.getDetailAddress());
                 user.setZipCode(request.getZipCode());
@@ -97,10 +99,6 @@ public class UserService {
 
                 userRepository.save(user);
 
-//                System.out.println(request.getNewPassword());
-//                System.out.println(request.getNewPasswordAgain());
-//                System.out.println(request.getNewPasswordAgain() == request.getNewPassword());
-//                System.out.println(passwordEncoder.matches(request.getNewPasswordAgain(), request.getNewPassword()));
                 return true;
 
             } else throw new IllegalArgumentException();
