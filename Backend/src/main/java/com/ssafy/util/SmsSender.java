@@ -86,7 +86,7 @@ public class SmsSender {
         try{
 
             String name = auctionResult.getBuyer().getName();
-            LocalDateTime expire = auctionResult.getCreatedAt().plusSeconds(5);
+            LocalDateTime expire = auctionResult.getCreatedAt().plusSeconds(10);
 
             SimpleDateFormat simpleDateFormat = new SimpleDateFormat("yyyy-MM-dd HH:mm",Locale.KOREA);
 
