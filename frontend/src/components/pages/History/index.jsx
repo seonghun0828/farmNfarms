@@ -113,7 +113,7 @@ const History = () => {
             <Button fontSize='lg' mode='graytext' onClick={() => move(navigate, -1)}>뒤로 가기</Button>
         </LeftAlign>
         <ProgressBox progress={{isSalesHistory, deliveryCompleted, paymentCompleted, createAt, auctionResultId}} />
-        <TradeItemCard  item={item}  />
+        <TradeItemCard  clickHandler={()=>{}} item={item} isInHistory={true}/>
         <PartnerCard>          
           <PartnerHeader>
             <Text size="xxl" color="white" weight="bold">{partnerInfo[0][0]}</Text>
