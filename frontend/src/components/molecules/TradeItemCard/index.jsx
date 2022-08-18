@@ -1,5 +1,5 @@
 import React from 'react';
-import styled from 'styled-components';
+import styled, {css} from 'styled-components';
 import Text from '../../atoms/Text';
 import Button from '../../atoms/Button';
 import move from '../../../common/move';
@@ -11,7 +11,17 @@ const Card = styled.div`
   width: 100%;
   height: auto;
   border: 1px solid ${({ theme }) => theme.colors.green3};
-  padding: 1rem 0.3rem 1rem 1.5rem;
+  ${({isInHistory}) => {
+    if(isInHistory) {
+      return css`
+        padding: 1rem 1.5rem 1rem 1.5rem;
+      `
+    } else {
+      return css`
+      padding: 1rem 0.3rem 1rem 1.5rem;
+    `
+    }
+  }}
   border-radius: 1.5rem;
   background-color: white;
   display: flex;
@@ -56,12 +66,16 @@ const ColorDiv = styled.div`
   color: ${({ theme }) => theme.colors.green3};
 `
 
-const TradeItemCard = ({labels, clickHandler, ...rest}) => {
+const paddingDiv = styled.div`
+  padding-right: 1.2rem;
+`
+
+const TradeItemCard = ({labels, clickHandler, isInHistory, ...rest}) => {
   const { auctionResultId, auctionedPrice, dealCompleted,
     grade, productTitle, quantity } = rest.item;
 
   return (
-    <Card onClick={() => clickHandler(auctionResultId)}>
+    <Card onClick={() => clickHandler(auctionResultId)} isInHistory={isInHistory}>
       {
         dealCompleted ? 
           <CompleteBox>
@@ -76,9 +90,12 @@ const TradeItemCard = ({labels, clickHandler, ...rest}) => {
         </ItemInfo>
         <RowFlex>
           <Text size="xxl">{auctionedPrice.toLocaleString('ko-KR')}원</Text>
-          <ColorDiv>
-            <ArrowForwardIosIcon fontSize="large"/>
-          </ColorDiv>
+          {isInHistory ?
+            null : 
+            <ColorDiv>
+              <ArrowForwardIosIcon fontSize="large"/>
+            </ColorDiv>
+          }
         </RowFlex>
       </TotalItemInfo>
     </Card>
@@ -147,6 +164,7 @@ const TradeItemCard = ({labels, clickHandler, ...rest}) => {
 
 TradeItemCard.defaultProps = {
   labels: ['품목', '등급', '수량', '낙찰가'],
+  isInHistory: false,
 };
 
 export default TradeItemCard;
