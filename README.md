@@ -45,6 +45,39 @@ Web RTC를 활용한 비대면 농산물 경매 시스템
 
 ![Image Pasted at 2022-8-14 22-33](https://user-images.githubusercontent.com/93081720/184661803-872e1d18-fe2a-40ca-b3a3-2c48d9ab6877.png)
 
+- 세부내역
+>구분|기술스택|상세내용|버전
+>:--|:--|:--|:--
+>Server|AWS EC2|GNU/Linux|5.4.0-1018
+>&nbsp;|배포|Docker20.10.17
+>&nbsp;|&nbsp;|Jenkins|2.346.2
+>&nbsp;|WebServer|Nginx|1.18.0
+>공통|형상관리|GitLab|-
+>&nbsp;|이슈관리|Jira|-
+>&nbsp;|커뮤니케이션|Mattermost, Notion|-
+>BackEnd|DB|Mysql|8.0.30
+>&nbsp;|&nbsp;|Spring-Data-jpa|2.1.10
+>&nbsp;|Java|OpenJDK|11.0.16
+>&nbsp;|Spring|Boot|2.1.7
+>&nbsp;|&nbsp;|Security|2.1.7
+>&nbsp;|API Docs|Swagger2|2.9.2
+>&nbsp;|Build|Gradle|4.10.2
+>&nbsp;|IDE|IntelliJ|17.0.3
+>&nbsp;|WebRTC|OpenVidu|2.21.1
+>FrontEnd|HTML5|
+>&nbsp;|CSS3|
+>&nbsp;|JavaScript(ES6)|
+>&nbsp;|React|React|18.2.0
+>&nbsp;|&nbsp;|Redux|8.0.2
+>&nbsp;|&nbsp;|Redux-Toolkit|1.8.3
+>&nbsp;|styled-components||5.3.5
+>&nbsp;|Material-UI||5.9.1
+>&nbsp;|chartjs||4.3.1
+>&nbsp;|IDE|Visual Studio Code|1.70.1
+
+### 배포 방법
+>- [[링크 참조](/exec/TechStack.md)]
+
 <br>
 
 ## 💼기획/설계

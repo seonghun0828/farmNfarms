@@ -1,32 +1,36 @@
-### 기술스택
-구분|기술스택|상세내용|버전
-:--|:--|:--|:--
-Server|AWS EC2|GNU/Linux|5.4.0-1018
-&nbsp;|배포|Docker20.10.17
-&nbsp;|&nbsp;|Jenkins|2.346.2
-&nbsp;|WebServer|Nginx|1.18.0
-공통|형상관리|GitLab|-
-&nbsp;|이슈관리|Jira|-
-&nbsp;|커뮤니케이션|Mattermost, Notion|-
-BackEnd|DB|Mysql|8.0.30
-&nbsp;|&nbsp;|Spring-Data-jpa|2.1.10
-&nbsp;|Java|OpenJDK|11.0.16
-&nbsp;|Spring|Boot|2.1.7
-&nbsp;|&nbsp;|Security|2.1.7
-&nbsp;|API Docs|Swagger2|2.9.2
-&nbsp;|Build|Gradle|4.10.2
-&nbsp;|IDE|IntelliJ|17.0.3
-&nbsp;|WebRTC|OpenVidu|2.21.1
-FrontEnd|HTML5|
-&nbsp;|CSS3|
-&nbsp;|JavaScript(ES6)|
-&nbsp;|React|React|18.2.0
-&nbsp;|&nbsp;|Redux|8.0.2
-&nbsp;|&nbsp;|Redux-Toolkit|1.8.3
-&nbsp;|styled-components||5.3.5
-&nbsp;|Material-UI||5.9.1
-&nbsp;|chartjs||4.3.1
-&nbsp;|IDE|Visual Studio Code|1.70.1
+### Port Number
+>각각의 구성요소는 Docker container 로 격리하였습니다
+>Port|이름
+>:--|:--
+>80|HTTP => 443(HTTPS)로 리다이렉트
+>443|HTTPS
+>3000|React, Nginx Docker Container
+>3306|Mysql Docker Container
+>8443|Openvidu Docker Container
+>9000|SpringBoot Docker Container
+>9999|Jenkins Docker Container
+
+### ssl 인증서 발급
+>- nginx 설치
+>```
+>sudo apt-get install nginx
+>```
+>- letsencrypt 설치
+>```
+>sudo apt-get install letsencrypt
+>
+>sudo systemctl stop nginx
+>
+>sudo letsencrypt certonly --standalone -d 도메인
+>
+># 발급 경로
+>cd /etc/letsencrypt/live/도메인/
+># 발급 확인
+>ls
+>```
+
+### 문자 알림 설정
+>- NHN Cloud 의 Toast appkey 와 secretkey 를 application.API-KEY.properties 에 입력합니다
 
 ### How To Run in Local
 >- Frontend
@@ -309,37 +313,3 @@ FrontEnd|HTML5|
 >>COPY    ${JAR_FILE} app.jar
 >>ENTRYPOINT ["java", "-jar", "/app.jar"]
 >>```
-
-### Port Number
->각각의 구성요소는 Docker container 로 격리하였습니다
->Port|이름
->:--|:--
->80|HTTP => 443(HTTPS)로 리다이렉트
->443|HTTPS
->3000|React, Nginx Docker Container
->3306|Mysql Docker Container
->8443|Openvidu Docker Container
->9000|SpringBoot Docker Container
->9999|Jenkins Docker Container
-
-### ssl 인증서 발급
->- nginx 설치
->```
->sudo apt-get install nginx
->```
->- letsencrypt 설치
->```
->sudo apt-get install letsencrypt
->
->sudo systemctl stop nginx
->
->sudo letsencrypt certonly --standalone -d 도메인
->
-># 발급 경로
->cd /etc/letsencrypt/live/도메인/
-># 발급 확인
->ls
->```
-
-### 문자 알림 설정
->- NHN Cloud 의 Toast appkey 와 secretkey 를 application.API-KEY.properties 에 입력합니다
