@@ -340,3 +340,6 @@ FrontEnd|HTML5|
 ># 발급 확인
 >ls
 >```
+
+### 문자 알림 설정
+>- NHN Cloud 의 Toast appkey 와 secretkey 를 application.API-KEY.properties 에 입력합니다
