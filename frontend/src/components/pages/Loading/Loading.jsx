@@ -51,7 +51,6 @@ const logoMove = keyframes`
     padding-bottom: 0px;
     transform: rotate(0deg);
   }
-
 `
 
 const LogoImg = styled.img`
