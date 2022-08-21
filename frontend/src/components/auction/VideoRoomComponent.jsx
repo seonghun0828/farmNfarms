@@ -7,7 +7,7 @@ import UserVideoComponent from './UserVideoComponent';
 import AuctionTimer from '../auctiontimer/AuctionTimer';
 import send from './send';
 import deleteRoom from './delete';
-import { Person } from '@mui/icons-material';
+import { Person, FavoriteBorder, Favorite } from '@mui/icons-material';
 import { useNavigate, useLocation } from "react-router-dom";
 import styled from "styled-components";
 import Loading from '../pages/Loading/Loading';
@@ -48,6 +48,13 @@ const SessionHeaderDiv2 = styled.div`
   margin-top: 2px;
   margin-bottom: 2px;
   padding: 5px;
+`
+
+const SessionHeaderMiniDiv = styled.div`
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin: 5px;
 `
 
 const StyledDiv = styled.div`
@@ -117,6 +124,18 @@ const AuctionScreenDiv = styled.div`
   transform: translate(-50%, 0);
 `
 
+const LikeCountDiv = styled.div`
+  width: 64px;
+  height: 28px;
+  background-color: rgba(0, 0, 0, 0.3);
+  border-radius: 10px;
+  text-align: center;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  color: white;
+`
+
 const OPENVIDU_SERVER_URL = 'https://i7b203.p.ssafy.io:8443';
 const OPENVIDU_SERVER_SECRET = 'MY_SECRET';
 
@@ -156,8 +175,10 @@ const VideoRoomComponent = () => {
   // const [isHost, setIsHost] = useState(false);
   const [itemDisplay, setItemDisplay] = useState(false); // 물품 목록을 확인할 수 있는 변수
   const [showCelebration, setShowCelebration] = useState(false); // 축하 메세지 토글링 변수
-  const [profileImg, setProfileImg] = useState(basicImg);
-  const [hostName, setHostName] = useState(undefined);
+  const [profileImg, setProfileImg] = useState(basicImg); // 호스트 프로필
+  const [hostName, setHostName] = useState(undefined); // 호스트 명
+  const [isLike, setIsLike] = useState(false); // 좋아요 토글링
+  const [totalLikes, setTotalLikes] = useState(0); // 총 좋아요 수
 
   let OV = undefined;
 
@@ -296,6 +317,18 @@ const VideoRoomComponent = () => {
         setBestBidder(username);
         setBestBidderPhone(tmp[3]);
       }
+    });
+
+    mySession.on("signal:like", (event) => { // 좋아요 
+      setTotalLikes((prevLikes) => {
+        return prevLikes + 1;
+      });
+    });
+
+    mySession.on("signal:dislike", (event) => { // 좋아요 해제
+      setTotalLikes((prevLikes) => {
+        return prevLikes - 1;
+      });
     });
 
     // --- 4) 유효한 토큰으로 세션에 접속하기 ---
@@ -489,6 +522,35 @@ const VideoRoomComponent = () => {
     }
   };
 
+  const onLike = () => {
+    const mySession = session
+
+    if (!isLike) { // 현재 좋아요를 누르지 않았다면,
+      mySession.signal({
+        data: true,
+        type: "like",
+      }).then(() => {
+        console.log("like!")
+      }).catch((error) => {
+        console.error(error)
+      })
+    } else { // 좋아요를 이미 누른 상태라면,
+      mySession.signal({
+        data: true,
+        type: "dislike",
+      }).then(() => {
+        console.log("dislike!")
+      }).catch((error) => {
+        console.error(error)
+      })
+    }
+
+    setIsLike((prevState) => {
+      return !prevState;
+    });
+  };
+
+  // 유저 정보를 받아오는 api
   const getUserInfo = async () => {
     const res1 = await getMyInfo(sellerPhoneNumber);
     const ownerPicturePath = res1.picturePath;
@@ -530,12 +592,19 @@ const VideoRoomComponent = () => {
                 </div>
               </div>
               <div>
-                <div style={{display: 'flex', justifyContent: 'space-between', margin: '5px'}}>
+                <SessionHeaderMiniDiv>
                   <div style={{ display: 'flex', justifyContent: 'base', alignItems: 'center', marginRight: '5px' }}>
                     <Person style={{ color: 'red' }} /><span style={{ color: 'white' }}>{totalUsers}</span>
                   </div>
                   <OnAirButton></OnAirButton>
-                </div>
+                </SessionHeaderMiniDiv>
+                <SessionHeaderMiniDiv>
+                  <div onClick={onLike}>
+                    {!isLike && <FavoriteBorder style={{ height: '35px', width: '35px', color: 'crimson' }}></FavoriteBorder>}
+                    {isLike && <Favorite style={{ height: '35px', width: '35px', color: 'crimson' }}></Favorite>}
+                  </div>
+                  <LikeCountDiv>{totalLikes}</LikeCountDiv>
+                </SessionHeaderMiniDiv>
               </div>
             </SessionHeaderDiv2>
             {finArr[items.length - 1] !== 1 && <SessionHeaderDiv2>
