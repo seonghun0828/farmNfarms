@@ -60,8 +60,8 @@ public class SwaggerConfig {
 
     private ApiInfo apiInfo(){
         return new ApiInfoBuilder()
-                .title("SSAFY swagger")
-                .description("SSAFY Backend API test")
+                .title("FarmNFarms swagger")
+                .description("FarmNFarms Backend API test")
                 .version("v1")
                 .build();
     }

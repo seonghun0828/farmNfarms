@@ -23,6 +23,9 @@ public class ProductService {
     @Autowired
     ProductRepository productRepository;
 
+    String apikey="yourkey";
+    String id="yourid";
+
     /**
      * 어제자 최신 농산물 데이터를 반환하는 비즈니스 메서드
      */
@@ -45,8 +48,6 @@ public class ProductService {
         List<DatePriceDto> datePrices = new ArrayList<>();
         LocalDate localDate = LocalDate.parse(priceInfo.getDate(), DateTimeFormatter.ISO_DATE);
         try {
-            String apikey="049c22c2-a52d-46c8-a7b4-00b9b6379ffb";
-            String id="2632";
             String url = "https://www.kamis.or.kr/service/price/xml.do?action=periodProductList" +
                             "&p_productclscode=02" +
                             "&p_startday="+localDate.minusDays(8).toString() +
@@ -99,8 +100,6 @@ public class ProductService {
 
         // xml 파싱하고 새로저장하고 리턴
         try {
-            String apikey="049c22c2-a52d-46c8-a7b4-00b9b6379ffb";
-            String id="2632";
             String url = "https://www.kamis.or.kr/service/price/xml.do?action=dailySalesList&p_cert_key="+apikey+"&p_cert_id="+id+"&p_returntype=xml";
 
             Document documentInfo = DocumentBuilderFactory.newInstance().newDocumentBuilder().parse(url);
