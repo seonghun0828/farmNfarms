@@ -224,40 +224,6 @@ const Mypage = () => {
       </ItemInfoArea>
     </StyledMypage>
   );
-  // return (
-  //   <StyledMypage>
-  //     <Navbar url={logo} navigate={navigate} isLogin={isLogin} setIsLogin={setIsLogin} imgSize="xs" fontSize="sm" mode="graytext" />      
-  //     <ProfileArea>
-  //       <ProfileImageArea>
-  //         <Image src={img} alt="profile" isCircle />
-  //       </ProfileImageArea>
-  //       <ProfileButtonArea>
-  //         <Button width="10rem" height="2rem" fontSize='lg'>
-  //           {name} 님
-  //         </Button>
-  //         <Button width="10rem" height="2rem" fontSize='lg' mode="highlight" onClick={moveToUpdate}>
-  //           회원정보 수정
-  //         </Button>
-  //       </ProfileButtonArea>
-  //     </ProfileArea>
-  //     <ToggleButtonArea>
-  //       <Button name="salesHistory" mode={leftBtn} onClick={toggleBtn}>
-  //         판매내역
-  //       </Button>
-  //       <Button name="purchaseHistory" mode={rightBtn} onClick={toggleBtn}>
-  //         구매내역
-  //       </Button>
-  //     </ToggleButtonArea>
-  //     <ItemInfoArea>
-  //       {
-  //         isLoading ? <div>Loading...</div> :
-  //           data.length > 0 ?
-  //             data.map((item, idx) => <TradeItemCard key={item + idx} item={item} clickHandler={clickHandler} />) :
-  //             <div>현재 진행중인 경매 물품이 없습니다.</div>
-  //       }
-  //     </ItemInfoArea>
-  //   </StyledMypage>
-  // );
 };
 
 export default Mypage;
